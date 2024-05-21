@@ -1,0 +1,25 @@
+version: '3'
+services:
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  telegram_bot:
+    build: ./telegram_bot
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./telegram_bot:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - rabbitmq
+
+  worker_service:
+    build: ./worker_service
+    command: python worker.py
+    volumes:
+      - ./worker_service:/app
+    depends_on:
+      - rabbitmq

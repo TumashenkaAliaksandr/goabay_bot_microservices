@@ -22,8 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY_ENV')
-BOT_TOKEN = config('BOT_TOKEN_ENV')
+SECRET_KEY = config('SECRET_KEY')
+BOT_TOKEN = config('BOT_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bot_app',
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RABBITMQ_HOST = 'localhost'
+RABBITMQ_QUEUE = 'telegram_messages'
