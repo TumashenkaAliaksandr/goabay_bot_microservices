@@ -2,7 +2,6 @@ import logging
 import pika
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext
-# from telegram.ext import Filters
 from django.conf import settings
 import django
 import asyncio
@@ -23,7 +22,7 @@ def send_to_rabbitmq(message: str):
     connection.close()
 
 async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text('Привет! Я ваш телеграм-бот.')
+    await update.message.reply_text('Привет Я ваш телеграм-бот.')
 
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text

@@ -1,10 +1,16 @@
-from django.core.management.base import BaseCommand
+import os
+import sys
+import subprocess
 
-from bot_app.worker import main
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+BOT_DIR = os.path.join(BASE_DIR, 'bot_app', 'bot')
 
-class Command(BaseCommand):
-    help = 'Run the Telegram bot'
+WORKER_DIR = os.path.join(BASE_DIR, 'bot_app', 'worker')
 
-    def handle(self, *args, **kwargs):
-        main()
+bot_process = subprocess.Popen(['python', os.path.join(BOT_DIR, 'bot.py')])
+worker_process = subprocess.Popen(['python', os.path.join(WORKER_DIR, 'worker.py')])
+
+if __name__ == '__main__':
+    print("Бот и воркер запущены")
+    sys.exit(0)

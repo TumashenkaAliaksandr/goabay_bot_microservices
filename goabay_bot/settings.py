@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bot_app',
     'rest_framework',
     'django_filters',
+    'pika',
 ]
 
 MIDDLEWARE = [
