@@ -1,3 +1,4 @@
+# main.py
 import logging
 import pika
 from telegram import Update
@@ -5,6 +6,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackCo
 from django.conf import settings
 import django
 import asyncio
+from buttons import markup, inline_markup_india, inline_markup_how_we_work, inline_markup_service, inline_markup_about, inline_markup_blog
 
 # Установка переменной окружения и инициализация Django
 import os
@@ -22,12 +24,21 @@ def send_to_rabbitmq(message: str):
     connection.close()
 
 async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text('Привет Я ваш телеграм-бот.')
+    await update.message.reply_text('Привет Я ваш телеграм-бот.', reply_markup=markup)
 
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
     send_to_rabbitmq(message)
-    await update.message.reply_text('Ваше сообщение отправлено в очередь RabbitMQ.')
+    if message == "Товары из Индии":
+        await update.message.reply_text('Вы выбрали "Товары из Индии".', reply_markup=inline_markup_india)
+    elif message == "Как мы работаем":
+        await update.message.reply_text('Вы выбрали "Как мы работаем".', reply_markup=inline_markup_how_we_work)
+    elif message == "Сервис":
+        await update.message.reply_text('Вы выбрали "Сервис".', reply_markup=inline_markup_service)
+    elif message == "О компании":
+        await update.message.reply_text('Вы выбрали "О компании".', reply_markup=inline_markup_about)
+    elif message == "Наш Блог":
+        await update.message.reply_text('Вы выбрали "Наш Блог".', reply_markup=inline_markup_blog)
 
 def main() -> None:
     application = Application.builder().token(settings.BOT_TOKEN).build()
