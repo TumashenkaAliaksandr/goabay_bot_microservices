@@ -24,7 +24,10 @@ def send_to_rabbitmq(message: str):
     connection.close()
 
 async def start(update: Update, context: CallbackContext) -> None:
-    await update.message.reply_text('Привет Я ваш телеграм-бот.', reply_markup=markup)
+    with open('welcome.txt', 'r', encoding='utf-8') as file:
+        welcome_message = file.read()
+    await update.message.reply_text(welcome_message, reply_markup=markup)
+
 
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
