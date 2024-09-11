@@ -2,93 +2,57 @@
 from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 # Маркап
-markup = ReplyKeyboardMarkup([
+main_markup = ReplyKeyboardMarkup([
     [KeyboardButton("Товары из Индии 👳‍♀️"), KeyboardButton("Как мы работаем ⌚️")],
     [KeyboardButton("Сервис 🔧"), KeyboardButton("О компании 🏢")],
-    [KeyboardButton("Наш Блог 📚")]
+    [KeyboardButton("Наш Блог 📚"), KeyboardButton("Личный кабинет 👤")]
 ], resize_keyboard=True)
 
-# Инлайн кнопки для "Товары из Индии"
-inline_buttons_india = [
-    [
-        InlineKeyboardButton("Каталог", callback_data="catalog"),
-        InlineKeyboardButton("Склад В Индии", callback_data="warehouse"),
-        InlineKeyboardButton("Лидеры продаж", callback_data="best_sellers")
-    ],
-    [
-        InlineKeyboardButton("Рекомендуем", callback_data="recommended"),
-        InlineKeyboardButton("Подарки", callback_data="gifts"),
-        InlineKeyboardButton("Акции", callback_data="sales")
-    ]
-]
+# кнопки для "Товары из Индии"
+products_btn_india = ReplyKeyboardMarkup([
+    [KeyboardButton("📁 Каталог"), KeyboardButton("🏪 Склад В Индии"), KeyboardButton("📈 Лидеры продаж")],
+    [KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎁 Подарки"), KeyboardButton("🎉 Акции")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
 
-inline_markup_india = InlineKeyboardMarkup(inline_buttons_india)
 
-# Инлайн кнопки для "Как мы работаем"
-inline_buttons_how_we_work = [
-    [
-        InlineKeyboardButton("Доставка", callback_data="delivery"),
-        InlineKeyboardButton("Оплата", callback_data="payment"),
-        InlineKeyboardButton("ЧаВо", callback_data="faq")
-    ],
-    [
-        InlineKeyboardButton("Помощь", callback_data="help"),
-        InlineKeyboardButton("Курс валют", callback_data="currency"),
-        InlineKeyboardButton("Наши партнёры", callback_data="partners")
-    ]
-]
 
-inline_markup_how_we_work = InlineKeyboardMarkup(inline_buttons_how_we_work)
+# кнопки для "Как мы работаем"
+how_we_work_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("🚚 Доставка"), KeyboardButton("💳 Оплата"), KeyboardButton("🗣 ЧаВо")],
+    [KeyboardButton("🚨 Помощь"), KeyboardButton("💸 Курс валют"), KeyboardButton("🤝 Наши партнёры")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
 
-# Инлайн кнопки для "Сервис"
-inline_buttons_service = [
-    [
-        InlineKeyboardButton("Авиабилеты", callback_data="flights"),
-        InlineKeyboardButton("Гоа Аренда", callback_data="goa_rental"),
-        InlineKeyboardButton("Экскурсии по Гоа", callback_data="goa_tours")
-    ],
-    [
-        InlineKeyboardButton("Реклама на сайте", callback_data="advertising"),
-        InlineKeyboardButton("Акции", callback_data="about_sales"),
-        InlineKeyboardButton("Новости компании", callback_data="news")
-    ]
-]
 
-inline_markup_service = InlineKeyboardMarkup(inline_buttons_service)
+# кнопки для "Сервис"
+service_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("✈️ Авиабилеты"), KeyboardButton("🏘 Гоа Аренда"), KeyboardButton("🏞 Экскурсии по Гоа")],
+    [KeyboardButton("🎬 Реклама на сайте"), KeyboardButton("🎉 Акции"), KeyboardButton("📰 Новости компании")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
+
 
 # Инлайн кнопки для "О компании"
-inline_buttons_about = [
-    [
-        InlineKeyboardButton("Как мы работаем", callback_data="about_how_we_work"),
-        InlineKeyboardButton("Отзывы", callback_data="reviews"),
-        InlineKeyboardButton("Публичная оферта", callback_data="public_offer")
-    ],
-    [
-        InlineKeyboardButton("Партнерская програма", callback_data="partnership_program"),
-        InlineKeyboardButton("Свяаться с нами", callback_data="contact_us"),
-        InlineKeyboardButton("Обсуждения", callback_data="discussions")
-    ]
-]
+about_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("Как мы работаем ⌚️"), KeyboardButton("Отзывы 💬"), KeyboardButton("Публичная оферта 📜")],
+    [KeyboardButton("Партнерская програма 👥"), KeyboardButton("Свяаться с нами 📲"), KeyboardButton("Обсуждения 📢")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
 
-inline_markup_about = InlineKeyboardMarkup(inline_buttons_about)
 
-# Инлайн кнопки для "Наш Блог"
-inline_buttons_blog = [
-    [
-        InlineKeyboardButton("Красота и здоровье", callback_data="beauty_health"),
-        InlineKeyboardButton("Кулинария", callback_data="cooking"),
-        InlineKeyboardButton("Культура", callback_data="culture")
-    ],
-    [
-        InlineKeyboardButton("Мода", callback_data="fashion"),
-        InlineKeyboardButton("Новости", callback_data="news"),
-        InlineKeyboardButton("Политика", callback_data="politics")
-    ],
-    [
-        InlineKeyboardButton("Туризм", callback_data="tourism"),
-        InlineKeyboardButton("Фэншуй", callback_data="feng_shui"),
-        InlineKeyboardButton("Экономика", callback_data="economy")
-    ]
-]
+# кнопки для "Наш Блог"
+blog_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("🏋️‍♂️️ Красота и здоровье"), KeyboardButton("🥗 Кулинария"), KeyboardButton("👳‍♂️ Культура")],
+    [KeyboardButton("💅 Мода"), KeyboardButton("📰 Новости"), KeyboardButton("📺 Политика")],
+    [KeyboardButton("🧗‍♀️ Туризм"), KeyboardButton("🧗‍♀️ Фэншуй"), KeyboardButton("📊 Экономика")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
 
-inline_markup_blog = InlineKeyboardMarkup(inline_buttons_blog)
+
+# кнопки для "Личный Кабинет"
+profile_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("📁 Каталог"), KeyboardButton("🏪 Склад В Индии"), KeyboardButton("📈 Лидеры продаж")],
+    [KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎁 Подарки"), KeyboardButton("🎉 Акции")],
+    [KeyboardButton("⬅️ Назад")]
+], resize_keyboard=True)
