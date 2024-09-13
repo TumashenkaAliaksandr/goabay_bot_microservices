@@ -43,7 +43,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             user_phone = update.message.text
             user_data[user_id]['phone'] = user_phone
             await update.message.reply_text(f'Спасибо за регистрацию, {user_data[user_id]["name"]}! '
-                                            f'Ваш email: {user_email}, телефон: {user_phone}.')
+                                            f'Ваш email: {user_data[user_id]["email"]}, телефон: {user_phone}.')
             context.user_data['registering'] = False  # Завершение регистрации
             context.user_data['step'] = None  # Сброс этапа
 
