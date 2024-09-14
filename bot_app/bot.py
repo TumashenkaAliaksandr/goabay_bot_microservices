@@ -26,15 +26,27 @@ def send_to_rabbitmq(message: str):
     connection.close()
 
 
+# Функция для обработки команды /start
 async def start(update: Update, context: CallbackContext) -> None:
+    # Читаем сообщение приветствия из файла
     with open('welcome.txt', 'r', encoding='utf-8') as file:
         welcome_message = file.read()
+
+    # Создаем кнопки "Регистрация на рейс" и "Магазин"
+    start_buttons = [['✍️ Регистрация на рейс', '🏪 Магазин']]
+    main_markup = ReplyKeyboardMarkup(start_buttons, resize_keyboard=True, one_time_keyboard=True)
+
+    # Отправляем приветственное сообщение с кнопками
     await update.message.reply_text(welcome_message, reply_markup=main_markup)
 
 
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
     send_to_rabbitmq(message)
+    if message == "✍️ Регистрация на рейс":
+        await update.message.reply_text('Вы выбрали "✍️ Регистрация на рейс".', reply_markup=main_markup)
+    if message == "🏪 Магазин":
+        await update.message.reply_text('Вы выбрали "🏪 Магазин".', reply_markup=main_markup)
     if message == "Товары из Индии 👳‍♀️":
         await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".', reply_markup=products_btn_india)
     elif message == "Как мы работаем ⌚️":
