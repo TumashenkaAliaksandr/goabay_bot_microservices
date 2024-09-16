@@ -4,6 +4,7 @@ from bot_app.models import UserRegistration
 from bot_app.buttons_store import main_markup, profile_btn
 from asgiref.sync import sync_to_async
 
+
 async def store_registration_handler(update: Update, context: CallbackContext) -> int:
     user_id = update.message.from_user.id
     message_text = update.message.text

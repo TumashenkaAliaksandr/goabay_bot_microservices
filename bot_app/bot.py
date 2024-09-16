@@ -4,7 +4,6 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
 django.setup()
 
-from bot_app.templates.webapp.edit_registrations import handle_edit_data
 from bot_app.templates.profile_date import profile_button_handler
 import logging
 import pika
@@ -59,9 +58,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Запускаем новый процесс регистрации
         await store_registration_handler(update, context)
     elif message == "🔙 Назад в кабинет":
-        await update.message.reply_text('Вы вернулись в кабинет.', reply_markup=main_markup)
-    else:
-        await update.message.reply_text('Неизвестная команда.', reply_markup=main_markup)
+        await update.message.reply_text('Вы вернулись в кабинет.', reply_markup=profile_btn)
 
 
 async def button_handler(update: Update, context: CallbackContext) -> None:
