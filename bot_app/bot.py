@@ -92,7 +92,7 @@ def main() -> None:
 
     # Обработчик для регистрации в магазине
     store_conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(filters.TEXT & filters.Regex("Личный кабинет 👤"), store_registration_handler)],
+        entry_points=[MessageHandler(filters.TEXT & filters.Regex("^(Личный кабинет 👤|✏️ Редактировать данные)$"), store_registration_handler)],
         states={
             1: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
             2: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
