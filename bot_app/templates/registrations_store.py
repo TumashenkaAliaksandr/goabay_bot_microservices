@@ -17,35 +17,26 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
     print(f"Current registration step: {registration.step}")
 
     if message_text == "✏️ Редактировать данные":
-        registration.step = None
-        registration.is_registered = False
+        registration.step = None  # Сброс шага
+        registration.is_registered = False  # Установка флага на не зарегистрированного
         await sync_to_async(registration.save)()
 
+        # Начинаем процесс регистрации заново
         await update.message.reply_text(
             "***Для того чтобы делать покупки в магазине 🏪 GoaBay***\n"
             "***Нужно пройти 📜 РЕГИСТРАЦИЮ***\n\n"
             "_Пожалуйста, ✍️ введите ваше имя:_",
             parse_mode='MarkdownV2'
         )
-        return 1  # NAME
+        registration.step = 'name'  # Устанавливаем шаг на имя
+        await sync_to_async(registration.save)()
+        return 1  # Переход к шагу ввода имени
 
     if registration.is_registered and registration.step is None:
         await update.message.reply_text('Вы вошли в профиль.', reply_markup=profile_btn)
         return ConversationHandler.END
 
-    if registration.step is None:
-        # Начинаем процесс регистрации
-        await update.message.reply_text(
-            "***Для того чтобы делать покупки в магазине 🏪 GoaBay***\n"
-            "***Нужно пройти 📜 РЕГИСТРАЦИЮ***\n\n"
-            "_Пожалуйста, ✍️ введите ваше имя:_",
-            parse_mode='MarkdownV2'
-        )
-        registration.step = 'name'
-        await sync_to_async(registration.save)()
-        return 1  # NAME
-
-    elif registration.step == 'name':
+    if registration.step == 'name':
         # Сохраняем имя пользователя и просим ввести email
         registration.name = message_text
         registration.step = 'email'
@@ -55,7 +46,7 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
             "_Теперь введите 📧 ваш email:_",
             parse_mode='MarkdownV2'
         )
-        return 2  # EMAIL
+        return 2  # Переход к шагу ввода email
 
     elif registration.step == 'email':
         # Сохраняем email и просим ввести телефон
@@ -67,7 +58,7 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
             "_Теперь введите ☎️ ваш телефонный номер:_",
             parse_mode='MarkdownV2'
         )
-        return 3  # PHONE
+        return 3  # Переход к шагу ввода телефона
 
     elif registration.step == 'phone':
         # Сохраняем телефон и завершаем регистрацию
@@ -80,13 +71,17 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
                      f"Email: {registration.email}\n"
                      f"Телефон: {registration.phone}\n\n"
                      "☑️ Регистрация завершена успешно! Спасибо!")
+
         user_info = user_info.replace('!', '\!')
+
         await update.message.reply_text(user_info, parse_mode='MarkdownV2')
         await update.message.reply_text('👳‍♀️ Ваш Профиль:', reply_markup=profile_btn)
+
         return ConversationHandler.END
 
     else:
-        # Логирование состояния и сообщений
         print(f"Unknown step or command: {registration.step}, message: {message_text}")
+
         await update.message.reply_text("Что-то пошло не так. Попробуйте снова.")
+
         return ConversationHandler.END
