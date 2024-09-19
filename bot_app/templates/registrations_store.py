@@ -73,8 +73,8 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
                      "☑️ Регистрация завершена успешно! Спасибо!")
 
         user_info = user_info.replace('!', '\!')
-
-        await update.message.reply_text(user_info, parse_mode='MarkdownV2')
+        #
+        # await update.message.reply_text(user_info, parse_mode='MarkdownV2') # это сообщение данные пользователя при нажатии на личный кабинет
         await update.message.reply_text('👳‍♀️ Ваш Профиль:', reply_markup=profile_btn)
 
         return ConversationHandler.END
