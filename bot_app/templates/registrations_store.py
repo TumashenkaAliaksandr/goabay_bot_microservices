@@ -16,6 +16,34 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
     print(f"Received message: {message_text}")
     print(f"Current registration step: {registration.step}")
 
+    # Обработка нажатия кнопки "Личный кабинет"
+    if message_text == "👤 Личный кабинет":
+        if registration.is_registered:
+            # Если пользователь зарегистрирован, отправляем информацию о профиле
+            await update.message.reply_text(
+                f"👳‍♀️ Ваш Профиль:\n"
+                f"Имя: {registration.name}\n"
+                f"Email: {registration.email}\n"
+                f"Телефон: {registration.phone}\n",
+                reply_markup=profile_btn
+            )
+            return ConversationHandler.END  # Завершаем разговор
+
+        else:
+            # Если пользователь не зарегистрирован, предлагаем пройти регистрацию
+            await update.message.reply_text(
+                "***Вы еще не зарегистрированы!***\n"
+                "***Пожалуйста, пройдите регистрацию.***\n\n"
+                "_Пожалуйста, ✍️ введите ваше имя:_",
+                parse_mode='MarkdownV2'
+            )
+
+            # Устанавливаем шаг на имя и сохраняем состояние
+            registration.step = 'name'
+            await sync_to_async(registration.save)()  # Сохраняем изменения в базе данных
+
+            return 1  # Переход к шагу ввода имени
+
     if message_text == "✏️ Редактировать данные":
         registration.step = None  # Сброс шага
         registration.is_registered = False  # Установка флага на не зарегистрированного
@@ -68,13 +96,10 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
 
         user_info = (f"Ваши данные:\n"
                      f"Имя: {registration.name}\n"
-                     f"Email: {registration.email}\n"
-                     f"Телефон: {registration.phone}\n\n"
-                     "☑️ Регистрация завершена успешно! Спасибо!")
+                     f"📧 Email: {registration.email}\n"
+                     f"☎️Телефон: {registration.phone}\n\n"
+                     "☑️ Регистрация завершена успешно\! Спасибо\!")
 
-        user_info = user_info.replace('!', '\!')
-        #
-        # await update.message.reply_text(user_info, parse_mode='MarkdownV2') # это сообщение данные пользователя при нажатии на личный кабинет
         await update.message.reply_text('👳‍♀️ Ваш Профиль:', reply_markup=profile_btn)
 
         return ConversationHandler.END
