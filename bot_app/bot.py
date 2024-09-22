@@ -59,20 +59,21 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "⬅️ Назад":
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
 
-    if message == "Личный кабинет 👤":
-        # Проверяем регистрацию и вызываем соответствующий обработчик
-        user_id = update.message.from_user.id
-        registration = await sync_to_async(UserRegistration.objects.filter)(user_id=user_id).first()
 
-        if registration and registration.name and registration.email and registration.phone:
-            # Пользователь зарегистрирован, показываем личный кабинет
-            await show_user_info(update, context)
-        else:
-            # Пользователь не зарегистрирован, запускаем регистрацию
-            await store_registration_handler(update, context)
-
-    elif message == "✏️ Редактировать данные":
-        await store_registration_handler(update, context)
+    # if message == "Личный кабинет 👤":
+    #     # Проверяем регистрацию и вызываем соответствующий обработчик
+    #     user_id = update.message.from_user.id
+    #     registration = await sync_to_async(UserRegistration.objects.filter)(user_id=user_id).first()
+    #
+    #     if registration and registration.name and registration.email and registration.phone:
+    #         # Пользователь зарегистрирован, показываем личный кабинет
+    #         await show_user_info(update, context)
+    #     else:
+    #         # Пользователь не зарегистрирован, запускаем регистрацию
+    #         await store_registration_handler(update, context)
+    #
+    # elif message == "✏️ Редактировать данные":
+    #     await store_registration_handler(update, context)
 
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет.', reply_markup=profile_btn)

@@ -6,7 +6,7 @@ from bot_app.models import UserRegistration
 from bot_app.templates.registrations_store import store_registration_handler
 
 
-async def handle_edit_data(update: Update, context: CallbackContext) -> None:
+async def handle_edit_data(update: Update, context: CallbackContext) -> int:
     user_id = update.message.from_user.id
 
     # Сброс шага регистрации и начало процесса регистрации заново
