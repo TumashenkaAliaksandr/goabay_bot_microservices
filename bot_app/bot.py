@@ -76,7 +76,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
     #     await store_registration_handler(update, context)
 
     elif message == "🔙 Назад в кабинет":
-        await update.message.reply_text('Вы вернулись в кабинет.', reply_markup=profile_btn)
+        await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
 
 
 # Обработка инлайн-кнопок
@@ -85,7 +85,7 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     await query.answer()
 
     if query.data == 'edit_data':
-        await query.edit_message_text("Пожалуйста, введите ваши данные снова.")
+        await query.edit_message_text("✏️ Пожалуйста, введите ваши данные снова.")
         context.user_data['step'] = None  # Сброс шага регистрации
         await store_registration_handler(update, context)  # Начинаем процесс регистрации заново
     elif query.data == 'confirm_data':
