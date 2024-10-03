@@ -3,7 +3,7 @@ import django
 from asgiref.sync import sync_to_async
 from telegram import Update
 from telegram.ext import CallbackContext
-from bot_app.buttons_store import main_markup, change_profile_btn
+from bot_app.templates.webapp.buttons.buttons_store import main_markup, change_profile_btn
 
 # Установка переменной окружения и инициализация Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')

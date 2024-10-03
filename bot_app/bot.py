@@ -1,19 +1,19 @@
 import os
 import django
 
+from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn
+
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
 django.setup()
 
-from asgiref.sync import sync_to_async
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext, ConversationHandler, filters
 from telegram.ext import CallbackQueryHandler
 from django.conf import settings
 
-from bot_app.models import UserRegistration
-from bot_app.templates.profile_date import profile_button_handler, show_user_info
-from bot_app.buttons_store import *
+from bot_app.templates.profile_date import profile_button_handler
+from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.registrations_store import store_registration_handler
 import logging
 import pika
@@ -56,6 +56,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы выбрали "О компании 🏢".', reply_markup=about_btn)
     elif message == "Наш Блог 📚":
         await update.message.reply_text('Вы выбрали "Наш Блог 📚".', reply_markup=blog_btn)
+    elif message == "💳 Оплата":
+        await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг', reply_markup=goa_pay_btn)
     elif message == "⬅️ Назад":
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
 

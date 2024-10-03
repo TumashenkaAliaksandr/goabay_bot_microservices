@@ -1,8 +1,8 @@
 # registration.py
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update
 from telegram.ext import CallbackContext, ConversationHandler
 
-from bot_app.buttons_store import main_markup
+from bot_app.templates.webapp.buttons.buttons_store import main_markup
 
 
 async def ticket_registration_handler(update: Update, context: CallbackContext) -> int:

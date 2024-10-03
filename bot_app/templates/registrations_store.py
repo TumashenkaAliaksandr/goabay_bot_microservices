@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext, ConversationHandler
 from bot_app.models import UserRegistration
-from bot_app.buttons_store import main_markup, profile_btn
+from bot_app.templates.webapp.buttons.buttons_store import profile_btn
 from asgiref.sync import sync_to_async
 
 
@@ -16,46 +16,46 @@ async def store_registration_handler(update: Update, context: CallbackContext) -
     print(f"Received message: {message_text}")
     print(f"Current registration step: {registration.step}")
 
-    # # Обработка нажатия кнопки "Личный кабинет"
-    # if message_text == "👤 Личный кабинет":
-    #     if registration.is_registered:
-    #         # Если пользователь зарегистрирован, просто уведомляем о входе в кабинет
-    #         await update.message.reply_text(
-    #             "👳‍♀️ Вы успешно вошли в личный кабинет.",
-    #             reply_markup=profile_btn  # Предполагается, что profile_btn определён где-то в вашем коде
-    #         )
-    #         return ConversationHandler.END  # Завершаем разговор
-    #
-    #     else:
-    #         # Если пользователь не зарегистрирован, предлагаем пройти регистрацию
-    #         await update.message.reply_text(
-    #             "***Вы еще не зарегистрированы!***\n"
-    #             "***Пожалуйста, пройдите регистрацию.***\n\n"
-    #             "_Пожалуйста, ✍️ введите ваше имя:_",
-    #             parse_mode='MarkdownV2'
-    #         )
-    #
-    #         # Устанавливаем шаг на имя и сохраняем состояние
-    #         registration.step = 'name'
-    #         await sync_to_async(registration.save)()  # Сохраняем изменения в базе данных
-    #
-    #         return 1  # Переход к шагу ввода имени
-    #
-    # if message_text == "✏️ Редактировать данные":
-    #     registration.step = None  # Сброс шага
-    #     registration.is_registered = False  # Установка флага на не зарегистрированного
-    #     await sync_to_async(registration.save)()
-    #
-    #     # Начинаем процесс регистрации заново
-    #     await update.message.reply_text(
-    #         "***Для того чтобы делать покупки в магазине 🏪 GoaBay***\n"
-    #         "***Нужно пройти 📜 РЕГИСТРАЦИЮ***\n\n"
-    #         "_Пожалуйста, ✍️ введите ваше имя:_",
-    #         parse_mode='MarkdownV2'
-    #     )
-    #     registration.step = 'name'  # Устанавливаем шаг на имя
-    #     await sync_to_async(registration.save)()
-    #     return 1  # Переход к шагу ввода имени
+    # Обработка нажатия кнопки "Личный кабинет"
+    if message_text == "👤 Личный кабинет":
+        if registration.is_registered:
+            # Если пользователь зарегистрирован, просто уведомляем о входе в кабинет
+            await update.message.reply_text(
+                "👳‍♀️ Вы успешно вошли в личный кабинет.",
+                reply_markup=profile_btn  # Предполагается, что profile_btn определён где-то в вашем коде
+            )
+            return ConversationHandler.END  # Завершаем разговор
+
+        else:
+            # Если пользователь не зарегистрирован, предлагаем пройти регистрацию
+            await update.message.reply_text(
+                "***Вы еще не зарегистрированы!***\n"
+                "***Пожалуйста, пройдите регистрацию.***\n\n"
+                "_Пожалуйста, ✍️ введите ваше имя:_",
+                parse_mode='MarkdownV2'
+            )
+
+            # Устанавливаем шаг на имя и сохраняем состояние
+            registration.step = 'name'
+            await sync_to_async(registration.save)()  # Сохраняем изменения в базе данных
+
+            return 1  # Переход к шагу ввода имени
+
+    if message_text == "✏️ Редактировать данные":
+        registration.step = None  # Сброс шага
+        registration.is_registered = False  # Установка флага на не зарегистрированного
+        await sync_to_async(registration.save)()
+
+        # Начинаем процесс регистрации заново
+        await update.message.reply_text(
+            "***Для того чтобы делать покупки в магазине 🏪 GoaBay***\n"
+            "***Нужно пройти 📜 РЕГИСТРАЦИЮ***\n\n"
+            "_Пожалуйста, ✍️ введите ваше имя:_",
+            parse_mode='MarkdownV2'
+        )
+        registration.step = 'name'  # Устанавливаем шаг на имя
+        await sync_to_async(registration.save)()
+        return 1  # Переход к шагу ввода имени
 
     if registration.is_registered and registration.step is None:
         await update.message.reply_text('Вы вошли в профиль.', reply_markup=profile_btn)
