@@ -1,6 +1,8 @@
 import os
+
 import django
 
+from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn
 
 # Настройка окружения и Django
@@ -60,6 +62,28 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг', reply_markup=goa_pay_btn)
     elif message == "⬅️ Назад":
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
+    elif message == "⬅️ Назад к информации":
+        await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
+    if message == "Способы оплаты 💵":
+        # Путь к вашему HTML-файлу
+        html_file_path = os.path.join('files', 'templates/webapp/text_files/payment_methods.html')
+
+        try:
+            # Чтение HTML-файла
+            with open(html_file_path, 'r', encoding='utf-8') as file:
+                html_content = file.read()
+
+            # Отправка HTML-контента
+            await update.message.reply_text(html_content, parse_mode='HTML')
+
+        except FileNotFoundError:
+            await update.message.reply_text("Файл с информацией не найден.")
+
+    elif message == "Как мы работаем ⌛️️":
+        await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
+
+    if message == '💸 Курс валют':
+        await get_currency_rates(update, context)
 
 
     # if message == "Личный кабинет 👤":
