@@ -3,7 +3,9 @@ import os
 import django
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
+from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn
+from bot_app.templates.webapp.text_files.info_pay import payment_info
 
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
@@ -62,20 +64,30 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
     elif message == "⬅️ Назад к информации":
         await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
+
     if message == "Способы оплаты 💵":
-        # Путь к вашему HTML-файлу
-        html_file_path = os.path.join('files', 'templates/webapp/text_files/payment_methods.html')
-
-        try:
-            # Чтение HTML-файла
-            with open(html_file_path, 'r', encoding='utf-8') as file:
-                html_content = file.read()
-
-            # Отправка HTML-контента
-            await update.message.reply_text(html_content, parse_mode='HTML')
-
-        except FileNotFoundError:
-            await update.message.reply_text("Файл с информацией не найден.")
+        await update.message.reply_text('Способы оплаты 💵', reply_markup=reply_markup_pay)
+        # Путь к вашему текстовому файлу
+        # text_file_path = 'templates/webapp/text_files/payment_methods.py'
+        # photo_path = 'static/webapp/img/bank-transfer-logo-min.png'  # Замените на путь к вашему изображению
+        #
+        # # Проверка существования файла
+        # if not os.path.isfile(text_file_path):
+        #     await update.message.reply_text("Файл с информацией не найден.")
+        # else:
+        #     try:
+        #         # Чтение текстового файла
+        #         with open(text_file_path, 'r', encoding='utf-8') as file:
+        #             html_content = file.read()
+        #
+        #             # Текст для подписи
+        #             caption = html_content[:1024]
+        #
+        #         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(photo_path, 'rb'),
+        #                                      caption=caption, parse_mode='Markdown')
+        #
+        #     except Exception as e:
+        #         await update.message.reply_text(f"Произошла ошибка при чтении файла: {e}")
 
     elif message == "Как мы работаем ⌛️️":
         await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
@@ -114,8 +126,17 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await store_registration_handler(update, context)  # Начинаем процесс регистрации заново
     elif query.data == 'confirm_data':
         await query.edit_message_text("✔️ Ваши данные подтверждены!")
-        await query.message.reply_text('Главное меню: 🍳', reply_markup=profile_btn)
+        await query.edit_message_text('Главное меню: 🍳', reply_markup=profile_btn)
         context.user_data.clear()
+
+    # Получение текста в зависимости от нажатой кнопки
+    payment_method = query.data
+    if payment_method in payment_info:
+        await query.edit_message_text(payment_info[payment_method], reply_markup=back_button_go)
+
+    elif payment_method == 'back_pay':
+        await query.edit_message_text("👇 💵 Выберите способ оплаты:", reply_markup=reply_markup_pay)
+
     else:
         await query.edit_message_text("🤷‍♂️ Неизвестный выбор. Попробуйте снова.")
 
