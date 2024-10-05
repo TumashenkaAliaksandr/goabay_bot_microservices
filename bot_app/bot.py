@@ -13,13 +13,11 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext, ConversationHandler, filters
 from telegram.ext import CallbackQueryHandler
 from django.conf import settings
-
 from bot_app.templates.profile_date import profile_button_handler
 from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.registrations_store import store_registration_handler
 import logging
 import pika
-
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)

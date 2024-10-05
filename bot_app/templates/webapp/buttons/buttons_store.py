@@ -17,7 +17,6 @@ products_btn_india = ReplyKeyboardMarkup([
 ], resize_keyboard=True)
 
 
-
 # кнопки для "Как мы работаем"
 how_we_work_btn = ReplyKeyboardMarkup([
     [KeyboardButton("🚚 Доставка"), KeyboardButton("💳 Оплата"), KeyboardButton("🗣 ЧаВо")],
