@@ -67,13 +67,22 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
 
     if message == "Способы оплаты 🏧":
-        await update.message.reply_text('Способы оплаты 🏧', reply_markup=reply_markup_pay)
+        await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
+                                        '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
 
     elif message == "Как мы работаем ⌛️️":
         await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
 
     if message == '💸 Курс валют':
         await get_currency_rates(update, context)
+
+        # Добавляем кнопку для публичной оферты
+    elif message == "Публичная оферта 📜":
+        keyboard = [
+            [InlineKeyboardButton("Перейти к публичной оферте", url="https://goabay.com/ru/oferta/")]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=reply_markup)
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
@@ -89,6 +98,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
     #
     # elif message == "✏️ Редактировать данные":
     #     await store_registration_handler(update, context)
+
 
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
@@ -128,7 +138,8 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
 
     elif query.data == 'back_pay':
         # Возвращаем пользователя к выбору способа оплаты
-        await query.message.reply_text("👇 🏧 Выберите способ оплаты:", reply_markup=reply_markup_pay)
+        await query.message.reply_text("💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n"
+                                       "📧 Мы выставим счет по электронной почте.\n👇 🏧 Cпособы оплаты:", reply_markup=reply_markup_pay)
         return
 
     else:
