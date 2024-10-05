@@ -1,6 +1,7 @@
 import os
 
 import django
+from django.core.mail import message
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go
@@ -65,36 +66,14 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "⬅️ Назад к информации":
         await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
 
-    if message == "Способы оплаты 💵":
-        await update.message.reply_text('Способы оплаты 💵', reply_markup=reply_markup_pay)
-        # Путь к вашему текстовому файлу
-        # text_file_path = 'templates/webapp/text_files/payment_methods.py'
-        # photo_path = 'static/webapp/img/bank-transfer-logo-min.png'  # Замените на путь к вашему изображению
-        #
-        # # Проверка существования файла
-        # if not os.path.isfile(text_file_path):
-        #     await update.message.reply_text("Файл с информацией не найден.")
-        # else:
-        #     try:
-        #         # Чтение текстового файла
-        #         with open(text_file_path, 'r', encoding='utf-8') as file:
-        #             html_content = file.read()
-        #
-        #             # Текст для подписи
-        #             caption = html_content[:1024]
-        #
-        #         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(photo_path, 'rb'),
-        #                                      caption=caption, parse_mode='Markdown')
-        #
-        #     except Exception as e:
-        #         await update.message.reply_text(f"Произошла ошибка при чтении файла: {e}")
+    if message == "Способы оплаты 🏧":
+        await update.message.reply_text('Способы оплаты 🏧', reply_markup=reply_markup_pay)
 
     elif message == "Как мы работаем ⌛️️":
         await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
 
     if message == '💸 Курс валют':
         await get_currency_rates(update, context)
-
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
@@ -120,22 +99,37 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     await query.answer()
 
+    # Обработка кнопок редактирования и подтверждения данных
     if query.data == 'edit_data':
         await query.edit_message_text("✏️ Пожалуйста, введите ваши данные снова.")
         context.user_data['step'] = None  # Сброс шага регистрации
-        await store_registration_handler(update, context)  # Начинаем процесс регистрации заново
+        await store_registration_handler(update, context)
+        return
+
     elif query.data == 'confirm_data':
         await query.edit_message_text("✔️ Ваши данные подтверждены!")
         await query.edit_message_text('Главное меню: 🍳', reply_markup=profile_btn)
         context.user_data.clear()
+        return
 
-    # Получение текста в зависимости от нажатой кнопки
     payment_method = query.data
-    if payment_method in payment_info:
-        await query.edit_message_text(payment_info[payment_method], reply_markup=back_button_go)
 
-    elif payment_method == 'back_pay':
-        await query.edit_message_text("👇 💵 Выберите способ оплаты:", reply_markup=reply_markup_pay)
+    if payment_method in payment_info:
+        text, photo_path = payment_info[payment_method]
+        with open(photo_path, 'rb') as photo:
+            await context.bot.send_photo(
+                chat_id=query.message.chat.id,
+                photo=photo,
+                caption=text,
+                parse_mode='MarkdownV2',
+                reply_markup=back_button_go  # Кнопка "Назад"
+            )
+        return
+
+    elif query.data == 'back_pay':
+        # Возвращаем пользователя к выбору способа оплаты
+        await query.message.reply_text("👇 🏧 Выберите способ оплаты:", reply_markup=reply_markup_pay)
+        return
 
     else:
         await query.edit_message_text("🤷‍♂️ Неизвестный выбор. Попробуйте снова.")

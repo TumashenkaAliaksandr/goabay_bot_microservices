@@ -26,11 +26,11 @@ async def get_currency_rates(update: Update, context: CallbackContext) -> None:
     table.max_width["Курс к 🇷🇺 RUB"] = 14  # Максимальная ширина для курса
 
     # Добавляем данные в таблицу с форматированием
-    table.add_row([f"{'Индийская рупия 🇮🇳':<24}", f"{inr_to_rub:.2f}"])
+    table.add_row([f"{'🇮🇳 Индийская рупия':<24}", f"{inr_to_rub:.2f}"])
     table.add_row(["-" * 24, "-" * 14])  # Горизонтальная линия между строками
-    table.add_row([f"{'Доллар 🇺🇸':<24}", f"{usd_to_rub:.2f}"])
+    table.add_row([f"{'🇺🇸 Доллар':<24}", f"{usd_to_rub:.2f}"])
     table.add_row(["-" * 24, "-" * 14])  # Горизонтальная линия между строками
-    table.add_row([f"{'Евро 🇪🇺':<24}", f"{eur_to_rub:.2f}"])
+    table.add_row([f"{'🇪🇺 Евро':<24}", f"{eur_to_rub:.2f}"])
 
     # Получаем строковое представление таблицы
     response = '```\n{}```'.format(table.get_string())

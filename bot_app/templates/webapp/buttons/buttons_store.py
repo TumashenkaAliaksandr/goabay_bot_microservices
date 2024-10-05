@@ -35,7 +35,7 @@ service_btn = ReplyKeyboardMarkup([
 
 # Инлайн кнопки для "О компании"
 about_btn = ReplyKeyboardMarkup([
-    [KeyboardButton("Как мы работаем ⌚️"), KeyboardButton("Отзывы 💬"), KeyboardButton("Публичная оферта 📜")],
+    [KeyboardButton("Как мы работаем ⏳"), KeyboardButton("Отзывы 💬"), KeyboardButton("Публичная оферта 📜")],
     [KeyboardButton("Партнерская програма 👥"), KeyboardButton("Свяаться с нами 📲"), KeyboardButton("Обсуждения 📢")],
     [KeyboardButton("⬅️ Назад")]
 ], resize_keyboard=True)
@@ -55,6 +55,7 @@ profile_btn = ReplyKeyboardMarkup([
     [KeyboardButton("👳‍♂️ Мои данные"), KeyboardButton("🛒 Мои Покупки"), KeyboardButton("🗂 Мои Документы")],
     # [KeyboardButton("📈 Лидеры продаж"), KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎉 Акции")],
     # [KeyboardButton("✍️ Регистрация на рейс"), KeyboardButton("🎁 Подарки")],
+    # [KeyboardButton("💣 Очистить истоирию сообщений в чате")],
     [KeyboardButton("⬅️ Назад")]
 ], resize_keyboard=True)
 

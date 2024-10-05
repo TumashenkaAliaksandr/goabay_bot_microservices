@@ -28,7 +28,7 @@ keyboards = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
 reply_markup_pay = InlineKeyboardMarkup(keyboards)
 
 # Определяем инлайн-кнопки для исправления и подтверждения данных
-back_pay_button = InlineKeyboardButton(text="Назад к Способам оплаты 💵", callback_data='back_pay')
+back_pay_button = InlineKeyboardButton(text="Назад к Способам оплаты 🏧", callback_data='back_pay')
 
 # Создаем клавиатуру с этими кнопками
 back_button_go = InlineKeyboardMarkup([[back_pay_button]])
