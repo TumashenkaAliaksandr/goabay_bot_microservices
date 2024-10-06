@@ -6,7 +6,7 @@ from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
     order_calculation_pay, back_button_cal
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
-from bot_app.templates.webapp.text_files.calculator_pay import calculator_info
+from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
 
