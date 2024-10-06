@@ -12,6 +12,7 @@ async def get_currency_rates(update: Update, context: CallbackContext) -> None:
     inr_to_rub = rates['INR'].value / 100  # Курс индийской рупии к рублю (за 100 INR)
     usd_to_rub = rates['USD'].value  # Курс доллара к рублю
     eur_to_rub = rates['EUR'].value  # Курс евро к рублю
+    cny_to_rub = rates['CNY'].value
 
     # Создаем таблицу с помощью PrettyTable
     table = PrettyTable()
@@ -31,6 +32,8 @@ async def get_currency_rates(update: Update, context: CallbackContext) -> None:
     table.add_row([f"{'🇺🇸 Доллар':<24}", f"{usd_to_rub:.2f}"])
     table.add_row(["-" * 24, "-" * 14])  # Горизонтальная линия между строками
     table.add_row([f"{'🇪🇺 Евро':<24}", f"{eur_to_rub:.2f}"])
+    table.add_row(["-" * 24, "-" * 14])  # Горизонтальная линия между строками
+    table.add_row([f"{'🇨🇳 Юань':<24}", f"{cny_to_rub:.2f}"])
 
     # Получаем строковое представление таблицы
     response = '```\n{}```'.format(table.get_string())

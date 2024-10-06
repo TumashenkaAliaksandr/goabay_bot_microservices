@@ -1,11 +1,11 @@
 import os
 
 import django
-from django.core.mail import message
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
-from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go
-from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn
+from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button
+from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
+from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
 
 # Настройка окружения и Django
@@ -65,24 +65,20 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
     elif message == "⬅️ Назад к информации":
         await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
-
-    if message == "Способы оплаты 🏧":
+    elif message == "Способы оплаты 🏧":
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
-
     elif message == "Как мы работаем ⌛️️":
         await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
-
-    if message == '💸 Курс валют':
+    elif message == '💸 Курс валют':
         await get_currency_rates(update, context)
-
+    elif message == "🚚 Доставка":
+        await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=delivery_btn)
+    elif message == "📝 Информация о Доставке":
+        await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
         # Добавляем кнопку для публичной оферты
     elif message == "Публичная оферта 📜":
-        keyboard = [
-            [InlineKeyboardButton("Перейти к публичной оферте", url="https://goabay.com/ru/oferta/")]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=reply_markup)
+        await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=offerta_button)
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
@@ -98,7 +94,6 @@ async def echo(update: Update, context: CallbackContext) -> None:
     #
     # elif message == "✏️ Редактировать данные":
     #     await store_registration_handler(update, context)
-
 
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)

@@ -32,3 +32,8 @@ back_pay_button = InlineKeyboardButton(text="Назад к Способам оп
 
 # Создаем клавиатуру с этими кнопками
 back_button_go = InlineKeyboardMarkup([[back_pay_button]])
+
+
+# кнопки для публичная оферта
+public_offer_button = [[InlineKeyboardButton("Перейти к публичной оферте", url="https://goabay.com/ru/oferta/")]]
+offerta_button = InlineKeyboardMarkup(public_offer_button)
