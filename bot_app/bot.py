@@ -3,8 +3,10 @@ import os
 import django
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
-from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button
+from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
+    order_calculation_pay, back_button_cal
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
+from bot_app.templates.webapp.text_files.calculator_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
 
@@ -68,6 +70,9 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "Способы оплаты 🏧":
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
+    elif message == "Расчет заказа 💰":
+        await update.message.reply_text('📊 Расчет заказа индийских товаров.\n\n'
+                                        '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа', reply_markup=order_calculation_pay)
     elif message == "Как мы работаем ⌛️️":
         await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
     elif message == '💸 Курс валют':
@@ -135,6 +140,26 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         # Возвращаем пользователя к выбору способа оплаты
         await query.message.reply_text("💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n"
                                        "📧 Мы выставим счет по электронной почте.\n👇 🏧 Cпособы оплаты:", reply_markup=reply_markup_pay)
+        return
+    calculator_method = query.data
+
+    if calculator_method in calculator_info:
+        text, photo_path = calculator_info[calculator_method]
+        with open(photo_path, 'rb') as photo:
+            await context.bot.send_photo(
+                chat_id=query.message.chat.id,
+                photo=photo,
+                caption=text,
+                parse_mode='MarkdownV2',
+                reply_markup=back_button_cal  # Кнопка "Назад"
+            )
+        return
+
+    elif query.data == 'back_calculator':
+        # Возвращаем пользователя к выбору шагов калькулятора
+        await query.message.reply_text('📊 Расчет заказа индийских товаров.\n\n'
+                                        '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа',
+                                        reply_markup=order_calculation_pay)
         return
 
     else:

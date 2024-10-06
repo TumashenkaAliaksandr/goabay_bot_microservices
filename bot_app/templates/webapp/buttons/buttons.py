@@ -37,3 +37,24 @@ back_button_go = InlineKeyboardMarkup([[back_pay_button]])
 # кнопки для публичная оферта
 public_offer_button = [[InlineKeyboardButton("Перейти к публичной оферте", url="https://goabay.com/ru/oferta/")]]
 offerta_button = InlineKeyboardMarkup(public_offer_button)
+
+# Создание списка кнопок и соответствующих callback_data
+order_calculation_btn = [
+    ("Стоимость товара", 'product_cost'),
+    ("Доставка в РФ", 'delivery_rus'),
+    ("Услуга GoaBay за 4кг", 'goabay_service'),
+    ("Калькулятор", 'calculator')
+]
+
+# Создание кнопок
+buttons = [InlineKeyboardButton(text=name, callback_data=data) for name, data in order_calculation_btn]
+# Группировка кнопок в ряд (по 2 кнопки в строке)
+order_calculation_btn = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+# Создание разметки клавиатуры
+order_calculation_pay = InlineKeyboardMarkup(order_calculation_btn)
+
+# Определяем инлайн-кнопки для исправления и подтверждения данных
+back_cal_button = InlineKeyboardButton(text="Назад к расчету 🏧", callback_data='back_calculator')
+
+# Создаем клавиатуру с этими кнопками
+back_button_cal = InlineKeyboardMarkup([[back_cal_button]])
