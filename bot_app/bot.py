@@ -46,6 +46,13 @@ async def start(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(welcome_message, reply_markup=main_markup)
 
 
+async def help(update: Update, context: CallbackContext) -> None:
+    with open('welcome.txt', 'r', encoding='utf-8') as file:
+        welcome_message = file.read()
+
+    await update.message.reply_text(welcome_message, reply_markup=main_markup)
+
+
 # Основная функция для обработки сообщений
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
@@ -171,6 +178,7 @@ def main() -> None:
     application = Application.builder().token(settings.BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help))
 
     # ConversationHandler для регистрации в магазине
     store_conv_handler = ConversationHandler(
