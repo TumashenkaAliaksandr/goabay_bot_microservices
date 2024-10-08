@@ -67,8 +67,8 @@ qw_answ_btn_list = [
     ("Что можно купить через нас", 'storage_india'),
     ("Тип платежа и скорость", 'order_speed'),
     ("Покупка и отправка", 'storage_service'),
-    ("Обмен товара", 'calculator'),
-    ("Возврат товара", 'calculator'),
+    ("Обмен товара", 'product_exchange'),
+    ("Возврат товара", 'product_return'),
 ]
 
 # Создание кнопок
