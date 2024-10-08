@@ -38,6 +38,7 @@ back_button_go = InlineKeyboardMarkup([[back_pay_button]])
 public_offer_button = [[InlineKeyboardButton("Перейти к публичной оферте", url="https://goabay.com/ru/oferta/")]]
 offerta_button = InlineKeyboardMarkup(public_offer_button)
 
+
 # Создание списка кнопок и соответствующих callback_data
 order_calculation_btn = [
     ("Стоимость товара", 'product_cost'),
@@ -58,3 +59,27 @@ back_cal_button = InlineKeyboardButton(text="Назад к расчету 🏧",
 
 # Создаем клавиатуру с этими кнопками
 back_button_cal = InlineKeyboardMarkup([[back_cal_button]])
+
+
+# Создание списка кнопок и соответствующих callback_data
+qw_answ_btn_list = [
+    ("Как оплатить заказ", 'answer_cost'),
+    ("Что можно купить через нас", 'storage_india'),
+    ("Тип платежа и скорость", 'order_speed'),
+    ("Покупка и отправка", 'storage_service'),
+    ("Обмен товара", 'calculator'),
+    ("Возврат товара", 'calculator'),
+]
+
+# Создание кнопок
+buttons = [InlineKeyboardButton(text=name, callback_data=data) for name, data in qw_answ_btn_list]
+# Группировка кнопок в ряд (по 2 кнопки в строке)
+qw_answ_btn = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+# Создание разметки клавиатуры
+qw_answ_btn_main = InlineKeyboardMarkup(qw_answ_btn)
+
+# Определяем инлайн-кнопки для исправления и подтверждения данных
+back_qw_answ_button = InlineKeyboardButton(text="Назад к опрос-ответ 🏧", callback_data='back_qwe_answer')
+
+# Создаем клавиатуру с этими кнопками
+back_qw_answ_button_main = InlineKeyboardMarkup([[back_qw_answ_button]])

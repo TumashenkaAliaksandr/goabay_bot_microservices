@@ -4,11 +4,12 @@ import django
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
-    order_calculation_pay, back_button_cal
+    order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
 from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
+from bot_app.templates.webapp.text_files.qwe_answ import qwe_answer_info
 
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
@@ -88,6 +89,9 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=delivery_btn)
     elif message == "📝 Информация о Доставке":
         await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
+    elif message == "🗣 ЧаВо":
+        await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
+                                       '👇 Сделайте выбор что вас интересует.', reply_markup=qw_answ_btn_main)
         # Добавляем кнопку для публичной оферты
     elif message == "Публичная оферта 📜":
         await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=offerta_button)
@@ -148,6 +152,7 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await query.message.reply_text("💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n"
                                        "📧 Мы выставим счет по электронной почте.\n👇 🏧 Cпособы оплаты:", reply_markup=reply_markup_pay)
         return
+    # калькулятор методы
     calculator_method = query.data
 
     if calculator_method in calculator_info:
@@ -167,6 +172,28 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await query.message.reply_text('📊 Расчет заказа индийских товаров.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа',
                                         reply_markup=order_calculation_pay)
+        return
+
+    # вопрос ответ
+    qwe_answer_method = query.data
+
+    if qwe_answer_method in qwe_answer_info:
+        text, photo_path = qwe_answer_info[qwe_answer_method]
+        with open(photo_path, 'rb') as photo:
+            await context.bot.send_photo(
+                chat_id=query.message.chat.id,
+                photo=photo,
+                caption=text,
+                parse_mode='MarkdownV2',
+                reply_markup=back_qw_answ_button_main # Кнопка "Назад"
+            )
+        return
+
+    elif query.data == 'back_qwe_answer':
+        # Возвращаем пользователя к выбору шагов калькулятора
+        await query.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
+                                       '👇 Сделайте выбор что вас интересует.',
+                                       reply_markup=qw_answ_btn_main)
         return
 
     else:
