@@ -39,6 +39,11 @@ public_offer_button = [[InlineKeyboardButton("Перейти к публично
 offerta_button = InlineKeyboardMarkup(public_offer_button)
 
 
+# кнопки для отследить заказ
+order_seedelyw_button = [[InlineKeyboardButton("Перейти к Отследить заказ", url="https://gdeposylka.ru/")]]
+track_button = InlineKeyboardMarkup(order_seedelyw_button)
+
+
 # Создание списка кнопок и соответствующих callback_data
 order_calculation_btn = [
     ("Стоимость товара", 'product_cost'),

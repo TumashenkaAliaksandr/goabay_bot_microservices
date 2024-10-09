@@ -4,7 +4,7 @@ import django
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
-    order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main
+    order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, track_button
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
 from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
@@ -95,6 +95,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Добавляем кнопку для публичной оферты
     elif message == "Публичная оферта 📜":
         await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=offerta_button)
+    elif message == "👀 Отследить заказ":
+        await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=track_button)
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
