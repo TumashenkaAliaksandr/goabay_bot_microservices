@@ -41,14 +41,14 @@ def send_to_rabbitmq(message: str):
 
 # Обработка команды /start
 async def start(update: Update, context: CallbackContext) -> None:
-    with open('welcome.txt', 'r', encoding='utf-8') as file:
+    with open('templates/webapp/text_files/welcome.txt', 'r', encoding='utf-8') as file:
         welcome_message = file.read()
 
     await update.message.reply_text(welcome_message, reply_markup=main_markup)
 
 
 async def help(update: Update, context: CallbackContext) -> None:
-    with open('welcome.txt', 'r', encoding='utf-8') as file:
+    with open('templates/webapp/text_files/welcome.txt', 'r', encoding='utf-8') as file:
         welcome_message = file.read()
 
     await update.message.reply_text(welcome_message, reply_markup=main_markup)
