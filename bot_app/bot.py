@@ -5,11 +5,12 @@ import django
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
     order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, track_button
-from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn
+from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn
 from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
 from bot_app.templates.webapp.text_files.qwe_answ import qwe_answer_info
+from bot_app.templates.webapp.text_files.warehouse_info import warehouse_info
 
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
@@ -71,10 +72,14 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы выбрали "Наш Блог 📚".', reply_markup=blog_btn)
     elif message == "💳 Оплата":
         await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг', reply_markup=goa_pay_btn)
+    elif message == "🏪 Склад В Индии":
+        await update.message.reply_text('Вы перешли в раздел - 🏪 Склад В Индии', reply_markup=warehouse_btn)
     elif message == "⬅️ Назад":
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
     elif message == "⬅️ Назад к информации":
         await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
+    elif message == "⬅️ Товары из Индии":
+        await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️".', reply_markup=products_btn_india)
     elif message == "Способы оплаты 🏧":
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
@@ -89,6 +94,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=delivery_btn)
     elif message == "📝 Информация о Доставке":
         await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
+    elif message == "🏗 Как работает Склад":
+        await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
     elif message == "🗣 ЧаВо":
         await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
                                        '👇 Сделайте выбор что вас интересует.', reply_markup=qw_answ_btn_main)
