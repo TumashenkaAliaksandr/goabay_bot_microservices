@@ -102,10 +102,10 @@ buttons = [InlineKeyboardButton(text=name, callback_data=data) for name, data in
 # Группировка кнопок в ряд (по 2 кнопки в строке)
 sales_btn = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
 # Создание разметки клавиатуры
-sales_btn_main = InlineKeyboardMarkup(sales_btn)
+gifts_btn_main = InlineKeyboardMarkup(sales_btn)
 
 # Определяем инлайн-кнопки для исправления и подтверждения данных
-back_sales_button = InlineKeyboardButton(text="Назад к 🎉 Акции", callback_data='back_sales')
+back_gifts_button = InlineKeyboardButton(text="Назад в 🎁 Подарки", callback_data='back_gifts')
 
 # Создаем клавиатуру с этими кнопками
-back_sales_button_main = InlineKeyboardMarkup([[back_sales_button]])
+back_gifts_button_main = InlineKeyboardMarkup([[back_gifts_button]])
