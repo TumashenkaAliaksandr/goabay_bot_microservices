@@ -88,3 +88,24 @@ back_qw_answ_button = InlineKeyboardButton(text="Назад к опрос-отв
 
 # Создаем клавиатуру с этими кнопками
 back_qw_answ_button_main = InlineKeyboardMarkup([[back_qw_answ_button]])
+
+
+# ----
+
+# Создание списка кнопок и соответствующих callback_data
+btn_sales = [
+    ("Получить подарок", 'answer_gift'),
+]
+
+# Создание кнопок
+buttons = [InlineKeyboardButton(text=name, callback_data=data) for name, data in btn_sales]
+# Группировка кнопок в ряд (по 2 кнопки в строке)
+sales_btn = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+# Создание разметки клавиатуры
+sales_btn_main = InlineKeyboardMarkup(sales_btn)
+
+# Определяем инлайн-кнопки для исправления и подтверждения данных
+back_sales_button = InlineKeyboardButton(text="Назад к 🎉 Акции", callback_data='back_sales')
+
+# Создаем клавиатуру с этими кнопками
+back_sales_button_main = InlineKeyboardMarkup([[back_sales_button]])
