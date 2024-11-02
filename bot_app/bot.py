@@ -6,6 +6,7 @@ from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
     order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, track_button, back_gifts_button_main, gifts_btn_main
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn
+from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
 from bot_app.templates.webapp.text_files.info_pay import payment_info
@@ -107,6 +108,38 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=track_button)
     elif message == "🎁 Подарки":
         await update.message.reply_text("Вы выбрали 🎁 Подарки", reply_markup=gifts_btn_main)
+    elif message == "🔙 Назад в кабинет":
+        await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
+        # Запрос ссылки на товар
+    if message == "🛍 Товары на складе":
+        await update.message.reply_text("Введите ссылку 🔗 на Товар 🛍")
+
+        # Обработка ссылки на товар
+    elif message.startswith("http://") or message.startswith("https://"):
+        product_data = fetch_product_data(message)
+
+        if "error" in product_data:
+            await update.message.reply_text(product_data["error"])
+            return
+
+        # Формирование текста ответа
+        reply_text = (
+            f"*Имя:* {product_data.get('name', 'Не найдено')}\n"
+            f"*Описание:* {product_data.get('description', 'Не найдено')}\n"
+            f"*Цена:* {product_data.get('price', {}).get('current', 'Не указана')} "
+            f"(оригинальная цена: {product_data.get('price', {}).get('original', 'Не указана')})\n"
+        )
+
+        # Проверка наличия изображения и отправка сообщения
+        if 'image' in product_data:
+            await update.message.reply_photo(photo=product_data['image'], caption=reply_text, parse_mode="Markdown")
+        else:
+            await update.message.reply_text(reply_text, parse_mode="Markdown")
+
+        # Обработка других сообщений
+    else:
+        await update.message.reply_text(
+            "Пожалуйста, введите корректную ссылку на товар или выберите опцию 🛍 Товары на складе.")
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
@@ -122,9 +155,6 @@ async def echo(update: Update, context: CallbackContext) -> None:
     #
     # elif message == "✏️ Редактировать данные":
     #     await store_registration_handler(update, context)
-
-    elif message == "🔙 Назад в кабинет":
-        await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
 
 
 # Обработка инлайн-кнопок
