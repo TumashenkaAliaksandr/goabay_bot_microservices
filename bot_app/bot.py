@@ -4,8 +4,10 @@ import django
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, offerta_button, \
-    order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, track_button, back_gifts_button_main, gifts_btn_main
+    order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, track_button, \
+    back_gifts_button_main, gifts_btn_main, create_reply_sklad_btn
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn
+from bot_app.templates.webapp.cart import Cart
 from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
 from bot_app.templates.webapp.text_files.delivery import delivery_info
@@ -98,6 +100,19 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
     elif message == "🏗 Как работает Склад":
         await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
+        # Предположим, что у вас уже есть класс Cart с методами get_cart_items
+    if message == "🛒 Мои Покупки":
+        cart_items = cart.get_cart_items()  # Получаем элементы из корзины
+        if not cart_items:
+            await update.message.reply_text("Ваша корзина пуста.")
+        else:
+            # Формируем сообщение с содержимым корзины
+            purchases_info = "Ваши покупки:\n"
+            for product_id, quantity in cart_items.items():
+                purchases_info += f"- Товар ID: {product_id}, Количество: {quantity}\n"
+
+            await update.message.reply_text(purchases_info, parse_mode='MarkdownV2')
+
     elif message == "🗣 ЧаВо":
         await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
                                        '👇 Сделайте выбор что вас интересует.', reply_markup=qw_answ_btn_main)
@@ -127,19 +142,32 @@ async def echo(update: Update, context: CallbackContext) -> None:
             f"*Имя:* {product_data.get('name', 'Не найдено')}\n"
             f"*Описание:* {product_data.get('description', 'Не найдено')}\n"
             f"*Цена:* {product_data.get('price', {}).get('current', 'Не указана')} "
-            f"(оригинальная цена: {product_data.get('price', {}).get('original', 'Не указана')})\n"
+            f"(Цена без скидки: {product_data.get('price', {}).get('original', 'Не указана')})\n"
         )
 
-        # Проверка наличия изображения и отправка сообщения
-        if 'image' in product_data:
-            await update.message.reply_photo(photo=product_data['image'], caption=reply_text, parse_mode="Markdown")
-        else:
-            await update.message.reply_text(reply_text, parse_mode="Markdown")
+        # Получаем текущее количество из user_data или устанавливаем 1 по умолчанию
+        quantity = context.user_data.get("quantity", 1)
 
-        # Обработка других сообщений
-    else:
-        await update.message.reply_text(
-            "Пожалуйста, введите корректную ссылку на товар или выберите опцию 🛍 Товары на складе.")
+        # Проверка наличия изображения и отправка сообщения с кнопками
+        if 'image' in product_data:
+            await update.message.reply_photo(
+                photo=product_data['image'],
+                caption=reply_text,
+                parse_mode="Markdown",
+                reply_markup=create_reply_sklad_btn(quantity)  # Подключение инлайн-кнопок
+            )
+        else:
+            await update.message.reply_text(
+                reply_text,
+                parse_mode="Markdown",
+                reply_markup=create_reply_sklad_btn(quantity)  # Подключение инлайн-кнопок
+            )
+
+
+            # Обработка других сообщений
+    # else:
+    #     await update.message.reply_text(
+    #             "Пожалуйста, введите корректную ссылку на товар или выберите опцию 🛍 Товары на складе.")
 
     # if message == "Личный кабинет 👤":
     #     # Проверяем регистрацию и вызываем соответствующий обработчик
@@ -155,7 +183,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
     #
     # elif message == "✏️ Редактировать данные":
     #     await store_registration_handler(update, context)
-
+# Инициализация корзины
+cart = Cart()
 
 # Обработка инлайн-кнопок
 async def button_handler(update: Update, context: CallbackContext) -> None:
@@ -269,6 +298,46 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         except Exception as e:
             print(f"Error editing message: {e}")  # Логируем ошибку
 
+    # Инициализация количества, если его нет в user_data
+    if "quantity" not in context.user_data:
+        context.user_data["quantity"] = 1
+
+    # Получение текущего количества
+    quantity = context.user_data["quantity"]
+
+    # Обработка нажатия кнопок
+    if query.data == "add_to_cart":
+        product_id = context.user_data.get("product_id")  # Получаем product_id из user_data
+        quantity = context.user_data.get("quantity", 1)  # Получаем текущее количество
+
+        # Добавляем товар в корзину
+        cart.add_item(product_id, quantity)
+
+        # Отправляем всплывающее сообщение о добавлении в корзину
+        await query.answer(f"Товар добавлен в корзину: {quantity} шт.")
+
+    elif query.data == "increase_quantity":
+        context.user_data["quantity"] += 1
+        if query.message:  # Проверяем, что сообщение существует
+            try:
+                await query.edit_message_reply_markup(
+                    reply_markup=create_reply_sklad_btn(context.user_data["quantity"]))
+            except Exception as e:
+                print(f"Error editing message: {e}")  # Логируем ошибку, если она возникла
+
+    elif query.data == "decrease_quantity":
+        if context.user_data["quantity"] > 1:  # Чтобы количество не становилось меньше 1
+            context.user_data["quantity"] -= 1
+            if query.message:  # Проверяем, что сообщение существует
+                try:
+                    await query.edit_message_reply_markup(
+                        reply_markup=create_reply_sklad_btn(context.user_data["quantity"]))
+                except Exception as e:
+                    print(f"Error editing message: {e}")  # Логируем ошибку, если она возникла
+
+    # Можно добавить лог для текущего количества, если нужно
+    print(context.user_data["quantity"])
+
 
 # Основная функция для запуска бота
 def main() -> None:
@@ -295,6 +364,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(button_handler))
     application.add_handler(MessageHandler(filters.TEXT & filters.Regex("👳‍♂️ Мои данные"), profile_button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+    application.add_handler(CallbackQueryHandler(button_handler))
 
     application.run_polling()
 

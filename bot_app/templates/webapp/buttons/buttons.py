@@ -109,3 +109,17 @@ back_gifts_button = InlineKeyboardButton(text="Назад в 🎁 Подарки
 
 # Создаем клавиатуру с этими кнопками
 back_gifts_button_main = InlineKeyboardMarkup([[back_gifts_button]])
+
+
+def create_reply_sklad_btn(quantity):
+    sklad_btn = [
+        [
+            InlineKeyboardButton("➖", callback_data="decrease_quantity"),
+            InlineKeyboardButton(str(quantity), callback_data="current_quantity"),
+            InlineKeyboardButton("➕", callback_data="increase_quantity")
+        ],
+        [InlineKeyboardButton("🗑 В корзину", callback_data="add_to_cart")]
+    ]
+    return InlineKeyboardMarkup(sklad_btn)
+
+
