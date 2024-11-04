@@ -8,13 +8,16 @@ from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_butt
     back_gifts_button_main, gifts_btn_main, create_reply_sklad_btn
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn
 from bot_app.templates.webapp.cart import Cart
+from bot_app.templates.webapp.microns.commands import start, help
+from bot_app.templates.webapp.microns.screens import escape_markdown_v2
+from bot_app.templates.webapp.microns.send_rabbitmq import send_to_rabbitmq
 from bot_app.templates.webapp.parcer import fetch_product_data
-from bot_app.templates.webapp.text_files.calculator_info_pay import calculator_info
-from bot_app.templates.webapp.text_files.delivery import delivery_info
-from bot_app.templates.webapp.text_files.info_pay import payment_info
-from bot_app.templates.webapp.text_files.qwe_answ import qwe_answer_info
-from bot_app.templates.webapp.text_files.sales_info import sales_info
-from bot_app.templates.webapp.text_files.warehouse_info import warehouse_info
+from bot_app.templates.webapp.text_files_py_txt.calculator_info_pay import calculator_info
+from bot_app.templates.webapp.text_files_py_txt.delivery import delivery_info
+from bot_app.templates.webapp.text_files_py_txt.info_pay import payment_info
+from bot_app.templates.webapp.text_files_py_txt.qwe_answ import qwe_answer_info
+from bot_app.templates.webapp.text_files_py_txt.sales_info import sales_info
+from bot_app.templates.webapp.text_files_py_txt.warehouse_info import warehouse_info
 
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
@@ -28,43 +31,10 @@ from bot_app.templates.profile_date import profile_button_handler
 from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.registrations_store import store_registration_handler
 import logging
-import pika
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-# Отправка сообщений в RabbitMQ
-def send_to_rabbitmq(message: str):
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=settings.RABBITMQ_HOST))
-    channel = connection.channel()
-    channel.queue_declare(queue=settings.RABBITMQ_QUEUE)
-    channel.basic_publish(exchange='', routing_key=settings.RABBITMQ_QUEUE, body=message)
-    connection.close()
-
-
-# Обработка команды /start
-async def start(update: Update, context: CallbackContext) -> None:
-    with open('templates/webapp/text_files/welcome.txt', 'r', encoding='utf-8') as file:
-        welcome_message = file.read()
-
-    await update.message.reply_text(welcome_message, reply_markup=main_markup)
-
-
-async def help(update: Update, context: CallbackContext) -> None:
-    with open('templates/webapp/text_files/welcome.txt', 'r', encoding='utf-8') as file:
-        welcome_message = file.read()
-
-    await update.message.reply_text(welcome_message, reply_markup=main_markup)
-
-
-def escape_markdown_v2(text):
-    """Экранирует специальные символы для MarkdownV2."""
-    special_chars = r"_*[]()~`>#+-=|{}.!"
-    for char in special_chars:
-        text = text.replace(char, f'\\{char}')
-    return text
 
 
 # Основная функция для обработки сообщений
