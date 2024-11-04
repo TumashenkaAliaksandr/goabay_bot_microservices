@@ -59,6 +59,14 @@ async def help(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(welcome_message, reply_markup=main_markup)
 
 
+def escape_markdown_v2(text):
+    """Экранирует специальные символы для MarkdownV2."""
+    special_chars = r"_*[]()~`>#+-=|{}.!"
+    for char in special_chars:
+        text = text.replace(char, f'\\{char}')
+    return text
+
+
 # Основная функция для обработки сообщений
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
@@ -110,6 +118,9 @@ async def echo(update: Update, context: CallbackContext) -> None:
             purchases_info = "Ваши покупки:\n"
             for product_id, quantity in cart_items.items():
                 purchases_info += f"- Товар ID: {product_id}, Количество: {quantity}\n"
+
+            # Экранируем сообщение перед отправкой
+            purchases_info = escape_markdown_v2(purchases_info)
 
             await update.message.reply_text(purchases_info, parse_mode='MarkdownV2')
 
