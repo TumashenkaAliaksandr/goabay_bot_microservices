@@ -72,7 +72,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
             for product_data, quantity in cart_items.items():
                 # Извлекаем данные о товаре
                 name = quantity.get('name', 'Неизвестный товар')
-                description = quantity.get('description', 'Описание отсутствует')
+                # description = quantity.get('description', 'Описание отсутствует')
                 price = quantity.get('price', {})
                 current_price = price.get('current', 'Цена не указана')
                 image_url = quantity.get('image', None)
@@ -111,7 +111,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
         # Запрос ссылки на товар
     if message == "📁 Каталог":
-        await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍 магазина 🏝GoaBay.com ")
+        await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")
 
         # Обработка ссылки на товар
     elif message.startswith("http://") or message.startswith("https://"):
