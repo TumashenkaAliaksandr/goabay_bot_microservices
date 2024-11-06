@@ -13,7 +13,7 @@ main_markup = ReplyKeyboardMarkup([
 products_btn_india = ReplyKeyboardMarkup([
     [KeyboardButton("📁 Каталог"), KeyboardButton("🏪 Склад В Индии"), KeyboardButton("📈 Лидеры продаж")],
     [KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎁 Подарки"), KeyboardButton("🎉 Акции")],
-    [KeyboardButton("⬅️"), KeyboardButton("🗑"), KeyboardButton("👤")]
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 
@@ -21,7 +21,7 @@ products_btn_india = ReplyKeyboardMarkup([
 how_we_work_btn = ReplyKeyboardMarkup([
     [KeyboardButton("🚚 Доставка"), KeyboardButton("💳 Оплата"), KeyboardButton("🗣 ЧаВо")],
     [KeyboardButton("🚨 Помощь"), KeyboardButton("💸 Курс валют"), KeyboardButton("🤝 Наши партнёры")],
-    [KeyboardButton("⬅️"), KeyboardButton("🗑"), KeyboardButton("👤")]
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 
@@ -29,7 +29,7 @@ how_we_work_btn = ReplyKeyboardMarkup([
 service_btn = ReplyKeyboardMarkup([
     [KeyboardButton("✈️ Авиабилеты"), KeyboardButton("🏘 Гоа Аренда"), KeyboardButton("🏞 Экскурсии по Гоа")],
     [KeyboardButton("🎬 Реклама на сайте"), KeyboardButton("🎉 Акции"), KeyboardButton("📰 Новости компании")],
-    [KeyboardButton("⬅️"), KeyboardButton("🗑"), KeyboardButton("👤")]
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 
@@ -37,7 +37,7 @@ service_btn = ReplyKeyboardMarkup([
 about_btn = ReplyKeyboardMarkup([
     [KeyboardButton("Как мы работаем ⏳"), KeyboardButton("Отзывы 💬"), KeyboardButton("Публичная оферта 📜")],
     [KeyboardButton("Партнерская програма 👥"), KeyboardButton("Свяаться с нами 📲"), KeyboardButton("Обсуждения 📢")],
-    [KeyboardButton("⬅️"), KeyboardButton("🗑"), KeyboardButton("👤")]
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 
@@ -46,7 +46,7 @@ blog_btn = ReplyKeyboardMarkup([
     [KeyboardButton("🏋️‍♂️️ Красота и здоровье"), KeyboardButton("🥗 Кулинария"), KeyboardButton("👳‍♂️ Культура")],
     [KeyboardButton("💅 Мода"), KeyboardButton("📰 Новости"), KeyboardButton("📺 Политика")],
     [KeyboardButton("🧗‍♀️ Туризм"), KeyboardButton("🧗‍♀️ Фэншуй"), KeyboardButton("📊 Экономика")],
-    [KeyboardButton("⬅️"), KeyboardButton("🗑"), KeyboardButton("👤")]
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 

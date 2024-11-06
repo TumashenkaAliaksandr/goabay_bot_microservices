@@ -62,7 +62,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "🛒 Мои Покупки":
         await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=pays_btn)
 
-    if message == "🗑":
+    if message == "🛒":
         cart_items = cart.get_cart_items()  # Получаем элементы из корзины
         if not cart_items:
             await update.message.reply_text("Ваша корзина пуста.")
@@ -80,8 +80,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
                 # Формируем информацию о товаре
                 product_info = f"🎁 Товар: {name}\n" \
                                f"🔢 Количество: {product_data}\n" \
-                               f"📝 Описание: {description}\n" \
                                f"💰 Цена: {current_price})\n"
+                # f"📝 Описание: {description}\n"
 
                 # Добавляем изображение товара, если оно есть
                 if image_url:

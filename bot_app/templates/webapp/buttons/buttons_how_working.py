@@ -24,6 +24,6 @@ warehouse_btn = ReplyKeyboardMarkup([
 
 # кнопки для "🛒 Мои Покупки"
 pays_btn = ReplyKeyboardMarkup([
-    [KeyboardButton("📜 История"), ("🗑")],
+    [KeyboardButton("📜 История"), ("🛒")],
     [KeyboardButton("🔙 Назад в кабинет")]
 ], resize_keyboard=True)
