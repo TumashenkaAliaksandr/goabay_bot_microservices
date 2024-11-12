@@ -75,17 +75,19 @@ async def echo(update: Update, context: CallbackContext) -> None:
                 # description = quantity.get('description', 'Описание отсутствует')
                 price = quantity.get('price', {})
                 current_price = price.get('current', 'Цена не указана')
-                image_url = quantity.get('image', None)
+                # image_url = quantity.get('image', None)
+                product_url = context.user_data.get('product_url', 'Не получилось')
 
                 # Формируем информацию о товаре
                 product_info = f"🎁 Товар: {name}\n" \
                                f"🔢 Количество: {product_data}\n" \
-                               f"💰 Цена: {current_price})\n"
+                               f"💰 Цена: {current_price}\n"\
+                               f"🔗 Ссылка на товар: {product_url}\n"
                 # f"📝 Описание: {description}\n"
 
                 # Добавляем изображение товара, если оно есть
-                if image_url:
-                    product_info += f"\n![Изображение товара]\n({image_url})"
+                # if image_url:
+                #     product_info += f"\n![Изображение товара]\n({image_url})"
 
                 # Добавляем товар в список заказов
                 purchases_info += f"\n{product_info}\n{'-' * 30}\n"
@@ -115,6 +117,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
         # Обработка ссылки на товар
     elif message.startswith("http://") or message.startswith("https://"):
+        context.user_data['product_url'] = message
         product_data = fetch_product_data(message)
 
         if "error" in product_data:
@@ -128,6 +131,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
             f"*Описание:* {product_data.get('description', 'Не найдено')}\n"
             f"*Цена:* {product_data.get('price', {}).get('current', 'Не указана')} "
             f"(Цена без скидки: {product_data.get('price', {}).get('original', 'Не указана')})\n"
+            f"*Ссылка на товар:* {context.user_data['product_url']}\n"
         )
 
         # Получаем текущее количество из user_data или устанавливаем 1 по умолчанию
