@@ -16,6 +16,12 @@ products_btn_india = ReplyKeyboardMarkup([
     [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
+# кнопки для "Каталог"
+catalog_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("🏪 Магазин"), KeyboardButton("🔗 Ввести ссылку Goabay")],
+    [KeyboardButton("⬅️ Товары из Индии"), KeyboardButton("🛒"), KeyboardButton("👤")]
+], resize_keyboard=True)
+
 
 # кнопки для "Как мы работаем"
 how_we_work_btn = ReplyKeyboardMarkup([

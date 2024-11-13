@@ -97,6 +97,11 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
                                        reply_markup=qw_answ_btn_main)
         return
 
+    if query.data == "delete_item":
+        await query.message.reply_text("Функция удаления товара пока не реализована.")
+    elif query.data == "pay_item":
+        await query.message.reply_text("Функция оплаты товара пока не реализована.")
+
         # Акции
     gifts_method = query.data
 

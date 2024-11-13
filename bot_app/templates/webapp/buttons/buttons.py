@@ -123,3 +123,11 @@ def create_reply_sklad_btn(quantity):
     return InlineKeyboardMarkup(sklad_btn)
 
 
+def create_cart_keyboard():
+    keyboard = [
+        [
+            InlineKeyboardButton("❌ Удалить товар", callback_data="delete_item"),
+            InlineKeyboardButton("💳 Оплатить товар", callback_data="pay_item")
+        ]
+    ]
+    return InlineKeyboardMarkup(keyboard)

@@ -5,9 +5,10 @@ from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.button_handler import cart
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, offerta_button, \
     order_calculation_pay, qw_answ_btn_main, track_button, \
-    gifts_btn_main, create_reply_sklad_btn
+    gifts_btn_main, create_reply_sklad_btn, create_cart_keyboard
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn, pays_btn
 from bot_app.templates.webapp.buttons.buttons_store import *
+from bot_app.templates.webapp.buttons.inline_category_store_btn import create_category_keyboard
 from bot_app.templates.webapp.microns.screens import escape_markdown_v2
 from bot_app.templates.webapp.microns.send_rabbitmq import send_to_rabbitmq
 from bot_app.templates.webapp.parcer import fetch_product_data
@@ -74,15 +75,16 @@ async def echo(update: Update, context: CallbackContext) -> None:
                 name = quantity.get('name', 'Неизвестный товар')
                 # description = quantity.get('description', 'Описание отсутствует')
                 price = quantity.get('price', {})
-                current_price = price.get('current', 'Цена не указана')
+                current_price = price.get('current', 'Уточнить цену')
                 # image_url = quantity.get('image', None)
                 product_url = context.user_data.get('product_url', 'Не получилось')
 
                 # Формируем информацию о товаре
-                product_info = f"🎁 Товар: {name}\n" \
-                               f"🔢 Количество: {product_data}\n" \
-                               f"💰 Цена: {current_price}\n"\
-                               f"🔗 Ссылка на товар: {product_url}\n"
+                product_info = f"🎁 Товар: {name}\n〰️〰️〰️\n" \
+                               f"🔢 Количество: {product_data}\n〰️〰️〰️\n" \
+                               f"💰 Цена: {current_price}\n〰️〰️〰️\n"\
+                               f"🔗 Ссылка на товар: {product_url}\n〰️〰️〰️\n"\
+                               f"💸 *Итог: {current_price}\n"
                 # f"📝 Описание: {description}\n"
 
                 # Добавляем изображение товара, если оно есть
@@ -95,7 +97,11 @@ async def echo(update: Update, context: CallbackContext) -> None:
             # Экранируем сообщение перед отправкой
             purchases_info = escape_markdown_v2(purchases_info)
 
-            await update.message.reply_text(purchases_info, parse_mode='MarkdownV2')
+            await update.message.reply_text(
+                purchases_info,
+                parse_mode='MarkdownV2',
+                reply_markup=create_cart_keyboard()
+            )
 
     elif message == "🗣 ЧаВо":
         await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
@@ -111,8 +117,12 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
+    elif message == "📁 Каталог":
+        await update.message.reply_text('Вы выбрали 📁 Каталог', reply_markup=catalog_btn)
+    elif message == "🏪 Магазин":
+        await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали Магазин 🏪 \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️', reply_markup=create_category_keyboard())
         # Запрос ссылки на товар
-    if message == "📁 Каталог":
+    if message == "🔗 Ввести ссылку Goabay":
         await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")
 
         # Обработка ссылки на товар
@@ -129,7 +139,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         reply_text = (
             f"*Имя:* {product_data.get('name', 'Не найдено')}\n"
             f"*Описание:* {product_data.get('description', 'Не найдено')}\n"
-            f"*Цена:* {product_data.get('price', {}).get('current', 'Не указана')} "
+            f"*Цена:* {product_data.get('price', {}).get('current', 'Соглосовать цену')} "
             f"(Цена без скидки: {product_data.get('price', {}).get('original', 'Не указана')})\n"
             f"*Ссылка на товар:* {context.user_data['product_url']}\n"
         )
