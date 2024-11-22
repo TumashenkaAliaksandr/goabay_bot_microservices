@@ -115,6 +115,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("Вы выбрали 🎁 Подарки", reply_markup=gifts_btn_main)
     elif message == "👤":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
+    elif message == "Личный кабинет 👤":
+        await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
     elif message == "📁 Каталог":
