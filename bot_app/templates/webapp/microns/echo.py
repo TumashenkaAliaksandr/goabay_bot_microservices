@@ -23,8 +23,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
     if message == "Товары из Индии 👳‍♀️":
         await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".', reply_markup=products_btn_india)
-    elif message == "Как мы работаем ⌚️":
-        await update.message.reply_text('Вы выбрали "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
+    elif message == "Как мы работаем 🛠":
+        await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
     elif message == "Сервис 🔧":
         await update.message.reply_text('Вы выбрали "Сервис 🔧".', reply_markup=service_btn)
     elif message == "О компании 🏢":
@@ -40,7 +40,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "⬅️":
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
     elif message == "⬅️ Назад к информации":
-        await update.message.reply_text('Вы вернулись в "Как мы работаем ⌚️".', reply_markup=how_we_work_btn)
+        await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
     elif message == "⬅️ Товары из Индии":
         await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=products_btn_india)
     elif message == "Способы оплаты 🏧":
@@ -49,8 +49,6 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "Расчет заказа 💰":
         await update.message.reply_text('📊 Расчет заказа индийских товаров.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа', reply_markup=order_calculation_pay)
-    elif message == "Как мы работаем ⌛️️":
-        await update.message.reply_text('Вы выбрали "Как мы работаем ⌛️️".', reply_markup=how_we_work_btn)
     elif message == '💸 Курс валют':
         await get_currency_rates(update, context)
     elif message == "🚚 Доставка":
