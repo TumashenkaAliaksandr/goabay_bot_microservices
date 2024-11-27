@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from bot_app.ticket_store_button import main_markup
+from bot_app.templates.webapp.buttons.ticket_store_button import main_markup
 
 
 # Обработка команды /start
