@@ -59,6 +59,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
     elif message == "🚨 Помощь":
         await update.message.reply_text('Вы выбрали "🚨 Помощь".', reply_markup=helps_btn)
+    elif message == "👳‍♂️ Написать менеджеру":
+        await update.message.reply_text('📌\n\nНапишите нам а почту и мы решим все ваши вопросы!\n📬 Наша почта: goabay@gmail.com".\n\n🔊 Отвечаем 24/7')
 
     elif message == "🛒 Мои Покупки":
         await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=pays_btn)
