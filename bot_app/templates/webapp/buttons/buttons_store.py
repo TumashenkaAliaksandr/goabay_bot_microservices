@@ -72,6 +72,6 @@ change_profile_btn = ReplyKeyboardMarkup([
 
 # кнопки для "Помощь"
 helps_btn = ReplyKeyboardMarkup([
-    [KeyboardButton("👳‍♂️ Написать менеджеру"), KeyboardButton("🛒 Мои Покупки"), KeyboardButton("🗂 Мои Документы")],
-    [KeyboardButton("⬅️ Назад в меню")]
+    [KeyboardButton("👳‍♂️ Написать обращение"), KeyboardButton("🛒 Мои Покупки"), KeyboardButton("🗂 Мои Документы")],
+    [KeyboardButton("⬅️ Как мы работаем 🛠")]
 ], resize_keyboard=True)

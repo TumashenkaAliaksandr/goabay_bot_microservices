@@ -5,13 +5,14 @@ from bot_app.templates.webapp.answers.answer_money import get_currency_rates
 from bot_app.templates.webapp.buttons.button_handler import cart
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, offerta_button, \
     order_calculation_pay, qw_answ_btn_main, track_button, \
-    gifts_btn_main, create_reply_sklad_btn, create_cart_keyboard
+    gifts_btn_main, create_reply_sklad_btn, create_cart_keyboard, manger_button
 from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, delivery_btn, warehouse_btn, pays_btn
 from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.webapp.buttons.inline_category_store_btn import create_category_keyboard
 from bot_app.templates.webapp.microns.screens import escape_markdown_v2
 from bot_app.templates.webapp.microns.send_rabbitmq import send_to_rabbitmq
 from bot_app.templates.webapp.parcer import fetch_product_data
+from bot_app.templates.webapp.text_files_py_txt.anager_answer import manager_info
 from bot_app.templates.webapp.text_files_py_txt.delivery import delivery_info
 from bot_app.templates.webapp.text_files_py_txt.warehouse_info import warehouse_info
 
@@ -43,6 +44,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
     elif message == "⬅️ Товары из Индии":
         await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=products_btn_india)
+    elif message == "⬅️ Как мы работаем 🛠":
+        await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=how_we_work_btn)
     elif message == "Способы оплаты 🏧":
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
@@ -59,8 +62,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
     elif message == "🚨 Помощь":
         await update.message.reply_text('Вы выбрали "🚨 Помощь".', reply_markup=helps_btn)
-    elif message == "👳‍♂️ Написать менеджеру":
-        await update.message.reply_text('📌\n\nНапишите нам а почту и мы решим все ваши вопросы!\n📬 Наша почта: goabay@gmail.com".\n\n🔊 Отвечаем 24/7')
+    elif message == "👳‍♂️ Написать обращение":
+        await update.message.reply_text(manager_info, parse_mode='MarkdownV2', reply_markup=manger_button)
 
     elif message == "🛒 Мои Покупки":
         await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=pays_btn)

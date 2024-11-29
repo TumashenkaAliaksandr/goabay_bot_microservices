@@ -131,3 +131,11 @@ def create_cart_keyboard():
         ]
     ]
     return InlineKeyboardMarkup(keyboard)
+
+
+# кнопки для написать менеджеру
+manager_button_help = [[
+    InlineKeyboardButton('📬 Написать на Почту', callback_data="write_mail"),
+InlineKeyboardButton('📧 Написать в Телеграмм', callback_data="write_telegram"),
+                        ]]
+manger_button = InlineKeyboardMarkup(manager_button_help)
