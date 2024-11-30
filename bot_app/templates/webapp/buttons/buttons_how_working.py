@@ -11,7 +11,7 @@ goa_pay_btn = ReplyKeyboardMarkup([
 # кнопки для "Доставка"
 delivery_btn = ReplyKeyboardMarkup([
     [KeyboardButton("📝 Информация о Доставке"), ("📑 Способы Доставки"), KeyboardButton("👀 Отследить заказ")],
-    [KeyboardButton("⬅️ Назад к информации")]
+    [KeyboardButton("⬅️ Как мы работаем 🛠")]
 ], resize_keyboard=True)
 
 

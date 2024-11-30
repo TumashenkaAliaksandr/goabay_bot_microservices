@@ -1,7 +1,11 @@
+import asyncio
+import logging
+
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, ContextTypes
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
+from bot_app.templates.webapp.answers.info_back import send_and_track_message
 from bot_app.templates.webapp.buttons.button_handler import cart
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, offerta_button, \
     order_calculation_pay, qw_answ_btn_main, track_button, \
@@ -21,6 +25,13 @@ from bot_app.templates.webapp.text_files_py_txt.warehouse_info import warehouse_
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
     send_to_rabbitmq(message)
+
+    # Удаление старого сообщения через 5 секунд
+    await asyncio.sleep(0.1)
+    try:
+        await update.message.delete()  # Удаляем исходное сообщение пользователя
+    except Exception as e:
+        logging.error(f"Ошибка при удалении сообщения: {e}")
 
     if message == "Товары из Индии 👳‍♀️":
         await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".', reply_markup=products_btn_india)
@@ -42,10 +53,11 @@ async def echo(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
     elif message == "⬅️ Назад к информации":
         await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
+
     elif message == "⬅️ Товары из Индии":
         await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=products_btn_india)
     elif message == "⬅️ Как мы работаем 🛠":
-        await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=how_we_work_btn)
+        await update.message.reply_text('Вы вернулись в Как мы работаем 🛠', reply_markup=how_we_work_btn)
     elif message == "Способы оплаты 🏧":
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
