@@ -21,6 +21,16 @@ from bot_app.templates.webapp.text_files_py_txt.delivery import delivery_info
 from bot_app.templates.webapp.text_files_py_txt.warehouse_info import warehouse_info
 
 
+# Функция для удаления сообщения через минуту
+async def delete_message(context: CallbackContext):
+    job = context.job
+    try:
+        # Удаляем сообщение по message_id, который хранится в job.context
+        await job.context.delete()
+    except Exception as e:
+        logging.error(f"Ошибка при удалении сообщения: {e}")
+
+
 # Основная функция для обработки сообщений
 async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
