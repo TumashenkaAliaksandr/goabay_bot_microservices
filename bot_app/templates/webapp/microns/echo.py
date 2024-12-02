@@ -76,6 +76,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
                                         '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа', reply_markup=order_calculation_pay)
     elif message == '💸 Курс валют':
         await get_currency_rates(update, context)
+    elif message == '📊 Экономика':
+        await update.message.reply_text('Вы выбрали "📊 Экономика".', reply_markup=how_economic_btn)
     elif message == "🚚 Доставка":
         await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=delivery_btn)
     elif message == "📝 Информация о Доставке":

@@ -31,6 +31,14 @@ how_we_work_btn = ReplyKeyboardMarkup([
 ], resize_keyboard=True)
 
 
+# кнопки для "Экономика"
+how_economic_btn = ReplyKeyboardMarkup([
+    [KeyboardButton("Кнопка"), KeyboardButton("Кнопка"), KeyboardButton("Кнопка")],
+    [KeyboardButton("Кнопка"), KeyboardButton("💸 Курс валют"), KeyboardButton("Кнопка")],
+    [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
+], resize_keyboard=True)
+
+
 # кнопки для "Сервис"
 service_btn = ReplyKeyboardMarkup([
     [KeyboardButton("✈️ Авиабилеты"), KeyboardButton("🏘 Гоа Аренда"), KeyboardButton("🏞 Экскурсии по Гоа")],
