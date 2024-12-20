@@ -137,8 +137,6 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
                                        reply_markup=gifts_btn_main)
         return
 
-
-
     # Инициализация количества, если его нет в user_data
     if "quantity" not in context.user_data:
         context.user_data["quantity"] = 1
@@ -198,4 +196,3 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
 
     # Можно добавить лог для текущего количества, если нужно
     print(context.user_data["quantity"])
-    

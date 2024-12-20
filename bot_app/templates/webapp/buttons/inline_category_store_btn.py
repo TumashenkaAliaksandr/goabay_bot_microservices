@@ -19,11 +19,11 @@ def create_category_keyboard():
 
 def create_motorcycle_brands_keyboard():
     keyboard = [
-        [InlineKeyboardButton("🏍 Hero MotoCorp", callback_data="brand_hero")],
-        [InlineKeyboardButton("🏍 Bajaj Moto", callback_data="brand_bajaj")],
-        [InlineKeyboardButton("🏍 TVS Motor Company", callback_data="brand_tvs")],
-        [InlineKeyboardButton("🏍 Royal Enfield", callback_data="brand_royal_enfield")],
-        [InlineKeyboardButton("🏍 KTM India", callback_data="brand_ktm")],
+        [InlineKeyboardButton("Hero MotoCorp", callback_data="brand_hero")],
+        [InlineKeyboardButton("Bajaj Moto", callback_data="brand_bajaj")],
+        [InlineKeyboardButton("TVS Motor Company", callback_data="brand_tvs")],
+        [InlineKeyboardButton("Royal Enfield", callback_data="brand_royal_enfield")],
+        [InlineKeyboardButton("KTM India", callback_data="brand_ktm")],
         [InlineKeyboardButton("🔙 Назад к категориям", callback_data="back_to_categories")]
     ]
     return InlineKeyboardMarkup(keyboard)
