@@ -27,11 +27,11 @@ async def show_products_by_brand(update, context):
             product_list = ""
             for product in await sync_to_async(list)(products):  # Преобразуем QuerySet в список асинхронно
                 product_list += (
-                    f"*Имя:* {product.name}\n"
-                    f"*Бренд:* {product.brand}\n"
-                    f"*Категория:* {product.category}\n"
-                    f"*Цена:* {product.price}₽\n"
-                    f"*Описание:* {product.desc}\n"
+                    f"<b>Имя:</b> {product.name}\n"
+                    f"<b>Бренд:</b> {product.brand}\n"
+                    f"<b>Категория:</b> {product.category}\n"
+                    f"<b>Цена:</b> {product.price}₽\n"
+                    f"<b>Описание:</b> {product.desc}\n"
                 )
 
                 # Создаем кнопки для управления количеством и добавления в корзину
@@ -49,14 +49,15 @@ async def show_products_by_brand(update, context):
                             chat_id=query.message.chat.id,
                             photo=photo,
                             caption=product_list,
-                            parse_mode='Markdown',  # Используем Markdown для форматирования
+                            parse_mode='HTML',  # Используем HTML для форматирования
                             reply_markup=InlineKeyboardMarkup([
                                 [back_button],  # Кнопка назад
                                 *sklad_btn.inline_keyboard  # Добавляем кнопки управления количеством из sklad_btn
                             ])
                         )
-
         else:
             await query.message.reply_text(f"Нет доступных продуктов для марки *{brand_name}*.")
     else:
         await query.message.reply_text("Неизвестный бренд.")
+
+

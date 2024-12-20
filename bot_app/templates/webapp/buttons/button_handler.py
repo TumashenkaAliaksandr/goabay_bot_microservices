@@ -104,12 +104,13 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
 
+    # Проверяем, какая категория была выбрана
     if query.data == "category_motorcycles":
         await show_motorcycle_brands(update, context)
     elif query.data == "back_to_categories":
         await show_categories(update, context)
     elif query.data in ["brand_hero", "brand_bajaj", "brand_tvs", "brand_royal_enfield", "brand_ktm"]:
-        await show_products_by_brand(update, context)
+        await show_products_by_brand(update, context)  # Передаем управление функции показа продуктов по бренду
     elif query.data == "back_to_brands":
         await show_motorcycle_brands(update, context)
 
