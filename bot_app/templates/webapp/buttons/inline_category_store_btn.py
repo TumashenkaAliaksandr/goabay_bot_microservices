@@ -1,6 +1,9 @@
+from asgiref.sync import sync_to_async
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from bot_app.models import Product
 
 
+# Функция для создания клавиатуры категорий
 def create_category_keyboard():
     keyboard = [
         [InlineKeyboardButton("🌴 Товары из Индии 👳‍♂️", callback_data="category_indian_goods")],
@@ -14,9 +17,35 @@ def create_category_keyboard():
     return InlineKeyboardMarkup(keyboard)
 
 
-# Пример использования:
+def create_motorcycle_brands_keyboard():
+    keyboard = [
+        [InlineKeyboardButton("🏍 Hero MotoCorp", callback_data="brand_hero")],
+        [InlineKeyboardButton("🏍 Bajaj Moto", callback_data="brand_bajaj")],
+        [InlineKeyboardButton("🏍 TVS Motor Company", callback_data="brand_tvs")],
+        [InlineKeyboardButton("🏍 Royal Enfield", callback_data="brand_royal_enfield")],
+        [InlineKeyboardButton("🏍 KTM India", callback_data="brand_ktm")],
+        [InlineKeyboardButton("🔙 Назад к категориям", callback_data="back_to_categories")]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+
+
+# Асинхронная функция для получения продуктов по бренду
+@sync_to_async
+def get_products_by_brand(brand_name):
+    return Product.objects.filter(name__icontains=brand_name)
+
+
+# Обработчик для показа категорий
 async def show_categories(update, context):
-    await update.message.reply_text(
+    await update.callback_query.message.reply_text(
         "🪶🦚राधे राधे𓃔🦚\n\nВыберите категорию товаров:",
         reply_markup=create_category_keyboard()
+    )
+
+
+# Обработчик для показа марок мотоциклов
+async def show_motorcycle_brands(update, context):
+    await update.callback_query.message.reply_text(
+        "🏍 Выберите марку мотоцикла:",
+        reply_markup=create_motorcycle_brands_keyboard()
     )

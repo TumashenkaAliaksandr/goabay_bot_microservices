@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from bot_app.models import UserRegistration
-from bot_app.templates.registrations_store import store_registration_handler
+from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 
 
 async def handle_edit_data(update: Update, context: CallbackContext) -> int:

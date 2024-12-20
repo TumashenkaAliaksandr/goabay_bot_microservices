@@ -14,8 +14,8 @@ django.setup()
 from bot_app.templates.webapp.buttons.button_handler import button_handler
 from bot_app.templates.webapp.microns.commands import start, help
 from bot_app.templates.webapp.microns.echo import echo
-from bot_app.templates.profile_date import profile_button_handler
-from bot_app.templates.registrations_store import store_registration_handler
+from bot_app.templates.webapp.profile.profile_date import profile_button_handler
+from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)

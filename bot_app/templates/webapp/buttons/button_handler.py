@@ -1,4 +1,6 @@
-from bot_app.templates.registrations_store import store_registration_handler
+from bot_app.templates.webapp.buttons.inline_category_store_btn import show_motorcycle_brands, show_categories
+from bot_app.templates.webapp.microns.moto_shows_products_brands import show_products_by_brand
+from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, \
     order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, \
     back_gifts_button_main, gifts_btn_main, create_reply_sklad_btn
@@ -102,7 +104,16 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
 
-        # Акции
+    if query.data == "category_motorcycles":
+        await show_motorcycle_brands(update, context)
+    elif query.data == "back_to_categories":
+        await show_categories(update, context)
+    elif query.data in ["brand_hero", "brand_bajaj", "brand_tvs", "brand_royal_enfield", "brand_ktm"]:
+        await show_products_by_brand(update, context)
+    elif query.data == "back_to_brands":
+        await show_motorcycle_brands(update, context)
+
+    # Акции
     gifts_method = query.data
 
     if gifts_method in sales_info:
@@ -125,12 +136,6 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
                                        reply_markup=gifts_btn_main)
         return
 
-    else:
-        error_message = "🤷‍♂️ Неизвестный выбор. Попробуйте снова."
-        try:
-            await query.edit_message_text(error_message)
-        except Exception as e:
-            print(f"Error editing message: {e}")  # Логируем ошибку
 
 
     # Инициализация количества, если его нет в user_data
@@ -182,6 +187,13 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
                         reply_markup=create_reply_sklad_btn(context.user_data["quantity"]))
                 except Exception as e:
                     print(f"Error editing message: {e}")  # Логируем ошибку, если она возникла
+
+    # else:
+    #     error_message = "🤷‍♂️ Неизвестный выбор. Попробуйте снова."
+    #     try:
+    #         await query.edit_message_text(error_message)
+    #     except Exception as e:
+    #         print(f"Error editing message: {e}")  # Логируем ошибку
 
     # Можно добавить лог для текущего количества, если нужно
     print(context.user_data["quantity"])
