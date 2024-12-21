@@ -29,6 +29,19 @@ def create_motorcycle_brands_keyboard():
     return InlineKeyboardMarkup(keyboard)
 
 
+def incense_options():
+    # Создаем инлайн-кнопки для выбора благовоний
+    keyboard = [
+        [InlineKeyboardButton("🥢 Индийские благовония", callback_data="incense_indian")],
+        [InlineKeyboardButton("🌿 Японские благовония", callback_data="incense_japanese")],
+        [InlineKeyboardButton("🪔 Тибетские благовония", callback_data="incense_tibetan")],
+        [InlineKeyboardButton("🌸 Ароматические палочки", callback_data="incense_sticks")],
+        [InlineKeyboardButton("🔙 Назад", callback_data="back_to_categories")]
+    ]
+
+    return InlineKeyboardMarkup(keyboard)
+
+
 # Асинхронная функция для получения продуктов по бренду
 @sync_to_async
 def get_products_by_brand(brand_name):
@@ -48,4 +61,11 @@ async def show_motorcycle_brands(update, context):
     await update.callback_query.message.reply_text(
         "🏍 Выберите марку мотоцикла:",
         reply_markup=create_motorcycle_brands_keyboard()
+    )
+
+
+async def show_incense_options(update, context):
+    await update.callback_query.message.reply_text(
+        "🪶🦚राधे राधे𓃔🦚\n\nВыберите Благовония:",
+        reply_markup=incense_options()
     )

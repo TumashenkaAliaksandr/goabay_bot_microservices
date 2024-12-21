@@ -1,4 +1,5 @@
-from bot_app.templates.webapp.buttons.inline_category_store_btn import show_motorcycle_brands, show_categories
+from bot_app.templates.webapp.buttons.inline_category_store_btn import show_motorcycle_brands, show_categories, \
+    show_incense_options
 from bot_app.templates.webapp.microns.moto_shows_products_brands import show_products_by_brand
 from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, \
@@ -103,6 +104,9 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await query.message.reply_text("Функция удаления товара пока не реализована.")
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
+
+    if query.data == "category_incense":
+        await show_incense_options(update, context)
 
     # Проверяем, какая категория была выбрана
     if query.data == "category_motorcycles":
