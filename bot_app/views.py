@@ -1,5 +1,6 @@
 import telebot
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from goabay_bot import settings
 
@@ -11,4 +12,4 @@ def index(request):
         update = telebot.types.Update.de_json(request.body.decode('utf-8'))
         bot.process_new_updates([update])
 
-    return HttpResponse('<h1>Ты подключился!</h1>')
+    return render(request, '../templates/webapp/site/index.html')

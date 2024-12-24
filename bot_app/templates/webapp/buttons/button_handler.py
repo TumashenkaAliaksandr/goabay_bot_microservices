@@ -105,10 +105,9 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
 
-    if query.data == "category_incense":
-        await show_incense_options(update, context)
 
-    # Проверяем, какая категория была выбрана
+
+
     if query.data == "category_motorcycles":
         await show_motorcycle_brands(update, context)
     elif query.data == "back_to_categories":
@@ -191,12 +190,12 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
                 except Exception as e:
                     print(f"Error editing message: {e}")  # Логируем ошибку, если она возникла
 
-    # else:
-    #     error_message = "🤷‍♂️ Неизвестный выбор. Попробуйте снова."
-    #     try:
-    #         await query.edit_message_text(error_message)
-    #     except Exception as e:
-    #         print(f"Error editing message: {e}")  # Логируем ошибку
+    else:
+        error_message = "🤷‍♂️ Привет я в баттон хендлере, Неизвестный выбор. Попробуйте снова."
+        try:
+            await query.edit_message_text(error_message)
+        except Exception as e:
+            print(f"Error editing message: {e}")  # Логируем ошибку
 
     # Можно добавить лог для текущего количества, если нужно
     print(context.user_data["quantity"])

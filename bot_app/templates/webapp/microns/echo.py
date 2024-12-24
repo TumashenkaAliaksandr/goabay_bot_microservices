@@ -2,10 +2,9 @@ import asyncio
 import logging
 
 from telegram import Update
-from telegram.ext import CallbackContext, ContextTypes
+from telegram.ext import CallbackContext
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
-from bot_app.templates.webapp.answers.info_back import send_and_track_message
 from bot_app.templates.webapp.buttons.button_handler import cart
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, offerta_button, \
     order_calculation_pay, qw_answ_btn_main, track_button, \
@@ -14,7 +13,7 @@ from bot_app.templates.webapp.buttons.buttons_how_working import goa_pay_btn, de
 from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.webapp.buttons.inline_category_store_btn import create_category_keyboard
 from bot_app.templates.webapp.microns.screens import escape_markdown_v2
-from bot_app.templates.webapp.microns.send_rabbitmq import send_to_rabbitmq
+from bot_app.send_rabbitmq import send_to_rabbitmq
 from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files_py_txt.anager_answer import manager_info
 from bot_app.templates.webapp.text_files_py_txt.delivery import delivery_info

@@ -23,11 +23,11 @@ try:
     bot_process = subprocess.Popen(['python', BOT_PATH])
     worker_process = subprocess.Popen(['python', WORKER_PATH])
 
-    if __name__ == '__main__':
-        print("Бот и воркер запущены")
-        # Ожидаем завершения процессов (по желанию)
-        bot_process.wait()
-        worker_process.wait()
+    print("Бот и воркер запущены")
+
+    # Ожидаем завершения процессов (по желанию)
+    bot_process.wait()
+    worker_process.wait()
 
 except FileNotFoundError as e:
     print(f"Ошибка: {e}")
