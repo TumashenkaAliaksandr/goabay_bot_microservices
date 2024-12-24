@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'pika',
+    'site_app',
 ]
 
 MIDDLEWARE = [
