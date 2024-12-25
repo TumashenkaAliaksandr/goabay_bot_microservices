@@ -1106,6 +1106,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .pro-img {
     position: relative;
     margin-bottom: 0px;
+
 }
 
 .pro-img img {
@@ -1806,12 +1807,13 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .box-quantity input {
     background: #fff;
-    width: 65px;
+    width: 70px;
     padding: 5px;
     height: 35px;
     border: 1px solid #ebebeb;
     margin-right: 15px;
     text-align: center;
+    margin-bottom: 7px;
 }
 
 .add-cart {
@@ -4003,7 +4005,7 @@ legend {
   max-width: 1340px;
 }
 .box-wrapper {
-  background: rgba(0, 0, 0, 0) url("../img/banner/pattern.png' %}") repeat fixed 0 0;
+  background: rgba(0, 0, 0, 0) url("../img/banner/pattern.png") repeat fixed 0 0;
 }
 .box-layout {
   background: #fff none repeat scroll 0 0;
@@ -4021,4 +4023,14 @@ legend {
 
 .mobile-menu nav ul{
     display: none;
+}
+
+.fixed-size {
+    width: auto;  /* Установите желаемую ширину */
+    height: 250px; /* Установите желаемую высоту */
+    overflow: hidden; /* Скрывает содержимое, выходящее за пределы элемента */
+    border: 1px solid #ccc; /* Добавляет рамку для визуализации */
+    display: flex; /* Позволяет использовать flexbox для выравнивания содержимого */
+    align-items: center; /* Вертикальное выравнивание по центру */
+    justify-content: center; /* Горизонтальное выравнивание по центру */
 }

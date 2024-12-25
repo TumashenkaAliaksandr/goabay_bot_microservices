@@ -1,0 +1,751 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Breadcrumb Start -->
+        <div class="breadcrumb-area ptb-60 ptb-sm-30">
+            <div class="container">
+                <div class="breadcrumb">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        {% if product.id %}
+                        <li class="active"><a href="product.html">{{ product.name }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Container End -->
+        </div>
+        <!-- Breadcrumb End -->
+        <!-- Product Thumbnail Start -->
+        <div class="main-product-thumbnail pb-60">
+            <div class="container">
+                <div class="row">
+                    <!-- Main Thumbnail Image Start -->
+                    <div class="col-lg-5">
+                        <!-- Thumbnail Large Image start -->
+                        <div class="tab-content">
+                            <div id="thumb1" class="tab-pane active">
+                                {% if product.image %}
+                                    <a data-fancybox="images" href="{{ product.image.url }}">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    </a>
+                                {% else %}
+                                    <p>Изображение недоступно.</p>
+                                {% endif %}
+                            </div>
+                            <!-- Добавьте дополнительные изображения, если они есть -->
+                            {% for image in product.additional_images.all %}
+                                <div id="thumb1{{ forloop.counter }}" class="tab-pane">
+                                    <a data-fancybox="images" href="{{ image.image.url }}">
+                                        <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Thumbnail Large Image End -->
+
+                        <!-- Thumbnail Image End -->
+                        <div class="product-thumbnail">
+                            <div class="thumb-menu nav">
+                                <a class="active" data-toggle="tab" href="#thumb1">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img src="{% static 'img/banner/pattern.png' %}" alt="placeholder">
+                                        <!-- Плейсхолдер для отсутствующего изображения -->
+                                    {% endif %}
+                                </a>
+                                {% for image in product.additional_images.all %}
+                                    <a data-toggle="tab" href="#thumb1{{ forloop.counter }}">
+                                        <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Thumbnail image end -->
+                    </div>
+                    <!-- Main Thumbnail Image End -->
+
+                    <!-- Thumbnail Description Start -->
+                    <div class="col-lg-7">
+                        <div class="thubnail-desc fix">
+                            <h3 class="product-header">{{ product.name }}</h3>
+                            <div class="rating-summary fix mtb-10">
+                                <div class="rating f-left">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="rating-feedback f-left">
+                                    <a href="#">(1 review)</a>
+                                    <a href="#">add to your review</a>
+                                </div>
+                            </div>
+                                <div class="pro-price mb-10">
+                                <p><span class="price" id="total-price">${{ product.discount }}</span>
+                                    <del class="prev-price">-${{ product.price }}</del>
+                                </p>
+                            </div>
+                            <div class="pro-ref mb-15">
+                                <p>{% if product.is_brand %}
+                                Brand: {{ product.brand }}<br>
+                                {% endif %}
+                                    <span class="in-stock">
+                                        {% if product.is_not_stock %}
+                                            OUT OF STOCK
+                                        {% else %}
+                                            IN STOCK
+                                        {% endif %}
+                                    </span>
+                                    {% if not product.is_not_stock %}
+                                        <span class="sku">{{ product.quantity }}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="box-quantity">
+                                <form action="#">
+                                    {% if product.show_quantity %}
+                                        <div class="quantity-buttons">
+                                            <label class="screen-reader-text">Quantity</label>
+                                            <input type="number" class="quantity-input" name="quantity" min="1"
+                                                   max="{{ product.quantity }}" value="1" id="quantity-input">
+                                            <button type="button" id="increase-button">+</button>
+                                            <button type="button" id="decrease-button">-</button>
+                                        </div>
+                                    {% endif %}
+                                    <a class="add-cart" href="#" id="add-to-cart">Add to cart</a>
+                                </form>
+                            </div>
+
+                            <div class="product-link">
+                                <ul class="list-inline">
+                                    <li><a href="wishlist.html">Add to Wish List</a></li>
+                                    <li><a href="compare.html">Add to compare</a></li>
+                                    <li><a href="#">Email</a></li>
+                                </ul>
+                            </div>
+                            <p class="ptb-20">{{ product.desc }}</div>
+                    </div>
+                    <!-- Thumbnail Description End -->
+                </div>
+                <!-- Row End -->
+            </div>
+            <!-- Container End -->
+        </div>
+        <!-- Product Thumbnail End -->
+        <!-- Product Thumbnail Description Start -->
+        <div class="thumnail-desc pb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="main-thumb-desc nav">
+                            <li><a class="active" data-toggle="tab" href="#dtail">Details</a></li>
+                            <li><a data-toggle="tab" href="#review">Reviews 1</a></li>
+                        </ul>
+                        <!-- Product Thumbnail Tab Content Start -->
+                        <div class="tab-content thumb-content border-default">
+                            <div id="dtail" class="tab-pane in active">
+                                <p>{{ product.desc }}</p>
+                                <ul class="tab-list-item">
+                                    <p>{{ product.additional_description }}</p>
+                                </ul>
+                            </div>
+                            <div id="review" class="tab-pane">
+                                <!-- Reviews Start -->
+                                <div class="review">
+                                    <div class="group-title">
+                                        <h2>customer review</h2>
+                                    </div>
+                                    <h4 class="review-mini-title">Phoenix</h4>
+                                    <ul class="review-list">
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>Quality</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <label>Phoenix</label>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>price</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <label>Review by <a href="https://themeforest.net/user/Jantrik">Phoenix</a></label>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>value</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <label>Posted on 7/20/18</label>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                    </ul>
+                                </div>
+                                <!-- Reviews End -->
+                                <!-- Reviews Start -->
+                                <div class="review border-default universal-padding mt-30">
+                                    <h2 class="review-title mb-30">You're reviewing: <br><span>Go-Get'r Pushup Grips</span></h2>
+                                    <p class="review-mini-title">your rating</p>
+                                    <ul class="review-list">
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>Quality</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>price</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                        <!-- Single Review List Start -->
+                                        <li>
+                                            <span>value</span>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </li>
+                                        <!-- Single Review List End -->
+                                    </ul>
+                                    <!-- Reviews Field Start -->
+                                    <div class="riview-field mt-40">
+                                        <form autocomplete="off" action="#">
+                                            <div class="form-group">
+                                                <label class="req" for="sure-name">Nickname</label>
+                                                <input type="text" class="form-control" id="sure-name" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="req" for="subject">Summary</label>
+                                                <input type="text" class="form-control" id="subject" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="req" for="comments">Review</label>
+                                                <textarea class="form-control" rows="5" id="comments" required="required"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn-submit">Submit Review</button>
+                                        </form>
+                                    </div>
+                                    <!-- Reviews Field Start -->
+                                </div>
+                                <!-- Reviews End -->
+                            </div>
+                        </div>
+                        <!-- Product Thumbnail Tab Content End -->
+                    </div>
+                </div>
+                <!-- Row End -->
+            </div>
+            <!-- Container End -->
+        </div>
+        <!-- Product Thumbnail Description End -->
+        <!-- Realted Product Start -->
+        <div class="related-product pb-30">
+            <div class="container">
+                <div class="related-box">
+                    <div class="group-title">
+                        <h2>related product</h2>
+                    </div>
+                    <!-- Realted Product Activation Start -->
+                    <div class="new-upsell-pro owl-carousel">
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/4.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-32%</span>
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/1.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/2.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-30%</span>
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/3.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/4.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-32%</span>
+                        </div>
+                        <!-- Single Product End -->
+                    </div>
+                    <!-- Realted Product Activation End -->
+                </div>
+            </div>
+        </div>
+        <!-- Realted Product End -->
+        <!-- Upsell Product Start -->
+        <div class="related-product pb-30">
+            <div class="container">
+                <div class="usel-product">
+                    <div class="group-title">
+                        <h2>upsell product</h2>
+                    </div>
+                    <!-- Upsell Product Activation Start -->
+                    <div class="new-upsell-pro owl-carousel">
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/4.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-32%</span>
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/1.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/2.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-30%</span>
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/3.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                        </div>
+                        <!-- Single Product End -->
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <!-- Product Image Start -->
+                            <div class="pro-img">
+                                <a href="product.html">
+                                    <img class="primary-img" src="img/products/4.jpg" alt="single-product">
+                                    <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                </a>
+                            </div>
+                            <!-- Product Image End -->
+                            <!-- Product Content Start -->
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="product.html">Products Name Here</a></h4>
+                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <div class="pro-actions">
+                                    <div class="actions-secondary">
+                                        <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                        <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Product Content End -->
+                            <span class="sticker-new">-32%</span>
+                        </div>
+                        <!-- Single Product End -->
+                    </div>
+                    <!-- Upsell Product Activation End -->
+                </div>
+            </div>
+        </div>
+        <!-- Upsell Product End -->
+        <!-- Brand Logo Start -->
+        <div class="brand-area pb-60">
+            <div class="container">
+                <!-- Brand Banner Start -->
+                <div class="brand-banner owl-carousel">
+                    <div class="single-brand">
+                        <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
+                    </div>
+                    <div class="single-brand">
+                        <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
+                    </div>
+                </div>
+                <!-- Brand Banner End -->
+            </div>
+        </div>
+        <!-- Brand Logo End -->
+
+    <script>
+    // Получаем элементы
+    const quantityInput = document.getElementById('quantity-input');
+    const totalPriceElement = document.getElementById('total-price');
+    const productDiscount = parseFloat("{{ product.discount }}"); // Получаем цену со скидкой
+    const productPrice = parseFloat("{{ product.price }}"); // Получаем полную цену
+    let availableQuantity = parseInt("{{ product.quantity }}"); // Получаем доступное количество
+
+    // Функция для обновления цены
+    function updatePrice() {
+        const quantity = parseInt(quantityInput.value) || 0; // Получаем количество или 0, если не указано
+        let totalPrice;
+
+        // Рассчитываем общую цену
+        if (quantity > 0) {
+            totalPrice = (productDiscount * quantity).toFixed(2); // Рассчитываем общую цену со скидкой
+        } else {
+            totalPrice = productDiscount.toFixed(2); // Если количество не указано, используем цену со скидкой
+        }
+
+        // Обновляем отображаемую цену
+        totalPriceElement.textContent = `$${totalPrice}`; // Добавляем знак доллара для отображения
+    }
+
+    // Функции для увеличения и уменьшения количества
+    function increaseQuantity() {
+        if (parseInt(quantityInput.value) < availableQuantity) { // Проверяем доступное количество
+            quantityInput.value = parseInt(quantityInput.value) + 1; // Увеличиваем количество на 1
+            updatePrice(); // Обновляем цену
+        }
+    }
+
+    function decreaseQuantity() {
+        if (parseInt(quantityInput.value) > 1) { // Проверяем, чтобы количество не стало меньше 1
+            quantityInput.value = parseInt(quantityInput.value) - 1; // Уменьшаем количество на 1
+            updatePrice(); // Обновляем цену
+        }
+    }
+
+    // Добавляем обработчики событий на кнопки увеличения и уменьшения
+    document.getElementById('increase-button').addEventListener('click', increaseQuantity);
+    document.getElementById('decrease-button').addEventListener('click', decreaseQuantity);
+
+    // Добавляем обработчик события на изменение поля ввода
+    quantityInput.addEventListener('input', updatePrice);
+
+    // Обработчик события для добавления в корзину
+    document.getElementById('add-to-cart').addEventListener('click', function(event) {
+        event.preventDefault(); // Предотвращаем переход по ссылке
+
+        const quantity = parseInt(quantityInput.value);
+
+        if (quantity > availableQuantity) {
+            alert("Недостаточно товара на складе!"); // Предупреждение о недостаточном количестве
+            return;
+        }
+
+        // Отправка данных на сервер с помощью fetch API (пример)
+        fetch('/add-to-cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}' // Не забудьте добавить CSRF-токен
+            },
+            body: JSON.stringify({ product_id: "{{ product.id }}", quantity: quantity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            alert('Товар добавлен в корзину!');
+            availableQuantity -= quantity; // Уменьшаем доступное количество после добавления в корзину
+            updatePrice(); // Обновляем цену после добавления в корзину
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+
+    // Инициализируем цену при загрузке страницы
+    updatePrice(); // Вызываем функцию для установки начального значения цены
+</script>
+
+
+
+{% endblock %}
+
