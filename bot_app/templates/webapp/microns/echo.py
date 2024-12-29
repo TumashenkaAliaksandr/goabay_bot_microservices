@@ -146,9 +146,9 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
     elif message == "📁 Каталог":
-        await update.message.reply_text('Вы выбрали 📁 Каталог', reply_markup=catalog_btn)
+        await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали 📁 Каталог \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️', reply_markup=create_category_keyboard())
     elif message == "🏪 Магазин":
-        await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали Магазин 🏪 \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️', reply_markup=create_category_keyboard())
+        await update.message.reply_text('Вы выбрали 🏪 Магазин', reply_markup=catalog_btn)
         # Запрос ссылки на товар
     if message == "🔗 Ввести ссылку Goabay":
         await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")

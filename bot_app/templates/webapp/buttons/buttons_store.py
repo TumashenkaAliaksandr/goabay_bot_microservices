@@ -11,14 +11,14 @@ main_markup = ReplyKeyboardMarkup([
 
 # кнопки для "Товары из Индии"
 products_btn_india = ReplyKeyboardMarkup([
-    [KeyboardButton("📁 Каталог"), KeyboardButton("🏪 Склад В Индии"), KeyboardButton("📈 Лидеры продаж")],
+    [KeyboardButton("🏪 Магазин"), KeyboardButton("🏪 Склад В Индии"), KeyboardButton("📈 Лидеры продаж")],
     [KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎁 Подарки"), KeyboardButton("🎉 Акции")],
     [KeyboardButton("⬅️"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
 # кнопки для "Каталог"
 catalog_btn = ReplyKeyboardMarkup([
-    [KeyboardButton("🏪 Магазин"), KeyboardButton("🔗 Ввести ссылку Goabay")],
+    [KeyboardButton("📁 Каталог"), KeyboardButton("🔗 Ввести ссылку Goabay")],
     [KeyboardButton("⬅️ Товары из Индии"), KeyboardButton("🛒"), KeyboardButton("👤")]
 ], resize_keyboard=True)
 
