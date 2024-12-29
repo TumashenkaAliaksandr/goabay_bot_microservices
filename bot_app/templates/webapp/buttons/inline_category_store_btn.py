@@ -66,6 +66,8 @@ async def show_motorcycle_brands(update, context):
 
 async def show_incense_options(update, context):
     await update.callback_query.message.reply_text(
-        "🪶🦚राधे राधे𓃔🦚\n\nВыберите Благовония:",
+        # "🪶🦚राधे राधे𓃔🦚\n\n"
+        "🪔🦚🪷🐚🪕🦢\n\n"
+        "Выберите Благовония:",
         reply_markup=incense_options()
     )
