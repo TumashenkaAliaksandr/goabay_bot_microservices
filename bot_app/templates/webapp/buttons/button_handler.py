@@ -1,5 +1,5 @@
 from bot_app.templates.webapp.buttons.inline_category_store_btn import show_motorcycle_brands, show_categories, \
-    show_incense_options
+    show_incense_options, show_indian_incense
 from bot_app.templates.webapp.microns.moto_shows_products_brands import show_products_by_brand
 from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, \
@@ -113,8 +113,18 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await show_products_by_brand(update, context)  # Передаем управление функции показа продуктов по бренду
     elif query.data == "back_to_brands":
         await show_motorcycle_brands(update, context)
+    # Обработка категорий
     if query.data == "category_incense":
         await show_incense_options(update, context)
+    elif query.data in ["incense_indian"]:
+        await show_indian_incense(update, context)  # Обновлено для обработки индийских благовоний
+    elif query.data in ["incense_japanese"]:
+        await show_products_by_brand(update, context)  # Добавьте обработку для японских благовоний
+    elif query.data in ["incense_tibetan"]:
+        await show_products_by_brand(update, context)  # Добавьте обработку для тибетских благовоний
+    elif query.data in ["incense_sticks"]:
+        await show_products_by_brand(update, context)  # Добавьте обработку для ароматических палочек
+    # Добавьте другие условия по мере необходимости
 
     # Акции
     gifts_method = query.data

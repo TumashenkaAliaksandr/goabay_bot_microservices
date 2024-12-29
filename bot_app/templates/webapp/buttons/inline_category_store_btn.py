@@ -71,3 +71,28 @@ async def show_incense_options(update, context):
         "Выберите Благовония:",
         reply_markup=incense_options()
     )
+
+
+def indian_incense():
+    # Создаем инлайн-кнопки для выбора Индийских благовоний
+    keyboard = [
+        [InlineKeyboardButton("SRI JAGANNATH", callback_data="incense_sri_jagannath")],
+        [InlineKeyboardButton("SATYA SAI BABA", callback_data="incense_satya_sai_baba")],
+        [InlineKeyboardButton("HEM", callback_data="incense_hem")],
+        [InlineKeyboardButton("DHOOP", callback_data="incense_dhoop")],
+        [InlineKeyboardButton("NAG CHAMPA", callback_data="incense_nag_champa")],
+        [InlineKeyboardButton("KALPATARU", callback_data="incense_kalpatru")],
+        [InlineKeyboardButton("RAMA", callback_data="incense_rama")],
+        [InlineKeyboardButton("🔙 Назад", callback_data="back_to_categories")]
+    ]
+
+    return InlineKeyboardMarkup(keyboard)
+
+
+async def show_indian_incense(update, context):
+    await update.callback_query.message.reply_text(
+        # "🪶🦚राधे राधे𓃔🦚\n\n"
+        "🪔🦚🪷🐚🪕🦢\n\n"
+        "Индийские Благовония:",
+        reply_markup=indian_incense()
+    )

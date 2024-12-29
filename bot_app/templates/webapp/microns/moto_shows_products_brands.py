@@ -14,7 +14,15 @@ async def show_products_by_brand(update, context):
         "brand_bajaj": "Bajaj Moto",
         "brand_tvs": "TVS Motor Company",
         "brand_royal_enfield": "Royal Enfield",
-        "brand_ktm": "KTM India"
+        "brand_ktm": "KTM India",
+        # Добавляем новые марки индийских благовоний
+        "incense_sri_jagannath": "SRI JAGANNATH",
+        "incense_satya_sai_baba": "SATYA SAI BABA",
+        "incense_hem": "HEM",
+        "incense_dhoop": "DHOOP",
+        "incense_nag_champa": "NAG CHAMPA",
+        "incense_kalpatru": "KALPATARU",
+        "incense_rama": "RAMA"
     }
 
     brand_name = brand_mapping.get(query.data)
