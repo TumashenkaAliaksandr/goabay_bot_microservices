@@ -17,6 +17,14 @@ def create_category_keyboard():
     return InlineKeyboardMarkup(keyboard)
 
 
+# Обработчик для показа категорий
+async def show_categories(update, context):
+    await update.callback_query.message.reply_text(
+        "🪶🦚राधे राधे𓃔🦚\n\nВыберите категорию товаров:",
+        reply_markup=create_category_keyboard()
+    )
+
+
 def create_motorcycle_brands_keyboard():
     keyboard = [
         [InlineKeyboardButton("Hero MotoCorp", callback_data="brand_hero")],
@@ -27,6 +35,14 @@ def create_motorcycle_brands_keyboard():
         [InlineKeyboardButton("🔙 Назад к категориям", callback_data="back_to_categories")]
     ]
     return InlineKeyboardMarkup(keyboard)
+
+
+# Обработчик для показа марок мотоциклов
+async def show_motorcycle_brands(update, context):
+    await update.callback_query.message.reply_text(
+        "🏍 Выберите марку мотоцикла:",
+        reply_markup=create_motorcycle_brands_keyboard()
+    )
 
 
 def incense_options():
@@ -46,22 +62,6 @@ def incense_options():
 @sync_to_async
 def get_products_by_brand(brand_name):
     return Product.objects.filter(name__icontains=brand_name)
-
-
-# Обработчик для показа категорий
-async def show_categories(update, context):
-    await update.callback_query.message.reply_text(
-        "🪶🦚राधे राधे𓃔🦚\n\nВыберите категорию товаров:",
-        reply_markup=create_category_keyboard()
-    )
-
-
-# Обработчик для показа марок мотоциклов
-async def show_motorcycle_brands(update, context):
-    await update.callback_query.message.reply_text(
-        "🏍 Выберите марку мотоцикла:",
-        reply_markup=create_motorcycle_brands_keyboard()
-    )
 
 
 async def show_incense_options(update, context):
