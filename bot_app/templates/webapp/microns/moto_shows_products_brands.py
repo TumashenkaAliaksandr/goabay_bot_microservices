@@ -60,7 +60,7 @@ async def show_products_by_brand(update, context):
                 if product.image:  # Проверяем наличие изображения
                     with open(product.image.path, 'rb') as photo:
                         # Создаем кнопку "Назад к брендам"
-                        back_button = InlineKeyboardButton("🔙 Назад к брендам", callback_data="back_to_brands")
+                        back_button = InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")
                         back_keyboard = InlineKeyboardMarkup([[back_button]])
 
                         await context.bot.send_photo(

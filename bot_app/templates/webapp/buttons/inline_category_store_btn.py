@@ -32,7 +32,7 @@ def create_motorcycle_brands_keyboard():
         [InlineKeyboardButton("TVS Motor Company", callback_data="brand_tvs")],
         [InlineKeyboardButton("Royal Enfield", callback_data="brand_royal_enfield")],
         [InlineKeyboardButton("KTM India", callback_data="brand_ktm")],
-        [InlineKeyboardButton("🔙 Назад к категориям", callback_data="back_to_categories")]
+        [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
     ]
     return InlineKeyboardMarkup(keyboard)
 
@@ -52,7 +52,7 @@ def incense_options():
         [InlineKeyboardButton("🌿 Японские благовония", callback_data="incense_japanese")],
         [InlineKeyboardButton("🪔 Тибетские благовония", callback_data="incense_tibetan")],
         [InlineKeyboardButton("🌸 Ароматические палочки", callback_data="incense_sticks")],
-        [InlineKeyboardButton("🔙 Назад", callback_data="back_to_categories")]
+        [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
     ]
 
     return InlineKeyboardMarkup(keyboard)
@@ -83,7 +83,7 @@ def indian_incense():
         [InlineKeyboardButton("NAG CHAMPA", callback_data="incense_nag_champa")],
         [InlineKeyboardButton("KALPATARU", callback_data="incense_kalpatru")],
         [InlineKeyboardButton("RAMA", callback_data="incense_rama")],
-        [InlineKeyboardButton("🔙 Назад", callback_data="back_to_categories")]
+        [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
     ]
 
     return InlineKeyboardMarkup(keyboard)

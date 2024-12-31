@@ -111,19 +111,19 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await show_categories(update, context)
     elif query.data in ["brand_hero", "brand_bajaj", "brand_tvs", "brand_royal_enfield", "brand_ktm"]:
         await show_products_by_brand(update, context)  # Передаем управление функции показа продуктов по бренду
-    elif query.data == "back_to_brands":
-        await show_motorcycle_brands(update, context)
     # Обработка категорий
     if query.data == "category_incense":
         await show_incense_options(update, context)
     elif query.data in ["incense_indian"]:
         await show_indian_incense(update, context)  # Обновлено для обработки индийских благовоний
-    elif query.data in ["incense_japanese"]:
-        await show_products_by_brand(update, context)  # Добавьте обработку для японских благовоний
-    elif query.data in ["incense_tibetan"]:
-        await show_products_by_brand(update, context)  # Добавьте обработку для тибетских благовоний
-    elif query.data in ["incense_sticks"]:
-        await show_products_by_brand(update, context)  # Добавьте обработку для ароматических палочек
+    # elif query.data in ["incense_japanese"]:
+    #     await show_products_by_brand(update, context)  # Добавьте обработку для японских благовоний
+    # elif query.data in ["incense_tibetan"]:
+    #     await show_products_by_brand(update, context)  # Добавьте обработку для тибетских благовоний
+    # elif query.data in ["incense_sticks"]:
+    #     await show_products_by_brand(update, context)  # Добавьте обработку для ароматических палочек
+    elif query.data in ["incense_sri_jagannath", "incense_satya_sai_baba", "incense_hem", "incense_dhoop", "incense_nag_champa"]:
+        await show_products_by_brand(update, context)
     # Добавьте другие условия по мере необходимости
 
     # Акции
