@@ -25,23 +25,26 @@ async def show_categories(update, context):
     )
 
 
-def create_motorcycle_brands_keyboard():
-    keyboard = [
-        [InlineKeyboardButton("Hero MotoCorp", callback_data="brand_hero")],
-        [InlineKeyboardButton("Bajaj Moto", callback_data="brand_bajaj")],
-        [InlineKeyboardButton("TVS Motor Company", callback_data="brand_tvs")],
-        [InlineKeyboardButton("Royal Enfield", callback_data="brand_royal_enfield")],
-        [InlineKeyboardButton("KTM India", callback_data="brand_ktm")],
-        [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
-    ]
-    return InlineKeyboardMarkup(keyboard)
+async def show_motorcycle_options(update, context):
+    query = update.callback_query
+    await query.answer()  # Подтверждаем получение колбэка
 
+    # Получаем все мотоциклы из базы данных
+    motorcycle_products = await sync_to_async(Product.objects.filter)(category__name__iexact='Мотоциклы')
 
-# Обработчик для показа марок мотоциклов
-async def show_motorcycle_brands(update, context):
-    await update.callback_query.message.reply_text(
-        "🏍 Выберите марку мотоцикла:",
-        reply_markup=create_motorcycle_brands_keyboard()
+    keyboard = []
+
+    for product in await sync_to_async(list)(motorcycle_products):
+        keyboard.append([InlineKeyboardButton(product.name, callback_data=f"motorcycle_{product.slug}")])
+
+    # Добавляем кнопку "Назад"
+    keyboard.append([InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")])
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text(
+        text="🏍 Выберите мотоцикл:",
+        reply_markup=reply_markup
     )
 
 
@@ -65,34 +68,23 @@ def get_products_by_brand(brand_name):
 
 
 async def show_incense_options(update, context):
-    await update.callback_query.message.reply_text(
-        # "🪶🦚राधे राधे𓃔🦚\n\n"
-        "🪔🦚🪷🐚🪕🦢\n\n"
-        "Выберите Благовония:",
-        reply_markup=incense_options()
-    )
+    query = update.callback_query
+    await query.answer()  # Подтверждаем получение колбэка
 
+    # Получаем все индийские благовония
+    incense_products = await sync_to_async(Product.objects.filter)(category__name__iexact='Индийские благовония')
 
-def indian_incense():
-    # Создаем инлайн-кнопки для выбора Индийских благовоний
-    keyboard = [
-        [InlineKeyboardButton("SRI JAGANNATH", callback_data="incense_sri_jagannath")],
-        [InlineKeyboardButton("SATYA SAI BABA", callback_data="incense_satya_sai_baba")],
-        [InlineKeyboardButton("HEM", callback_data="incense_hem")],
-        [InlineKeyboardButton("DHOOP", callback_data="incense_dhoop")],
-        [InlineKeyboardButton("NAG CHAMPA", callback_data="incense_nag_champa")],
-        [InlineKeyboardButton("KALPATARU", callback_data="incense_kalpatru")],
-        [InlineKeyboardButton("RAMA", callback_data="incense_rama")],
-        [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
-    ]
+    keyboard = []
 
-    return InlineKeyboardMarkup(keyboard)
+    for product in await sync_to_async(list)(incense_products):
+        keyboard.append([InlineKeyboardButton(product.name, callback_data=f"incense_{product.slug}")])
 
+    # Добавляем кнопку "Назад"
+    keyboard.append([InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")])
 
-async def show_indian_incense(update, context):
-    await update.callback_query.message.reply_text(
-        # "🪶🦚राधे राधे𓃔🦚\n\n"
-        "🪔🦚🪷🐚🪕🦢\n\n"
-        "Индийские Благовония:",
-        reply_markup=indian_incense()
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text(
+        text="🪔🦚🪷🐚🪕🦢\n\nВыберите благовоние:",
+        reply_markup=reply_markup
     )

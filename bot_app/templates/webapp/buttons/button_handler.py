@@ -1,5 +1,7 @@
-from bot_app.templates.webapp.buttons.inline_category_store_btn import show_motorcycle_brands, show_categories, \
-    show_incense_options, show_indian_incense
+import logging
+
+from bot_app.templates.webapp.buttons.inline_category_store_btn import show_categories, \
+    show_incense_options, show_motorcycle_options
 from bot_app.templates.webapp.microns.moto_shows_products_brands import show_products_by_brand
 from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, \
@@ -105,26 +107,37 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
 
+    # if query.data == "category_motorcycles":
+    #     await show_motorcycle_brands(update, context)
+    # elif query.data == "back_to_categories":
+    #     await show_categories(update, context)
+    # elif query.data in ["brand_hero", "brand_bajaj", "brand_tvs", "brand_royal_enfield", "brand_ktm"]:
+    #     await show_products_by_brand(update, context)  # Передаем управление функции показа продуктов по бренду
     if query.data == "category_motorcycles":
-        await show_motorcycle_brands(update, context)
+        await show_motorcycle_options(update, context)
     elif query.data == "back_to_categories":
         await show_categories(update, context)
-    elif query.data in ["brand_hero", "brand_bajaj", "brand_tvs", "brand_royal_enfield", "brand_ktm"]:
-        await show_products_by_brand(update, context)  # Передаем управление функции показа продуктов по бренду
-    # Обработка категорий
+    elif query.data.startswith("motorcycle_"):  # Проверяем, начинается ли колбэк с "motorcycle_"
+        slug = query.data.split("_")[1]  # Извлекаем слаг
+        logging.info(f"Запрос продукта с слагом: {slug}")  # Логируем слаг
+        await show_products_by_brand(update, context, slug)  # Передаем слаг в функцию показа продукта
+
     if query.data == "category_incense":
         await show_incense_options(update, context)
-    elif query.data in ["incense_indian"]:
-        await show_indian_incense(update, context)  # Обновлено для обработки индийских благовоний
-    # elif query.data in ["incense_japanese"]:
-    #     await show_products_by_brand(update, context)  # Добавьте обработку для японских благовоний
-    # elif query.data in ["incense_tibetan"]:
-    #     await show_products_by_brand(update, context)  # Добавьте обработку для тибетских благовоний
-    # elif query.data in ["incense_sticks"]:
-    #     await show_products_by_brand(update, context)  # Добавьте обработку для ароматических палочек
-    elif query.data in ["incense_sri_jagannath", "incense_satya_sai_baba", "incense_hem", "incense_dhoop", "incense_nag_champa"]:
-        await show_products_by_brand(update, context)
-    # Добавьте другие условия по мере необходимости
+    elif query.data.startswith("incense_"):  # Проверяем, начинается ли колбэк с "incense_"
+        slug = query.data.split("_")[1]  # Извлекаем слаг
+        logging.info(f"Запрос продукта с слагом: {slug}")  # Логируем слаг
+
+        # Дополнительная проверка на корректность слага
+        if not slug.isalnum():  # Проверяем, состоит ли слаг только из букв и цифр
+            error_message = "🤷‍♂️ Неизвестный слаг. Попробуйте снова."
+            try:
+                await query.edit_message_text(error_message)
+            except Exception as e:
+                logging.error(f"Ошибка редактирования сообщения: {e}")
+            return
+
+        await show_products_by_brand(update, context, slug)  # Передаем слаг в функцию показа продуктов
 
     # Акции
     gifts_method = query.data
