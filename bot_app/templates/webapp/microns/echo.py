@@ -152,6 +152,10 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Запрос ссылки на товар
     if message == "🔗 Ввести ссылку Goabay":
         await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")
+    elif message == "🛍 Товары на складе":
+        await update.message.reply_text(
+            '🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали 🛍 Товары на складе \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️',
+            reply_markup=create_category_keyboard())
 
         # Обработка ссылки на товар
     elif message.startswith("http://") or message.startswith("https://"):
