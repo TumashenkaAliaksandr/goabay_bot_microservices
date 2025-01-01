@@ -25,6 +25,12 @@ async def show_categories(update, context):
     )
 
 
+# Асинхронная функция для получения продуктов по бренду
+@sync_to_async
+def get_products_by_brand(brand_name):
+    return Product.objects.filter(name__icontains=brand_name)
+
+
 async def show_motorcycle_options(update, context):
     query = update.callback_query
     await query.answer()  # Подтверждаем получение колбэка
@@ -51,7 +57,7 @@ async def show_motorcycle_options(update, context):
 def incense_options():
     # Создаем инлайн-кнопки для выбора благовоний
     keyboard = [
-        [InlineKeyboardButton("🥢 Индийские благовония", callback_data="incense_indian")],
+        [InlineKeyboardButton("🥢 Индийские благовония", callback_data="aromo_indian")],
         [InlineKeyboardButton("🌿 Японские благовония", callback_data="incense_japanese")],
         [InlineKeyboardButton("🪔 Тибетские благовония", callback_data="incense_tibetan")],
         [InlineKeyboardButton("🌸 Ароматические палочки", callback_data="incense_sticks")],
@@ -61,10 +67,12 @@ def incense_options():
     return InlineKeyboardMarkup(keyboard)
 
 
-# Асинхронная функция для получения продуктов по бренду
-@sync_to_async
-def get_products_by_brand(brand_name):
-    return Product.objects.filter(name__icontains=brand_name)
+# Обработчик для показа категорий
+async def category_incense_options(update, context):
+    await update.callback_query.message.reply_text(
+        "🪶🦚राधे राधे𓃔🦚\n\nВыберите категорию благовоний:",
+        reply_markup=incense_options()
+    )
 
 
 async def show_incense_options(update, context):
@@ -88,3 +96,28 @@ async def show_incense_options(update, context):
         text="🪔🦚🪷🐚🪕🦢\n\nВыберите благовоние:",
         reply_markup=reply_markup
     )
+
+
+# def indian_incense():
+#     # Создаем инлайн-кнопки для выбора Индийских благовоний
+#     keyboard = [
+#         [InlineKeyboardButton("SRI JAGANNATH", callback_data="incense_sri_jagannath")],
+#         [InlineKeyboardButton("SATYA SAI BABA", callback_data="incense_satya_sai_baba")],
+#         [InlineKeyboardButton("HEM", callback_data="incense_hem")],
+#         [InlineKeyboardButton("DHOOP", callback_data="incense_dhoop")],
+#         [InlineKeyboardButton("NAG CHAMPA", callback_data="incense_nag_champa")],
+#         [InlineKeyboardButton("KALPATARU", callback_data="incense_kalpatru")],
+#         [InlineKeyboardButton("RAMA", callback_data="incense_rama")],
+#         [InlineKeyboardButton("🔙 Назад в магазин", callback_data="back_to_categories")]
+#     ]
+#
+#     return InlineKeyboardMarkup(keyboard)
+
+
+# async def show_indian_incense(update, context):
+#     await update.callback_query.message.reply_text(
+#         # "🪶🦚राधे राधे𓃔🦚\n\n"
+#         "🪔🦚🪷🐚🪕🦢\n\n"
+#         "Индийские Благовония:",
+#         reply_markup=indian_incense()
+#     )
