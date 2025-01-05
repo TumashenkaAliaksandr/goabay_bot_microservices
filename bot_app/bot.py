@@ -15,12 +15,11 @@ from bot_app.templates.webapp.buttons.button_handler import button_handler
 from bot_app.templates.webapp.microns.commands import start, help
 from bot_app.templates.webapp.microns.echo import echo
 from bot_app.templates.webapp.profile.profile_date import profile_button_handler
-from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
+from bot_app.templates.webapp.profile.registrations_store import store_registration_handler, start_registration_handler
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 # Функция для обработки ошибок
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -40,16 +39,17 @@ def main() -> None:
     store_conv_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.TEXT & filters.Regex("^(Личный кабинет 👤)$"), store_registration_handler),
-            MessageHandler(filters.TEXT & filters.Regex("^(✏️ Редактировать данные)$"), store_registration_handler)
+            MessageHandler(filters.TEXT & filters.Regex("^(✏️ Редактировать данные)$"), store_registration_handler),
         ],
         states={
             1: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
-            2: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
-            3: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
         },
-        fallbacks=[],
+        fallbacks=[
+            CallbackQueryHandler(start_registration_handler, pattern="^start_registration$")
+        ],
     )
 
+    # Добавляем ConversationHandler и другие обработчики
     application.add_handler(store_conv_handler)
     application.add_handler(CallbackQueryHandler(button_handler))
     application.add_handler(MessageHandler(filters.TEXT & filters.Regex("👳‍♂️ Мои данные"), profile_button_handler))
