@@ -107,6 +107,9 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     elif query.data == "pay_item":
         await query.message.reply_text("Функция оплаты товара пока не реализована.")
 
+    if query.data == "end_registration":
+        await query.message.reply_text('🤷‍♂️ Вы выбрали Отмена', reply_markup=main_markup)
+
     elif query.data == "category_motorcycles":
         await category_motorcycle_options(update, context)
     if query.data == "motorcycle_indian":

@@ -31,7 +31,8 @@ async def store_registration_handler(update: Update, context: ContextTypes.DEFAU
                     return ConversationHandler.END
             else:
                 keyboard = [
-                    [InlineKeyboardButton("Начать регистрацию", callback_data="start_registration")]
+                    [InlineKeyboardButton("Начать регистрацию", callback_data="start_registration")],
+                    [InlineKeyboardButton("Отмена", callback_data="end_registration")],
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
 
