@@ -43,7 +43,20 @@ async def echo(update: Update, context: CallbackContext) -> None:
         logging.error(f"Ошибка при удалении сообщения: {e}")
 
     if message == "Товары из Индии 👳‍♀️":
-        await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".', reply_markup=products_btn_india)
+        # Отправляем сообщение о выборе
+        response_message = await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".')
+        # Отправляем только клавиатуру с минимальным текстом
+        await update.message.reply_text(
+            '',  # Используем пробел как текст
+            reply_markup=products_btn_india
+        )
+
+        # Ждем 10 секунд
+        await asyncio.sleep(10)
+
+        # Удаляем сообщение о выборе через 10 секунд
+        await context.bot.delete_message(chat_id=response_message.chat_id, message_id=response_message.message_id)
+
     elif message == "Как мы работаем 🛠":
         await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
     elif message == "Сервис 🔧":
