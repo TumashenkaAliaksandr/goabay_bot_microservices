@@ -6,6 +6,7 @@ from telegram.ext import (
 from bot_app.models import UserRegistration
 from asgiref.sync import sync_to_async
 from bot_app.templates.webapp.profile.profile_date import show_user_info
+from bot_app.templates.webapp.text_files_py_txt.reg_answer import reg_info
 
 # Константы для состояний ConversationHandler
 STEP_REGISTER_NAME = 1
@@ -37,11 +38,7 @@ async def store_registration_handler(update: Update, context: ContextTypes.DEFAU
                 reply_markup = InlineKeyboardMarkup(keyboard)
 
                 await update.message.reply_text(
-                    "📌\n\n🏝️🍹⛱️🌞\nВажная информация❗\n\n👩🏻‍💻📓✍🏻💡 Вы не зарегистрированы у нас в магазине.\n"
-                    "💡 Что бы совершать покупки и пользоваться Дисконтной системой 👉 "
-                    "Пожалуйста, 🆙 пройдите простую регистрацию. 👇\n\n"
-                    "Выбирите действие:",
-
+                    reg_info, parse_mode='MarkdownV2',
                     reply_markup=reply_markup,
                 )
                 return ConversationHandler.END
