@@ -70,7 +70,7 @@ profile_btn = ReplyKeyboardMarkup([
     # [KeyboardButton("📈 Лидеры продаж"), KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎉 Акции")],
     # [KeyboardButton("✍️ Регистрация на рейс"), KeyboardButton("🎁 Подарки")],
     # [KeyboardButton("💣 Очистить истоирию сообщений в чате")],
-    [KeyboardButton("⬅️ Назад в меню")]
+    [KeyboardButton("⬅️")]
 ], resize_keyboard=True)
 
 

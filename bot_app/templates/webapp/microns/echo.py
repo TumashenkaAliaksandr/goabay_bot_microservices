@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from bot_app.templates.webapp.answers.answer_money import get_currency_rates
+from bot_app.templates.webapp.answers.info_back import messages_to_delete
 from bot_app.templates.webapp.buttons.button_handler import cart
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, offerta_button, \
     order_calculation_pay, qw_answ_btn_main, track_button, \
@@ -35,7 +36,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
     message = update.message.text
     send_to_rabbitmq(message)
 
-    # Удаление старого сообщения через 5 секунд
+    # Удаление старого сообщения пользователя через 0.1 секунды
     await asyncio.sleep(0.1)
     try:
         await update.message.delete()  # Удаляем исходное сообщение пользователя
@@ -45,36 +46,115 @@ async def echo(update: Update, context: CallbackContext) -> None:
     if message == "Товары из Индии 👳‍♀️":
         # Отправляем сообщение о выборе
         response_message = await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".')
+        messages_to_delete.append(response_message)  # Добавляем в список для удаления
+
         # Отправляем только клавиатуру с минимальным текстом
-        await update.message.reply_text(
-            '',  # Используем пробел как текст
+        get_back_two = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
             reply_markup=products_btn_india
         )
-
-        # Ждем 10 секунд
-        await asyncio.sleep(10)
-
-        # Удаляем сообщение о выборе через 10 секунд
-        await context.bot.delete_message(chat_id=response_message.chat_id, message_id=response_message.message_id)
+        messages_to_delete.append(get_back_two)  # Добавляем в список для удаления
 
     elif message == "Как мы работаем 🛠":
-        await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
+        res_message = await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".')
+        messages_to_delete.append(res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_job = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=how_we_work_btn
+        )
+        messages_to_delete.append(get_back_job)  # Добавляем в список для удаления
+
     elif message == "Сервис 🔧":
-        await update.message.reply_text('Вы выбрали "Сервис 🔧".', reply_markup=service_btn)
+        serv_res_message = await update.message.reply_text('Вы выбрали "Сервис 🔧".')
+        messages_to_delete.append(serv_res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_serv = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=service_btn
+        )
+        messages_to_delete.append(get_back_serv)  # Добавляем в список для удаления
+
     elif message == "О компании 🏢":
-        await update.message.reply_text('Вы выбрали "О компании 🏢".', reply_markup=about_btn)
+        about_res_message = await update.message.reply_text('Вы выбрали "О компании 🏢".')
+        messages_to_delete.append(about_res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_about = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=about_btn
+        )
+        messages_to_delete.append(get_back_about)  # Добавляем в список для удаления
+
     elif message == "Наш Блог 📚":
-        await update.message.reply_text('Вы выбрали "Наш Блог 📚".', reply_markup=blog_btn)
+        blog_res_message = await update.message.reply_text('Вы выбрали "Наш Блог 📚".')
+        messages_to_delete.append(blog_res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        our_get_back = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=blog_btn
+        )
+        messages_to_delete.append(our_get_back)  # Добавляем в список для удаления
+
     elif message == "💳 Оплата":
-        await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг', reply_markup=goa_pay_btn)
+        pay_res_message = await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг')
+        messages_to_delete.append(pay_res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        pay_get_back = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=goa_pay_btn
+        )
+        messages_to_delete.append(pay_get_back)  # Добавляем в список для удаления
+
     elif message == "🏪 Склад В Индии":
         await update.message.reply_text('Вы перешли в раздел - 🏪 Склад В Индии', reply_markup=warehouse_btn)
-    elif message == "⬅️ Назад в меню":
-        await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
+
     elif message == "⬅️":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+            except Exception as e:
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+        messages_to_delete.clear()
+
+        # Отправляем сообщение о возврате в главное меню
         await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
-    elif message == "⬅️ Назад к информации":
-        await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".', reply_markup=how_we_work_btn)
+
+    elif message == "⬅️ Назад к информации":  # Новая кнопка для возврата к информации
+
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+
+            try:
+
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+
+        # Отправляем сообщение о возврате к информации с соответствующей клавиатурой
+
+        back_to_job = await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".')
+        messages_to_delete.append(back_to_job)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        pay_get_back = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=how_we_work_btn
+        )
+        messages_to_delete.append(pay_get_back)  # Добавляем в список для удаления
 
     elif message == "⬅️ Товары из Индии":
         await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=products_btn_india)
