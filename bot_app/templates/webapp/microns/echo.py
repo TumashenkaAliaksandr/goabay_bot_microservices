@@ -279,7 +279,6 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-
         clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин')
         messages_to_delete.append(clear_store_text)  # Добавляем в список для удаления
 
