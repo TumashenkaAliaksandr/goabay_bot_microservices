@@ -125,7 +125,15 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.clear()
 
         # Отправляем сообщение о возврате в главное меню
-        await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=main_markup)
+        main_menu_clear = await update.message.reply_text('Вы вернулись в "Главное меню 🍳".')
+        messages_to_delete.append(main_menu_clear)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        menu_get_back = await update.message.reply_text(
+            '👋 | WELCOME',
+            reply_markup=main_markup
+        )
+        messages_to_delete.append(menu_get_back)  # Добавляем в список для удаления
 
     elif message == "⬅️ Назад к информации":  # Новая кнопка для возврата к информации
 
@@ -264,12 +272,9 @@ async def echo(update: Update, context: CallbackContext) -> None:
     elif message == "🔙 Назад в кабинет":
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
     elif message == "📁 Каталог":
-        await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали 📁 Каталог \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️', reply_markup=create_category_keyboard())
-    elif message == "🏪 Магазин":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
             try:
-
                 await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
 
             except Exception as e:
@@ -279,7 +284,35 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин')
+        clear_catalog_text = await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали - Каталог 📁  Goabay.com \n〰️〰️〰️')
+        messages_to_delete.append(clear_catalog_text)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        india_del_catalog = await update.message.reply_text(
+            '🛍️ Выбирите категорию товара 👇',
+            reply_markup=catalog_btn,
+        )
+        messages_to_delete.append(india_del_catalog)
+        india_inline_catalog = await update.message.reply_text(
+            '🛒🛍️👠✨ Категории товаров:',
+            reply_markup=create_category_keyboard()
+        )
+        messages_to_delete.append(india_inline_catalog)  # Добавляем в список для удаления
+
+    elif message == "🏪 Магазин":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+        clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин goabay.com')
         messages_to_delete.append(clear_store_text)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
