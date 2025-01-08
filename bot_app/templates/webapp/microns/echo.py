@@ -56,6 +56,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(get_back_two)  # Добавляем в список для удаления
 
     elif message == "Как мы работаем 🛠":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         res_message = await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".')
         messages_to_delete.append(res_message)  # Добавляем в список для удаления
 
@@ -67,6 +79,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(get_back_job)  # Добавляем в список для удаления
 
     elif message == "Сервис 🔧":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         serv_res_message = await update.message.reply_text('Вы выбрали "Сервис 🔧".')
         messages_to_delete.append(serv_res_message)  # Добавляем в список для удаления
 
@@ -78,6 +102,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(get_back_serv)  # Добавляем в список для удаления
 
     elif message == "О компании 🏢":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         about_res_message = await update.message.reply_text('Вы выбрали "О компании 🏢".')
         messages_to_delete.append(about_res_message)  # Добавляем в список для удаления
 
@@ -89,6 +125,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(get_back_about)  # Добавляем в список для удаления
 
     elif message == "Наш Блог 📚":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         blog_res_message = await update.message.reply_text('Вы выбрали "Наш Блог 📚".')
         messages_to_delete.append(blog_res_message)  # Добавляем в список для удаления
 
@@ -100,6 +148,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(our_get_back)  # Добавляем в список для удаления
 
     elif message == "💳 Оплата":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         pay_res_message = await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг')
         messages_to_delete.append(pay_res_message)  # Добавляем в список для удаления
 
@@ -111,6 +171,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(pay_get_back)  # Добавляем в список для удаления
 
     elif message == "🏪 Склад В Индии":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы перешли в раздел - 🏪 Склад В Индии', reply_markup=warehouse_btn)
 
     elif message == "⬅️":
@@ -192,32 +264,181 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(india_get_back)  # Добавляем в список для удаления
 
     elif message == "⬅️ Как мы работаем 🛠":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы вернулись в Как мы работаем 🛠', reply_markup=how_we_work_btn)
     elif message == "Способы оплаты 🏧":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=reply_markup_pay)
     elif message == "Расчет заказа 💰":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('📊 Расчет заказа индийских товаров.\n\n'
                                         '📧 Мы выставим счет по электронной почте.\n👇 🧮 Расчет заказа', reply_markup=order_calculation_pay)
     elif message == '💸 Курс валют':
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await get_currency_rates(update, context)
     elif message == '📊 Экономика':
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы выбрали "📊 Экономика".', reply_markup=how_economic_btn)
+
     elif message == "🚚 Доставка":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=delivery_btn)
+
     elif message == "📝 Информация о Доставке":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
+
     elif message == "🏗 Как работает Склад":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
+
     elif message == "🚨 Помощь":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы выбрали "🚨 Помощь".', reply_markup=helps_btn)
+
     elif message == "👳‍♂️ Написать обращение":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text(manager_info, parse_mode='MarkdownV2', reply_markup=manger_button)
 
     elif message == "🛒 Мои Покупки":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=pays_btn)
 
     if message == "🛒":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         cart_items = cart.get_cart_items()  # Получаем элементы из корзины
         if not cart_items:
             await update.message.reply_text("Ваша корзина пуста.")
@@ -258,19 +479,96 @@ async def echo(update: Update, context: CallbackContext) -> None:
             )
 
     elif message == "🗣 ЧаВо":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
                                        '👇 Сделайте выбор что вас интересует.', reply_markup=qw_answ_btn_main)
         # Добавляем кнопку для публичной оферты
     elif message == "Публичная оферта 📜":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=offerta_button)
+
     elif message == "👀 Отследить заказ":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=track_button)
+
     elif message == "🎁 Подарки":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text("Вы выбрали 🎁 Подарки", reply_markup=gifts_btn_main)
+
     elif message in ["👤", "Личный кабинет 👤"]:
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
+
     elif message == "🔙 Назад в кабинет":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=profile_btn)
+
     elif message == "📁 Каталог":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
@@ -323,8 +621,33 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(india_del_store)  # Добавляем в список для удаления
         # Запрос ссылки на товар
     if message == "🔗 Ввести ссылку Goabay":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")
+
     elif message == "🛍 Товары на складе":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         await update.message.reply_text(
             '🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали 🛍 Товары на складе \n🗃 Выбирите категорию товара 👇\n〰️〰️〰️',
             reply_markup=create_category_keyboard())
