@@ -47,7 +47,7 @@ service_btn = ReplyKeyboardMarkup([
 ], resize_keyboard=True)
 
 
-# Инлайн кнопки для "О компании"
+# кнопки для "О компании"
 about_btn = ReplyKeyboardMarkup([
     [KeyboardButton("Как мы работаем 🛠"), KeyboardButton("Отзывы 💬"), KeyboardButton("Публичная оферта 📜")],
     [KeyboardButton("Партнерская програма 👥"), KeyboardButton("Свяаться с нами 📲"), KeyboardButton("Обсуждения 📢")],

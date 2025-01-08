@@ -4,7 +4,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, 
 
 # Маркап
 main_markup = ReplyKeyboardMarkup([
-    [KeyboardButton("Товары из Индии 👳‍♀️"), KeyboardButton("Как мы работаем ⌚️")],
+    [KeyboardButton("Товары из Индии 👳‍♀️"), KeyboardButton("Как мы работаем 🛠")],
     [KeyboardButton("Сервис 🔧"), KeyboardButton("О компании 🏢")],
     [KeyboardButton("Наш Блог 📚"), KeyboardButton("Личный кабинет 👤")]
 ], resize_keyboard=True)
