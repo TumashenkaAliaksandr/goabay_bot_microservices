@@ -664,15 +664,8 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        candies_back = await update.message.reply_text("Вы выбрали 🎁 Подарки")
+        candies_back = await update.message.reply_text("Вы выбрали 🎁 Подарки", reply_markup=products_btn_india)
         messages_to_delete.append(candies_back)  # Добавляем в список для удаления
-
-        # Отправляем только клавиатуру с минимальным текстом
-        get_back_prod = await update.message.reply_text(
-            '๋࣭ ⭑⚝🛸๋࣭ ⭑⚝',
-            reply_markup=products_btn_india
-        )
-        messages_to_delete.append(get_back_prod)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
         get_back_candies = await update.message.reply_text(
