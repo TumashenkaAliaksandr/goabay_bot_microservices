@@ -44,18 +44,6 @@ async def echo(update: Update, context: CallbackContext) -> None:
         logging.error(f"Ошибка при удалении сообщения: {e}")
 
     if message == "Товары из Индии 👳‍♀️":
-        # Отправляем сообщение о выборе
-        response_message = await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".')
-        messages_to_delete.append(response_message)  # Добавляем в список для удаления
-
-        # Отправляем только клавиатуру с минимальным текстом
-        get_back_two = await update.message.reply_text(
-            '🙌 Выберите что вас интересует:',
-            reply_markup=products_btn_india
-        )
-        messages_to_delete.append(get_back_two)  # Добавляем в список для удаления
-
-    elif message == "Как мы работаем 🛠":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
             try:
@@ -68,12 +56,40 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        res_message = await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".')
-        messages_to_delete.append(res_message)  # Добавляем в список для удаления
+        # Отправляем сообщение о выборе
+        response_message = await update.message.reply_text('Вы выбрали "Товары из Индии 👳‍♀️".', reply_markup=None)
+        messages_to_delete.append(response_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
-        get_back_job = await update.message.reply_text(
+        get_back_two = await update.message.reply_text(
             '🙌 Выберите что вас интересует:',
+            reply_markup=products_btn_india
+        )
+        messages_to_delete.append(get_back_two)  # Добавляем в список для удаления
+
+    elif message == "Как мы работаем 🛠":
+
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+
+        res_message = await update.message.reply_text('Вы выбрали "Как мы работаем 🛠".', reply_markup=None)
+        messages_to_delete.append(res_message)  # Добавляем в список для удаления
+
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_job = await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text = '🙌 Выберите что вас интересует:',
             reply_markup=how_we_work_btn
         )
         messages_to_delete.append(get_back_job)  # Добавляем в список для удаления
@@ -91,7 +107,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        serv_res_message = await update.message.reply_text('Вы выбрали "Сервис 🔧".')
+        serv_res_message = await update.message.reply_text('Вы выбрали "Сервис 🔧".', reply_markup=None)
         messages_to_delete.append(serv_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -114,7 +130,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        about_res_message = await update.message.reply_text('Вы выбрали "О компании 🏢".')
+        about_res_message = await update.message.reply_text('Вы выбрали "О компании 🏢".', reply_markup=None)
         messages_to_delete.append(about_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -137,7 +153,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        blog_res_message = await update.message.reply_text('Вы выбрали "Наш Блог 📚".')
+        blog_res_message = await update.message.reply_text('Вы выбрали "Наш Блог 📚".', reply_markup=None)
         messages_to_delete.append(blog_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -160,7 +176,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        pay_res_message = await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг')
+        pay_res_message = await update.message.reply_text('👳‍♂️ Оплата индийских товаров и услуг', reply_markup=None)
         messages_to_delete.append(pay_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -183,7 +199,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        warehouse_res_message = await update.message.reply_text('Вы перешли в раздел - 🏪 Склад В Индии')
+        warehouse_res_message = await update.message.reply_text('Вы перешли в раздел - 🏪 Склад В Индии', reply_markup=None)
         messages_to_delete.append(warehouse_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -205,7 +221,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.clear()
 
         # Отправляем сообщение о возврате в главное меню
-        main_menu_clear = await update.message.reply_text('Вы вернулись в "Главное меню 🍳".')
+        main_menu_clear = await update.message.reply_text('Вы вернулись в "Главное меню 🍳".', reply_markup=None)
         messages_to_delete.append(main_menu_clear)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -234,7 +250,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
         # Отправляем сообщение о возврате к информации с соответствующей клавиатурой
 
-        back_to_job = await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".')
+        back_to_job = await update.message.reply_text('Вы вернулись в "Как мы работаем 🛠".', reply_markup=None)
         messages_to_delete.append(back_to_job)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -261,7 +277,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
         # Отправляем сообщение о возврате к информации с соответствующей клавиатурой
 
-        back_to_india = await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️')
+        back_to_india = await update.message.reply_text('Вы вернулись в Товары из Индии 👳‍♀️', reply_markup=None)
         messages_to_delete.append(back_to_india)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -284,7 +300,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        we_work_res_message = await update.message.reply_text('Вы вернулись в Как мы работаем 🛠')
+        we_work_res_message = await update.message.reply_text('Вы вернулись в Как мы работаем 🛠', reply_markup=None)
         messages_to_delete.append(we_work_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -308,7 +324,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
         messages_to_delete.clear()
         reply_res_message = await update.message.reply_text('💰 Оплата индийских товаров и услуг доступна только по безналичному расчету.\n\n'
-                                        '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты')
+                                        '📧 Мы выставим счет по электронной почте.\n👇 🏧 Способы оплаты', reply_markup=None)
         messages_to_delete.append(reply_res_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -338,7 +354,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        await update.message.reply_text('📊 Расчет заказа индийских товаров.')
+        await update.message.reply_text('📊 Расчет заказа индийских товаров.', reply_markup=None)
 
         # Отправляем только клавиатуру с минимальным текстом
         pay_get_back = await update.message.reply_text(
@@ -390,7 +406,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        economic_get_back = await update.message.reply_text('Вы выбрали "📊 Экономика".')
+        economic_get_back = await update.message.reply_text('Вы выбрали "📊 Экономика".', reply_markup=None)
         messages_to_delete.append(economic_get_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -413,7 +429,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        delivery_back = await update.message.reply_text('Вы выбрали "🚚 Доставка".')
+        delivery_back = await update.message.reply_text('Вы выбрали "🚚 Доставка".', reply_markup=None)
         messages_to_delete.append(delivery_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -436,7 +452,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        info_delivery_back = await update.message.reply_text(delivery_info, parse_mode='MarkdownV2')
+        info_delivery_back = await update.message.reply_text(delivery_info, parse_mode='MarkdownV2', reply_markup=None)
         messages_to_delete.append(info_delivery_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -459,7 +475,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        info_warehouse_back = await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2')
+        info_warehouse_back = await update.message.reply_text(warehouse_info, parse_mode='MarkdownV2', reply_markup=None)
         messages_to_delete.append(info_warehouse_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -482,7 +498,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        helps_back_message = await update.message.reply_text('Вы выбрали "🚨 Помощь".')
+        helps_back_message = await update.message.reply_text('Вы выбрали "🚨 Помощь".', reply_markup=None)
         messages_to_delete.append(helps_back_message)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -528,7 +544,15 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=pays_btn)
+        my_pay = await update.message.reply_text('Вы перешли в 🛒 Мои Покупки', reply_markup=None)
+        messages_to_delete.append(my_pay)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_my_pay = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=pays_btn
+        )
+        messages_to_delete.append(get_back_my_pay)  # Добавляем в список для удаления
 
     if message == "🛒":
         # Удаляем все сообщения из списка, если они были отправлены ранее
@@ -595,8 +619,24 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
-                                       '👇 Сделайте выбор что вас интересует.', reply_markup=qw_answ_btn_main)
+        questions_back = await update.message.reply_text('⁉️ Вопрос-Ответ.\n\n'
+                                       '👇 Сделайте выбор что вас интересует.', reply_markup=None)
+        messages_to_delete.append(questions_back)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_question = await update.message.reply_text(
+            '🗣️❓❗',
+            reply_markup=qw_answ_btn_main
+        )
+        messages_to_delete.append(get_back_question)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_work = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=how_we_work_btn
+        )
+        messages_to_delete.append(get_back_work)  # Добавляем в список для удаления
+
         # Добавляем кнопку для публичной оферты
     elif message == "Публичная оферта 📜":
         # Удаляем все сообщения из списка, если они были отправлены ранее
@@ -611,7 +651,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        oferta_back = await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:")
+        oferta_back = await update.message.reply_text("📎 👇 Нажмите на кнопку ниже для перехода:", reply_markup=None)
         messages_to_delete.append(oferta_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -710,7 +750,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        cabinet_back = await update.message.reply_text('Вы вернулись в кабинет 👤')
+        cabinet_back = await update.message.reply_text('Вы вернулись в кабинет 👤', reply_markup=None)
         messages_to_delete.append(cabinet_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -733,7 +773,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        clear_catalog_text = await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали - Каталог 📁  Goabay.com \n〰️〰️〰️')
+        clear_catalog_text = await update.message.reply_text('🪶🦚राधे राधे𓃔🦚\n\n📍 Вы выбрали - Каталог 📁  Goabay.com \n〰️〰️〰️', reply_markup=None)
         messages_to_delete.append(clear_catalog_text)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -761,7 +801,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин goabay.com')
+        clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин goabay.com', reply_markup=None)
         messages_to_delete.append(clear_store_text)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
@@ -784,7 +824,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         # Очищаем список после удаления
 
         messages_to_delete.clear()
-        link_back = await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ")
+        link_back = await update.message.reply_text("🔗 Введите ссылку https:// 👇 на Товар 🛍️ магазина 🏝GoaBay.com ", reply_markup=None)
         messages_to_delete.append(link_back)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
