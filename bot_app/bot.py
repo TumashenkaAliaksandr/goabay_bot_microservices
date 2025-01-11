@@ -11,42 +11,53 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
 django.setup()
 
 # Импортируйте ваши обработчики после настройки Django
-from bot_app.templates.webapp.buttons.button_handler import button_handler
+from bot_app.templates.webapp.profile.registrations_ticket import ticket_registration_handler
+from bot_app.templates.webapp.buttons.button_handler import button_handler, cancel_registration_handler, edit_name_handler
 from bot_app.templates.webapp.microns.commands import start, help
 from bot_app.templates.webapp.microns.echo import echo
 from bot_app.templates.webapp.profile.profile_date import profile_button_handler
-from bot_app.templates.webapp.profile.registrations_store import store_registration_handler, start_registration_handler
+from bot_app.templates.webapp.profile.registrations_store import STEP_EDIT_EMAIL, \
+    STEP_EDIT_PHONE, STEP_EDIT_NAME, registration_handler
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 # Функция для обработки ошибок
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Логирует ошибки и отправляет сообщение разработчику."""
     logger.error(f"Произошла ошибка: {context.error}")
-    await update.message.reply_text("Произошла ошибка. Пожалуйста, попробуйте позже.")
+    if update.message:
+        await update.message.reply_text("Произошла ошибка. Пожалуйста, попробуйте позже.")
 
 
 # Основная функция для запуска бота
 def main() -> None:
     application = Application.builder().token(settings.BOT_TOKEN).build()
 
+    # Добавление команд и обработчиков
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help))
 
-    # ConversationHandler для регистрации в магазине
+    # Настройка ConversationHandler для регистрации в магазине
     store_conv_handler = ConversationHandler(
         entry_points=[
-            MessageHandler(filters.TEXT & filters.Regex("^(Личный кабинет 👤)$"), store_registration_handler),
-            MessageHandler(filters.TEXT & filters.Regex("^(✏️ Редактировать данные)$"), store_registration_handler),
+            MessageHandler(filters.TEXT & filters.Regex("^(Личный кабинет 👤)$"), registration_handler),
+            MessageHandler(filters.TEXT & filters.Regex("^(✏️ Редактировать данные)$"), ticket_registration_handler),
         ],
         states={
-            1: [MessageHandler(filters.TEXT & ~filters.COMMAND, store_registration_handler)],
+            STEP_EDIT_NAME: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, registration_handler)  # Обработка ввода имени
+            ],
+            STEP_EDIT_EMAIL: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, registration_handler)  # Обработка ввода email
+            ],
+            STEP_EDIT_PHONE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, registration_handler)  # Обработка ввода телефона
+            ],
         },
-        fallbacks=[
-            CallbackQueryHandler(start_registration_handler, pattern="^start_registration$")
-        ],
+        fallbacks=[CallbackQueryHandler(button_handler)],
     )
 
     # Добавляем ConversationHandler и другие обработчики
@@ -58,6 +69,7 @@ def main() -> None:
     # Регистрация обработчика ошибок
     application.add_error_handler(error_handler)
 
+    # Запуск бота
     application.run_polling()
 
 

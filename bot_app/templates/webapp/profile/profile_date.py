@@ -4,7 +4,7 @@ import django
 from asgiref.sync import sync_to_async
 from telegram import Update
 from telegram.ext import CallbackContext
-from bot_app.templates.webapp.buttons.buttons_store import main_markup, change_profile_btn
+from bot_app.templates.webapp.buttons.buttons_store import main_markup, change_profile_btn, profile_btn
 
 # Установка переменной окружения и инициализация Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
@@ -43,9 +43,37 @@ async def show_user_info(update: Update, context: CallbackContext) -> None:
 
 # Обработчик для кнопки "👳‍♂️ Мои данные"
 async def profile_button_handler(update: Update, context: CallbackContext) -> None:
+    user_id = update.message.from_user.id
     message = update.message.text
 
-    if message == "👳‍♂️ Мои данные":
-        await show_user_info(update, context)  # Показываем данные пользователя
+    # Если сообщение пришло от кнопки "Личный кабинет 👤"
+    if message == "Личный кабинет 👤":
+        # Проверяем, зарегистрирован ли пользователь
+        registration = await sync_to_async(UserRegistration.objects.filter(user_id=user_id).first)()
+
+        if registration and registration.is_registered:
+            # Если пользователь зарегистрирован, показываем кнопку "Мои данные 👳‍♂️"
+            await update.message.reply_text(
+                "⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚\n😊 НАМАСТЭ!\n🦚राधे राधे🦚\n\n👋 Добро пожаловать в Личный кабинет! 🚪\n"
+                "〰〰〰〰〰〰〰\n"
+                "👀 Тут вы можете просмотреть и изменить ваши данные.♀️🤵🏻 ✔\n"
+                "〰〰〰〰〰〰〰"
+                "\n🛒🛍️✨ Увидеть Покупки и Скидки! ✔\n"
+                "〰〰〰〰〰〰〰",
+                reply_markup=profile_btn  # Это будет содержать кнопки и кнопку "Мои данные 👳‍♂️"
+            )
+        else:
+            # Если пользователь не зарегистрирован, отправляем сообщение о необходимости регистрации
+            await update.message.reply_text(
+                "Вы еще не зарегистрированы. Пожалуйста, завершите регистрацию.",
+                reply_markup=main_markup
+            )
+
+    # Если сообщение пришло от кнопки "Мои данные 👳‍♂️"
+    elif message == "👳‍♂️ Мои данные":
+        # Отображаем данные пользователя
+        await show_user_info(update, context)
+
     else:
-        await update.message.reply_text('Неизвестная команда.', reply_markup=main_markup)
+        # Если нажата неизвестная кнопка
+        await update.message.reply_text('🙌 Выберите что вас интересует:', reply_markup=main_markup)

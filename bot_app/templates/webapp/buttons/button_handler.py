@@ -1,9 +1,12 @@
 import logging
 
+from asgiref.sync import sync_to_async
+
+from bot_app.models import UserRegistration
 from bot_app.templates.webapp.buttons.inline_category_store_btn import show_categories, \
     show_incense_options, show_motorcycle_options, category_incense_options, category_motorcycle_options
 from bot_app.templates.webapp.microns.moto_shows_products_brands import show_products_by_brand
-from bot_app.templates.webapp.profile.registrations_store import store_registration_handler
+from bot_app.templates.webapp.profile.registrations_store import registration_handler, STEP_EDIT_NAME
 from bot_app.templates.webapp.buttons.buttons import reply_markup_pay, back_button_go, \
     order_calculation_pay, back_button_cal, back_qw_answ_button_main, qw_answ_btn_main, \
     back_gifts_button_main, gifts_btn_main, create_reply_sklad_btn
@@ -14,8 +17,7 @@ from bot_app.templates.webapp.text_files_py_txt.qwe_answ import qwe_answer_info
 from bot_app.templates.webapp.text_files_py_txt.sales_info import sales_info
 from telegram import Update
 from bot_app.templates.webapp.buttons.buttons_store import *
-from telegram.ext import CallbackContext
-
+from telegram.ext import CallbackContext, ConversationHandler, ContextTypes
 
 cart = Cart()
 
@@ -29,7 +31,7 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
     if query.data == 'edit_data':
         await query.edit_message_text("✏️ Пожалуйста, введите ваши данные снова.")
         context.user_data['step'] = None  # Сброс шага регистрации
-        await store_registration_handler(update, context)
+        await registration_handler(update, context)
         return
 
     elif query.data == 'confirm_data':
@@ -111,6 +113,10 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         await query.message.reply_text('🚧 Вы отменили регистрацию. ⛔ ', reply_markup=main_markup)
         # Удаляем инлайн-кнопки
         await query.edit_message_reply_markup(reply_markup=None)
+        # Завершаем состояние ConversationHandler
+        return ConversationHandler.END
+    if query.data == "start_registration":
+        await STEP_EDIT_NAME(update, context)
 
     elif query.data == "category_motorcycles":
         await category_motorcycle_options(update, context)
@@ -229,3 +235,39 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
 
     # Можно добавить лог для текущего количества, если нужно
     print(context.user_data["quantity"])
+
+
+async def cancel_registration_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+
+    # Отвечаем на callback
+    await query.answer()
+
+    # Уведомляем пользователя об отмене регистрации
+    await query.message.reply_text('🚧 Вы отменили регистрацию. ⛔', reply_markup=main_markup)
+
+    # Удаляем инлайн-кнопки
+    await query.edit_message_reply_markup(reply_markup=None)
+
+    # Завершаем состояние ConversationHandler
+    return ConversationHandler.END
+
+
+async def edit_name_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    user_id = update.message.from_user.id
+    new_name = update.message.text
+
+    try:
+        print(f"Пользователь {user_id} ввел новое имя: {new_name}.")  # Логируем данные
+
+        # Обновляем имя в базе данных
+        await sync_to_async(UserRegistration.objects.filter(user_id=user_id).update)(name=new_name)
+
+        await update.message.reply_text("Ваше имя успешно обновлено.")
+        return ConversationHandler.END
+
+    except Exception as e:
+        print(f"Ошибка в edit_name_handler: {e}")  # Логируем ошибку
+        await update.message.reply_text("Произошла ошибка. Попробуйте снова.")
+        return ConversationHandler.END
+

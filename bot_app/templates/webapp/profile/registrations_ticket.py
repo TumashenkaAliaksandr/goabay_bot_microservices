@@ -1,76 +1,89 @@
-# registration.py
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update
 from telegram.ext import CallbackContext, ConversationHandler
 from bot_app.models import UserRegistration  # Импортируем модель UserRegistration
 from asgiref.sync import sync_to_async
+from bot_app.templates.webapp.profile.profile_date import show_user_info
+from bot_app.templates.webapp.profile.registrations_store import STEP_EDIT_EMAIL, STEP_EDIT_PHONE, STEP_EDIT_NAME
 
 
 async def ticket_registration_handler(update: Update, context: CallbackContext) -> int:
-    step = context.user_data.get('step')
-    user_id = update.message.from_user.id
-
-    print(f"Начало обработки регистрации для пользователя: {user_id}")  # Отладка
-
     try:
-        # Начало процесса регистрации
-        if step is None:
-            print("Шаг не установлен. Запрашиваем имя пользователя.")  # Отладка
-            await update.message.reply_text("Пожалуйста, введите ваше имя:")
-            context.user_data['step'] = 'edit_name'  # Устанавливаем шаг редактирования
-            return 1  # Переход к шагу редактирования имени
+        # Определяем источник сообщения (callback или текст)
+        if update.callback_query:
+            query = update.callback_query
+            await query.answer()  # Обязательно отвечаем на callback
+            user_id = query.from_user.id  # ID пользователя из callback
+            message_text = query.data  # Используем данные кнопки как текст
+        else:
+            if not update.message:
+                print("[DEBUG] Сообщение пользователя отсутствует.")
+                await context.bot.send_message(chat_id=update.effective_user.id, text="Пожалуйста, введите ваше имя:")
+                return STEP_EDIT_NAME
 
-        # Обработка шагов редактирования
+            user_id = update.message.from_user.id  # ID пользователя из текстового сообщения
+            message_text = update.message.text  # Текст сообщения
+
+        print(f"[DEBUG] Обработка сообщения '{message_text}' от пользователя {user_id}.")  # Логируем запрос
+
+        # Получаем регистрацию пользователя
+        registrations = await sync_to_async(list)(UserRegistration.objects.filter(user_id=user_id))
+
+        # Если пользователь не зарегистрирован, запрашиваем имя
+        if not registrations:
+            print("[DEBUG] Пользователь не зарегистрирован. Запрашиваем имя.")  # Лог
+            await context.bot.send_message(chat_id=user_id, text="Пожалуйста, введите ваше имя:")
+            context.user_data['step'] = 'edit_name'
+            return STEP_EDIT_NAME
+
+        registration = registrations[0]  # Предполагаем, что пользователь только один
+        if registration.is_registered:
+            await show_user_info(update, context)  # Отображаем данные пользователя
+            return ConversationHandler.END
+
+        # Обработка текущего шага
+        step = context.user_data.get('step', 'edit_name')  # Если шаг отсутствует, начинаем с имени
+
         if step == 'edit_name':
-            print(f"Получено имя: {update.message.text}")  # Отладка
+            print(f"[DEBUG] Получено имя: {message_text}")  # Лог
+            if not message_text.strip():  # Проверяем пустой ввод
+                await context.bot.send_message(chat_id=user_id, text="Имя не может быть пустым. Попробуйте снова:")
+                return STEP_EDIT_NAME
 
-            # Создаем новую запись для пользователя
-            registration = UserRegistration(user_id=user_id)
-            registration.name = update.message.text
-
+            registration.name = message_text.strip()
             await sync_to_async(registration.save)()
-            print(f"Имя сохранено: {registration.name}")  # Отладка
-
-            await update.message.reply_text("Спасибо! Теперь введите ваш email:")
+            await context.bot.send_message(chat_id=user_id, text="Спасибо! Теперь введите ваш email:")
             context.user_data['step'] = 'edit_email'
-            return 2  # Переход к шагу редактирования email
+            return STEP_EDIT_EMAIL
 
         elif step == 'edit_email':
-            registration = await sync_to_async(UserRegistration.objects.filter)(user_id=user_id).first()
-            if registration is None:
-                await update.message.reply_text("Ошибка: регистрация не была завершена. Пожалуйста, начните заново.")
-                return ConversationHandler.END
+            print(f"[DEBUG] Получен email: {message_text}")  # Лог
+            if '@' not in message_text or '.' not in message_text:  # Простейшая проверка email
+                await context.bot.send_message(chat_id=user_id, text="Неверный формат email. Попробуйте снова:")
+                return STEP_EDIT_EMAIL
 
-            print(f"Получен email: {update.message.text}")  # Отладка
-
-            registration.email = update.message.text
+            registration.email = message_text.strip()
             await sync_to_async(registration.save)()
-            print(f"Email сохранен: {registration.email}")  # Отладка
-
-            await update.message.reply_text("Отлично! Теперь введите ваш телефонный номер:")
+            await context.bot.send_message(chat_id=user_id, text="Отлично! Теперь введите ваш телефонный номер:")
             context.user_data['step'] = 'edit_phone'
-            return 3  # Переход к шагу редактирования телефона
+            return STEP_EDIT_PHONE
 
         elif step == 'edit_phone':
-            registration = await sync_to_async(UserRegistration.objects.filter)(user_id=user_id).first()
-            if registration is None:
-                await update.message.reply_text("Ошибка: регистрация не была завершена. Пожалуйста, начните заново.")
-                return ConversationHandler.END
+            print(f"[DEBUG] Получен телефон: {message_text}")  # Лог
+            if not message_text.isdigit():  # Проверка, что телефон состоит из цифр
+                await context.bot.send_message(chat_id=user_id, text="Телефон должен содержать только цифры. Попробуйте снова:")
+                return STEP_EDIT_PHONE
 
-            print(f"Получен телефон: {update.message.text}")  # Отладка
-
-            registration.phone = update.message.text
+            registration.phone = message_text.strip()
+            registration.is_registered = True  # Устанавливаем флаг завершенной регистрации
             await sync_to_async(registration.save)()
-            print(f"Телефон сохранен: {registration.phone}")  # Отладка
+            await context.bot.send_message(chat_id=user_id, text="Вы успешно зарегистрированы!")
 
-            await update.message.reply_text("Вы успешно зарегистрированы!")
-
-            # Завершение процесса редактирования
-            context.user_data.clear()
-            print("Регистрация завершена.")  # Отладка
+            # Завершение процесса регистрации
+            context.user_data.clear()  # Очищаем данные пользователя
+            print("[DEBUG] Регистрация завершена.")  # Лог
             return ConversationHandler.END
 
     except Exception as e:
-        print(f"Error occurred: {e}")  # Логируем ошибку для отладки
-        await update.message.reply_text("Что-то пошло не так. Попробуйте снова.")
-
-    return ConversationHandler.END
+        print(f"[ERROR] Произошла ошибка: {e}")  # Логируем ошибку
+        await context.bot.send_message(chat_id=update.effective_user.id, text="Произошла ошибка. Попробуйте снова.")
+        return ConversationHandler.END
