@@ -31,6 +31,12 @@
   
 -----------------------------------------------------*/
 
+
+/*----------------------------------------*/
+/* 0. Custom CSS
+/*----------------------------------------*/
+
+
 /*----------------------------------------*/
 /* 1. Theme Default CSS
 /*----------------------------------------*/
@@ -444,11 +450,11 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .search-box-view .submit:hover {
-    background: #303030;
+    background: #00BA44;
 }
 
 /*----------------------------------------*/
-/* 3.2 Header Bottom CSS 
+/* 3.2 Header Bottom CSS
 /*----------------------------------------*/
 .header-sticky.sticky {
     -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
@@ -479,22 +485,18 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .logo {
-    height: 100%;
-   display: -webkit-flex;
-   display: -moz-flex;
-   display: -ms-flex;
-   display: -o-flex;
-   display: flex;
-    -ms-align-items: center;
-    align-items: center;
+    height: auto;
+    width: 160px;
+    padding: 10px;
 }
+
 .logo img {
     max-width: 100%;
 }
 
 .middle-menu-list > li > a {
     background: transparent none repeat scroll 0 0;
-    color: #F1FBF5;
+    color: #00822F;
     display: block;
     font-size: 13px;
     font-weight: 300;
@@ -510,7 +512,7 @@ ul.ht-dropdown.dropdown-style-two li {
     font-size: 16px;
     font-weight: 600;
     line-height: 25px;
-    padding: 10px 0 10px 20px;
+    padding: 10px;
     text-transform: uppercase;
 }
 
@@ -520,14 +522,17 @@ ul.ht-dropdown.dropdown-style-two li {
 .middle-menu-list > li:hover > a,
 .pro-content h4:hover a,
 .single-footer li:hover a,.category-sub li:hover a {
-    color: #f1ac06;
+    color: #000000;
 }
 
 .dropbar {
-    background: #008f00;
+    background: #00BA44;
     border-radius: 4px 4px 0px 0px;
     width: 100%;
     text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    color: #ffffff;
 }
 
 
@@ -602,7 +607,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .cart-box ul li a span {
-    background: #f1ac06 none repeat scroll 0 0;
+    background: #00BA44 none repeat scroll 0 0;
     border-radius: 100%;
     color: #fff;
     font-size: 10px;
@@ -725,12 +730,12 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .checkout {
-    background: #f1ac06;
+    background: #008F00;
     color: #fff;
 }
 
 .checkout:hover {
-    background-color: #f1ac06;
+    background-color: #00BA44;
     border-color: transparent;
     color: #fff;
 }
@@ -932,11 +937,11 @@ ul.ht-dropdown.dropdown-style-two li {
     background: #31a2e2;
 }
 
-.new-pro-active .owl-nav div, .side-product-list-active .owl-nav div, 
-.best-selling-pro .owl-nav div, .blog-active .owl-nav div,.blog-active2 .owl-nav div, .testext_active .owl-nav div, 
-.best-seller-pro-active .owl-nav div, 
-.hand-tool-active .owl-nav div, 
-.new-upsell-pro .owl-nav div, 
+.new-pro-active .owl-nav div, .side-product-list-active .owl-nav div,
+.best-selling-pro .owl-nav div, .blog-active .owl-nav div,.blog-active2 .owl-nav div, .testext_active .owl-nav div,
+.best-seller-pro-active .owl-nav div,
+.hand-tool-active .owl-nav div,
+.new-upsell-pro .owl-nav div,
 .testimonial__container .dcare-arrow, .home-2 .best-seller-pro .owl-nav div, .best-selling-items .owl-nav div,
   .best-seller-unique .owl-nav div {
     background: #f1f1f1;
@@ -1066,7 +1071,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .product-list li a.active,
 .best-selling-items .product-list li a.active {
     color: #f1ac06;
-    border-color:#f1ac06; 
+    border-color:#f1ac06;
 }
 .new-products .product-list {
     margin-bottom: 30px;
@@ -1098,7 +1103,7 @@ ul.ht-dropdown.dropdown-style-two li {
     overflow: hidden;
 }
 .product-area .single-product{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .single-product:hover{
     border: 1px solid #ddd;
@@ -1106,7 +1111,6 @@ ul.ht-dropdown.dropdown-style-two li {
 .pro-img {
     position: relative;
     margin-bottom: 0px;
-
 }
 
 .pro-img img {
@@ -1462,18 +1466,19 @@ ul.ht-dropdown.dropdown-style-two li {
 /* 10. Shop Page CSS
 /*----------------------------------------*/
 .single-sidebar + .single-sidebar {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 .single-sidebar {
    /* border: 1px solid #ddd;*/
     padding:20px;
+    background-color: #ffffff;
 
 }
 .single-sidebar .group-title {
     border-left: none;
     border-right: none;
     border-top: none;
-    padding: 0 0 20px;
+    padding: 0 0 10px;
 }
 .sidebar .group-title h2 {
     font-weight: 500;
@@ -1678,7 +1683,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .main-categorie #list-view .pro-content {
     overflow: hidden;
-    /*padding: 25px;*/
+    padding: 25px;
     text-align: left;
     padding: 0px 20px 5px;
 }
@@ -1692,6 +1697,7 @@ ul.ht-dropdown.dropdown-style-two li {
     visibility: visible;
     transform: translateY(0);
     margin-top: 23px;
+    /*align-content: ;*/
 }
 .main-categorie #list-view .pro-content h4 a {
     margin-bottom: 7px;
@@ -1807,13 +1813,12 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .box-quantity input {
     background: #fff;
-    width: 70px;
+    width: 65px;
     padding: 5px;
     height: 35px;
     border: 1px solid #ebebeb;
     margin-right: 15px;
     text-align: center;
-    margin-bottom: 7px;
 }
 
 .add-cart {
@@ -2845,7 +2850,7 @@ p.checkout-coupon input[type="submit"] {
     margin-right: 5px;
 }
 .blog-img.blog-single-img{
-    margin-bottom: 0;                                                   
+    margin-bottom: 0;
 }
 .category-text {
     font-size: 16px;
@@ -3253,7 +3258,7 @@ p.checkout-coupon input[type="submit"] {
     color: #888;
 }
 
-#search-form input::placeholder {
+#search-form input::-moz-placeholder {
     color: #888;
 }
 
@@ -3417,7 +3422,7 @@ legend {
     color: #888;
 }
 
-.address-wrapper input::placeholder {
+.address-wrapper input::-moz-placeholder {
     color: #888;
 }
 
@@ -4023,14 +4028,4 @@ legend {
 
 .mobile-menu nav ul{
     display: none;
-}
-
-.fixed-size {
-    width: auto;  /* Установите желаемую ширину */
-    height: 250px; /* Установите желаемую высоту */
-    overflow: hidden; /* Скрывает содержимое, выходящее за пределы элемента */
-    border: 1px solid #ccc; /* Добавляет рамку для визуализации */
-    display: flex; /* Позволяет использовать flexbox для выравнивания содержимого */
-    align-items: center; /* Вертикальное выравнивание по центру */
-    justify-content: center; /* Горизонтальное выравнивание по центру */
 }
