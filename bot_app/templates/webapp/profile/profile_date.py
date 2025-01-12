@@ -38,9 +38,9 @@ async def show_user_info(update: Update, context: CallbackContext) -> None:
     user_info = (f"📌\n\n🧩👳‍♂️Ваши данные:\n\n"
                  f"────⋆⋅☆⋅⋆──\n\n"
                  f"👥 Имя: {registration.name}\n"
-                 f"⋆⋆⋆\n"
+                 f"〰️〰️〰️\n"
                  f"📬 Email: {registration.email}\n"
-                 f"⋆⋆⋆\n"
+                 f"〰️〰️〰️\n"
                  f"☎️ Телефон: {registration.phone}\n"
                  f"\n────⋆⋅☆⋅⋆──\n")
 
@@ -90,9 +90,9 @@ async def profile_button_handler(update: Update, context: CallbackContext) -> No
 
         if registration and registration.is_registered:
             # Экранируем сообщение перед отправкой
-            escaped_user_info = escape_markdown_v2(namaste)
+            # escaped_user_info = escape_markdown_v2(namaste)
             # Если пользователь зарегистрирован, показываем кнопку "Мои данные 👳‍♂️"
-            profile_message = await update.message.reply_text(escaped_user_info, parse_mode='MarkdownV2', reply_markup=profile_btn)
+            profile_message = await update.message.reply_text(namaste, parse_mode='MarkdownV2', reply_markup=profile_btn)
             messages_to_delete.append(profile_message)  # Добавляем в список для удаления
 
             # Отправляем только клавиатуру с минимальным текстом
