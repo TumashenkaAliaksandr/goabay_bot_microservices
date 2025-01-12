@@ -1,7 +1,9 @@
+import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, ConversationHandler
 from bot_app.models import UserRegistration  # Импортируем модель UserRegistration
 from asgiref.sync import sync_to_async
+from bot_app.templates.webapp.answers.info_back import messages_to_delete
 from bot_app.templates.webapp.profile.profile_date import show_user_info, profile_button_handler
 from bot_app.templates.webapp.text_files_py_txt.reg_answer import reg_info
 
@@ -130,6 +132,18 @@ async def registration_handler(update: Update, context: CallbackContext) -> int:
 
     # Проверка, если сообщение пришло от кнопки
     if message_text == 'Личный кабинет 👤':
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
         # Проверяем, зарегистрирован ли пользователь
         registration = await sync_to_async(UserRegistration.objects.filter(user_id=user_id).first)()
         if registration and registration.is_registered:

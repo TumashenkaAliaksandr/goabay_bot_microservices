@@ -117,3 +117,10 @@ async def show_incense_options(update, context):
         text="🪔🦚🪷🐚🪕🦢\n\nВыберите благовоние:",
         reply_markup=reply_markup
     )
+
+# Отображение кнопок для начала регистрации
+keyboard = [
+    [InlineKeyboardButton("Начать регистрацию", callback_data="start_registration")],
+    [InlineKeyboardButton("Отменить регистрацию", callback_data="end_registration")],
+]
+reg_reply_markup = InlineKeyboardMarkup(keyboard)

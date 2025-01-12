@@ -116,7 +116,7 @@ async def button_handler(update: Update, context: CallbackContext) -> None:
         # Завершаем состояние ConversationHandler
         return ConversationHandler.END
     if query.data == "start_registration":
-        await STEP_EDIT_NAME(update, context)
+        await registration_handler(update, context)
 
     elif query.data == "category_motorcycles":
         await category_motorcycle_options(update, context)
