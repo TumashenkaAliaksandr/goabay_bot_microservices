@@ -1101,6 +1101,7 @@ ul.ht-dropdown.dropdown-style-two li {
     border: 1px solid transparent;
     padding: 15px 15px 30px 15px;
     overflow: hidden;
+    height: 76%;
 }
 .product-area .single-product{
     margin-bottom: 20px;
@@ -4028,4 +4029,10 @@ legend {
 
 .mobile-menu nav ul{
     display: none;
+}
+
+.fixed-size {
+  width: 100%; /* Ширина изображения равна ширине контейнера */
+  height: 100%; /* Высота изображения равна высоте контейнера */
+  object-fit: cover; /* Изображение будет обрезано, чтобы заполнить контейнер, сохраняя пропорции */
 }
