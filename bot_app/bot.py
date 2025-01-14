@@ -28,8 +28,18 @@ logger = logging.getLogger(__name__)
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Логирует ошибки и отправляет сообщение разработчику."""
     logger.error(f"Произошла ошибка: {context.error}")
-    if update.message:
+
+    if update and update.message:
         await update.message.reply_text("Произошла ошибка. Пожалуйста, попробуйте позже.")
+    else:
+        # Обработка случая, когда update или update.message отсутствует
+        logger.error("Ошибка произошла без доступного объекта update.")
+
+# async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     """Логирует ошибки и отправляет сообщение разработчику."""
+#     logger.error(f"Произошла ошибка: {context.error}")
+#     if update.message:
+#         await update.message.reply_text("Произошла ошибка. Пожалуйста, попробуйте позже.")
 
 
 # Основная функция для запуска бота
