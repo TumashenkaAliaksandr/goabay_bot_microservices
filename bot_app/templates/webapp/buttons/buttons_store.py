@@ -68,7 +68,7 @@ blog_btn = ReplyKeyboardMarkup([
 profile_btn = ReplyKeyboardMarkup([
     [KeyboardButton("👳‍♂️ Мои данные"), KeyboardButton("🛒 Мои Покупки"), KeyboardButton("🗂 Мои Документы")],
     # [KeyboardButton("📈 Лидеры продаж"), KeyboardButton("⭐️ Рекомендуем"), KeyboardButton("🎉 Акции")],
-    # [KeyboardButton("✍️ Регистрация на рейс"), KeyboardButton("🎁 Подарки")],
+    [KeyboardButton("✈️ Авиа билеты ✍️"), KeyboardButton("🏨 Ваша Аренда 🔑")],
     # [KeyboardButton("💣 Очистить истоирию сообщений в чате")],
     [KeyboardButton("⬅️")]
 ], resize_keyboard=True)
@@ -82,4 +82,9 @@ change_profile_btn = ReplyKeyboardMarkup([
 helps_btn = ReplyKeyboardMarkup([
     [KeyboardButton("👳‍♂️ Написать обращение"), KeyboardButton("🛒 Мои Покупки"), KeyboardButton("🗂 Мои Документы")],
     [KeyboardButton("⬅️ Как мы работаем 🛠")]
+], resize_keyboard=True)
+
+
+profile_avia_btn = ReplyKeyboardMarkup([
+    ["✈️ Забронировать Билеты 🧾", "🔙 Назад в сервис"]
 ], resize_keyboard=True)
