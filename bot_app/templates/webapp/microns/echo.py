@@ -17,6 +17,7 @@ from bot_app.templates.webapp.microns.screens import escape_markdown_v2
 from bot_app.send_rabbitmq import send_to_rabbitmq
 from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files_py_txt.anager_answer import manager_info
+from bot_app.templates.webapp.text_files_py_txt.avia_answer import avia_answer_txt
 from bot_app.templates.webapp.text_files_py_txt.delivery import delivery_info
 from bot_app.templates.webapp.text_files_py_txt.warehouse_info import warehouse_info
 
@@ -116,6 +117,29 @@ async def echo(update: Update, context: CallbackContext) -> None:
             reply_markup=service_btn
         )
         messages_to_delete.append(get_back_serv)  # Добавляем в список для удаления
+
+    elif message == "🔙 Назад в сервис":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+        back_service_message = await update.message.reply_text('Вы вернулись в Сервис 🔧', reply_markup=None)
+        messages_to_delete.append(back_service_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_service = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=service_btn
+        )
+        messages_to_delete.append(get_back_service)  # Добавляем в список для удаления
 
     elif message == "О компании 🏢":
         # Удаляем все сообщения из списка, если они были отправлены ранее
@@ -898,4 +922,25 @@ async def echo(update: Update, context: CallbackContext) -> None:
                 reply_markup=create_reply_sklad_btn(quantity)  # Подключение инлайн-кнопок
             )
 
+    elif message == "✈️ Авиабилеты":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
 
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+        info_avia_back = await update.message.reply_text(avia_answer_txt, parse_mode='MarkdownV2', reply_markup=None)
+        messages_to_delete.append(info_avia_back)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_avia_inf = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=profile_avia_btn
+        )
+        messages_to_delete.append(get_avia_inf)  # Добавляем в список для удаления
