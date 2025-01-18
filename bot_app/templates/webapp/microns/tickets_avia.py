@@ -3,6 +3,8 @@ from telegram.ext import Application, MessageHandler, CommandHandler, ContextTyp
 import requests
 import logging
 
+from bot_app.templates.webapp.answers.info_back import messages_to_delete
+from bot_app.templates.webapp.buttons.buttons_store import profile_avia_btn
 from bot_app.templates.webapp.text_files_py_txt import register_avia_handler
 
 API_KEY = "ваш_ключ_авиасейлс"  # Ваш API-ключ Aviasales
@@ -123,10 +125,10 @@ async def get_children_ages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Пример ввода: '5, 8' для детей 5 и 8 лет
         children_ages_list = [int(age.strip()) for age in children_ages.split(",")]
         context.user_data["children_ages"] = children_ages_list
-        await update.message.reply_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        await update.message.reply_text(register_avia_handler.class_business_eco, parse_mode='MarkdownV2')
         return FLIGHT_CLASS
     except Exception:
-        await update.message.reply_text("🔢🧑‍🧒 Пожалуйста, укажите возраст детей через запятую,\nHапример '2: 5, 8'.")
+        await update.message.reply_text(register_avia_handler.children_age_please, parse_mode='MarkdownV2')
         return CHILDREN_AGE
 
 # Получаем класс перелета и завершаем процесс
@@ -137,7 +139,7 @@ async def get_flight_class(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif "бизнес" in text:
         flight_class = "business"
     else:
-        await update.message.reply_text("🔰 Пожалуйста, напишите:\n🪑 'Эконом' или 💺 'Бизнес'.")
+        await update.message.reply_text(register_avia_handler.class_business_eco, parse_mode='MarkdownV2')
         return FLIGHT_CLASS
 
     context.user_data["flight_class"] = flight_class
@@ -158,6 +160,9 @@ async def get_flight_class(update: Update, context: ContextTypes.DEFAULT_TYPE):
     aviasales_url = f"https://www.aviasales.ru/search/{data['origin']}{data['destination']}{data['depart_date'].replace('-', '')}"
     keyboard = [[InlineKeyboardButton("Забронировать 👌", url=aviasales_url)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
+    get_avia_inf_tickets = await update.message.reply_text('🙌 Выберите что вас интересует:',
+                                                           reply_markup=profile_avia_btn)
+    messages_to_delete.append(get_avia_inf_tickets)
 
     await update.message.reply_text(f"♻️ Результаты поиска:\n\n{tickets}", reply_markup=reply_markup)
     return ConversationHandler.END
