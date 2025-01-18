@@ -74,14 +74,14 @@ async def get_depart_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_return_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return_date = None if update.message.text.lower() == "нет" else update.message.text.strip()
     context.user_data["return_date"] = return_date
-    await update.message.reply_text("👥 Введите количество пассажиров:")
+    await update.message.reply_text(register_avia_handler.quantity_peoples_for_fly, parse_mode='MarkdownV2')
     return PASSENGERS
 
 # Получаем количество пассажиров
 async def get_passengers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     passengers = update.message.text.strip()
     if not passengers.isdigit() or int(passengers) <= 0:
-        await update.message.reply_text("👥 Введите корректное количество пассажиров.")
+        await update.message.reply_text(register_avia_handler.correct_quantity_peoples_for_fly, parse_mode='MarkdownV2')
         return PASSENGERS
     context.user_data["passengers"] = passengers
     await update.message.reply_text("Есть ли дети?", reply_markup=InlineKeyboardMarkup([
@@ -95,12 +95,12 @@ async def handle_children_answer(update: Update, context: ContextTypes.DEFAULT_T
     await query.answer()
 
     if query.data == "children_yes":
-        await query.edit_message_text("🔢🧑‍🧒 Введите количество детей и их возраст\nНапример, '2: 5, 8' для двух детей возрастом 5 и 8 лет:")
+        await query.edit_message_text(register_avia_handler.children_yes_answer, parse_mode='MarkdownV2')
         return CHILDREN_INFO
     elif query.data == "children_no":
         # Пропускаем шаг с детьми и переходим к следующему
         context.user_data["children_info"] = None
-        await query.edit_message_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        await query.edit_message_text(register_avia_handler.class_business_eco, parse_mode='MarkdownV2')
         return FLIGHT_CLASS
 
 # Обрабатываем информацию о детях
@@ -110,10 +110,10 @@ async def process_children_info(update: Update, context: ContextTypes.DEFAULT_TY
         # Пример ввода: "2: 5, 8"
         children_list = [int(age.strip()) for age in children_info.split(":")[1].split(",")]
         context.user_data["children_info"] = children_list
-        await update.message.reply_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        await update.message.reply_text(register_avia_handler.class_business_eco, parse_mode='MarkdownV2')
         return FLIGHT_CLASS
     except Exception:
-        await update.message.reply_text("📌🚫 Пожалуйста, укажите данные в формате:\n🔢🧑‍🧒 'количество: возраст1, возраст2'.\nНапример(2: 5, 8)")
+        await update.message.reply_text(register_avia_handler.children_age, parse_mode='MarkdownV2')
         return CHILDREN_INFO
 
 # Получаем возраст детей
