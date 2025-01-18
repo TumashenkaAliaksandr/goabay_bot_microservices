@@ -1,7 +1,9 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove, Update
-from telegram.ext import Application, MessageHandler, CommandHandler, ContextTypes, filters, ConversationHandler
+from telegram.ext import Application, MessageHandler, CommandHandler, ContextTypes, ConversationHandler
 import requests
 import logging
+
+from bot_app.templates.webapp.text_files_py_txt import register_avia_handler
 
 API_KEY = "ваш_ключ_авиасейлс"  # Ваш API-ключ Aviasales
 BASE_URL = "https://api.travelpayouts.com/v1/prices/cheap"  # API-адрес
@@ -10,10 +12,10 @@ BASE_URL = "https://api.travelpayouts.com/v1/prices/cheap"  # API-адрес
 logging.basicConfig(level=logging.INFO)
 
 # Этапы для ConversationHandler
-ORIGIN, DESTINATION, DEPART_DATE, RETURN_DATE, PASSENGERS, FLIGHT_CLASS = range(6)
+ORIGIN, DESTINATION, DEPART_DATE, RETURN_DATE, PASSENGERS, CHILDREN_ASK, CHILDREN_INFO, CHILDREN_AGE, FLIGHT_CLASS = range(9)
 
 # Функция для получения билетов
-def get_cheap_tickets(origin, destination, depart_date, return_date, passengers, flight_class, currency="rub"):
+def get_cheap_tickets(origin, destination, depart_date, return_date, passengers, flight_class, children_info=None, currency="rub"):
     params = {
         "origin": origin,
         "destination": destination,
@@ -24,6 +26,10 @@ def get_cheap_tickets(origin, destination, depart_date, return_date, passengers,
         "passengers": passengers,
         "flight_class": flight_class,
     }
+    # Добавляем информацию о детях
+    if children_info:
+        params["children"] = children_info
+
     try:
         response = requests.get(BASE_URL, params=params, timeout=10)
         response.raise_for_status()
@@ -43,28 +49,25 @@ def get_cheap_tickets(origin, destination, depart_date, return_date, passengers,
 
 # Начало процесса
 async def start_booking(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "🏙 🛫  Введите город вылета:",
-        reply_markup=ReplyKeyboardRemove()
-    )
+    await update.message.reply_text(register_avia_handler.city_fly_up, parse_mode='MarkdownV2', reply_markup=ReplyKeyboardRemove())
     return ORIGIN
 
 # Получаем город вылета
 async def get_origin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["origin"] = update.message.text.strip().upper()
-    await update.message.reply_text("🏙 🪂  Введите город прилета:")
+    await update.message.reply_text(register_avia_handler.city_fly_down, parse_mode='MarkdownV2')
     return DESTINATION
 
 # Получаем город прилета
 async def get_destination(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["destination"] = update.message.text.strip().upper()
-    await update.message.reply_text("📅 🗺️⁀જ✈ Введите дату вылета (ГГГГ-ММ-ДД):")
+    await update.message.reply_text(register_avia_handler.date_fly_up, parse_mode='MarkdownV2')
     return DEPART_DATE
 
 # Получаем дату вылета
 async def get_depart_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["depart_date"] = update.message.text.strip()
-    await update.message.reply_text("📅 🗺️⁀જ✈ Введите дату обратного рейса (или напишите 'нет'):")
+    await update.message.reply_text(register_avia_handler.date_fly_down, parse_mode='MarkdownV2')
     return RETURN_DATE
 
 # Получаем дату обратного рейса
@@ -81,8 +84,50 @@ async def get_passengers(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("👥 Введите корректное количество пассажиров.")
         return PASSENGERS
     context.user_data["passengers"] = passengers
-    await update.message.reply_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
-    return FLIGHT_CLASS
+    await update.message.reply_text("Есть ли дети?", reply_markup=InlineKeyboardMarkup([
+        [InlineKeyboardButton("Да", callback_data='children_yes'), InlineKeyboardButton("Нет", callback_data='children_no')]
+    ]))
+    return CHILDREN_ASK
+
+# Обработка кнопок с ответами (Да/Нет)
+async def handle_children_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    if query.data == "children_yes":
+        await query.edit_message_text("🔢🧑‍🧒 Введите количество детей и их возраст\nНапример, '2: 5, 8' для двух детей возрастом 5 и 8 лет:")
+        return CHILDREN_INFO
+    elif query.data == "children_no":
+        # Пропускаем шаг с детьми и переходим к следующему
+        context.user_data["children_info"] = None
+        await query.edit_message_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        return FLIGHT_CLASS
+
+# Обрабатываем информацию о детях
+async def process_children_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    children_info = update.message.text.strip()
+    try:
+        # Пример ввода: "2: 5, 8"
+        children_list = [int(age.strip()) for age in children_info.split(":")[1].split(",")]
+        context.user_data["children_info"] = children_list
+        await update.message.reply_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        return FLIGHT_CLASS
+    except Exception:
+        await update.message.reply_text("📌🚫 Пожалуйста, укажите данные в формате:\n🔢🧑‍🧒 'количество: возраст1, возраст2'.\nНапример(2: 5, 8)")
+        return CHILDREN_INFO
+
+# Получаем возраст детей
+async def get_children_ages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    children_ages = update.message.text.strip()
+    try:
+        # Пример ввода: '5, 8' для детей 5 и 8 лет
+        children_ages_list = [int(age.strip()) for age in children_ages.split(",")]
+        context.user_data["children_ages"] = children_ages_list
+        await update.message.reply_text("🔰 Напишите класс:\n🪑 Эконом или 💺 Бизнес:")
+        return FLIGHT_CLASS
+    except Exception:
+        await update.message.reply_text("🔢🧑‍🧒 Пожалуйста, укажите возраст детей через запятую,\nHапример '2: 5, 8'.")
+        return CHILDREN_AGE
 
 # Получаем класс перелета и завершаем процесс
 async def get_flight_class(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -106,6 +151,7 @@ async def get_flight_class(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return_date=data["return_date"],
         passengers=data["passengers"],
         flight_class=data["flight_class"],
+        children_info=data.get("children_info"),
     )
 
     # Формирование ссылки для бронирования
@@ -114,8 +160,6 @@ async def get_flight_class(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text(f"♻️ Результаты поиска:\n\n{tickets}", reply_markup=reply_markup)
-
-    # Завершаем процесс
     return ConversationHandler.END
 
 # Отмена

@@ -81,7 +81,10 @@ def main() -> None:
             DEPART_DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_depart_date)],
             RETURN_DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_return_date)],
             PASSENGERS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_passengers)],
-            FLIGHT_CLASS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_flight_class)],
+            CHILDREN_ASK: [CallbackQueryHandler(handle_children_answer, pattern="^(children_yes|children_no)$")],
+            CHILDREN_INFO: [MessageHandler(None, process_children_info)],
+            CHILDREN_AGE: [MessageHandler(None, get_children_ages)],
+            FLIGHT_CLASS: [MessageHandler(None, get_flight_class)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )
