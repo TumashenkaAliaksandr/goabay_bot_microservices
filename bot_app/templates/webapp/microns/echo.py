@@ -944,3 +944,27 @@ async def echo(update: Update, context: CallbackContext) -> None:
             reply_markup=profile_avia_btn
         )
         messages_to_delete.append(get_avia_inf)  # Добавляем в список для удаления
+
+
+    # elif message == "✈️ Забронировать Билеты":
+    #     # Удаляем все сообщения из списка, если они были отправлены ранее
+    #     for msg in messages_to_delete:
+    #         try:
+    #             await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+    #
+    #         except Exception as e:
+    #
+    #             logging.error(f"Ошибка при удалении сообщения: {e}")
+    #
+    #     # Очищаем список после удаления
+    #
+    #     messages_to_delete.clear()
+    #     info_avia_back = await update.message.reply_text(avia_answer_txt, parse_mode='MarkdownV2', reply_markup=None)
+    #     messages_to_delete.append(info_avia_back)  # Добавляем в список для удаления
+    #
+    #     # Отправляем только клавиатуру с минимальным текстом
+    #     get_avia_inf = await update.message.reply_text(
+    #         '🙌 Выберите что вас интересует:',
+    #         reply_markup=profile_avia_btn
+    #     )
+    #     messages_to_delete.append(get_avia_inf)  # Добавляем в список для удаления

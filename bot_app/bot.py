@@ -6,6 +6,8 @@ from telegram.ext import CallbackQueryHandler
 from django.conf import settings
 from telegram import Update
 
+from bot_app.templates.webapp.microns.tickets_avia import *
+
 # Настройка окружения и Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
 django.setup()
@@ -69,6 +71,22 @@ def main() -> None:
         },
         fallbacks=[CallbackQueryHandler(button_handler)],
     )
+
+    # Определяем ConversationHandler
+    booking_handler = ConversationHandler(
+        entry_points=[MessageHandler(filters.Text("✈️ Забронировать Билеты"), start_booking)],
+        states={
+            ORIGIN: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_origin)],
+            DESTINATION: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_destination)],
+            DEPART_DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_depart_date)],
+            RETURN_DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_return_date)],
+            PASSENGERS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_passengers)],
+            FLIGHT_CLASS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_flight_class)],
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+
+    application.add_handler(booking_handler)
 
     # Добавляем ConversationHandler и другие обработчики
     application.add_handler(store_conv_handler)
