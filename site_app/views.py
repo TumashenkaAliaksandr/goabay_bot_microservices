@@ -8,6 +8,7 @@ from goabay_bot import settings
 # bot = telebot.TeleBot(settings.BOT_TOKEN)
 
 
+
 def index(request):
 
     products_up_block = Product.objects.all()
@@ -28,3 +29,4 @@ def product_detail(request, id, slug):
         'product_name': product_name,
     }
     return render(request, 'webapp/product_detail.html', context)
+
