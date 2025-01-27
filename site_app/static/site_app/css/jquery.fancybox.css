@@ -191,19 +191,15 @@
   backface-visibility: hidden; }
 
 .fancybox-can-zoomOut .fancybox-image-wrap {
-  cursor: -webkit-zoom-out;
   cursor: zoom-out; }
 
 .fancybox-can-zoomIn .fancybox-image-wrap {
-  cursor: -webkit-zoom-in;
   cursor: zoom-in; }
 
 .fancybox-can-drag .fancybox-image-wrap {
-  cursor: -webkit-grab;
   cursor: grab; }
 
 .fancybox-is-dragging .fancybox-image-wrap {
-  cursor: -webkit-grabbing;
   cursor: grabbing; }
 
 .fancybox-image,
