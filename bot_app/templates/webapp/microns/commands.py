@@ -34,6 +34,6 @@ async def help(update: Update, context: CallbackContext) -> None:
             welcome_message = file.read()
         await update.message.reply_text(welcome_message, reply_markup=main_markup)
     except FileNotFoundError:
-        await update.message.reply_text("Файл приветственного сообщения не найден.")
+        await update.message.reply_text("Файл Help сообщения не найден.")
     except Exception as e:
         await update.message.reply_text(f"Произошла ошибка при чтении файла: {e}")
