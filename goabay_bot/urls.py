@@ -20,6 +20,6 @@ from bot_app.admin import admin_site
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path("myadmin/", admin_site.urls),
+    path("goabay-admin/", admin_site.urls),
     path('', include('site_app.urls')),
 ]
