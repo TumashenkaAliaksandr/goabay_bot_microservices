@@ -15,6 +15,7 @@ from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.webapp.buttons.inline_category_store_btn import create_category_keyboard
 from bot_app.templates.webapp.microns.screens import escape_markdown_v2
 from bot_app.send_rabbitmq import send_to_rabbitmq
+from bot_app.templates.webapp.microns.turism_parser import get_tourism_articles
 from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files_py_txt.anager_answer import manager_info
 from bot_app.templates.webapp.text_files_py_txt.avia_answer import avia_answer_txt
@@ -285,7 +286,41 @@ async def echo(update: Update, context: CallbackContext) -> None:
         )
         messages_to_delete.append(pay_get_back)  # Добавляем в список для удаления
 
-    elif message == "⬅️ Товары из Индии":
+    elif message == "🧗‍♀️ Туризм":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+
+        # Отправляем сообщение о возврате к информации с соответствующей клавиатурой
+
+        back_to_india = await update.message.reply_text('Вы вернулись в 🧗‍♀Туризм', reply_markup=None)
+        messages_to_delete.append(back_to_india)  # Добавляем в список для удаления
+
+        # Загружаем статьи о туризме
+        articles = get_tourism_articles()
+
+        # Отправляем пользователю статьи
+        for article in articles:
+            msg = await update.message.reply_text(article, parse_mode="HTML", disable_web_page_preview=True)
+            messages_to_delete.append(msg)  # Добавляем в список для удаления
+
+        # Отправляем клавиатуру с кнопками выбора
+        india_get_back = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=blog_btn
+        )
+        messages_to_delete.append(india_get_back)
+    elif message == "⬅️ Наш Блог 📚":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
             try:
@@ -306,11 +341,11 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.append(back_to_india)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
-        india_get_back = await update.message.reply_text(
+        blog_get_back = await update.message.reply_text(
             '🙌 Выберите что вас интересует:',
-            reply_markup=products_btn_india
+            reply_markup=blog_btn
         )
-        messages_to_delete.append(india_get_back)  # Добавляем в список для удаления
+        messages_to_delete.append(blog_get_back)  # Добавляем в список для удаления
 
     elif message == "⬅️ Как мы работаем 🛠":
         # Удаляем все сообщения из списка, если они были отправлены ранее
