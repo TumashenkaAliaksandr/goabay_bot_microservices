@@ -1,10 +1,48 @@
+from django.apps import apps
+from django.contrib.auth.models import User, Group
 from django.contrib import admin
+from django.contrib.admin import AdminSite
 from django.utils.safestring import mark_safe
-
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from bot_app import models
 from site_app.admin import ProductImageInline
 from .models import Product
 from .forms import ProductForm
+
+
+# Создаём экземпляр кастомной админки
+class MyAdminSite(AdminSite):
+    """Кастомная админ-панель"""
+    site_header = "🐘 ॐ नम: शिवाय  GoaBay админ панель"
+    site_title = "Управление сайтом"
+    index_title = "Добро пожаловать в GoaBay админ!"
+
+admin_site = MyAdminSite(name="myadmin")
+
+# Удаляем стандартную регистрацию модели User и Group
+for model in [User, Group]:
+    try:
+        admin.site.unregister(model)  # Сначала разрегистрируем, если уже есть
+    except admin.sites.NotRegistered:
+        pass  # Если модель не была зарегистрирована, просто пропускаем
+
+# Теперь можно зарегистрировать модель User в кастомной админке
+class CustomUserAdmin(BaseUserAdmin):
+    # Здесь можно переопределить настройки админки для User
+    pass
+
+admin_site.register(User, CustomUserAdmin)
+admin_site.register(Group)  # Регистрация группы в кастомной админке
+
+# Автоматическая регистрация всех моделей проекта, кроме User и Group
+all_models = apps.get_models()
+
+for model in all_models:
+    if model not in [User, Group]:  # Пропускаем уже зарегистрированные модели
+        try:
+            admin_site.register(model)
+        except admin.sites.AlreadyRegistered:
+            pass  # Пропускаем уже зарегистрированные модели
 
 
 class WordAdmin(admin.ModelAdmin):

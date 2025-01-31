@@ -1,0 +1,223 @@
+{#{% load i18n static %}#}
+{#<!DOCTYPE html>#}
+{#{% get_current_language as LANGUAGE_CODE %}#}
+{#{% get_current_language_bidi as LANGUAGE_BIDI %}#}
+{#<html lang="{{ LANGUAGE_CODE|default:'en-us' }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">#}
+{#<head>#}
+{#    <title>{% block title %}{% endblock %}</title>#}
+{#    <link rel="stylesheet" href="{% block stylesheet %}{% static 'admin/css/base.css' %}{% endblock %}">#}
+{##}
+{#    {% block dark-mode-vars %}#}
+{#        <link rel="stylesheet" href="{% static 'admin/css/dark_mode.css' %}">#}
+{#        <script src="{% static 'admin/js/theme.js' %}"></script>#}
+{#    {% endblock %}#}
+{##}
+{#    {% if not is_popup and is_nav_sidebar_enabled %}#}
+{#        <link rel="stylesheet" href="{% static 'admin/css/nav_sidebar.css' %}">#}
+{#        <script src="{% static 'admin/js/nav_sidebar.js' %}" defer></script>#}
+{#    {% endif %}#}
+{##}
+{#    {% block extrastyle %}{% endblock %}#}
+{##}
+{#    {% if LANGUAGE_BIDI %}#}
+{#        <link rel="stylesheet" href="{% block stylesheet_rtl %}{% static 'admin/css/rtl.css' %}{% endblock %}">#}
+{#    {% endif %}#}
+{##}
+{#    {% block extrahead %}{% endblock %}#}
+{##}
+{#    {% block responsive %}#}
+{#        <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#        <link rel="stylesheet" href="{% static 'admin/css/responsive.css' %}">#}
+{#        {% if LANGUAGE_BIDI %}#}
+{#            <link rel="stylesheet" href="{% static 'admin/css/responsive_rtl.css' %}">#}
+{#        {% endif %}#}
+{#    {% endblock %}#}
+{##}
+{#    {% block blockbots %}#}
+{#        <meta name="robots" content="NONE,NOARCHIVE">#}
+{#    {% endblock %}#}
+{#</head>#}
+{##}
+{#<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"#}
+{#      data-admin-utc-offset="{% now 'Z' %}">#}
+{##}
+{#    <a href="#content-start" class="skip-to-content-link">{% translate 'Skip to main content' %}</a>#}
+{##}
+{#    <!-- Container -->#}
+{#    <div id="container">#}
+{#        {% if not is_popup %}#}
+{#            <!-- Header -->#}
+{#            {% block header %}#}
+{#                <header id="header">#}
+{#                    <div id="branding">#}
+{#                        {% block branding %}{% endblock %}#}
+{#                    </div>#}
+{##}
+{#                    {% block usertools %}#}
+{#                        {% if has_permission %}#}
+{#                            <div id="user-tools">#}
+{#                                {% block welcome-msg %}#}
+{#                                    {% translate 'Welcome,' %}#}
+{#                                    <strong>{% firstof user.get_short_name user.get_username %}</strong>.#}
+{#                                {% endblock %}#}
+{##}
+{#                                {% block userlinks %}#}
+{#                                    {% if site_url %}#}
+{#                                        <a href="{{ site_url }}">{% translate 'View site' %}</a> /#}
+{#                                    {% endif %}#}
+{##}
+{#                                    {% if user.is_active and user.is_staff %}#}
+{#                                        {% url 'django-admindocs-docroot' as docsroot %}#}
+{#                                        {% if docsroot %}#}
+{#                                            <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> /#}
+{#                                        {% endif %}#}
+{#                                    {% endif %}#}
+{##}
+{#                                    {% if user.has_usable_password %}#}
+{#                                        <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a> /#}
+{#                                    {% endif %}#}
+{##}
+{#                                    <form id="logout-form" method="post" action="{% url 'admin:logout' %}" style="display:inline;">#}
+{#                                        {% csrf_token %}#}
+{#                                        <button type="submit">{% translate 'Log out' %}</button>#}
+{#                                    </form>#}
+{##}
+{#                                    {% include 'admin/color_theme_toggle.html' %}#}
+{#                                {% endblock %}#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                    {% endblock usertools %}#}
+{##}
+{#                    {% block nav-global %}{% endblock %}#}
+{#                </header>#}
+{#            {% endblock header %}#}
+{#            <!-- END Header -->#}
+{##}
+{#            <!-- Breadcrumbs -->#}
+{#            {% block nav-breadcrumbs %}#}
+{#                <nav aria-label="{% translate 'Breadcrumbs' %}">#}
+{#                    <div class="breadcrumbs">#}
+{#                        <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>#}
+{#                        {% if title %} &rsaquo; {{ title }}{% endif %}#}
+{#                    </div>#}
+{#                </nav>#}
+{#            {% endblock nav-breadcrumbs %}#}
+{#        {% endif %}#}
+{##}
+{#        <!-- Main Content -->#}
+{#        <div class="main" id="main">#}
+{#            {% if not is_popup and is_nav_sidebar_enabled %}#}
+{#                {% block nav-sidebar %}#}
+{#                    {% include 'admin/nav_sidebar.html' %}#}
+{#                {% endblock nav-sidebar %}#}
+{#            {% endif %}#}
+{##}
+{#            <main id="content-start" class="content" tabindex="-1">#}
+{#                <!-- Messages -->#}
+{#                {% block messages %}#}
+{#                    {% if messages %}#}
+{#                        <ul class="messagelist">#}
+{#                            {% for message in messages %}#}
+{#                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{#                    {% endif %}#}
+{#                {% endblock messages %}#}
+{##}
+{#                <!-- Content -->#}
+{#                <div id="content" class="{% block coltype %}colM{% endblock coltype %}">#}
+{#                    {% block pretitle %}{% endblock pretitle %}#}
+{#                    {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock content_title %}#}
+{#                    {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock content_subtitle %}#}
+{##}
+{#                    <!-- Main Content Block -->#}
+{#                    <div class="{% block content_class %}content-block{% endblock content_class %}">#}
+{#                        {{ content }}#}
+{#                    </div>#}
+{##}
+{#                    <!-- Sidebar (if needed) -->#}
+{#                    {% block sidebar %}{% endblock sidebar %}#}
+{##}
+{#                    <br class="clear">#}
+{#                </div>#}
+{#                <!-- END Content -->#}
+{#            </main>#}
+{#        </div>#}
+{##}
+{#        <!-- Footer -->#}
+{#        <footer id="footer">{% block footer %}{% endblock footer %}</footer>#}
+{#    </div>#}
+{#    <!-- END Container -->#}
+{##}
+{#    <!-- SVGs -->#}
+{#    <svg xmlns="http://www.w3.org/2000/svg" class="base-svgs">#}
+{#        <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-auto"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 1 0 0 16z"/></symbol>#}
+{#        <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-moon"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938A7.999 7.999 0 0 0 4 12z"/></symbol>#}
+{#        <symbol viewBox="0 0 24 24" width="1rem" height="1rem" id="icon-sun"><path d="M0 0h24v24H0z" fill="currentColor"/><path d="M12 18a6 6 0 1 1-6-6h12a6.001,6.001,0,0,1-6,6zm-7-11h14V7H5Zm19,4H19v2h5Z"/></symbol>#}
+{#    </svg>#}
+{#    <!-- END SVGs -->#}
+{#</body>#}
+{#</html>#}
+
+
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/dashboard.css' %}">
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}
+    {% include "admin/nav_sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% translate 'Recent actions' %}</h2>
+        <h3>{% translate 'My actions' %}</h3>
+        {% load log %}
+        {% get_admin_log 10 as admin_log for_user user %}
+        {% if not admin_log %}
+            <p>{% translate 'None available' %}</p>
+        {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                    <span class="visually-hidden">
+                        {% if entry.is_addition %}{% translate 'Added:' %}
+                        {% elif entry.is_change %}{% translate 'Changed:' %}
+                        {% elif entry.is_deletion %}{% translate 'Deleted:' %}
+                        {% endif %}
+                    </span>
+                    {% if entry.is_deletion or not entry.get_admin_url %}
+                        {{ entry.object_repr }}
+                    {% else %}
+                        <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                    {% endif %}
+                    <br>
+                    {% if entry.content_type %}
+                        <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                    {% else %}
+                        <span class="mini quiet">{% translate 'Unknown content' %}</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
