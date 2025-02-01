@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.urls import reverse
 from site_app.models import Category
 from django.utils.text import slugify
@@ -89,23 +91,32 @@ class ProductImage(models.Model):
 
 
 class News(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True, blank=True)
+    """Модель для новостей"""
+    name = models.CharField(max_length=200, db_index=True)  # Название новости
+    slug = models.SlugField(max_length=200, db_index=True, unique=True, blank=True)  # Слаг
+    description = models.TextField(blank=True)  # Описание новости
+    date = models.DateTimeField(auto_now_add=True)  # Дата новости
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+    class Meta:
+        ordering = ('-date',)
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 
     def __str__(self):
-        return self.title
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('news_detail', args=[self.id, self.slug])
 
 class NewsImage(models.Model):
-    news = models.ForeignKey(News, related_name='photos', on_delete=models.CASCADE)
+    """Модель для изображений новостей"""
+    news = models.ForeignKey(News, related_name='news_images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='news_photos/')
-    description = models.CharField(max_length=255, null=False, default="Default description")
+    description = models.CharField(max_length=255, default="Default description")  # Описание изображения
+
+    class Meta:
+        verbose_name = "Изображение новости"
+        verbose_name_plural = "Изображения новостей"
 
     def __str__(self):
-        return self.description
+        return f"Изображение для {self.news.name} - {self.description}"

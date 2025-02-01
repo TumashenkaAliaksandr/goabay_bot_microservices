@@ -22,4 +22,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path("goabay-admin/", admin_site.urls),
     path('', include('site_app.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]

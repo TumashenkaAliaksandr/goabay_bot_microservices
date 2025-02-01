@@ -7,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from bot_app import models
 from site_app.admin import ProductImageInline
 from .models import Product, News, NewsImage
-from .forms import ProductForm
+
 
 
 # Создаём экземпляр кастомной админки
@@ -87,16 +87,24 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
-
 class NewsImageInline(admin.TabularInline):
     model = NewsImage
-    extra = 1  # Количество пустых форм для добавления фотографий
+    extra = 1
 
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'slug')
-    search_fields = ('title', 'slug')
-    prepopulated_fields = {'slug': ('title',)}
-    inlines = [NewsImageInline]  # Добавляем возможность редактировать изображения в админке
+    list_display = ('name', 'date', 'slug')  # Поля, отображаемые в списке
+    prepopulated_fields = {'slug': ('name',)}  # Автоматическое заполнение slug на основе названия
+    search_fields = ('name', 'description')  # Поля для поиска
+    ordering = ('-date',)  # Порядок сортировки, по дате новостей
+    list_filter = ('date',)  # Фильтры для боковой панели, по дате
+
+    inlines = [NewsImageInline]  # Встроенная модель для изображений новостей
+
+    def save_model(self, request, obj, form, change):
+        """Метод для обработки сохранения модели"""
+        super().save_model(request, obj, form, change)
+
+    # Регистрация модели News с настройками NewsAdmin
+
 
 admin.site.register(News, NewsAdmin)
-admin.site.register(NewsImage)

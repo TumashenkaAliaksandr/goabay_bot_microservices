@@ -1,5 +1,7 @@
 from django import forms
 from .models import Product, News, NewsImage
+from django.utils.text import slugify
+
 
 
 class ProductForm(forms.ModelForm):
@@ -15,11 +17,6 @@ class ProductForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
 
-
-class NewsForm(forms.ModelForm):
-    class Meta:
-        model = News
-        fields = ["title", "description"]
 
 class NewsImageForm(forms.ModelForm):
     class Meta:

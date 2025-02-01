@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'pika',
     'grappelli',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
