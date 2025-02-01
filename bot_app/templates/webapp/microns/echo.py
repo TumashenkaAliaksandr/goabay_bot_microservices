@@ -15,7 +15,7 @@ from bot_app.templates.webapp.buttons.buttons_store import *
 from bot_app.templates.webapp.buttons.inline_category_store_btn import create_category_keyboard
 from bot_app.templates.webapp.microns.screens import escape_markdown_v2
 from bot_app.send_rabbitmq import send_to_rabbitmq
-from bot_app.templates.webapp.microns.turism_parser import get_tourism_articles
+from bot_app.templates.webapp.microns.turism_parser import get_tourism_articles_selenium
 from bot_app.templates.webapp.parcer import fetch_product_data
 from bot_app.templates.webapp.text_files_py_txt.anager_answer import manager_info
 from bot_app.templates.webapp.text_files_py_txt.avia_answer import avia_answer_txt
@@ -286,9 +286,13 @@ async def echo(update: Update, context: CallbackContext) -> None:
         )
         messages_to_delete.append(pay_get_back)  # Добавляем в список для удаления
 
+
     elif message == "🧗‍♀️ Туризм":
+
         # Удаляем все сообщения из списка, если они были отправлены ранее
+
         for msg in messages_to_delete:
+
             try:
 
                 await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
@@ -301,25 +305,70 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
         messages_to_delete.clear()
 
-        # Отправляем сообщение о возврате к информации с соответствующей клавиатурой
+        # Отправляем сообщение о начале загрузки статей
 
-        back_to_india = await update.message.reply_text('Вы вернулись в 🧗‍♀Туризм', reply_markup=None)
-        messages_to_delete.append(back_to_india)  # Добавляем в список для удаления
+        back_to_india = await update.message.reply_text(
 
-        # Загружаем статьи о туризме
-        articles = get_tourism_articles()
+            '🔄 Открываю сайт: https://goabay.com/ пожалуйста подождите..\nМы предложим вам последних пять статей на выбор.',
 
-        # Отправляем пользователю статьи
-        for article in articles:
-            msg = await update.message.reply_text(article, parse_mode="HTML", disable_web_page_preview=True)
-            messages_to_delete.append(msg)  # Добавляем в список для удаления
+            reply_markup=None
 
-        # Отправляем клавиатуру с кнопками выбора
-        india_get_back = await update.message.reply_text(
-            '🙌 Выберите что вас интересует:',
-            reply_markup=blog_btn
         )
+
+        messages_to_delete.append(back_to_india)
+
+        # Загружаем статьи
+
+        articles = get_tourism_articles_selenium()
+
+        if not articles or not isinstance(articles, list):  # Проверка, если список пустой или не является списком
+
+            await update.message.reply_text("Статьи не найдены.")
+
+            return
+
+        if isinstance(articles, list) and isinstance(articles[0], dict) and "error" in articles[0]:
+            await update.message.reply_text(articles[0]["error"])
+
+            return
+
+        # Формируем единое сообщение со всеми статьями
+
+        articles_text = "📰 *Вот 5 последних статей о туризме:*\n\n"
+
+        for article in articles:
+            title = article.get("title", "Название отсутствует")
+
+            date = article.get("date", "Дата неизвестна")
+
+            link = article.get("link", "Ссылка недоступна")
+
+            articles_text += f"📌 *{title}*\n➖➖➖\n🗓️ {date}\n➖➖➖\n🔗 [Читать статью]({link})\n\n﹌﹌﹌﹌﹌\n"
+
+        # Отправляем все статьи одним сообщением
+
+        msg = await update.message.reply_text(
+
+            articles_text, parse_mode="Markdown", disable_web_page_preview=True
+
+        )
+
+        messages_to_delete.append(msg)
+
+        # Отправляем клавиатуру
+
+        india_get_back = await update.message.reply_text(
+
+            '🙌 Выберите, что вас интересует:',
+
+            reply_markup=blog_btn
+
+        )
+
         messages_to_delete.append(india_get_back)
+
+
+
     elif message == "⬅️ Наш Блог 📚":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
