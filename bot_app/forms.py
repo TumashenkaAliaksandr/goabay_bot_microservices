@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, News, NewsImage
 
 
 class ProductForm(forms.ModelForm):
@@ -14,3 +14,14 @@ class ProductForm(forms.ModelForm):
             'category': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
+
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ["title", "description"]
+
+class NewsImageForm(forms.ModelForm):
+    class Meta:
+        model = NewsImage
+        fields = ["image", "description"]

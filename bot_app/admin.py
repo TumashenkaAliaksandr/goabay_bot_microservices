@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from bot_app import models
 from site_app.admin import ProductImageInline
-from .models import Product
+from .models import Product, News, NewsImage
 from .forms import ProductForm
 
 
@@ -86,3 +86,24 @@ class ProductAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 admin.site.register(Product, ProductAdmin)
+
+
+class NewsImageInline(admin.TabularInline):
+    model = NewsImage
+    extra = 1
+    fields = ("image", "description", "preview")
+    readonly_fields = ("preview",)
+
+    def preview(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="100" height="auto" />')
+        return "Нет изображения"
+
+    preview.short_description = "Превью"
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ("title", "date")
+    search_fields = ("title", "description")
+    ordering = ("-date",)
+    inlines = [NewsImageInline]

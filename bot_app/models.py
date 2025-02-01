@@ -85,3 +85,29 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - ДопИзо Товара"
+
+
+
+class News(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание")
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
+
+    class Meta:
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+
+    def __str__(self):
+        return self.title
+
+class NewsImage(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="images", verbose_name="Новость")
+    image = models.ImageField(upload_to="news_images/", verbose_name="Фото")
+    description = models.CharField(max_length=255, blank=True, null=True, verbose_name="Описание фото")
+
+    class Meta:
+        verbose_name = "Фото новости"
+        verbose_name_plural = "Фотографии новостей"
+
+    def __str__(self):
+        return f"Фото для {self.news.title}"
