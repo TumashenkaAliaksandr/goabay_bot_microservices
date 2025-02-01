@@ -90,20 +90,13 @@ admin.site.register(Product, ProductAdmin)
 
 class NewsImageInline(admin.TabularInline):
     model = NewsImage
-    extra = 1
-    fields = ("image", "description", "preview")
-    readonly_fields = ("preview",)
+    extra = 1  # Количество пустых форм для добавления фотографий
 
-    def preview(self, obj):
-        if obj.image:
-            return mark_safe(f'<img src="{obj.image.url}" width="100" height="auto" />')
-        return "Нет изображения"
-
-    preview.short_description = "Превью"
-
-@admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ("title", "date")
-    search_fields = ("title", "description")
-    ordering = ("-date",)
-    inlines = [NewsImageInline]
+    list_display = ('title', 'date', 'slug')
+    search_fields = ('title', 'slug')
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [NewsImageInline]  # Добавляем возможность редактировать изображения в админке
+
+admin.site.register(News, NewsAdmin)
+admin.site.register(NewsImage)

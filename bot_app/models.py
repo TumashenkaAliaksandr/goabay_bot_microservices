@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from site_app.models import Category
+from django.utils.text import slugify
 
 
 class Words(models.Model):
@@ -87,27 +88,24 @@ class ProductImage(models.Model):
         return f"{self.product.name} - ДопИзо Товара"
 
 
-
 class News(models.Model):
-    title = models.CharField(max_length=255, verbose_name="Название")
-    description = models.TextField(verbose_name="Описание")
-    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True, blank=True)
 
-    class Meta:
-        verbose_name = "Новость"
-        verbose_name_plural = "Новости"
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
 
 class NewsImage(models.Model):
-    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="images", verbose_name="Новость")
-    image = models.ImageField(upload_to="news_images/", verbose_name="Фото")
-    description = models.CharField(max_length=255, blank=True, null=True, verbose_name="Описание фото")
-
-    class Meta:
-        verbose_name = "Фото новости"
-        verbose_name_plural = "Фотографии новостей"
+    news = models.ForeignKey(News, related_name='photos', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='news_photos/')
+    description = models.CharField(max_length=255, null=False, default="Default description")
 
     def __str__(self):
-        return f"Фото для {self.news.title}"
+        return self.description
