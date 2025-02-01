@@ -30,6 +30,13 @@ def product_detail(request, id, slug):
     }
     return render(request, 'webapp/product_detail.html', context)
 
+def about(request):
+    return render(request, 'webapp/about.html')
+
 
 def news(request):
     return render(request, 'webapp/blog/blog.html')
+
+
+def contact(request):
+    return render(request, 'webapp/contact.html')
