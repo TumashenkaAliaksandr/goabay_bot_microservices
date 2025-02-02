@@ -1,4 +1,4 @@
- {% extends 'main/base.html' %}
+{% extends 'main/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -7,8 +7,8 @@
             <div class="container">
                 <div class="breadcrumb">
                     <ul>
-                        <li><a href="../index.html">Home</a></li>
-                        <li class="active"><a href="shop.html">Shop</a></li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li class="active"><a href="{% url 'shop' %}">Shop</a></li>
                     </ul>
                 </div>
             </div>
@@ -408,8 +408,8 @@
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
                                                             <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -442,8 +442,8 @@
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
                                                             <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -477,8 +477,8 @@
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
                                                             <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -511,8 +511,8 @@
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
                                                             <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -544,9 +544,9 @@
                                                     <p><span class="price">$25.00</span><del class="prev-price">$29.00</del></p>
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
-                                                            <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -579,9 +579,9 @@
                                                     <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                                     <div class="pro-actions">
                                                         <div class="actions-secondary">
-                                                            <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                            <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                            <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                            <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1235,8 +1235,8 @@
                                             <div class="pro-actions">
                                                 <div class="actions-secondary">
                                                     <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                    <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1269,8 +1269,8 @@
                                             <div class="pro-actions">
                                                 <div class="actions-secondary">
                                                     <a href="../wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                    <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a href="{% url 'compare' %}" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
                                                 </div>
                                             </div>
                                         </div>

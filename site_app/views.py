@@ -33,6 +33,9 @@ def product_detail(request, id, slug):
 def wishlist(request):
     return render(request, 'webapp/wishlist.html')
 
+def compare(request):
+    return render(request, 'webapp/shop/compare.html')
+
 def product(request):
     return render(request, 'webapp/shop/product.html')
 
@@ -55,3 +58,19 @@ def news(request):
 
 def contact(request):
     return render(request, 'webapp/contact.html')
+
+
+def account(request):
+    return render(request, 'webapp/account/account.html')
+
+
+def login(request):
+    return render(request, 'webapp/account/login.html')
+
+
+def registrations(request):
+    return render(request, 'webapp/account/register.html')
+
+
+def forgot_password(request):
+    return render(request, 'webapp/account/forgot-password.html')
