@@ -74,3 +74,7 @@ def registrations(request):
 
 def forgot_password(request):
     return render(request, 'webapp/account/forgot-password.html')
+
+
+def four_zero_four(request):
+    return render(request, 'webapp/404.html')

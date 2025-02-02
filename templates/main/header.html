@@ -64,7 +64,7 @@
                 <div class="col-lg-2 col-md-12">
                     <div class="header-top-right">
                         <ul class="header-list-menu f-right">
-                            <li><a href="#">🔑Login</a></li>
+                            <li><a href="{% url 'login' %}">🔑Login</a></li>
                             <li><a href="{% url 'registrations' %}">🚪Register</a></li>
                         </ul>
                     </div>
@@ -204,7 +204,7 @@
                                     <ul>
                                         <li><a href="{% url 'login' %}">login Page</a></li>
                                         <li><a href="{% url 'registrations' %}">Register Page</a></li>
-                                        <li><a href="404.html">404 Page</a></li>
+                                        <li><a href="{% url 'four-zero-four' %}">404 Page</a></li>
                                     </ul>
                                     <!-- Mobile Menu Dropdown End -->
                                 </li>
