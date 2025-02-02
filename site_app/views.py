@@ -33,6 +33,15 @@ def product_detail(request, id, slug):
 def wishlist(request):
     return render(request, 'webapp/wishlist.html')
 
+def product(request):
+    return render(request, 'webapp/shop/product.html')
+
+def shop(request):
+    return render(request, 'webapp/shop/shop.html')
+
+def checkout(request):
+    return render(request, 'webapp/shop/checkout.html')
+
 def cart(request):
     return render(request, 'webapp/shop/cart.html')
 
