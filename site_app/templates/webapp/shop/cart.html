@@ -3,74 +3,108 @@
 
 {% block content %}
         <!-- Breadcrumb Start -->
-        <div class="breadcrumb-area pt-60 pb-55 pt-sm-30 pb-sm-25">
+        <div class="breadcrumb-area pt-60 pb-55 pt-sm-30 pb-sm-20">
             <div class="container">
                 <div class="breadcrumb">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active"><a href="wishlist.html">Wishlist</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li class="active"><a href="cart.html">Cart</a></li>
                     </ul>
                 </div>
             </div>
             <!-- Container End -->
         </div>
         <!-- Breadcrumb End -->
-        <!-- Wish List Start -->
-        <div class="cart-main-area wish-list pb-60">
+        <!-- Cart Main Area Start -->
+        <div class="cart-main-area pb-80 pb-sm-50">
             <div class="container">
-                <!-- Section Title Start -->
-                <h2 class="text-capitalize sub-heading">Wishlist</h2>
-                <!-- Section Title Start End -->
+               <h2 class="text-capitalize sub-heading">cart</h2>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Form Start -->
                         <form action="#">
                             <!-- Table Content Start -->
-                            <div class="table-content table-responsive">
+                            <div class="table-content table-responsive mb-50">
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th class="product-remove">Remove</th>
                                             <th class="product-thumbnail">Image</th>
                                             <th class="product-name">Product</th>
-                                            <th class="product-price">Unit Price</th>
-                                            <th class="product-quantity">Stock Status</th>
-                                            <th class="product-subtotal">add to cart</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product-quantity">Quantity</th>
+                                            <th class="product-subtotal">Total</th>
+                                            <th class="product-remove">Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="product-remove"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                             <td class="product-thumbnail">
                                                 <a href="#"><img src="{% static 'site_app/img/products/1.jpg' %}" alt="cart-image" /></a>
                                             </td>
                                             <td class="product-name"><a href="#">Products Name Here</a></td>
                                             <td class="product-price"><span class="amount">£165.00</span></td>
-                                            <td class="product-stock-status"><span>in stock</span></td>
-                                            <td class="product-add-to-cart"><a href="#">add to cart</a></td>
+                                            <td class="product-quantity"><input type="number" value="1" /></td>
+                                            <td class="product-subtotal">£165.00</td>
+                                            <td class="product-remove"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                         </tr>
                                         <tr>
-                                            <td class="product-remove"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                             <td class="product-thumbnail">
-                                               <a href="#"><img src="{% static 'site_app/img/products/2.jpg' %}" alt="cart-image" /></a>
+                                                <a href="#"><img src="{% static 'site_app/img/products/2.jpg' %}" alt="cart-image" /></a>
                                             </td>
                                             <td class="product-name"><a href="#">Products Name Here</a></td>
                                             <td class="product-price"><span class="amount">£50.00</span></td>
-                                            <td class="product-stock-status"><span>in stock</span></td>
-                                            <td class="product-add-to-cart"><a href="#">add to cart</a></td>
+                                            <td class="product-quantity"><input type="number" value="1" /></td>
+                                            <td class="product-subtotal">£50.00</td>
+                                            <td class="product-remove"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- Table Content Start -->
+                            <div class="row">
+                               <!-- Cart Button Start -->
+                                <div class="col-lg-8 col-md-7">
+                                    <div class="buttons-cart">
+                                        <input type="submit" value="Update Cart" />
+                                        <a href="#">Continue Shopping</a>
+                                    </div>
+                                </div>
+                                <!-- Cart Button Start -->
+                                <!-- Cart Totals Start -->
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="cart_totals">
+                                        <h2>Cart Totals</h2>
+                                        <br />
+                                        <table>
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <th>Subtotal</th>
+                                                    <td><span class="amount">$215.00</span></td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th>Total</th>
+                                                    <td>
+                                                        <strong><span class="amount">$215.00</span></strong>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="wc-proceed-to-checkout">
+                                            <a href="#">Proceed to Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Cart Totals End -->
+                            </div>
+                            <!-- Row End -->
                         </form>
                         <!-- Form End -->
                     </div>
                 </div>
-                <!-- Row End -->
+                 <!-- Row End -->
             </div>
         </div>
-        <!-- Wish List End -->
+        <!-- Cart Main Area End -->
         <!-- Brand Logo Start -->
         <div class="brand-area pb-60">
             <div class="container">

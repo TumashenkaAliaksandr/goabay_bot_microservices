@@ -28,8 +28,8 @@
                                 <li><a href="{% url 'news' %}">🪔Blog</a></li>
                                 <li><a href="blog.html">💼Partners</a></li>
                                 <li><a href="{% url 'contacts' %}">📪Contact us</a></li>
-                                <li><a href="#">☎️+917057752559</a></li>
-                                <li><a href="#">✉️info@goabay.com</a></li>
+                                <li><a href="tel:+917057752559">☎️+917057752559</a></li>
+                                <li><a href="mailto:info@goabay.com">✉️info@goabay.com</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -111,8 +111,8 @@
                             </li>
                             <li><a href="#">🔔</a></li>
                             <li><a href="#">🙂</a></li>
-                            <li><a href="wishlist.html">❤️</a></li>
-                            <li><a href="#">🛒<span class="cart-counter">2</span></a>
+                            <li><a href="{% url 'wishlist' %}">❤️</a></li>
+                            <li><a href="{% url 'cart' %}">🛒<span class="cart-counter">2</span></a>
                                 <ul class="ht-dropdown main-cart-box">
                                     <li>
                                         <!-- Cart Box Start -->

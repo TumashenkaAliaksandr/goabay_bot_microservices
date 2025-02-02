@@ -28,7 +28,13 @@ def product_detail(request, id, slug):
         'product': product,
         'product_name': product_name,
     }
-    return render(request, 'webapp/product_detail.html', context)
+    return render(request, 'webapp/shop/product_detail.html', context)
+
+def wishlist(request):
+    return render(request, 'webapp/wishlist.html')
+
+def cart(request):
+    return render(request, 'webapp/shop/cart.html')
 
 def about(request):
     return render(request, 'webapp/about.html')
