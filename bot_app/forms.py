@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, News, NewsImage
+from .models import Product, News, NewsImage, AboutUs
 from django.utils.text import slugify
 
 
@@ -22,3 +22,9 @@ class NewsImageForm(forms.ModelForm):
     class Meta:
         model = NewsImage
         fields = ["image", "description"]
+
+
+class AboutUsForm(forms.ModelForm):
+    class Meta:
+        model = AboutUs
+        fields = ['title', 'content', 'image']

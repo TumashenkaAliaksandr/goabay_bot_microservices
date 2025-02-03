@@ -6,8 +6,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from bot_app import models
 from site_app.admin import ProductImageInline
-from .models import Product, News, NewsImage
-
+from .models import Product, News, NewsImage, AboutUs
 
 
 # Создаём экземпляр кастомной админки
@@ -108,3 +107,9 @@ class NewsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(News, NewsAdmin)
+
+
+@admin.register(AboutUs)
+class AboutUsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'updated_at')
+    search_fields = ('title',)
