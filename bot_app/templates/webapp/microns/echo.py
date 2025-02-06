@@ -419,6 +419,29 @@ async def echo(update: Update, context: CallbackContext) -> None:
         )
         messages_to_delete.append(get_back_work)  # Добавляем в список для удаления
 
+    elif message == "⬅️ Товары из Индии":
+        # Удаляем все сообщения из списка, если они были отправлены ранее
+        for msg in messages_to_delete:
+            try:
+                await context.bot.delete_message(chat_id=msg.chat_id, message_id=msg.message_id)
+
+            except Exception as e:
+
+                logging.error(f"Ошибка при удалении сообщения: {e}")
+
+        # Очищаем список после удаления
+
+        messages_to_delete.clear()
+        we_work_res_message = await update.message.reply_text('Вы вернулись в Товары из Индии', reply_markup=None)
+        messages_to_delete.append(we_work_res_message)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        get_back_work = await update.message.reply_text(
+            '🙌 Выберите что вас интересует:',
+            reply_markup=products_btn_india
+        )
+        messages_to_delete.append(get_back_work)  # Добавляем в список для удаления
+
     elif message == "Способы оплаты 🏧":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
@@ -869,7 +892,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         )
         messages_to_delete.append(get_back_cabinet)  # Добавляем в список для удаления
 
-    elif message == "📁 Каталог":
+    elif message == "🏪 Магазин":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
             try:
@@ -897,7 +920,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
         )
         messages_to_delete.append(india_inline_catalog)  # Добавляем в список для удаления
 
-    elif message == "🏪 Магазин":
+    elif message == "📁 Каталог":
         # Удаляем все сообщения из списка, если они были отправлены ранее
         for msg in messages_to_delete:
             try:
@@ -912,6 +935,18 @@ async def echo(update: Update, context: CallbackContext) -> None:
         messages_to_delete.clear()
         clear_store_text = await update.message.reply_text('Вы выбрали 🏪 Магазин goabay.com', reply_markup=None)
         messages_to_delete.append(clear_store_text)  # Добавляем в список для удаления
+
+        # Отправляем только клавиатуру с минимальным текстом
+        india_del_catalog = await update.message.reply_text(
+            '🛍️ Выбирите категорию товара 👇',
+            reply_markup=catalog_btn,
+        )
+        messages_to_delete.append(india_del_catalog)
+        india_inline_catalog = await update.message.reply_text(
+            '🛒🛍️👠✨ Категории товаров:',
+            reply_markup=create_category_keyboard()
+        )
+        messages_to_delete.append(india_inline_catalog)  # Добавляем в список для удаления
 
         # Отправляем только клавиатуру с минимальным текстом
         india_del_store = await update.message.reply_text(

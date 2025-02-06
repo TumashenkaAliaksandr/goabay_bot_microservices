@@ -18,7 +18,7 @@ delivery_btn = ReplyKeyboardMarkup([
 # кнопки для "склад в Индии"
 warehouse_btn = ReplyKeyboardMarkup([
     [KeyboardButton("🛍 Товары на складе"), ("🏗 Как работает Склад")],
-    [KeyboardButton("⬅️ Товары из Индии")]
+    [KeyboardButton("⬅️ Товары из Индии"), KeyboardButton("🔗 Ввести ссылку Goabay")]
 ], resize_keyboard=True)
 
 
