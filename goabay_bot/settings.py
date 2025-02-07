@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'pika',
     'grappelli',
     'tinymce',
+    'main_parcer',
 ]
 
 MIDDLEWARE = [
