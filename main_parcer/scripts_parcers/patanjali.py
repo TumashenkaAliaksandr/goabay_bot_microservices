@@ -72,6 +72,9 @@ product_url = "https://www.patanjaliayurved.net/product/paridhan/women-ethnic/sa
 product_data = parse_product(product_url)
 
 if product_data:
-    print(json.dumps(product_data, indent=4, ensure_ascii=False))
+    # Записываем в JSON файл
+    with open('product.json', 'w', encoding='utf-8') as f:
+        json.dump(product_data, f, indent=4, ensure_ascii=False)
+    print("Данные успешно записаны в product.json")
 else:
     print("Не удалось получить данные о товаре.")
