@@ -7,12 +7,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home || Phoenix Bootstrap4 Template for Tools, Equipment Store</title>
+    <title>Delivering goods from India all over the world 🌴 GOABAY</title>
     <meta name="description" content="Default Description">
     <meta name="keywords" content="E-commerce"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSRF token для AJAX -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <!-- place favicon.ico in the root directory -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'site_app/img/icon/goabay_favicon.jpg' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'site_app/img/logo/logo.svg' %}">
     <!-- Google Font css -->
     <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
 
@@ -61,11 +63,15 @@
                 <p>Subscribe to the Phoenix mailing list to receive updates on new arrivals, special offers and other
                     discount information.</p>
                 <div class="subscribe-form-group">
-                    <form action="#">
-                        <input autocomplete="off" type="text" name="message" id="message"
-                               placeholder="Enter your email address">
-                        <button type="submit">subscribe</button>
+                    <form id="newsletter-form" method="POST" action="{% url 'newsletter_signup' %}">
+                        {% csrf_token %}
+                        <input autocomplete="off" type="email" name="email" id="message"
+                               placeholder="Enter your email address" required>
+                        <button type="submit">Subscribe</button>
+                        <input type="checkbox" id="newsletter-permission" name="permission">
+                        <label for="newsletter-permission">Don't show this popup again</label>
                     </form>
+
                 </div>
                 <div class="subscribe-bottom mt-15">
                     <input type="checkbox" id="newsletter-permission">
@@ -75,13 +81,16 @@
         </div>
     </div>
     <!-- Newsletter Popup End -->
+
     {% include 'main/header.html' %}
     {% block content %}{% endblock %}
+
     <!-- Footer -->
     {% include 'main/footer.html' %}
     <!-- Footer End -->
 </div>
 <!-- Wrapper End -->
+
 <!-- jquery 3.12.4 -->
 <script src="{% static 'site_app/js/vendor/jquery-1.12.4.min.js' %}"></script>
 <!-- mobile menu js  -->
@@ -109,6 +118,7 @@
 <script src="{% static 'site_app/js/plugins.js' %}"></script>
 <!-- main js -->
 <script src="{% static 'site_app/js/main.js' %}"></script>
+{#<script src="{% static 'site_app/js/main.js?v=1.0.1' %}"></script>#}
 </body>
 
 </html>

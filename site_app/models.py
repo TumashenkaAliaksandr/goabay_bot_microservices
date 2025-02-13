@@ -13,3 +13,17 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class NewsletterSubscription(models.Model):
+    email = models.EmailField(unique=True)
+    permission = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Подписка (всплывающее окно)'
+        verbose_name_plural = 'Подписка (всплывающее окно)'

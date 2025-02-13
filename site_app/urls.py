@@ -22,6 +22,7 @@ urlpatterns = [
     path('registrations/', registrations, name='registrations'),
     path('forgot-password/', forgot_password, name='forgot-password'),
     path('404/', four_zero_four, name='four-zero-four'),
+    path('newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
 ]
 
 if settings.DEBUG:

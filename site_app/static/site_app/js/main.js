@@ -33,15 +33,85 @@
     /*--------------------------
     1. Newsletter Popup
     ---------------------------*/
+    // setTimeout(function () {
+    //     $('.popup_wrapper').css({
+    //         "opacity": "1",
+    //         "visibility": "visible"
+    //     });
+    //     $('.popup_off').on('click', function () {
+    //         $(".popup_wrapper").fadeOut(500);
+    //     })
+    // }, 2500);
+    /* Newsletter Popup JavaScript */
     setTimeout(function () {
-        $('.popup_wrapper').css({
-            "opacity": "1",
-            "visibility": "visible"
-        });
-        $('.popup_off').on('click', function () {
-            $(".popup_wrapper").fadeOut(500);
-        })
+        // Проверяем, если пользователь уже выбрал "Don't show this popup again"
+        if (localStorage.getItem('newsletter_subscription') !== 'subscribed') {
+            // Показываем окно, если пользователь не выбрал "Don't show this popup again"
+            $('.popup_wrapper').css({
+                "opacity": "1",
+                "visibility": "visible"
+            });
+
+            $('.popup_off').on('click', function () {
+                $(".popup_wrapper").fadeOut(500);
+            });
+
+            $("form").on('submit', function (e) {
+                e.preventDefault();
+                var email = $("#message").val();
+                var checkbox = $('#newsletter-permission').prop('checked');
+
+                // Получаем CSRF токен из мета-тега
+                var csrfToken = document.querySelector('[name="csrf-token"]').content;
+
+                // Отправляем AJAX запрос на сервер
+                $.ajax({
+                    type: 'POST',
+                    url: '/newsletter-signup/',
+                    data: {
+                        email: email,
+                        csrfmiddlewaretoken: csrfToken,
+                        permission: checkbox
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            $(".popup_wrapper").fadeOut(500);
+                            alert('You have successfully subscribed!');
+                        } else {
+                            alert('There was an error with your subscription.');
+                        }
+                    },
+                    error: function () {
+                        alert('There was an error with your subscription.');
+                    }
+                });
+            });
+        }
     }, 2500);
+
+    /* Checking checkbox and setting cookie */
+    $('#newsletter-permission').on('change', function () {
+        if ($(this).is(':checked')) {
+            // Сохраняем выбор пользователя в localStorage
+            localStorage.setItem('newsletter_subscription', 'subscribed');
+        } else {
+            localStorage.removeItem('newsletter_subscription');
+        }
+    });
+
+
+
+// Показывать всплывающее окно, только если в localStorage нет данных о подписке
+    if (!localStorage.getItem('newsletter_subscription')) {
+        setTimeout(function () {
+            $('.popup_wrapper').css({
+                "opacity": "1",
+                "visibility": "visible"
+            });
+        }, 2500);
+    }
+
+
 
     /*----------------------------
     2. Mobile Menu Activation
