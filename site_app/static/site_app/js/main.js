@@ -144,17 +144,18 @@
     4. NivoSlider Activation
     -----------------------------*/
     $('#slider').nivoSlider({
-        effect: 'random',
-        animSpeed: 300,
-        pauseTime: 5000,
-        directionNav: false,
-        manualAdvance: true,
-        controlNavThumbs: false,
-        pauseOnHover: true,
-        controlNav: true,
-        prevText: "<i class='zmdi zmdi-chevron-left'></i>",
-        nextText: "<i class='zmdi zmdi-chevron-right'></i>"
-    });
+    effect: 'random', // Эффект смены слайдов
+    animSpeed: 400, // Скорость анимации (мс)
+    pauseTime: 8000, // Время показа одного слайда (мс)
+    directionNav: false, // Убираем кнопки "вперед/назад"
+    controlNavThumbs: false, // Убираем миниатюры
+    pauseOnHover: true, // Остановка при наведении
+    controlNav: true, // Показывать точки навигации
+    prevText: "<i class='zmdi zmdi-chevron-left'></i>",
+    nextText: "<i class='zmdi zmdi-chevron-right'></i>",
+    manualAdvance: false // Включаем автоматическое перелистывание
+});
+
 
     /*----------------------------------------------------
     5. New Products Activation
@@ -228,10 +229,14 @@
                 .find('.owl-item').removeClass('last')
                 .eq(event.item.index + event.page.size - 1).addClass('last');
         }).owlCarousel({
-            loop: false,
+            loop: true,
             nav: true,
             dots: false,
             smartSpeed: 1500,
+            autoplay: true, // Автоматическое воспроизведение
+            autoplayTimeout: 6000, // Время между слайдами (2 секунды)
+            autoplayHoverPause: true, // Остановка при наведении
+            rtl: true,
             navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
             margin: 1,
             responsive: {
@@ -288,6 +293,7 @@
                 }
             }
         })
+
 
     /*----------------------------------------------------
     9. Hand Tool Activation
@@ -505,7 +511,7 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
     -----------------------------------------------------*/
     $('.best-seller-pro-two')
         .owlCarousel({
-            loop: false,
+            loop: true,
             nav: false,
             dots: false,
             smartSpeed: 1200,
@@ -582,6 +588,7 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
             }
         }
     })
+
      
     
 })(jQuery);
