@@ -260,10 +260,13 @@
                 .find('.owl-item').removeClass('last')
                 .eq(event.item.index + event.page.size - 1).addClass('last');
         }).owlCarousel({
-            loop: false,
+            loop: true,
             nav: true,
             dots: false,
             smartSpeed: 1200,
+            autoplay: true, // Автоматическое воспроизведение
+            autoplayTimeout: 4000, // Время между слайдами (2 секунды)
+            autoplayHoverPause: true, // Остановка при наведении
             navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
             margin: 1,
             responsive: {

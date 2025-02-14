@@ -6,8 +6,9 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from bot_app.models import Product
 from goabay_bot import settings
 from site_app.forms import NewsletterForm
-from site_app.models import NewsletterSubscription
+from site_app.models import NewsletterSubscription, SliderImage
 
+from .forms import NewsletterForm
 
 # bot = telebot.TeleBot(settings.BOT_TOKEN)
 
@@ -16,9 +17,10 @@ from site_app.models import NewsletterSubscription
 def index(request):
 
     products_up_block = Product.objects.all()
-
+    sliders = SliderImage.objects.all()
     context = {
         'products_up_block': products_up_block,
+        'sliders': sliders,
     }
     return render(request, 'webapp/index.html', context=context)
 
@@ -102,6 +104,7 @@ def four_zero_four(request):
 #     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 #
 
+
 def newsletter_signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -114,3 +117,13 @@ def newsletter_signup(request):
         else:
             return JsonResponse({'status': 'error', 'message': 'Email is required.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
+
+def get_slider_images(request):
+    images = SliderImage.objects.all().order_by('-created_at')
+    image_list = [{'url': image.image.url} for image in images]
+    return JsonResponse({'images': image_list})
+
+
+# def slider_view(request):
+#     slides = SliderImage.objects.all()
+#     return render(request, 'webapp/index.html', {'slides': slides})

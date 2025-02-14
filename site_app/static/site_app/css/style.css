@@ -946,7 +946,7 @@ ul.ht-dropdown.dropdown-style-two li {
   .best-seller-unique .owl-nav div {
     background: #f1f1f1;
     border: 1px solid #ebebeb;
-    color: #c2c4c3;
+    color: #ffffff;
     height: 30px;
     width: 30px;
     text-align: center;
@@ -961,7 +961,7 @@ ul.ht-dropdown.dropdown-style-two li {
     transform: translateY(-50%);
     -webkit-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-    line-height: 30px;
+    line-height: 27px;
 }
 
 .new-pro-active .owl-nav div:hover,
@@ -1010,10 +1010,11 @@ ul.ht-dropdown.dropdown-style-two li {
 .home-2 .best-seller-pro .owl-nav div,
 .best-selling-items .owl-nav div,
 .best-selling-items .owl-nav div,.best-seller-unique .owl-nav div {
-    background: transparent;
+    background: #00ba44;
     top: -54px;
     right: 47px;
     left: auto;
+    border-radius: 20px;
 }
 .testimonial__container .dcare-arrow,
 .home-2 .best-seller-pro .owl-nav div,
@@ -1095,7 +1096,7 @@ ul.ht-dropdown.dropdown-style-two li {
 
 .single-product {
     position: relative;
-    background: #fff;
+    /*background: #fff;*/
     -webkit-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     border: 1px solid transparent;
@@ -3451,7 +3452,7 @@ legend {
     height: 40px;
     font-weight: 600;
     text-transform: uppercase;
-    background: #f1ac06;
+    background: #008f00;
     z-index: 999;
 }
 

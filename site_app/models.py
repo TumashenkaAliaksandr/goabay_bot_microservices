@@ -27,3 +27,17 @@ class NewsletterSubscription(models.Model):
     class Meta:
         verbose_name = 'Подписка (всплывающее окно)'
         verbose_name_plural = 'Подписка (всплывающее окно)'
+
+
+class SliderImage(models.Model):
+    name = models.CharField(max_length=100, default='slider')
+    image = models.ImageField(upload_to='slider_images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Слайдер - Бренды'
+        verbose_name_plural = 'Слайдер - Бренды'

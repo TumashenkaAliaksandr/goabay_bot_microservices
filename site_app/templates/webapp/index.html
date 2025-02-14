@@ -808,66 +808,41 @@
             <!-- Container End -->
         </div>
         <!-- New Products End -->
-        <!-- Company Policy Start -->
-        <div class="company-policy pb-60">
+        <!-- Best Products Start -->
+        <div class="best-seller-product pb-40">
             <div class="container">
-                <div class="row">
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{% static 'site_app/img/icon/1.png' %}" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Free Delivery</h3>
-                                <p>Free shipping on all order</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{% static 'site_app/img/icon/2.png' %}" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Online Support 24/7</h3>
-                                <p>Support online 24 hours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{% static 'site_app/img/icon/3.png' %}" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Money Return</h3>
-                                <p>Back guarantee under 7 days</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{% static 'site_app/img/icon/4.png' %}" alt="">
-                            </div>
-                              <div class="policy-desc">
-                                <h3>Member Discount</h3>
-                                <p>Onevery order over $30.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
+                <div class="group-title">
+                    <h2>Popular Indian Brands</h2>
                 </div>
+                <!-- Best Product Activation Start -->
+                <div class="best-seller-pro-active owl-carousel slider-right-content">
+                    {% for slide in sliders %}
+                        <!-- Single Product Start -->
+                        <div class="single-product">
+                            <div class="pro-img">
+                                <a href="{{ slide.link }}"><img class="img" src="{{ slide.image.url }}"
+                                                                alt="{{ slide.name }}"></a>
+                            </div>
+                            <div class="pro-content">
+                                <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="{{ slide.link }}">{{ slide.name }}</a></h4>
+                            </div>
+                        </div>
+                        <!-- Single Product End -->
+                    {% endfor %}
+                </div>
+                <!-- Best Product Activation End -->
             </div>
+            <!-- Container End -->
         </div>
-        <!-- Company Policy End -->
+        <!-- Best Product End -->
+
         <!-- Best Products Start -->
         <div class="best-seller-product pb-40">
             <div class="container">
@@ -1290,5 +1265,84 @@
             </div>
         </div>
         <!-- Brand Logo End -->
+        <!-- Company Policy Start -->
+        <div class="company-policy pb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper" id="slider-wrapper">
+                            {% for slide in slides %}
+                                <div class="swiper-slide">
+                                    {% if slide.link %}
+                                        <a href="{{ slide.link }}">
+                                            <img src="{{ slide.image.url }}" alt="Слайд">
+                                        </a>
+                                    {% else %}
+                                        <img src="{{ slide.image.url }}" alt="Слайд">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Кнопки навигации -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+
+                    <!-- Single Policy Start -->
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-policy">
+                            <div class="icone-img">
+                                <img src="{% static 'site_app/img/icon/1.png' %}" alt="">
+                            </div>
+                            <div class="policy-desc">
+                                <h3>Free Delivery</h3>
+                                <p>Free shipping on all order</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Policy End -->
+                    <!-- Single Policy Start -->
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-policy">
+                            <div class="icone-img">
+                                <img src="{% static 'site_app/img/icon/2.png' %}" alt="">
+                            </div>
+                            <div class="policy-desc">
+                                <h3>Online Support 24/7</h3>
+                                <p>Support online 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Policy End -->
+                    <!-- Single Policy Start -->
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-policy">
+                            <div class="icone-img">
+                                <img src="{% static 'site_app/img/icon/3.png' %}" alt="">
+                            </div>
+                            <div class="policy-desc">
+                                <h3>Money Return</h3>
+                                <p>Back guarantee under 7 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Policy End -->
+                    <!-- Single Policy Start -->
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-policy">
+                            <div class="icone-img">
+                                <img src="{% static 'site_app/img/icon/4.png' %}" alt="">
+                            </div>
+                            <div class="policy-desc">
+                                <h3>Member Discount</h3>
+                                <p>Onevery order over $30.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Policy End -->
+                </div>
+            </div>
+        </div>
+        <!-- Company Policy End -->
 
 {% endblock %}
