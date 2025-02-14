@@ -18,7 +18,7 @@
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img fixed-size">
-                                <a href="{% url 'product_detail' main_product.id main_product.slug %}">
+                                <a href="{% url 'product_detail' main_product.slug main_product.name %}">
                                     <img class="primary-img" src="{{ main_product.image.url }}"
                                          alt="{{ main_product.name }}">
                                     <img class="secondary-img" src="{{ main_product.image.url }}"
@@ -58,6 +58,7 @@
         </div>
     </div>
     <!-- Product Area End -->
+    {% include 'sliders/product_slider_small.html' %}
 
         <!-- Banner Start -->
         <div class="upper-banner banner pb-60">

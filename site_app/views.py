@@ -25,8 +25,8 @@ def index(request):
     return render(request, 'webapp/index.html', context=context)
 
 
-def product_detail(request, id, slug):
-    products = get_object_or_404(Product, id=id)  # Получаем продукт по ID
+def product_detail(request, name, slug):
+    products = get_object_or_404(Product, name=name)  # Получаем продукт по name
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     context = {

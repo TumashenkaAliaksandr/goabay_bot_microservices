@@ -7,7 +7,7 @@ from .views import news, about, contact, cart, wishlist, checkout, shop, product
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
+    path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
     path('news/', news, name='news'),
     path('about/', about, name='about'),
     path('wishlist/', wishlist, name='wishlist'),

@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% load static %}
 
-</body>
-</html>
+<!-- Best Products Start -->
+<div class="best-seller-product pb-40">
+    <div class="container">
+        <div class="group-title">
+            <h2>Most often searched for</h2>
+        </div>
+        <!-- Best Product Activation Start -->
+        <div class="best-seller-pro-active owl-carousel slider-right-content">
+            {% for main_product in products_up_block %}
+                <!-- Single Product Start -->
+                <div class="single-product">
+                    <div class="pro-img">
+                        <a href="{% url 'product_detail' main_product.slug main_product.name %}"><img class="img"
+                                                                                                    src="{{ main_product.image.url }}"
+                                                                                                    alt="{{ main_product.name }}"></a>
+                    </div>
+                    <div class="pro-content">
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <h4>
+                            <a href="{% url 'product_detail' main_product.slug main_product.name %}">{{ main_product.name }}</a>
+                        </h4>
+                    </div>
+                </div>
+                <!-- Single Product End -->
+            {% endfor %}
+        </div>
+        <!-- Best Product Activation End -->
+    </div>
+    <!-- Container End -->
+</div>
+<!-- Best Product End -->
