@@ -127,3 +127,10 @@ def get_slider_images(request):
 # def slider_view(request):
 #     slides = SliderImage.objects.all()
 #     return render(request, 'webapp/index.html', {'slides': slides})
+
+def product_catalog(request):
+    return render(request, 'webapp/shop/product-catalog.html')
+
+
+def how_we_work(request):
+    return render(request, 'webapp/how-we-work.html')
