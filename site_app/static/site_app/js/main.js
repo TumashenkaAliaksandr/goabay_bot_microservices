@@ -294,6 +294,41 @@
             }
         })
 
+    $('.best-seller-pro-active-product')
+        .on('changed.owl.carousel initialized.owl.carousel', function (event) {
+            $(event.target)
+                .find('.owl-item').removeClass('last')
+                .eq(event.item.index + event.page.size - 1).addClass('last');
+        }).owlCarousel({
+            loop: true,
+            nav: false,
+            dots: false,
+            smartSpeed: 500,
+            autoplay: true, // Автоматическое воспроизведение
+            autoplayTimeout: 4600, // Время между слайдами (3 секунды)
+            autoplayHoverPause: false, // Остановка при наведении
+            navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+            margin: 1,
+            responsive: {
+                0: {
+                    items: 1,
+                    autoplay:true
+                },
+                480: {
+                    items: 2
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1200: {
+                    items: 4
+                }
+            }
+        })
+
 
     /*----------------------------------------------------
     9. Hand Tool Activation

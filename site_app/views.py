@@ -25,6 +25,12 @@ def index(request):
     return render(request, 'webapp/index.html', context=context)
 
 
+def category_view(request, category_name):
+    # Логика для отображения категории
+    return render(request, 'webapp/shop/category.html', {'category': category_name})
+
+
+
 def product_detail(request, name, slug):
     products = get_object_or_404(Product, name=name)  # Получаем продукт по name
     product = get_object_or_404(Product, slug=slug)

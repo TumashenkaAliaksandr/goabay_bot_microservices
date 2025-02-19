@@ -71,6 +71,10 @@ body {
     justify-content: space-between;
 }
 
+.group-title p {
+  padding-right: 35%;
+}
+
 .universal-padding {
     padding-left: 15px;
     padding-right: 15px;
@@ -1118,7 +1122,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .pro-img {
     position: relative;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .pro-img img {

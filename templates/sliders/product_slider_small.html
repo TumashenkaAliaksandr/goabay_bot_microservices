@@ -1,13 +1,27 @@
 {% load static %}
 
+
+{% block content %}
 <!-- Best Products Start -->
 <div class="best-seller-product pb-40">
     <div class="container">
         <div class="group-title">
             <h2>Most often searched for</h2>
+            <p>
+                <a href="{% url 'category' 'face' %}">for face</a> |
+                <a href="{% url 'category' 'body' %}">for body</a> |
+                <a href="{% url 'category' 'hair' %}">for hair</a> |
+                <a href="{% url 'category' 'skin' %}">for skin</a> |
+                <a href="{% url 'category' 'health' %}">for health</a> |
+                <a href="{% url 'category' 'home' %}">for home</a> |
+                <a href="{% url 'category' 'meditation' %}">for meditation</a> |
+                <a href="{% url 'category' 'gifts' %}">Gifts</a> |
+                <a href="{% url 'category' 'oil' %}">oil</a> |
+                <a href="{% url 'category' 'souvenirs' %}">Souvenirs</a>
+            </p>
         </div>
         <!-- Best Product Activation Start -->
-        <div class="best-seller-pro-active owl-carousel slider-right-content">
+        <div class="best-seller-pro-active-product owl-carousel slider-right-content">
             {% for main_product in products_up_block %}
                 <!-- Single Product Start -->
                 <div class="single-product">
@@ -37,3 +51,6 @@
     <!-- Container End -->
 </div>
 <!-- Best Product End -->
+
+
+{% endblock %}
