@@ -16,7 +16,7 @@ from .forms import NewsletterForm
 
 def index(request):
 
-    products_up_block = Product.objects.all()
+    products_up_block = Product.objects.all()[:8]
     sliders = SliderImage.objects.all()
     context = {
         'products_up_block': products_up_block,
@@ -140,3 +140,10 @@ def product_catalog(request):
 
 def how_we_work(request):
     return render(request, 'webapp/how-we-work.html')
+
+
+def brand(request):
+    return render(request, 'webapp/shop/brand.html')
+
+def single_brand(request, name, slug):
+    return render(request, 'webapp/shop/single_brand.html')

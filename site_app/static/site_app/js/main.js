@@ -161,7 +161,7 @@
     5. New Products Activation
     -----------------------------------------------------*/
     $('.new-pro-active').owlCarousel({
-            loop: false,
+            loop: true,
             nav: true,
             dots: false,
             smartSpeed: 1000,
@@ -184,6 +184,34 @@
                 },
                 1200: {
                     items: 3
+                }
+            }
+
+        })
+    $('.new-pro-active-two').owlCarousel({
+            loop: true,
+            nav: true,
+            dots: false,
+            smartSpeed: 1000,
+
+            navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+            margin: 30,
+            responsive: {
+                0: {
+                    items: 1,
+                    autoplay:true
+                },
+                480: {
+                    items: 2
+                },
+                768: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                },
+                1200: {
+                    items: 5
                 }
             }
 
@@ -325,7 +353,16 @@
                 },
                 1200: {
                     items: 4
-                }
+                },
+                1300: {
+                    items: 5
+                },
+                1400: {
+                    items: 6
+                },
+                1500: {
+                    items: 7
+                },
             }
         })
 
