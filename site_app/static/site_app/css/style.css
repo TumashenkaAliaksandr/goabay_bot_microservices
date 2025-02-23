@@ -927,7 +927,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .sticker-new, .sticker-sale {
-    background: #f1ac06;
+    background: #80ffae;
     border-radius: 2px;
     color: #fff;
     font-size: 11px;
@@ -1053,7 +1053,7 @@ ul.ht-dropdown.dropdown-style-two li {
 
 .new-pro-active .owl-nav div.owl-next,
 .home-2 .best-seller-pro .owl-nav div.owl-next,.best-seller-unique .owl-nav div.owl-next {
-    right: 0px;
+    right: 0;
 }
 
 .best-seller-pro .owl-nav div.owl-next,
@@ -1153,7 +1153,7 @@ ul.ht-dropdown.dropdown-style-two li {
     display: block;
     font-size: 17px;
     font-weight: normal;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     text-transform: capitalize;
 }
 
@@ -1223,8 +1223,8 @@ ul.ht-dropdown.dropdown-style-two li {
     background: #fff;
 }
 .actions-secondary a:hover {
-    background: #f1ac06;
-    color: #fff;
+    background: #008f00;
+    color: #ffc7e1;
 }
 
 .actions-secondary a {
@@ -1345,7 +1345,7 @@ ul.ht-dropdown.dropdown-style-two li {
     margin-top: 25px;
 }
 .newsletter-box .submit {
-    background: #f1ac06 none repeat scroll 0 0;
+    background: #008f00 none repeat scroll 0 0;
     border: 0 none;
     border-radius: 0 30px 30px 0;
     color: #fff;
@@ -1564,7 +1564,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .breadcrumb-list-item li a.active,
 .main-shop-page .grid-list-view li:hover a,
 .breadcrumb-list-item li:hover a {
-    color: #f1ac06;
+    color: #00ba44;
 }
 
 .main-shop-page .grid-list-view li a {
@@ -2676,7 +2676,7 @@ p.checkout-coupon input[type="submit"] {
 }
 
 .order-button-payment input {
-    background: #f1ac06;
+    background: #008f00;
     border: medium none;
     color: #fff;
     font-size: 17px;
@@ -2804,12 +2804,14 @@ p.checkout-coupon input[type="submit"] {
     height: 40px;
     line-height: 40px;
     background: #fff;
+    border-radius: 30px;
 }
 
 .blog-pagination li.active a,
 .blog-pagination li a:hover {
-    background: #f1ac06;
+    background: #008f00;
     color: #fff;
+    border-radius: 30px;
 }
 
 .search-box-view.fix.blog-search > form {
