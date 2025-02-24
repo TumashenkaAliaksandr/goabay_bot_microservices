@@ -11,7 +11,7 @@
                     <div id="slider" class="nivoSlider">
                         <a href="{% url 'shop' %}"> <img src="{% static 'site_app/img/slider/5.jpg' %}"
                                                   data-thumb="site_app/img/slider/5.jpg' %}" alt="" title="#slider-1-caption1"/></a>
-                        <a href="{% url 'shop' %}"><img src="{% static 'site_app/img/slider/6.jpg' %}" data-thumb="img/slider/6.jpg' %}"
+                        <a href="{% url 'shop' %}"><img src="{% static 'site_app/img/slider/6.jpg' %}" data-thumb="img/slider/6.jpg"
                                                  alt="" title="#slider-1-caption2"/></a>
                     </div>
                     <!-- Slider Background  Image Start-->
@@ -24,7 +24,7 @@
                                     data-wow-delay="1s">Hand Tools <br>Power Saw Machine</h1>
                                 <div class="banner-readmore wow bounceInUp mt-35" data-wow-duration="2s"
                                      data-wow-delay="2s">
-                                    <a class="button slider-btn" href="shop.html">Shop Now</a>
+                                    <a class="button slider-btn" href="{% url 'shop' %}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                                     data-wow-delay="2s">Hand Tools <br>Power Saw Machine</h1>
                                 <div class="banner-readmore wow bounceInUp mt-35" data-wow-duration="1s"
                                      data-wow-delay="3s">
-                                    <a class="button slider-btn" href="shop.html">Shop Now</a>
+                                    <a class="button slider-btn" href="{% url 'shop' %}">Shop Now</a>
                                 </div>
                             </div>
                         </div>

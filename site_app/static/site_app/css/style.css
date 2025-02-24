@@ -757,6 +757,7 @@ ul.ht-dropdown.dropdown-style-two li {
 /*----------------------------------------*/
 .slider-image img {
     width: 100%;
+    height: 550px;
 }
 .text-content-wrapper {
     height: 100%;
@@ -4177,4 +4178,55 @@ legend {
     background-color: #fb9b57;
     border-color: #fb9b57;
     color: whitesmoke;
+}
+
+.category-box {
+    border: 1px solid #ddd; /* Граница вокруг контейнера */
+    padding: 20px; /* Внутренние отступы */
+    border-radius: 5px; /* Закругленные углы */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Тень под контейнером */
+    background-color: #fff; /* Белый фон внутри контейнера */
+    margin-top: -15px;
+    margin-left: 13px;
+    width: 15%;
+}
+
+.category-box ul {
+    list-style: none; /* Убрать маркеры списка */
+    padding: 0; /* Убрать отступы */
+    margin: 0; /* Убрать отступы */
+}
+
+.category-box ul li {
+    margin-bottom: 9px; /* Увеличить отступ между элементами */
+}
+
+.category-box ul li a {
+    text-decoration: none; /* Убрать подчеркивание ссылок */
+    color: #333; /* Цвет текста ссылок */
+}
+
+.category-box ul li a:hover {
+    color: #4ebd22; /* Цвет текста при наведении */
+}
+
+.button.button-mail {
+    margin-top: 20px; /* Отступ сверху */
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+.button.button-mail a {
+    padding: 10px 20px; /* Внутренние отступы */
+    border-radius: 3px; /* Закругленные углы */
+    background-color: #008f00; /* Фон кнопки */
+    color: #fff; /* Цвет текста */
+    text-decoration: none; /* Убрать подчеркивание ссылок */
+    display: block; /* Сделать кнопку шире */
+    width: 100%; /* Занимать всю ширину родителя */
+    text-align: center; /* Выравнивание текста по центру */
+}
+}
+
+.button.button-mail a:hover {
+    background-color: #4ebd22; /* Фон при наведении */
 }

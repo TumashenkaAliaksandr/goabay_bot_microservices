@@ -16,9 +16,13 @@
 }
 .nivoSlider img {
 	position:absolute;
-	top:0px;
-	left:0px;
+	top:0;
+	left:0;
 	max-width: none;
+	height: 550px;
+	object-fit: cover;
+	width: 100%;
+	overflow: hidden;
 }
 .nivo-main-image {
 	display: block !important;
@@ -29,8 +33,8 @@
 /* If an image is wrapped in a link */
 .nivoSlider a.nivo-imageLink {
 	position:absolute;
-	top:0px;
-	left:0px;
+	top:0;
+	left:0;
 	width:100%;
 	height:100%;
 	border:0;
@@ -61,8 +65,8 @@
 /* Caption styles */
 .nivo-caption {
 	position:absolute;
-	left:0px;
-	bottom:0px;
+	left:0;
+	bottom:0;
 	background:#000;
 	color:#fff;
 	width:100%;
@@ -95,10 +99,10 @@
 	cursor:pointer;
 }
 .nivo-prevNav {
-	left:0px;
+	left:0;
 }
 .nivo-nextNav {
-	right:0px;
+	right:0;
 }
 /* Control nav styles (e.g. 1,2,3...) */
 .nivo-controlNav {
