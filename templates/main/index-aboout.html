@@ -1,28 +1,30 @@
 {% load static %}
 
 <!-- Index about Page Start -->
-<div class="blog-area pb-60">
+<div class="blog-area pb-20">
     <div class="container">
-        <!-- Popular Categorie Activation Start -->
-        <div class="blog-active owl-carousel">
+        <div class="row">
             <!-- Single Blog Start -->
-            <div class="index-about-single-blog">
-                <div class="blog-img">
-                    <a href="{% url 'product-catalog' %}"></a>
-                </div>
-                <div class="index-about-content">
-                    <h3 class="index-about-title">Goods from India</h3>
-                    <p class="index-about-description">Unlimited assortment of items- ALL that are allowed to be sent by post,
-                        as per the laws of India and the country of the Recipient.</p>
-                    <div class="index-about-action">
-                        <div class="blog-icon">
-                            <a class="img-fixed-size">🎁</a>
-                        </div>
+            <div class="col-md-3">
+                <div class="index-about-single-blog">
+                    <div class="blog-img">
+                        <a href="{% url 'product-catalog' %}"></a>
                     </div>
-                    <div>
-                        <div class="index-about-button">
-                            <div class="blog-button">
-                                <a href="{% url 'product-catalog' %}" class="btn btn-primary">PRODUCT CATALOG</a>
+                    <div class="index-about-content">
+                        <h3 class="index-about-title">Order goods from India right now!</h3>
+                        <p class="index-about-description">Unlimited assortment of items- ALL that are allowed to be
+                            sent by post,
+                            as per the laws of India and the country of the Recipient.</p>
+                        <div class="index-about-action">
+                            <div class="blog-icon">
+                                <a class="img-fixed-size">🎁</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="index-about-button">
+                                <div class="blog-button">
+                                    <a href="{% url 'product-catalog' %}" class="btn btn-primary">PRODUCT CATALOG</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -30,22 +32,24 @@
             </div>
             <!-- Single Blog End -->
             <!-- Single Blog Start -->
-            <div class="index-about-single-blog">
-                <div class="blog-img">
-                    <a href="{% url 'contacts' %}"></a>
-                </div>
-                <div class="blog-content-two">
-                    <h3 class="index-about-title">ANY goods from India!</h3>
-                    <p class="index-about-description">Didn't find what you wanted on our site?<br>Prompt resolution of any issues that arise, right down to “I want this exact thing”.</p>
-                    <div class="index-about-action">
-                        <div class="blog-icon">
-                            <a class="img-fixed-size">🐘</a>
-                        </div>
+            <div class="col-md-3">
+                <div class="index-about-single-blog">
+                    <div class="blog-img">
+                        <a href="{% url 'contacts' %}"></a>
                     </div>
-                    <div>
-                        <div class="index-about-button">
-                            <div class="elephant-button">
-                                <a href="{% url 'contacts' %}" class="btn btn-primary-elephant">BUY THE ELEPHANT</a>
+                    <div class="blog-content-two">
+                        <h3 class="index-about-title">ANY goods from India!</h3>
+                        <p class="index-about-description">Didn't find what you wanted on our site? Prompt resolution of any issues that arise, right down to “I want this exact thing exactly now”.</p>
+                        <div class="index-about-action">
+                            <div class="blog-icon">
+                                <a class="img-fixed-size">🐘</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="index-about-button">
+                                <div class="elephant-button">
+                                    <a href="{% url 'contacts' %}" class="btn btn-primary-elephant">BUY THE ELEPHANT</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,22 +57,54 @@
             </div>
             <!-- Single Blog End -->
             <!-- Single Blog Start -->
-            <div class="index-about-single-blog">
-                <div class="blog-img">
-                    <a href="{% url 'how-we-work' %}"></a>
-                </div>
-                <div class="blog-content-three">
-                    <h3 class="index-about-title">Delivery all over the World!</h3>
-                    <p class="index-about-description">Years of experience in sending parcels to ANY destination, taking into account the specific customs requirements of India and the recipient's country.</p>
-                    <div class="index-about-action">
-                        <div class="blog-icon">
-                            <a class="img-fixed-size">🌍</a>
+            <div class="col-md-3">
+                <div class="index-about-single-blog">
+                    <div class="blog-img">
+                        <a href="{% url 'how-we-work' %}"></a>
+                    </div>
+                    <div class="blog-content-three">
+                        <h3 class="index-about-title">Delivery all over the World!</h3>
+                        <p class="index-about-description">Years of experience in sending parcels to ANY destination,
+                            taking into account the specific customs requirements of India and the recipient's
+                            country.</p>
+                        <div class="index-about-action">
+                            <div class="blog-icon">
+                                <a class="img-fixed-size">🌍</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="index-about-button">
+                                <div class="how-we-work-button">
+                                    <a href="{% url 'how-we-work' %}" class="btn btn-primary-how-we-work">HOW WE
+                                        WORK</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="index-about-button">
-                            <div class="how-we-work-button">
-                                <a href="{% url 'how-we-work' %}" class="btn btn-primary-how-we-work">HOW WE WORK</a>
+                </div>
+            </div>
+            <!-- Single Blog End -->
+            <!-- Single Blog Start -->
+            <div class="col-md-3">
+                <div class="index-about-single-blog">
+                    <div class="blog-img">
+                        <a href="{% url 'how-we-work' %}"></a>
+                    </div>
+                    <div class="blog-content-four">
+                        <h3 class="index-about-title">Is your package on its way?</h3>
+                        <p class="index-about-description">Years of experience in sending parcels to ANY destination,
+                            taking
+                            into account the specific customs requirements of India and the recipient's country.</p>
+                        <div class="index-about-action">
+                            <div class="blog-icon">
+                                <a class="img-fixed-size">🎈</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="index-about-button">
+                                <div class="how-find-button">
+                                    <a href="{% url 'how-we-work' %}" class="btn btn-primary-how-find">TRACK MY ORDER</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,7 +112,6 @@
             </div>
             <!-- Single Blog End -->
         </div>
-        <!-- Popular Categorie Activation End -->
     </div>
     <!-- Container End -->
 </div>

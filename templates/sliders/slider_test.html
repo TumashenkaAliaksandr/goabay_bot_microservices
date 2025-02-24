@@ -7,26 +7,22 @@
         <div class="row">
             <div class="col-md-auto category-box">
                 <ul>
-                    <li><a href="#">📂Catalog</a></li>
-                    <li><a href="#">📦 Order any product</a></li>
-                    <li><a href="#">🐘 Buy an Elephant</a></li>
-                    <li><a href="#">🛵Indian Moto Tech</a></li>
-                    <li><a href="#">🍀Ayurveda</a></li>
-                    <li><a href="#">🪔Incense</a></li>
-                    <li><a href="#">🧘🏻Yoga Store</a></li>
-                    <li><a href="#">💍Jewellery</a></li>
-                    <li><a href="#">💄Cosmetics</a></li>
-                    <li><a href="#">👕Clothes & Shoes</a></li>
-                    <li><a href="#">🔥Best Sellers</a></li>
-                    <li><a href="#">🎉Promotions</a></li>
-                    <li><a href="#">🎁Gifts</a></li>
-                    <li><a href="#">👍🏻Recommended</a></li>
+                    <li><a href="{% url 'product-catalog' %}">📂 Product Catalog</a></li>
+                    <li><a href="{% url 'checkout' %}">📦 Order any item</a></li>
+                    <li><a href="{% url 'brand' %}">💎 Brands</a></li>
+                    <li><a href="{% url 'brand' %}">🐘 Buy an Elephant</a></li>
+                    <li><a href="{% url 'shop' %}">🚢 Wholisale</a></li>
+                    <li><a href="{% url 'category' 'Ayurveda' %}">🪬 Hand Made</a></li>
+                    <li><a href="{% url 'category' 'Incense' %}">🏷️ Sales</a></li>
+                    <li><a href="{% url 'category' 'Best Sellers' %}">🔥 Best Sellers</a></li>
+                    <li><a href="{% url 'category' 'Recommended' %}">👍🏻 Recommended</a></li>
+                    <li><a href="{% url 'category' 'Promotions' %}">🎉 Promo</a></li>
+                    <li><a href="{% url 'category' 'Gifts' %}">🎁 Gifts</a></li>
                 </ul>
                 <div class="button button-mail">
-                    <a href="#" class="mailpoet_submit">All Products</a>
+                    <a href="{% url 'category' 'all products' %}" class="mailpoet_submit">All Products</a>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <div class="slider-wrapper theme-default">
                     <!-- Slider Background  Image Start-->
@@ -78,89 +74,26 @@
                             <div class="double-pro">
                                 <!-- Single Product Start -->
                                 <div class="single-product">
-                                    <div class="pro-img">
-                                        <a href="product.html"><img class="img"
-                                                                    src="{% static 'site_app/img/products/1.jpg' %}"
+                                    <div class="pro-img-slide">
+                                        <a href="product.html"><img class="img-fixed-size-slide"
+                                                                    src="{% static 'site_app/img/products/6.jpg' %}"
                                                                     alt="product-image"></a>
-                                    </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
                                     </div>
                                 </div>
                                 <!-- Single Product End -->
                                 <!-- Single Product Start -->
                                 <div class="single-product">
-                                    <div class="pro-img">
+                                    <div class="pro-img-small-slide">
                                         <a href="product.html"><img class="img"
-                                                                    src="{% static 'site_app/img/products/2.jpg' %}"
+                                                                    src="{% static 'site_app/img/products/7.jpg' %}"
                                                                     alt="product-image"></a>
                                     </div>
                                     <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <div class="pro-img">
+                                        <div class="pro-img-small-slide">
                                         <a href="product.html"><img class="img"
-                                                                    src="{% static 'site_app/img/products/3.jpg' %}"
+                                                                    src="{% static 'site_app/img/products/8.jpg' %}"
                                                                     alt="product-image"></a>
                                     </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <div class="pro-img">
-                                        <a href="product.html"><img class="img"
-                                                                    src="{% static 'site_app/img/products/4.jpg' %}"
-                                                                    alt="product-image"></a>
-                                    </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
                                     </div>
                                 </div>
                                 <!-- Single Product End -->
@@ -170,89 +103,26 @@
                             <div class="double-pro">
                                 <!-- Single Product Start -->
                                 <div class="single-product">
-                                    <div class="pro-img">
-                                        <a href="product.html"><img class="img"
+                                    <div class="pro-img-slide">
+                                        <a href="product.html"><img class="img-fixed-size-slide"
                                                                     src="{% static 'site_app/img/products/6.jpg' %}"
                                                                     alt="product-image"></a>
-                                    </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
                                     </div>
                                 </div>
                                 <!-- Single Product End -->
                                 <!-- Single Product Start -->
                                 <div class="single-product">
-                                    <div class="pro-img">
+                                    <div class="pro-img-small-slide">
                                         <a href="product.html"><img class="img"
                                                                     src="{% static 'site_app/img/products/7.jpg' %}"
                                                                     alt="product-image"></a>
                                     </div>
                                     <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <div class="pro-img">
+                                        <div class="pro-img-small-slide">
                                         <a href="product.html"><img class="img"
                                                                     src="{% static 'site_app/img/products/8.jpg' %}"
                                                                     alt="product-image"></a>
                                     </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <div class="pro-img">
-                                        <a href="product.html"><img class="img"
-                                                                    src="{% static 'site_app/img/products/5.jpg' %}"
-                                                                    alt="product-image"></a>
-                                    </div>
-                                    <div class="pro-content">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$30.00</span>
-                                            <del class="prev-price">$32.00</del>
-                                        </p>
                                     </div>
                                 </div>
                                 <!-- Single Product End -->

@@ -2,55 +2,67 @@
 
 
 {% block content %}
-<!-- Best Products Start -->
-<div class="best-seller-product pb-40">
-    <div class="container">
-        <div class="group-title">
-            <h2>Most often searched for</h2>
-            <p>
-                <a href="{% url 'category' 'face' %}">for face</a> |
-                <a href="{% url 'category' 'body' %}">for body</a> |
-                <a href="{% url 'category' 'hair' %}">for hair</a> |
-                <a href="{% url 'category' 'skin' %}">for skin</a> |
-                <a href="{% url 'category' 'health' %}">for health</a> |
-                <a href="{% url 'category' 'home' %}">for home</a> |
-                <a href="{% url 'category' 'meditation' %}">for meditation</a> |
-                <a href="{% url 'category' 'gifts' %}">Gifts</a> |
-                <a href="{% url 'category' 'oil' %}">oil</a> |
-                <a href="{% url 'category' 'souvenirs' %}">Souvenirs</a>
-            </p>
-        </div>
-        <!-- Best Product Activation Start -->
-        <div class="best-seller-pro-active-product owl-carousel slider-right-content">
-            {% for main_product in products_up_block %}
-                <!-- Single Product Start -->
-                <div class="single-product">
-                    <div class="pro-img">
-                        <a href="{% url 'product_detail' main_product.slug main_product.name %}"><img class="img"
-                                                                                                    src="{{ main_product.image.url }}"
-                                                                                                    alt="{{ main_product.name }}"></a>
-                    </div>
-                    <div class="pro-content">
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+    <!-- Best Products Start -->
+    <div class="best-seller-product pb-40">
+        <div class="container">
+            <div class="group-title">
+                <h2>Most often searched for</h2>
+                <p>
+                    <a href="{% url 'category' 'man' %}">for Man</a> |
+                    <a href="{% url 'category' 'woman' %}">for Woman</a> |
+                    <a href="{% url 'category' 'children' %}">for Children's</a> |
+                    <a href="{% url 'category' 'health' %}">for Health</a> |
+                    <a href="{% url 'category' 'home' %}">for Home</a> |
+                    <a href="{% url 'category' 'gifts' %}">Gifts</a> |
+                    <a href="{% url 'category' 'souvenirs' %}">Souvenirs</a> |
+                    <a href="{% url 'category' 'all' %}">View all</a>
+                </p>
+            </div>
+                <!-- Brand Logo Start -->
+                <div class="brand-area pb-60">
+                    <div class="container">
+                        <!-- Brand Banner Start -->
+                        <div class="brand-banner owl-carousel">
+                            <div class="single-brand">
+                                <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}"
+                                                 alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}"
+                                                 alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
+                            </div>
+                            <div class="single-brand">
+                                <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
+                            </div>
                         </div>
-                        <h4>
-                            <a href="{% url 'product_detail' main_product.slug main_product.name %}">{{ main_product.name }}</a>
-                        </h4>
+                        <!-- Brand Banner End -->
                     </div>
                 </div>
-                <!-- Single Product End -->
-            {% endfor %}
-        </div>
-        <!-- Best Product Activation End -->
+            </div>
+        <!-- Container End -->
     </div>
-    <!-- Container End -->
-</div>
-<!-- Best Product End -->
+    <!-- Best Product End -->
 
 
 {% endblock %}
