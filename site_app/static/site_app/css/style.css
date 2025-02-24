@@ -1365,23 +1365,23 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .double-product .single-product:last-child {
-    border-bottom: 0px solid #dddd;
+    border-bottom: 0 solid #dddd;
     padding-bottom: 0;
 }
 
 .random-pro-active.slider-right-content .single-product {
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
-    border-right: 0px solid transparent;
+    border-right: 0 solid transparent;
 }
 
 .random-pro-active.slider-right-content .single-product:last-child {
-    border-bottom: 0px solid #eee;
+    border-bottom: 0 solid #eee;
 }
 
 .random-pro-active.slider-right-content .owl-item:not(.active) + .owl-item.active .single-product,
 .random-pro-active.slider-right-content .owl-item.active:first-child .single-product {
-    border-left: 0px solid #eee;
+    border-left: 0 solid #eee;
 }
 .brand-banner.owl-carousel .owl-item img {
     max-width: 100%;
@@ -1404,6 +1404,12 @@ ul.ht-dropdown.dropdown-style-two li {
     border-right: 1px solid #ddd;
     padding: 13px;
 }
+.brand-banner-with.owl-carousel .single-brand {
+    text-align: center;
+    border-right: 1px solid #ddd;
+    padding: 13px;
+}
+
 .border-line{
     position: relative;
 }
@@ -4184,6 +4190,12 @@ legend {
   height: 250px; /* Высота изображения равна высоте контейнера */
   object-fit: cover; /* Изображение будет обрезано, чтобы заполнить контейнер, сохраняя пропорции */
 }
+.img-fixed-size-category {
+  width: 100%; /* Ширина изображения равна ширине контейнера */
+  height: 84px; /* Высота изображения равна высоте контейнера */
+  object-fit: cover; /* Изображение будет обрезано, чтобы заполнить контейнер, сохраняя пропорции */
+}
+
 .img-fixed-size-slide {
   /*width: 100%; !* Ширина изображения равна ширине контейнера *!*/
   height: 180px; /* Высота изображения равна высоте контейнера */
