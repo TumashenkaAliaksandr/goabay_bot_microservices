@@ -147,3 +147,12 @@ def brand(request):
 
 def single_brand(request, name, slug):
     return render(request, 'webapp/shop/single_brand.html')
+
+def elephant(request):
+    products_up_block = Product.objects.all()[:8]
+    sliders = SliderImage.objects.all()
+    context = {
+        'products_up_block': products_up_block,
+        'sliders': sliders,
+    }
+    return render(request, 'webapp/blog/elephant.html', context=context)

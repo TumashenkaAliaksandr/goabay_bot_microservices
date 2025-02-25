@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <!-- Slider Area Start -->
+    {% include 'sliders/slider_test.html' %}
+    <!-- Slider Area End -->
+
+    <!-- Index about Page Start -->
+    {% include 'main/index-aboout.html' %}
+    <!-- Index about Page End -->
+
+    {% include 'sliders/product_slider_small.html' %}
+
+    {% include 'sliders/brand_slider.html' %}
+
+    {% include 'sliders/banner_slider.html' %}
+
+{% endblock %}

@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from goabay_bot import settings
 from . import views
 from .views import news, about, contact, cart, wishlist, checkout, shop, product, compare, account, forgot_password, \
-    login, registrations, four_zero_four, product_catalog, how_we_work, brand
+    login, registrations, four_zero_four, product_catalog, how_we_work, brand, elephant
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -16,6 +16,7 @@ urlpatterns = [
     path('compare/', compare, name='compare'),
     path('shop/', shop, name='shop'),
     path('product/', product, name='product'),
+    path('buy-elephant/', elephant, name='buy-elephant'),
     path('product-catalog/', product_catalog, name='product-catalog'),
     path('category/<str:category_name>/', views.category_view, name='category'),
     path('how-we-work/', how_we_work, name='how-we-work'),
