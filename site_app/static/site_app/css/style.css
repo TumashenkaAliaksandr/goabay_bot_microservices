@@ -1140,6 +1140,9 @@ ul.ht-dropdown.dropdown-style-two li {
 .side-product-list-active .owl-nav div{
     top: -26px;
 }
+.side-product-list .owl-nav-top div{
+    top: -45px!important;
+}
 .best-selling-pro .owl-nav div,
 .new-pro-active.more-e-pro .owl-nav div {
     top: -57px;
@@ -1290,7 +1293,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .pro-actions {
-    bottom: 0px;
+    bottom: 0;
     display: -moz-flex;
     display: -ms-flex;
     display: -o-flex;
@@ -4185,6 +4188,31 @@ legend {
   object-fit: cover; /* Изображение будет обрезано, чтобы заполнить контейнер, сохраняя пропорции */
 }
 
+
+.fixed-size-img-brands {
+  width: 50%; /* Ширина изображения равна ширине контейнера */
+  height: 50%; /* Высота изображения равна высоте контейнера */
+  object-fit: cover; /* Изображение будет обрезано, чтобы заполнить контейнер, сохраняя пропорции */
+}
+
+.fixed-size-img-brands h4 {
+    font-size: 20px;
+    color: #1b1e21;
+    text-align: center;
+}
+
+.product-rating-position {
+    text-align: center;
+}
+
+.block-center {
+    display: flex; /* Отображать элементы в строку */
+    flex-direction: column; /* Столбец */
+    align-items: center; /* Выравнивание по горизонтали */
+    justify-content: center; /* Выравнивание по вертикали */
+}
+
+
 .img-fixed-size {
   width: 100%; /* Ширина изображения равна ширине контейнера */
   height: 250px; /* Высота изображения равна высоте контейнера */
@@ -4401,4 +4429,180 @@ legend {
 
 .button.button-mail a:hover {
     background-color: #4ebd22; /* Фон при наведении */
+}
+
+.single-banner-index-two {
+    position: relative; /* Добавлено для позиционирования overlay */
+    margin-left: 10px; /* Отступ слева */
+}
+
+.single-banner-index-two img {
+    width: 100%;
+    height: auto;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Прозрачный фон */
+    color: #fff;
+    padding: 10px;
+}
+
+.overlay-text {
+    position: relative;
+}
+
+.overlay-text h4 {
+    color: #a4ffc5;
+    margin-left: 8px;
+}
+
+.overlay-text h4:hover {
+    color: #ffff00; /* Желтый цвет при наведении */
+}
+
+.categories-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.categories-row a, .categories-column a {
+    color: #a4ffc5;
+}
+
+.categories-row a:hover, .categories-column a:hover {
+    color: #ffff00; /* Желтый цвет при наведении */
+}
+
+.categories-row span, .categories-column span {
+    margin-right: 10px;
+    color: #00ba44;
+}
+
+.categories-row span:hover, .categories-column span:hover {
+    color: #ffff00; /* Желтый цвет при наведении */
+}
+
+.categories-column {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slider-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    z-index: 10; /* Чтобы кнопки были поверх */
+}
+
+.slider-control {
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border: none;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px; /* Кнопки круглые */
+    opacity: 0.7; /* Полупрозрачные */
+    transition: opacity 0.3s;
+}
+
+.slider-control:hover {
+    opacity: 1; /* Появление кнопки в полном цвете при наведении */
+}
+
+.slider-control.active {
+    background-color: #02be02; /* Зеленый цвет для активной кнопки */
+}
+
+.green-button {
+    position: absolute;
+    top: 75%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    background-color: #02be02; /* Зеленый цвет */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 10; /* Для кнопки Buy Now */
+}
+
+.green-button:hover {
+    background-color: #00a300; /* Темнее зеленый при наведении */
+}
+
+.yellow-button {
+    position: absolute;
+    top: 75%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    background-color: #c1c100;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 10; /* Для кнопки Read More */
+}
+
+.yellow-button:hover {
+    background-color: #00da45;
+}
+
+/* Медиа-запросы для адаптивности */
+
+@media (max-width: 768px) {
+    .single-banner-index-two {
+        margin-left: 5px; /* Уменьшить отступ слева на небольших экранах */
+    }
+
+    .categories-row span, .categories-column span {
+        font-size: 14px; /* Уменьшить размер шрифта на небольших экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .single-banner-index-two {
+        margin-left: 0; /* Убрать отступ слева на очень небольших экранах */
+    }
+
+    .categories-row {
+        flex-direction: column; /* Перенести элементы в столбец на очень небольших экранах */
+    }
+
+    .categories-column {
+        margin-left: 0; /* Убрать отступ слева на очень небольших экранах */
+    }
 }

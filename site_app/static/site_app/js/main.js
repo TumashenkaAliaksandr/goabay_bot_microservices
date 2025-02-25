@@ -399,27 +399,27 @@
     /*----------------------------------------------------
     10. Brand Banner Activation
     -----------------------------------------------------*/
-$('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function (event) {
+    $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function (event) {
         $(event.target)
+            .find('.owl-item').removeClass('last')
+            .eq(event.item.index + event.page.size - 1).addClass('last');
 
-                .find('.owl-item').removeClass('last')
-                .eq(event.item.index + event.page.size - 1).addClass('last');
-
-            $(event.target)
-                .find('.owl-item').removeClass('first')
-                .eq(event.item.index).addClass('first')
-
-
-        }).owlCarousel({
-        loop: false,
-        nav: false,
+        $(event.target)
+            .find('.owl-item').removeClass('first')
+            .eq(event.item.index).addClass('first')
+    }).owlCarousel({
+        loop: true,
+        nav: false, // Включить навигацию
         dots: false,
         smartSpeed: 1200,
+        navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"], // Круглые стрелочки
         margin: 1,
+        autoplay: true, // Автоматическое воспроизведение
+        autoplayTimeout: 3000, // Время между слайдами
         responsive: {
             0: {
                 items: 1,
-                autoplay:true
+                autoplay: true
             },
             480: {
                 items: 3
@@ -432,6 +432,7 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
             }
         }
     })
+
 
     /*----------------------------------------------------
     11. Blog Activation
@@ -641,7 +642,7 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
                 .find('.owl-item').removeClass('last')
                 .eq(event.item.index + event.page.size - 1).addClass('last');
         }).owlCarousel({
-        loop: false,
+        loop: true,
         nav: true,
         dots: false,
         smartSpeed: 1000,
@@ -660,6 +661,41 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
             }
         }
     })
+
+    /*----------------------------------------------------
+    22.Slider Control  Unique Activation
+    -----------------------------------------------------*/
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const sliders = document.querySelectorAll('.slider');
+
+        sliders.forEach(slider => {
+            const slides = slider.querySelectorAll('.slide');
+            const controls = slider.closest('.single-banner-index-two').querySelectorAll('.slider-control');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides[currentSlide].classList.remove('active');
+                controls[currentSlide].classList.remove('active');
+                currentSlide = index;
+                slides[currentSlide].classList.add('active');
+                controls[currentSlide].classList.add('active');
+            }
+
+            controls.forEach((control, index) => {
+                control.addEventListener('click', () => showSlide(index));
+            });
+
+            // Автоматическое переключение слайдов
+            setInterval(() => {
+                showSlide((currentSlide + 1) % slides.length);
+            }, 4000);
+        });
+    });
+
+
+
+
 
      
     

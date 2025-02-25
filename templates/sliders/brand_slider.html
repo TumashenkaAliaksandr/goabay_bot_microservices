@@ -1,22 +1,20 @@
 {% load static %}
 
 <!-- Best Products Start -->
-<div class="best-seller-product pb-40">
+<div class="fixed-size pb-40">
     <div class="container">
         <div class="group-title">
             <h2>Popular Indian Brands</h2>
         </div>
         <!-- Best Product Activation Start -->
-        <div class="best-seller-pro-active owl-carousel slider-right-content">
+        <div class="best-seller-pro-active  owl-carousel slider-right-content">
             {% for slide in sliders %}
                 <!-- Single Product Start -->
                 <div class="single-product">
-                    <div class="pro-img">
+                    <div class="fixed-size-img-brands">
                         <a href="{{ slide.link }}"><img class="img" src="{{ slide.image.url }}"
                                                         alt="{{ slide.name }}"></a>
-                    </div>
-                    <div class="pro-content">
-                        <div class="product-rating">
+                        <div class="product-rating product-rating-position ">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
