@@ -156,3 +156,7 @@ def elephant(request):
         'sliders': sliders,
     }
     return render(request, 'webapp/blog/elephant.html', context=context)
+
+
+def bestsellers(request):
+    return render(request, 'webapp/shop/bestsellers.html')
