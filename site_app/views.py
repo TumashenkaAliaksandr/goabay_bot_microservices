@@ -160,3 +160,7 @@ def elephant(request):
 
 def bestsellers(request):
     return render(request, 'webapp/shop/bestsellers.html')
+
+
+def handmade(request):
+    return render(request, 'webapp/shop/bestsellers.html')
