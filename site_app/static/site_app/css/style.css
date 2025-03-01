@@ -1014,9 +1014,9 @@ ul.ht-dropdown.dropdown-style-two li {
     font-size: 14px;
     line-height: 20px;
 }
-.product-rating i:nth-child(n+4){
-    color: #444;
-}
+/*.product-rating i:nth-child(n+4){*/
+/*    color: #444;*/
+/*}*/
 .price {
     font-size: 14px;
 }
@@ -1217,7 +1217,7 @@ ul.ht-dropdown.dropdown-style-two li {
     border: 1px solid transparent;
     padding: 15px 15px 30px 15px;
     overflow: hidden;
-    height: 76%;
+    height: 100%;
 }
 .product-area .single-product{
     margin-bottom: 20px;
@@ -4605,4 +4605,13 @@ legend {
     .categories-column {
         margin-left: 0; /* Убрать отступ слева на очень небольших экранах */
     }
+}
+
+
+.product-rating .fa-star, .product-rating .fa-star-half-o {
+    color: #ffd700; /* Желтый цвет */
+}
+
+.product-rating .fa-star-o {
+    color: #ccc; /* Серый цвет для пустых звезд */
 }
