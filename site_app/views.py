@@ -138,7 +138,13 @@ def get_slider_images(request):
 #     return render(request, 'webapp/index.html', {'slides': slides})
 
 def product_catalog(request):
-    return render(request, 'webapp/shop/product-catalog.html')
+    products_up_block = Product.objects.all()[:8]
+    sliders = SliderImage.objects.all()
+    context = {
+        'products_up_block': products_up_block,
+        'sliders': sliders,
+    }
+    return render(request, 'webapp/shop/product-catalog.html', context=context)
 
 
 def how_we_work(request):
@@ -170,7 +176,7 @@ def handmade(request):
 
 def serve_json(request):
     try:
-        with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f:
+        with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f: # надо будет на забыть поменять путь
             data = json.load(f)
         return JsonResponse(data, safe=False)
     except FileNotFoundError:
@@ -179,7 +185,6 @@ def serve_json(request):
         return JsonResponse({"error": "Ошибка парсинга JSON"}, status=500)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
-
 
 
 
