@@ -126,7 +126,7 @@ product_data = parse_isha_product(product_url)
 
 if product_data:
      # Записываем данные в JSON-файл
-    with open('product_ishalife.json', 'w', encoding='utf-8') as f:
+    with open('jsons/product_ishalife.json', 'w', encoding='utf-8') as f:
         json.dump(product_data, f, indent=4, ensure_ascii=False)
     print("Данные успешно записаны в файл product_data.json")
 else:

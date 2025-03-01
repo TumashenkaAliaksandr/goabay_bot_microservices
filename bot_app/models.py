@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -40,6 +42,7 @@ class Product(models.Model):
     desc = models.TextField(blank=True, default='Описание')  # Основное описание продукта
     additional_description = models.TextField(blank=True)  # Дополнительное описание продукта
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    rating = models.CharField(max_length=5, blank=True, null=True)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)  # Поле для скидки
     category = models.ManyToManyField(Category, related_name='products')
 
@@ -74,7 +77,11 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product_detail', args=[self.slug, self.name])
+        # Очищаем slug от лишних символов
+        cleaned_slug = re.sub(r'[^\w\s-]', '', self.slug).strip().replace(' ', '-').lower()
+
+        # Используем только cleaned_slug в URL
+        return reverse('product_detail', args=[cleaned_slug])
 
 
 class ProductImage(models.Model):

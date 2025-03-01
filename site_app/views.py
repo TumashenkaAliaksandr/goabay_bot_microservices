@@ -1,10 +1,13 @@
 import telebot
+from celery import shared_task
+from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-
+import json
 from bot_app.models import Product
 from goabay_bot import settings
+from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.forms import NewsletterForm
 from site_app.models import NewsletterSubscription, SliderImage
 
@@ -164,3 +167,28 @@ def bestsellers(request):
 
 def handmade(request):
     return render(request, 'webapp/shop/bestsellers.html')
+
+def serve_json(request):
+    try:
+        with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f:
+            data = json.load(f)
+        return JsonResponse(data, safe=False)
+    except FileNotFoundError:
+        return JsonResponse({"error": "Файл не найден"}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Ошибка парсинга JSON"}, status=500)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+@shared_task
+def update_ishalife_products():
+    url = 'https://ishalife.sadhguru.org/'
+    products = scrape_bestsellers(url)
+
+    # Очистка кеша после обновления
+    cache.delete('ishalife_products')  # Удаляем старые данные из кеша
+    cache.set('ishalife_products', products, timeout=86400)  # Добавляем новые данные в кеш
+

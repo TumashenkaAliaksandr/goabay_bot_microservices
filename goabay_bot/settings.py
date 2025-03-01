@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'grappelli',
     'tinymce',
     'main_parcer',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]  # Убедитесь, что путь ука
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'site_app/static'),]  # Убедитесь, что путь ука
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -138,3 +139,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RABBITMQ_HOST = 'localhost'
 RABBITMQ_QUEUE = 'telegram_messages'
+
+# settings.py
+
+CELERY_BEAT_SCHEDULE = {
+    'update_ishalife_products_daily': {
+        'task': 'site_app.tasks.update_ishalife_products',
+        'schedule': 86400.0,  # Каждый день (в секундах)
+    },
+}
+
