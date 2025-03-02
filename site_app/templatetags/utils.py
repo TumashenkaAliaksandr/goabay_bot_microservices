@@ -4,9 +4,12 @@ register = template.Library()
 
 @register.filter
 def rating_to_stars(rating):
-    if rating is None:
+    if rating is None or isinstance(rating, str) and rating.lower() == 'рейтинг отсутствует':
         return ['fa fa-star-o'] * 5  # Возвращаем пустые звезды, если рейтинг отсутствует
-    rating = float(rating)
+    try:
+        rating = float(rating)
+    except ValueError:
+        return ['fa fa-star-o'] * 5  # Возвращаем пустые звезды, если рейтинг не является числом
     stars = []
     for i in range(5):
         if rating >= (i + 1) * 20:

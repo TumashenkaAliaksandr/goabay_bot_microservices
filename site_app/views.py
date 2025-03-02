@@ -19,7 +19,7 @@ from .forms import NewsletterForm
 
 def index(request):
 
-    products_up_block = Product.objects.all()[:8]
+    products_up_block = Product.objects.all()
     sliders = SliderImage.objects.all()
     context = {
         'products_up_block': products_up_block,
@@ -138,7 +138,7 @@ def get_slider_images(request):
 #     return render(request, 'webapp/index.html', {'slides': slides})
 
 def product_catalog(request):
-    products_up_block = Product.objects.all()[:8]
+    products_up_block = Product.objects.all()
     sliders = SliderImage.objects.all()
     context = {
         'products_up_block': products_up_block,

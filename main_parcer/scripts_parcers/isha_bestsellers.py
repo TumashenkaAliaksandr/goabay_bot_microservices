@@ -116,7 +116,9 @@ def scrape_bestsellers(url):
             try:
                 old_product = Product.objects.get(slug=slug)
                 if old_product.image:
-                    os.remove(os.path.join(MEDIA_ROOT, old_product.image))
+                    image_path_to_remove = os.path.join(MEDIA_ROOT, old_product.image.path)
+                    if os.path.exists(image_path_to_remove):
+                        os.remove(image_path_to_remove)
             except Product.DoesNotExist:
                 pass
 

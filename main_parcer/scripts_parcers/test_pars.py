@@ -1,79 +1,76 @@
 import requests
-import json
 from bs4 import BeautifulSoup
+import re
 
-def scrape_bestsellers(url):
+def collect_product_links_from_category(category_url):
     """
-    Парсит блок "Yogic Best Sellers" с сайта ishalife.sadhguru.org.
-
-    Args:
-        url (str): URL главной страницы сайта.
-
-    Returns:
-        list: Список словарей, содержащих информацию о каждом товаре-бестселлере.
-              Возвращает пустой список в случае ошибки.
+    Собирает все ссылки на товары с указанной страницы категории.
     """
     try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+        response = requests.get(category_url)
+        response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Находим блок "Yogic Best Sellers"
-        bestsellers_section = soup.find('div', class_='home-slider')
+        product_links = set()
 
-        if not bestsellers_section:
-            print("Блок 'Yogic Best Sellers' не найден на странице.")
-            return []
+        # Обновленный шаблон регулярного выражения для захвата URL
+        # Учитывает возможные дополнительные параметры в URL
+        product_link_pattern = re.compile(
+            r'https://ishalife\.sadhguru\.org/in/(?![\w-]+/[\w-]+$)(?!bloom$)(?!natural-food$)(?!yogastore$)(?!temple-consecrated$)(?!savetheweave$)(?!marathi$)(?!store-locator$)(?!track-order$)(?!sso-faq$)(?!books-and-dvds$)[\w-]+$'
+        )
 
-        # Извлекаем информацию о каждом товаре
-        product_items = bestsellers_section.find_all('li', class_='product-item')
-        products = []
+        for a_tag in soup.find_all('a', href=True):
+            href = a_tag['href']
+            if product_link_pattern.match(href):
+                product_links.add(href)
 
-        for item in product_items:
-            name = item.find('strong', class_='product-item-name').text.strip()
-            link = item.find('a', class_='product-item-link')['href']
-            image_src = item.find('img', class_='product-image-photo')['src']
-            price = item.find('span', class_='price').text.strip()
-            try:
-                rating_element = item.find('div', class_='rating-result')
-                rating_title = rating_element['title']
-                rating = rating_title
-            except:
-                rating = "Рейтинг отсутствует"
-            products.append({
-                'name': name,
-                'link': link,
-                'image_src': image_src,
-                'price': price,
-                'rating': rating
-            })
-
-        return products
+        return list(product_links)
 
     except requests.exceptions.RequestException as e:
-        print(f"Ошибка при запросе к сайту: {e}")
+        print(f"Ошибка при запросе к сайту {category_url}: {e}")
         return []
     except Exception as e:
-        print(f"Произошла ошибка при парсинге: {e}")
+        print(f"Ошибка при парсинге {category_url}: {e}")
         return []
 
-# Пример использования
+
+def collect_all_product_links(category_urls):
+    """
+    Собирает все ссылки на товары со всех указанных страниц категорий.
+    """
+    all_product_links = set()
+    for url in category_urls:
+        product_links = collect_product_links_from_category(url)
+        all_product_links.update(product_links)  # Add unique links
+
+    return list(all_product_links)
+
+
 if __name__ == '__main__':
-    url = 'https://ishalife.sadhguru.org/'
-    bestsellers = scrape_bestsellers(url)
+    category_urls = [
+        'https://ishalife.sadhguru.org/in/rudraksha',
+        'https://ishalife.sadhguru.org/in/rudraksha/consecrated-panchamukhi-malas',
+        'https://ishalife.sadhguru.org/in/rudraksha/consecrated-rudraksha-beads',
+        'https://ishalife.sadhguru.org/in/temple-consecrated',
+        'https://ishalife.sadhguru.org/in/rudraksha/spatik-malas',
+        'https://ishalife.sadhguru.org/in/temple-consecrated',
+        'https://ishalife.sadhguru.org/in/yogastore',
+        'https://ishalife.sadhguru.org/in/natural-food',
+        'https://ishalife.sadhguru.org/in/health-immunity',
+        'https://ishalife.sadhguru.org/in/clothings-accessories',
+        'https://ishalife.sadhguru.org/in/bodycare',
+        'https://ishalife.sadhguru.org/in/home',
+        'https://ishalife.sadhguru.org/in/media/books',
+        'https://ishalife.sadhguru.org/in/media',
+        'https://ishalife.sadhguru.org/in/media/books/marathi',
+    ]
 
-    if bestsellers:
-        print("Бестселлеры Yogic:")
-        for product in bestsellers:
-            print(f"  Название: {product['name']}")
-            print(f"  Ссылка: {product['link']}")
-            print(f"  Изображение: {product['image_src']}")
-            print(f"  Цена: {product['price']}")
-            print(f"  Рейтинг: {product['rating']}")
-            print("-" * 30)
+    all_product_links = collect_all_product_links(category_urls)
 
-        # Сохраняем данные в JSON-файл
-        with open('jsons/isha_bestsellers_products.json', 'w', encoding='utf-8') as f:
-            json.dump(bestsellers, f, ensure_ascii=False, indent=4)
+    if all_product_links:
+        print("Все ссылки на товары:")
+        for link in all_product_links:
+            print(link)
+        print(f"\nВсего найдено {len(all_product_links)} ссылок.")
     else:
-        print("Не удалось получить бестселлеры.")
+        print("Не удалось получить ссылки на товары.")

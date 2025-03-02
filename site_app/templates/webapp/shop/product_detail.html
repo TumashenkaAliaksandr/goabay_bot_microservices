@@ -27,7 +27,7 @@
                     <div class="col-lg-5">
                         <!-- Thumbnail Large Image start -->
                         <div class="tab-content">
-                            <div id="thumb1" class="tab-pane active">
+                            <div id="thumb1" class="tab-pane active fixed-size-img-prod">
                                 {% if product.image %}
                                     <a data-fancybox="images" href="{{ product.image.url }}">
                                         <img src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -87,8 +87,8 @@
                                 </div>
                             </div>
                                 <div class="pro-price mb-10">
-                                <p><span class="price" id="total-price">${{ product.discount }}</span>
-                                    <del class="prev-price">-${{ product.price }}</del>
+                                <p><span class="price" id="total-price">${{ product.price }}</span>
+                                    <del class="prev-price">-${{ product.discount }}</del>
                                 </p>
                             </div>
                             <div class="pro-ref mb-15">
