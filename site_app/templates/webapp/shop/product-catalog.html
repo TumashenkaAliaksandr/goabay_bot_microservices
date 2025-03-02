@@ -32,10 +32,17 @@
                                 <!-- Product Image Start -->
                                 <div class="pro-img fixed-size-img-prod">
                                     <a href="{% url 'product_detail' main_product.slug main_product.name %}">
-                                        <img class="primary-img" src="{{ main_product.image.url }}"
-                                             alt="{{ main_product.name }}">
-                                        <img class="secondary-img" src="{{ main_product.image.url }}"
-                                             alt="{{ main_product.name }}">
+                                        {% if main_product.image %}
+                                            <img class="primary-img" src="{{ main_product.image.url }}"
+                                                 alt="{{ main_product.name }}">
+                                            <img class="secondary-img" src="{{ main_product.image.url }}"
+                                                 alt="{{ main_product.name }}">
+                                        {% else %}
+                                            <img class="primary-img" src="{% static 'img/default-image.jpg' %}"
+                                                 alt="Default Image">
+                                            <img class="secondary-img" src="{% static 'img/default-image.jpg' %}"
+                                                 alt="Default Image">
+                                        {% endif %}
                                     </a>
                                 </div>
                                 <!-- Product Image End -->
@@ -49,7 +56,7 @@
                                         {% endwith %}
                                     </div>
                                     <h4>
-                                        <a href="{% url 'product_detail' main_product.id main_product.slug %}">{{ main_product.name|truncatewords:50 }}</a>
+                                        <a href="{% url 'product_detail' main_product.slug main_product.name  %}">{{ main_product.name|truncatewords:50 }}</a>
                                     </h4>
                                     <p><span class="price">{{ main_product.price }}₹</span></p>
                                     <div class="pro-actions">

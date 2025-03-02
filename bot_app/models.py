@@ -38,7 +38,7 @@ class Product(models.Model):
     """Продукты в каталоге"""
     name = models.CharField(max_length=200, db_index=True, default='Название')
     slug = models.SlugField(max_length=200, db_index=True, unique=True, default='default-slug')
-    image = models.ImageField(upload_to='products', verbose_name='photo', blank=True)
+    image = models.ImageField(upload_to='products', verbose_name='photo', null=True, blank=True)
     desc = models.TextField(blank=True, default='Описание')  # Основное описание продукта
     additional_description = models.TextField(blank=True)  # Дополнительное описание продукта
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
