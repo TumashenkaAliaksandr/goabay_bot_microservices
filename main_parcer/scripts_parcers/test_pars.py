@@ -84,37 +84,47 @@ def parse_isha_product(html_content, product_url):
         data['ссылка на товар'] = product_url
 
         # Цена
-        price_box = soup.find('div', class_='price-box')
+        price = None
+        price_box = soup.find('div', class_='product-info-price')
         if price_box:
-            special_price = price_box.find('span', class_='special-price')
+            special_price = price_box.find('span', class_='price-wrapper')
             if special_price:
-                price_str = special_price.find('span', class_='price').text.replace('₹', '').strip()
-                price = float(re.sub(r'[^\d\.]', '', price_str))
-            else:
-                old_price = price_box.find('span', class_='old-price')
-                if old_price:
-                    price_str = old_price.find('span', class_='price').text.replace('₹', '').strip()
-                    price = float(re.sub(r'[^\d\.]', '', price_str))
-                else:
-                    price = 0.0
-            data['цена'] = price
-        else:
-            price = 0.0
-            data['цена'] = price
+                price_wrapper = special_price.find('span', class_='price')
+                if price_wrapper:
+                    price_str = price_wrapper.text.replace('₹', '').replace('&nbsp;', '').strip()
+                    try:
+                        price = float(re.sub(r'[^\d\.]', '', price_str))
+                    except ValueError:
+                        logging.error(f"Could not convert price to float: {price_str}")
+                        price = None
+        data['цена'] = price if price is not None else 0.0
 
         # Описание
-        short_info_wrap = soup.find('div', class_='product-short-info-wrap')
-        if short_info_wrap:
-            description_element = short_info_wrap.find('div', class_='product-short-info description')
-            if description_element:
-                desc = description_element.text.strip()
-                desc = re.sub(r'[\r\n\\"]+', ' ', desc)
-            else:
-                desc = "Описание не найдено"
-            data['описание'] = desc
-        else:
-            desc = "Описание не найдено"
-            data['описание'] = desc
+        product_details_div = soup.find("div", class_="product-short-info-content")
+        description = ""
+        if product_details_div:
+            details_h3 = product_details_div.find("h3", string="Product Details")
+            if details_h3:
+                details_span = details_h3.find_parent("div").find("span")
+                if details_span:
+                    details_text = details_span.get_text(separator="\n", strip=True)
+                    description += "Product Details:\n" + details_text + "\n\n"
+
+            description_h3 = product_details_div.find("h3", string="Product Description")
+            if description_h3:
+                description_span = description_h3.find_parent("div").find("span")
+                if description_span:
+                    description_text = description_span.get_text(separator="\n", strip=True)
+                    description += "Product Description:\n" + description_text + "\n\n"
+
+            more_info_h3 = product_details_div.find("h3", string="More Information")
+            if more_info_h3:
+                more_info_span = more_info_h3.find_parent("div").find("span")
+                if more_info_span:
+                    more_info_text = more_info_span.get_text(separator="\n", strip=True)
+                    description += "More Information:\n" + more_info_text + "\n\n"
+        data['описание'] = description.strip()
+        desc = data['описание']
 
         # Images
         image_url = None
@@ -186,8 +196,8 @@ def save_product_to_db(data, name, price, desc, image_url):
         # Загружаем изображение и получаем путь к нему
         image_path = download_image(image_url, name) if image_url else None
 
-        # Get or update product based on slug
-        product, created = Product.objects.update_or_create(
+        # Get existing product or create a new one
+        product, created = Product.objects.get_or_create(
             slug=slug,
             defaults={
                 'name': name,
@@ -198,7 +208,13 @@ def save_product_to_db(data, name, price, desc, image_url):
             }
         )
 
+        # Обновить поля, если продукт уже существует
         if not created:
+            product.name = name
+            product.desc = desc
+            product.price = price
+            product.image = image_path
+            product.save()
             logging.info(f"Product updated in database: {name} (Slug: {slug})")
         else:
             logging.info(f"Product saved to database: {name} (Slug: {slug})")
@@ -264,4 +280,3 @@ if __name__ == '__main__':
         json.dump(all_products_data, f, indent=4, ensure_ascii=False)
 
     print("Данные о продуктах сохранены в product_ishalife.json")
-

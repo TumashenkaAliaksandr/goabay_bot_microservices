@@ -1492,7 +1492,7 @@
                                     {% endwith %}
                                 </div>
                                 <h4>
-                                    <a href="{% url 'product_detail'  main_product.slug main_product.name %}">{{ main_product.name|truncatewords:50 }}</a>
+                                    <a href="{% url 'product_detail'  main_product.slug main_product.name %}">{{ main_product.name }}</a>
                                 </h4>
                                 <p><span class="price">{{ main_product.price }}₹</span></p>
                                 <div class="pro-actions">

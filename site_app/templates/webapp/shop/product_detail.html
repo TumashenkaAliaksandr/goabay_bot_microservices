@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load utils %}
 
 {% block content %}
 
@@ -88,7 +89,7 @@
                             </div>
                                 <div class="pro-price mb-10">
                                 <p><span class="price" id="total-price">${{ product.price }}</span>
-                                    <del class="prev-price">-${{ product.discount }}</del>
+                                    <del class="prev-price">-${{ product.price|random_increase }}</del>
                                 </p>
                             </div>
                             <div class="pro-ref mb-15">

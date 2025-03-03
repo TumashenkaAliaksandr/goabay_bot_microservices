@@ -1,3 +1,5 @@
+import random
+
 from django import template
 
 register = template.Library()
@@ -19,3 +21,16 @@ def rating_to_stars(rating):
         else:
             stars.append('fa fa-star-o')
     return stars
+
+
+register = template.Library()
+
+@register.filter
+def random_increase(value):
+    try:
+        value = float(value)
+        increase = random.uniform(0, 13)
+        increased_value = value + increase
+        return "{:.2f}".format(increased_value)  # Форматировать до 2 десятичных знаков
+    except (ValueError, TypeError):
+        return value
