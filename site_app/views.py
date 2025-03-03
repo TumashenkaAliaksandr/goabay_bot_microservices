@@ -38,10 +38,13 @@ def product_detail(request, name, slug):
     products = get_object_or_404(Product, name=name)  # Получаем продукт по name
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
+    products_up_block = Product.objects.all()
     context = {
         'products': products,
         'product': product,
         'product_name': product_name,
+        'products_up_block': products_up_block,
+
     }
     return render(request, 'webapp/shop/product_detail.html', context)
 

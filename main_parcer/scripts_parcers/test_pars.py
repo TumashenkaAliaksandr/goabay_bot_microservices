@@ -66,7 +66,6 @@ def collect_product_links_from_category(category_url):
         logging.error(f"Parsing error for {category_url}: {e}")
         return []
 
-
 def parse_isha_product(html_content, product_url):
     try:
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -176,6 +175,27 @@ def parse_isha_product(html_content, product_url):
 
         data['SKU'] = sku if sku else "SKU не найден"
 
+        # Рейтинг
+        rating_summary = soup.find('div', class_='rating-summary')
+        if rating_summary:
+            rating_result = rating_summary.find('div', class_='rating-result')
+            if rating_result:
+                title = rating_result['title']
+                # Extract the percentage from the title
+                rating_percentage = title.replace('%', '').strip()
+                try:
+                    rating = float(rating_percentage)
+                except ValueError:
+                    rating = 0.0
+                data['rating'] = str(rating)
+                print(f"Rating: {rating}")
+            else:
+                data['rating'] = "0"
+                print("Rating result not found")
+        else:
+            data['rating'] = "0"
+            print("Rating summary not found")
+
         return data, name, price, desc, image_url
 
     except Exception as e:
@@ -204,7 +224,7 @@ def save_product_to_db(data, name, price, desc, image_url):
                 'desc': desc,
                 'price': price,
                 'image': image_path,
-                'rating': "0",  # Default rating
+                'rating': data['rating'],  # Use parsed rating
             }
         )
 
@@ -214,6 +234,7 @@ def save_product_to_db(data, name, price, desc, image_url):
             product.desc = desc
             product.price = price
             product.image = image_path
+            product.rating = data['rating']  # Update rating
             product.save()
             logging.info(f"Product updated in database: {name} (Slug: {slug})")
         else:

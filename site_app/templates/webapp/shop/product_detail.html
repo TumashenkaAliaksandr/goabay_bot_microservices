@@ -76,11 +76,13 @@
                             <h3 class="product-header">{{ product.name }}</h3>
                             <div class="rating-summary fix mtb-10">
                                 <div class="rating f-left">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    <div class="product-rating">
+                                    {% with stars=main_product.rating|rating_to_stars %}
+                                        {% for star in stars %}
+                                            <i class="{{ star }}"></i>
+                                        {% endfor %}
+                                    {% endwith %}
+                                </div>
                                 </div>
                                 <div class="rating-feedback f-left">
                                     <a href="#">(1 review)</a>
