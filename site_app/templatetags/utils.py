@@ -23,8 +23,6 @@ def rating_to_stars(rating):
     return stars
 
 
-register = template.Library()
-
 @register.filter
 def random_increase(value):
     try:

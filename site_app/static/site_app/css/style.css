@@ -4614,9 +4614,9 @@ legend {
 
 
 .product-rating .fa-star, .product-rating .fa-star-half-o {
-    color: #ffd700; /* Желтый цвет */
+    color: #ffd700!important; /* Желтый цвет */
 }
 
 .product-rating .fa-star-o {
-    color: #ccc; /* Серый цвет для пустых звезд */
+    color: #ccc!important; /* Серый цвет для пустых звезд */
 }
