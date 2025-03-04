@@ -9,7 +9,7 @@ from bot_app.models import Product
 from goabay_bot import settings
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.forms import NewsletterForm
-from site_app.models import NewsletterSubscription, SliderImage
+from site_app.models import NewsletterSubscription, Brand
 
 from .forms import NewsletterForm
 
@@ -20,7 +20,7 @@ from .forms import NewsletterForm
 def index(request):
 
     products_up_block = Product.objects.all()
-    sliders = SliderImage.objects.all()
+    sliders = Brand.objects.all()
     context = {
         'products_up_block': products_up_block,
         'sliders': sliders,
@@ -131,7 +131,7 @@ def newsletter_signup(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
 def get_slider_images(request):
-    images = SliderImage.objects.all().order_by('-created_at')
+    images = Brand.objects.all().order_by('-created_at')
     image_list = [{'url': image.image.url} for image in images]
     return JsonResponse({'images': image_list})
 
@@ -142,7 +142,7 @@ def get_slider_images(request):
 
 def product_catalog(request):
     products_up_block = Product.objects.all()
-    sliders = SliderImage.objects.all()
+    sliders = Brand.objects.all()
     context = {
         'products_up_block': products_up_block,
         'sliders': sliders,
@@ -155,14 +155,31 @@ def how_we_work(request):
 
 
 def brand(request):
-    return render(request, 'webapp/shop/brand.html')
+    products_up_block = Product.objects.all()
+    sliders = Brand.objects.all()
+    context = {
+        'products_up_block': products_up_block,
+        'sliders': sliders,
+    }
+    return render(request, 'webapp/shop/brand.html', context=context)
 
 def single_brand(request, name, slug):
-    return render(request, 'webapp/shop/single_brand.html')
+    products = get_object_or_404(Product, name=name)  # Получаем продукт по name
+    product = get_object_or_404(Product, slug=slug)
+    product_name = Product.objects.all()
+    products_up_block = Product.objects.all()
+    context = {
+        'products': products,
+        'product': product,
+        'product_name': product_name,
+        'products_up_block': products_up_block,
+
+    }
+    return render(request, 'webapp/shop/single_brand.html', context=context)
 
 def elephant(request):
     products_up_block = Product.objects.all()[:8]
-    sliders = SliderImage.objects.all()
+    sliders = Brand.objects.all()
     context = {
         'products_up_block': products_up_block,
         'sliders': sliders,

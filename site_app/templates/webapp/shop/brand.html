@@ -1,646 +1,84 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
+{% load utils %}
 
 {% block content %}
-    <!-- Slider Area Start -->
-    {% include 'sliders/slider_test.html' %}
-    <!-- Slider Area End -->
-    <!-- Upsell Product Start -->
-    <div class="related-product pb-30">
-        <div class="container">
-            <div class="usel-product">
-                <div class="group-title">
-                    <h2>upsell product</h2>
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-area ptb-60 ptb-sm-30">
+            <div class="container">
+                <div class="breadcrumb">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'shop' %}">Shop</a></li>
+                        <li class="active"><a href="product.html">Product</a></li>
+                    </ul>
                 </div>
-                <!-- Upsell Product Activation Start -->
-                <div class="new-upsell-pro owl-carousel">
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
+            </div>
+            <!-- Container End -->
+        </div>
+        <!-- Breadcrumb End -->
+
+
+        <!-- Product Area Start -->
+        <div class="product-area pt-30">
+            <div class="container">
+                <div class="row" style="display: flex; flex-wrap: wrap;">
+                    <!-- Используем flexbox для отображения в строку -->
+                    {% for main_product in products_up_block %}
+                        <!-- Single Product Start -->
+                        <div class="col-lg-3 col-sm-6" style="flex: 1 0 21%; margin: 10px;">
+                            <!-- Устанавливаем ширину и отступы -->
+                            <div class="single-product">
+                                <!-- Product Image Start -->
+                                <div class="pro-img fixed-size-img-prod">
+                                    <a href="{% url 'product_detail' main_product.slug main_product.name %}">
+                                        {% if main_product.image %}
+                                            <img class="primary-img" src="{{ main_product.image.url }}"
+                                                 alt="{{ main_product.name }}">
+                                            <img class="secondary-img" src="{{ main_product.image.url }}"
+                                                 alt="{{ main_product.name }}">
+                                        {% else %}
+                                            <img class="primary-img" src="{% static 'img/default-image.jpg' %}"
+                                                 alt="Default Image">
+                                            <img class="secondary-img" src="{% static 'img/default-image.jpg' %}"
+                                                 alt="Default Image">
+                                        {% endif %}
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/1.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
+                                <!-- Product Image End -->
+                                <!-- Product Content Start -->
+                                <div class="pro-content">
+                                    <div class="product-rating">
+                                        {% with stars=main_product.rating|rating_to_stars %}
+                                            {% for star in stars %}
+                                                <i class="{{ star }}"></i>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                    <h4>
+                                        <a href="{% url 'product_detail' main_product.slug main_product.name  %}">{{ main_product.name|truncatewords:50 }}</a>
+                                    </h4>
+                                    <p><span class="price">{{ main_product.price }}₹</span></p>
+                                    <div class="pro-actions">
+                                        <div class="actions-secondary">
+                                            <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
+                                                    class="fa fa-heart"></i></a>
+                                            <a class="add-cart" href="{% url 'cart' %}" data-toggle="tooltip"
+                                               title="Add to Cart">Add
+                                                To Cart</a>
+                                            <a href="shop/compare.html" data-toggle="tooltip" title="Add to Compare"><i
+                                                    class="fa fa-signal"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!-- Product Content End -->
                             </div>
                         </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-30%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
+                        <!-- Single Product End -->
+                    {% endfor %}
                 </div>
-                <!-- Upsell Product Activation End -->
             </div>
         </div>
-    </div>
-    <!-- Upsell Product End -->
-    <!-- Realted Product Start -->
-    <div class="related-product pb-30">
-        <div class="container">
-            <div class="related-box">
-                <!-- Realted Product Activation Start -->
-                <div class="new-upsell-pro owl-carousel">
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/1.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-30%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
-                </div>
-                <!-- Realted Product Activation End -->
-            </div>
-        </div>
-    </div>
-    <!-- Realted Product End -->
-    <!-- Upsell Product Start -->
-    <div class="related-product pb-30">
-        <div class="container">
-            <div class="usel-product">
-                <div class="group-title">
-                    <h2>upsell product</h2>
-                </div>
-                <!-- Upsell Product Activation Start -->
-                <div class="new-upsell-pro owl-carousel">
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/1.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-30%</span>
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/3.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                    </div>
-                    <!-- Single Product End -->
-                    <!-- Single Product Start -->
-                    <div class="single-product">
-                        <!-- Product Image Start -->
-                        <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{% static 'site_app/img/products/4.jpg' %}"
-                                     alt="single-product">
-                                <img class="secondary-img" src="{% static 'site_app/img/products/2.jpg' %}"
-                                     alt="single-product">
-                            </a>
-                        </div>
-                        <!-- Product Image End -->
-                        <!-- Product Content Start -->
-                        <div class="pro-content">
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="price">$30.00</span>
-                                <del class="prev-price">$32.00</del>
-                            </p>
-                            <div class="pro-actions">
-                                <div class="actions-secondary">
-                                    <a href="{% url 'wishlist' %}" data-toggle="tooltip" title="Add to Wishlist"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add
-                                        To Cart</a>
-                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i
-                                            class="fa fa-signal"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Content End -->
-                        <span class="sticker-new">-32%</span>
-                    </div>
-                    <!-- Single Product End -->
-                </div>
-                <!-- Upsell Product Activation End -->
-            </div>
-        </div>
-    </div>
-    <!-- Upsell Product End -->
+        <!-- Product Area End -->
 
 {% endblock %}

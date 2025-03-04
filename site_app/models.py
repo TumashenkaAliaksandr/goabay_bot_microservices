@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -29,9 +32,9 @@ class NewsletterSubscription(models.Model):
         verbose_name_plural = 'Подписка (всплывающее окно)'
 
 
-class SliderImage(models.Model):
-    name = models.CharField(max_length=100, default='slider')
-    image = models.ImageField(upload_to='slider_images/')
+class Brand(models.Model):
+    name = models.CharField(max_length=100, default='brand', unique=True)
+    image = models.ImageField(upload_to='brands_logo_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     link = models.URLField(blank=True, null=True)
 
@@ -39,5 +42,11 @@ class SliderImage(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Слайдер - Бренды'
-        verbose_name_plural = 'Слайдер - Бренды'
+        verbose_name = 'Бренды'
+        verbose_name_plural = 'Бренды'
+
+# Сигнал для автоматического формирования слага
+@receiver(pre_save, sender=Brand)
+def create_slug(sender, instance, *args, **kwargs):
+    if not instance.slug or instance.slug == 'default-slug':
+        instance.slug = slugify(instance.name)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from bot_app.models import ProductImage, Product
-from site_app.models import Category, SliderImage
+from site_app.models import Category, Brand
 
 
 # Register your models here.
@@ -22,8 +22,8 @@ class ProductImageInline(admin.TabularInline):
 
 admin.site.register(ProductImage)
 
-@admin.register(SliderImage)
-class SliderImageAdmin(admin.ModelAdmin):
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'image', 'created_at', 'link']
     ordering = ['-created_at']
 

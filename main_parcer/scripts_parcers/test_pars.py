@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import re
 from django.utils.text import slugify
 from bot_app.models import Product, Category, ProductImage  # Импортируем модели
+from site_app.models import Brand
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -277,6 +278,104 @@ def save_product_to_db(data, name, price, desc):
         category_name = data['категория'] if data['категория'] else "General"
         category, created = Category.objects.get_or_create(name=category_name)
 
+        # Log the length of the name before cleaning
+        logging.info(f"Длина оригинального названия: {len(name)}")
+
+        # Преобразуем не-ASCII символы и создаем слаг
+        cleaned_name = unidecode.unidecode(name)
+        cleaned_name = re.sub(r'[^a-zA-Z0-9\s]', '', cleaned_name).strip()[:100]  # Обрезаем до 100 символов
+
+        # Log the length of the name after cleaning
+        logging.info(f"Длина очищенного названия: {len(cleaned_name)}")
+
+        # Создаем слаг на основе очищенного названия
+        slug = cleaned_name.replace(' ', '-').lower()
+
+        # Get the image URLs
+        image_urls = data.get('image_urls', [])
+        main_image_url = image_urls[0] if image_urls else None
+
+        # Download main image
+        main_image_path = download_image(main_image_url, slug) if main_image_url else None
+
+        # Пытаемся получить существующий продукт или создать новый
+        product, created = Product.objects.get_or_create(
+            slug=slug,
+            defaults={
+                'name': cleaned_name,
+                'desc': desc,
+                'price': price,
+                'image': main_image_path,
+                'rating': data['rating'],
+                'additional_description': data['additional_description'],
+            }
+        )
+
+        if created:
+            logging.info(f"Продукт создан в базе данных: {cleaned_name} (Slug: {slug})")
+        else:
+            logging.info(f"Продукт уже существует в базе данных: {cleaned_name} (Slug: {slug})")
+
+        # Add brand name to Brand model if it doesn't exist
+        brand_name = data.get('производитель')  # Get brand name from data
+        if brand_name:
+            brand, brand_created = Brand.objects.get_or_create(
+                name=brand_name,
+                defaults={'slug': slugify(brand_name)}  # Create slug from brand name
+            )
+            if brand_created:
+                logging.info(f"Бренд '{brand_name}' создан и сохранен в базе данных.")
+            else:
+                logging.info(f"Бренд '{brand_name}' уже существует в базе данных.")
+
+        # Обрабатываем дополнительные изображения
+        processed_images = set()  # Отслеживаем обработанные URL, чтобы избежать дубликатов
+
+        for img_url in image_urls[1:]:  # Пропускаем первое изображение, так как оно основное
+            if img_url not in processed_images:  # Проверяем, не было ли изображение уже обработано
+                try:
+                    additional_image_path = download_image(img_url, slug,
+                                                           is_additional=True)  # Скачиваем дополнительное изображение
+
+                    if additional_image_path:
+                        # Проверяем, существует ли уже такое изображение перед созданием
+                        if not ProductImage.objects.filter(product=product, image=additional_image_path).exists():
+                            ProductImage.objects.create(product=product, image=additional_image_path)
+                            logging.info(f"Дополнительное изображение сохранено для продукта {cleaned_name}")
+                        else:
+                            logging.info(f"Дубликат дополнительного изображения пропущен: {img_url}")
+                    else:
+                        logging.warning(
+                            f"Не удалось скачать дополнительное изображение с {img_url} для продукта {cleaned_name}")
+
+                except Exception as e:
+                    logging.error(
+                        f"Ошибка при сохранении дополнительного изображения для продукта {cleaned_name} с {img_url}: {e}")
+
+                processed_images.add(img_url)  # Добавляем URL изображения в набор обработанных
+            else:
+                logging.info(f"Пропускаем дубликат изображения: {img_url} для продукта {cleaned_name}")
+
+        product.category.clear()
+        product.category.add(category)
+
+    except Exception as e:
+        logging.error(f"Ошибка при сохранении продукта {cleaned_name} в базу данных: {e}")
+
+    """
+    Сохраняет данные продукта в базу данных.
+
+    Аргументы:
+        data (dict): Словарь с данными продукта.
+        name (str): Название продукта.
+        price (float): Цена продукта.
+        desc (str): Описание продукта.
+    """
+    try:
+        # Сохраняем в базу данных
+        category_name = data['категория'] if data['категория'] else "General"
+        category, created = Category.objects.get_or_create(name=category_name)
+
         # Логируем длину названия перед очисткой
         logging.info(f"Длина оригинального названия: {len(name)}")
 
@@ -289,6 +388,7 @@ def save_product_to_db(data, name, price, desc):
 
         # Создаем слаг на основе очищенного названия
         slug = cleaned_name.replace(' ', '-').lower()
+
 
         # Получаем URL изображений
         image_urls = data.get('image_urls', [])
