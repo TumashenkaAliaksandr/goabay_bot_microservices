@@ -159,3 +159,13 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'silver',
+    'plugins': 'link,image,media,preview,searchreplace,code,fullscreen,table,contextmenu,paste,lists',
+    'toolbar': 'undo redo | styleselect | bold italic | link image media | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code | fullscreen preview',
+    'contextmenu': 'link image inserttable | cell row column deletetable',
+    'menubar': True,
+    'statusbar': True,
+    'height': 360,
+}
+

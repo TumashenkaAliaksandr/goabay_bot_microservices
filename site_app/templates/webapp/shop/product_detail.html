@@ -94,7 +94,7 @@
                                     <del class="prev-price">-${{ product.price|random_increase }}</del>
                                 </p>
                                 <ul class="tab-list-item">
-                                    {{ product.additional_description }}
+                                    {{ product.additional_description|safe }}
                                 </ul>
                             </div>
                             <div class="pro-ref mb-15">
@@ -135,7 +135,7 @@
                                     <li><a href="#">Email</a></li>
                                 </ul>
                             </div>
-                            <p class="ptb-20">{{ product.desc }}</div>
+                            <p class="ptb-20">{{ product.desc|safe }}</div>
                     </div>
                     <!-- Thumbnail Description End -->
                 </div>
@@ -156,9 +156,9 @@
                         <!-- Product Thumbnail Tab Content Start -->
                         <div class="tab-content thumb-content border-default">
                             <div id="dtail" class="tab-pane in active">
-                                <p>{{ product.desc }}</p>
+                                <p>{{ product.desc|safe }}</p>
                                 <ul class="tab-list-item">
-                                    <h5>{{ product.additional_description }}</h5>
+                                    <h5>{{ product.additional_description|safe }}</h5>
                                 </ul>
                             </div>
                             <div id="review" class="tab-pane">

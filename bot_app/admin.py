@@ -4,10 +4,11 @@ from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from bot_app import models
-from site_app.admin import ProductImageInline
-from .models import Product, News, NewsImage, AboutUs
 
+from site_app.admin import ProductImageInline
+from site_app.forms import ProductForm
+from . import models  # Убедитесь, что импортируете правильно
+from .models import Product, News, NewsImage, AboutUs  # Убедитесь, что импортируете правильно
 
 # Создаём экземпляр кастомной админки
 class MyAdminSite(AdminSite):
@@ -37,39 +38,35 @@ admin_site.register(Group)  # Регистрация группы в касто�
 all_models = apps.get_models()
 
 for model in all_models:
-    if model not in [User, Group]:  # Пропускаем уже зарегистрированные модели
+    if model not in [User, Group, Product, News]:  # Исключаем Product и News
         try:
             admin_site.register(model)
         except admin.sites.AlreadyRegistered:
             pass  # Пропускаем уже зарегистрированные модели
 
-
-class WordAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'word_gender', 'word']
-    list_edit = ['word_gender', 'word']
-
-
-admin.site.register(models.Words, WordAdmin)
-
-
-# @admin.register(Product)
-# class ProductAdmin(admin.ModelAdmin):
-#     form = ProductForm
-#     list_display = ('name', 'price', 'image_preview', 'brand', 'category')  # Добавлено поле brand
-#     search_fields = ('name', 'brand')  # Поля для поиска (добавлено поле brand)
-#     list_filter = ('price', 'brand')  # Фильтры по цене и бренду
+# class WordAdmin(admin.ModelAdmin):
+#     list_display = ['pk', 'word_gender', 'word']
+#     list_edit = ['word_gender', 'word']
 #
-#     def image_preview(self, obj):
-#         if obj.image:
-#             return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" />')
-#         return '-'
-#
-#     image_preview.short_description = 'Image Preview'
+# admin_site.register(models.Words, WordAdmin)
+
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'is_popular', 'is_new_product', 'additional_description', 'image_preview')  # Отображаем нужные поля
-    list_filter = ('category', 'brand', 'is_popular', 'is_new_product')  # Фильтрация по полям
-    search_fields = ('name', 'desc')  # Поиск по имени и описанию
-    prepopulated_fields = {'slug': ('name',)}  # Автоматическое заполнение поля slug
+    # Используем кастомную форму для TinyMCE
+    form = ProductForm
+
+    # Поля, отображаемые в списке продуктов
+    list_display = ('name', 'price', 'is_popular', 'is_new_product', 'has_additional_description', 'image_preview')
+
+    # Фильтрация по полям
+    list_filter = ('category', 'brand', 'is_popular', 'is_new_product')
+
+    # Поля для поиска
+    search_fields = ('name', 'desc')
+
+    # Автоматическое заполнение поля slug на основе названия продукта
+    prepopulated_fields = {'slug': ('name',)}
+
+    # Встраиваемая модель для изображений продукта
     inlines = [ProductImageInline]
 
     def image_preview(self, obj):
@@ -80,11 +77,21 @@ class ProductAdmin(admin.ModelAdmin):
 
     image_preview.short_description = 'Image Preview'  # Заголовок для колонки
 
+    def has_additional_description(self, obj):
+        """Метод для отображения галочки, если есть additional_description."""
+        return bool(obj.additional_description)
+
+    has_additional_description.short_description = 'Additional Description'  # Заголовок для колонки
+    has_additional_description.boolean = True  # Чтобы Django отображал как булево значение
+
     def save_model(self, request, obj, form, change):
         """Метод для обработки сохранения модели."""
+        obj.additional_description = form.cleaned_data['additional_description']  # Сохраняем данные из TinyMCE
         super().save_model(request, obj, form, change)
 
-admin.site.register(Product, ProductAdmin)
+
+# Регистрируем ProductAdmin в кастомной админке
+admin_site.register(Product, ProductAdmin)
 
 class NewsImageInline(admin.TabularInline):
     model = NewsImage
@@ -97,19 +104,14 @@ class NewsAdmin(admin.ModelAdmin):
     ordering = ('-date',)  # Порядок сортировки, по дате новостей
     list_filter = ('date',)  # Фильтры для боковой панели, по дате
 
-    inlines = [NewsImageInline]  # Встроенная модель для изображений новостей
-
     def save_model(self, request, obj, form, change):
         """Метод для обработки сохранения модели"""
         super().save_model(request, obj, form, change)
 
-    # Регистрация модели News с настройками NewsAdmin
+admin_site.register(News, NewsAdmin)  # Регистрируем NewsAdmin в кастомной админке
 
-
-admin.site.register(News, NewsAdmin)
-
-
-@admin.register(AboutUs)
-class AboutUsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'updated_at')
-    search_fields = ('title',)
+# class AboutUsAdmin(admin.ModelAdmin):
+#     list_display = ('title', 'created_at', 'updated_at')
+#     search_fields = ('title',)
+#
+# admin_site.register(AboutUs, AboutUsAdmin)  # Регистрируем AboutUsAdmin в кастомной админке

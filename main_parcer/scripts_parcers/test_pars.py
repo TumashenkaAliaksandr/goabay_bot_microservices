@@ -1,5 +1,6 @@
 import os
 import django
+import unidecode
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
 django.setup()
@@ -9,7 +10,7 @@ import json
 from bs4 import BeautifulSoup
 import re
 from django.utils.text import slugify
-from bot_app.models import Product, Category
+from bot_app.models import Product, Category, ProductImage  # Импортируем модели
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,33 +18,65 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '../media')
 
 
-def download_image(url, product_name):
+def download_image(url, product_name, is_additional=False):
+    """
+    Скачивает изображение, сохраняет его и возвращает путь к файлу.
+
+    Аргументы:
+        url (str): URL изображения.
+        product_name (str): Название продукта для создания имени файла.
+        is_additional (bool): Флаг, указывающий, является ли изображение дополнительным.
+
+    Возвращает:
+        str: Путь к файлу изображения или None в случае ошибки.
+    """
     try:
-        response = requests.get(url, stream=True, timeout=10)  # Added timeout
+        response = requests.get(url, stream=True, timeout=10)
         response.raise_for_status()
-        filename = url.split("/")[-1].split('?')[0]
-        product_name = slugify(product_name)
-        filepath = os.path.join('products', f'{product_name}_{filename}')
-        media_dir = os.path.join(MEDIA_ROOT, 'products')
+        filename = os.path.basename(url).split('?')[0]  # Извлекаем имя файла из URL
+
+        product_name = slugify(product_name)  # Преобразуем имя продукта в слаг
+
+        # Укорачиваем имя продукта и имя файла до 50 символов
+        product_name = product_name[:50]
+        filename = filename[:50]
+
+        if is_additional:
+            filepath = os.path.join('products/additional', f'{product_name}_{filename}')
+            media_dir = os.path.join(MEDIA_ROOT, 'products/additional')
+        else:
+            filepath = os.path.join('products', f'{product_name}_{filename}')
+            media_dir = os.path.join(MEDIA_ROOT, 'products')
 
         if not os.path.exists(media_dir):
             os.makedirs(media_dir)
 
-        full_path = os.path.join(MEDIA_ROOT, filepath)
+        full_path = os.path.join(MEDIA_ROOT, filepath)  # Полный путь к файлу
+        logging.info(f"Full image path: {full_path}")
+
         with open(full_path, 'wb') as f:
             for chunk in response.iter_content(1024):
                 f.write(chunk)
         logging.info(f"Image downloaded successfully: {url} to {filepath}")
         return filepath
     except requests.exceptions.RequestException as e:
-        logging.error(f"Request error downloading image from {url}: {e}")
+        logging.error(f"Ошибка при скачивании изображения с {url}: {e}")
         return None
     except Exception as e:
-        logging.error(f"Error downloading image from {url}: {e}")
+        logging.error(f"Ошибка при обработке изображения с {url}: {e}")
         return None
 
 
 def collect_product_links_from_category(category_url):
+    """
+    Собирает ссылки на продукты из URL категории.
+
+    Аргументы:
+        category_url (str): URL категории.
+
+    Возвращает:
+        list: Список ссылок на продукты.
+    """
     try:
         response = requests.get(category_url, timeout=10)
         response.raise_for_status()
@@ -60,13 +93,24 @@ def collect_product_links_from_category(category_url):
 
         return list(product_links)
     except requests.exceptions.RequestException as e:
-        logging.error(f"Request error for {category_url}: {e}")
+        logging.error(f"Ошибка при запросе к {category_url}: {e}")
         return []
     except Exception as e:
-        logging.error(f"Parsing error for {category_url}: {e}")
+        logging.error(f"Ошибка при парсинге {category_url}: {e}")
         return []
 
+
 def parse_isha_product(html_content, product_url):
+    """
+    Парсит HTML контент страницы продукта.
+
+    Аргументы:
+        html_content (str): HTML контент страницы продукта.
+        product_url (str): URL страницы продукта.
+
+    Возвращает:
+        tuple: Кортеж с данными продукта, названием, ценой и описанием.
+    """
     try:
         soup = BeautifulSoup(html_content, 'html.parser')
 
@@ -75,7 +119,6 @@ def parse_isha_product(html_content, product_url):
         # Название
         title_element = soup.find('span', class_='base', attrs={'data-ui-id': 'page-title-wrapper'})
         raw_name = title_element.text.strip() if title_element else "Название не найдено"
-        # Convert to ASCII only
         name = ''.join(char for char in raw_name if char.isalnum() or char.isspace())
         data['название'] = name
 
@@ -94,7 +137,7 @@ def parse_isha_product(html_content, product_url):
                     try:
                         price = float(re.sub(r'[^\d\.]', '', price_str))
                     except ValueError:
-                        logging.error(f"Could not convert price to float: {price_str}")
+                        logging.error(f"Не удалось преобразовать цену в число: {price_str}")
                         price = None
         data['цена'] = price if price is not None else 0.0
 
@@ -142,13 +185,13 @@ def parse_isha_product(html_content, product_url):
         data['additional_description'] = additional_description.strip()
 
         # Images
-        image_url = None
+        image_urls = []
         magic_toolbox = soup.find('div', class_='MagicToolboxContainer')
         if magic_toolbox:
-            image_link = magic_toolbox.find('a', class_='MagicZoom')
-            if image_link:
-                image_url = image_link['href']
-        data['фото'] = image_url if image_url else "Фото не найдено"
+            image_links = magic_toolbox.find_all('a', class_='MagicZoom')
+            for link in image_links:
+                image_urls.append(link['href'])
+        data['image_urls'] = image_urls  # Сохраняем все URL изображений
 
         # Категория и подкатегории
         breadcrumbs_div = soup.find('div', class_='breadcrumbs')
@@ -212,60 +255,110 @@ def parse_isha_product(html_content, product_url):
             data['rating'] = "0"
             print("Rating summary not found")
 
-        return data, name, price, desc, image_url
+        return data, name, price, desc
 
     except Exception as e:
-        logging.error(f"Error parsing product {product_url}: {e}")
-        return None, None, None, None, None
+        logging.error(f"Ошибка при парсинге продукта {product_url}: {e}")
+        return None, None, None, None
 
 
-def save_product_to_db(data, name, price, desc, image_url):
+def save_product_to_db(data, name, price, desc):
+    """
+    Сохраняет данные продукта в базу данных.
+
+    Аргументы:
+        data (dict): Словарь с данными продукта.
+        name (str): Название продукта.
+        price (float): Цена продукта.
+        desc (str): Описание продукта.
+    """
     try:
         # Сохраняем в базу данных
         category_name = data['категория'] if data['категория'] else "General"
         category, created = Category.objects.get_or_create(name=category_name)
 
-        cleaned_name = re.sub(r'[\(\)\.\-]', ' ', name).strip()
-        cleaned_name = re.sub(r'[^\w\s]', '', cleaned_name)
+        # Логируем длину названия перед очисткой
+        logging.info(f"Длина оригинального названия: {len(name)}")
+
+        # Преобразуем не-ASCII символы и создаем слаг
+        cleaned_name = unidecode.unidecode(name)
+        cleaned_name = re.sub(r'[^a-zA-Z0-9\s]', '', cleaned_name).strip()[:100]  # Обрезаем до 100 символов
+
+        # Логируем длину названия после очистки
+        logging.info(f"Длина очищенного названия: {len(cleaned_name)}")
+
+        # Создаем слаг на основе очищенного названия
         slug = cleaned_name.replace(' ', '-').lower()
 
-        # Загружаем изображение и получаем путь к нему
-        image_path = download_image(image_url, name) if image_url else None
+        # Получаем URL изображений
+        image_urls = data.get('image_urls', [])
+        main_image_url = image_urls[0] if image_urls else None
 
-        # Get existing product or create a new one
+        # Скачиваем основное изображение
+        main_image_path = download_image(main_image_url, slug) if main_image_url else None
+
+        # Пытаемся получить существующий продукт или создать новый
         product, created = Product.objects.get_or_create(
             slug=slug,
             defaults={
-                'name': name,
+                'name': cleaned_name,
                 'desc': desc,
                 'price': price,
-                'image': image_path,
-                'rating': data['rating'],  # Use parsed rating
+                'image': main_image_path,
+                'rating': data['rating'],
                 'additional_description': data['additional_description'],
             }
         )
 
-        # Обновить поля, если продукт уже существует
-        if not created:
-            product.name = name
-            product.desc = desc
-            product.price = price
-            product.image = image_path
-            product.rating = data['rating']  # Update rating
-            product.additional_description = data['additional_description']
-            product.save()
-            logging.info(f"Product updated in database: {name} (Slug: {slug})")
+        if created:
+            logging.info(f"Продукт создан в базе данных: {cleaned_name} (Slug: {slug})")
         else:
-            logging.info(f"Product saved to database: {name} (Slug: {slug})")
+            logging.info(f"Продукт уже существует в базе данных: {cleaned_name} (Slug: {slug})")
+        # Обрабатываем дополнительные изображения
+        processed_images = set()  # Отслеживаем обработанные URL, чтобы избежать дубликатов
+
+        for img_url in image_urls[1:]:  # Пропускаем первое изображение, так как оно основное
+            if img_url not in processed_images:  # Проверяем, не было ли изображение уже обработано
+                try:
+                    additional_image_path = download_image(img_url, slug,
+                                                           is_additional=True)  # Скачиваем дополнительное изображение
+
+                    if additional_image_path:
+                        # Проверяем, существует ли уже такое изображение перед созданием
+                        if not ProductImage.objects.filter(product=product, image=additional_image_path).exists():
+                            ProductImage.objects.create(product=product, image=additional_image_path)
+                            logging.info(f"Дополнительное изображение сохранено для продукта {cleaned_name}")
+                        else:
+                            logging.info(f"Дубликат дополнительного изображения пропущен: {img_url}")
+                    else:
+                        logging.warning(
+                            f"Не удалось скачать дополнительное изображение с {img_url} для продукта {cleaned_name}")
+
+                except Exception as e:
+                    logging.error(
+                        f"Ошибка при сохранении дополнительного изображения для продукта {cleaned_name} с {img_url}: {e}")
+
+                processed_images.add(img_url)  # Добавляем URL изображения в набор обработанных
+            else:
+                logging.info(f"Пропускаем дубликат изображения: {img_url} для продукта {cleaned_name}")
 
         product.category.clear()
         product.category.add(category)
 
     except Exception as e:
-        logging.error(f"Error saving product {name} to database: {e}")
+        logging.error(f"Ошибка при сохранении продукта {cleaned_name} в базу данных: {e}")
 
 
 def collect_all_product_links(category_urls):
+    """
+    Собирает все ссылки на продукты из списка URL категорий.
+
+    Аргументы:
+        category_urls (list): Список URL категорий.
+
+    Возвращает:
+        list: Список всех ссылок на продукты.
+    """
     all_product_links = set()
     for url in category_urls:
         product_links = collect_product_links_from_category(url)
@@ -294,28 +387,30 @@ if __name__ == '__main__':
         'https://ishalife.sadhguru.org/in/2025-calendars-diaries',
     ]
 
-    product_links = collect_all_product_links(category_urls)
+    product_links = collect_all_product_links(category_urls)  # Собираем ссылки на продукты
     print(f"Найдено {len(product_links)} ссылок на продукты.")
 
-    all_products_data = []
+    all_products_data = []  # Список для хранения данных о всех продуктах
     for product_url in product_links:
         try:
-            response = requests.get(product_url, timeout=10)
-            response.raise_for_status()
-            html_content = response.text
+            response = requests.get(product_url, timeout=10)  # Отправляем GET запрос к URL продукта
+            response.raise_for_status()  # Проверяем статус ответа
+
+            html_content = response.text  # Получаем HTML контент страницы
+
         except requests.exceptions.RequestException as e:
-            logging.error(f"Failed to fetch {product_url}: {e}")
+            logging.error(f"Не удалось получить {product_url}: {e}")  # Обрабатываем ошибку запроса
             continue
 
-        product_data, name, price, desc, image_url = parse_isha_product(html_content, product_url)
+        product_data, name, price, desc = parse_isha_product(html_content, product_url)  # Парсим данные продукта
         if product_data:
-            all_products_data.append(product_data)
+            all_products_data.append(product_data)  # Добавляем данные продукта в список
             print(f"Информация о продукте успешно спарсена с {product_url}")
-            save_product_to_db(product_data, name, price, desc, image_url)
+            save_product_to_db(product_data, name, price, desc)  # Сохраняем данные продукта в базу данных
         else:
             print(f"Не удалось получить информацию о продукте с {product_url}")
 
     with open('jsons/product_ishalife.json', 'w', encoding='utf-8') as f:
-        json.dump(all_products_data, f, indent=4, ensure_ascii=False)
+        json.dump(all_products_data, f, indent=4, ensure_ascii=False)  # Сохраняем данные в JSON файл
 
     print("Данные о продуктах сохранены в product_ishalife.json")

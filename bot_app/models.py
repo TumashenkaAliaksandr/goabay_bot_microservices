@@ -36,8 +36,8 @@ class UserRegistration(models.Model):
 
 class Product(models.Model):
     """Продукты в каталоге"""
-    name = models.CharField(max_length=200, db_index=True, default='Название')
-    slug = models.SlugField(max_length=200, db_index=True, unique=True, default='default-slug')
+    name = models.CharField(max_length=300, db_index=True, default='Название')
+    slug = models.SlugField(max_length=300, db_index=True, unique=True, default='default-slug')
     image = models.ImageField(upload_to='products', verbose_name='photo', null=True, blank=True)
     desc = models.TextField(blank=True, default='Описание')  # Основное описание продукта
     additional_description = models.TextField(blank=True, null=True)  # Дополнительное описание продукта
