@@ -93,6 +93,9 @@
                                 <p><span class="price" id="total-price">${{ product.price }}</span>
                                     <del class="prev-price">-${{ product.price|random_increase }}</del>
                                 </p>
+                                <ul class="tab-list-item">
+                                    {{ product.additional_description }}
+                                </ul>
                             </div>
                             <div class="pro-ref mb-15">
                                 <p>{% if product.is_brand %}
@@ -155,7 +158,7 @@
                             <div id="dtail" class="tab-pane in active">
                                 <p>{{ product.desc }}</p>
                                 <ul class="tab-list-item">
-                                    <p>{{ product.additional_description }}</p>
+                                    <h5>{{ product.additional_description }}</h5>
                                 </ul>
                             </div>
                             <div id="review" class="tab-pane">

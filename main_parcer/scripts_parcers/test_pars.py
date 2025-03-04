@@ -125,6 +125,22 @@ def parse_isha_product(html_content, product_url):
         data['описание'] = description.strip()
         desc = data['описание']
 
+        # Добавляем извлечение additional_description
+        additional_description = ""
+        product_options_wrapper = soup.find('div', class_='product-options-wrapper')
+        if product_options_wrapper:
+            customize_title = product_options_wrapper.find('span', id='customizeTitle')
+            if customize_title:
+                additional_description += f"Customize: {customize_title.text.strip()}\n"
+
+            bundle_options = product_options_wrapper.find_all('div', class_='field choice')
+            for option in bundle_options:
+                label = option.find('label', class_='label')
+                if label:
+                    additional_description += f"- {label.text.strip()}\n"
+
+        data['additional_description'] = additional_description.strip()
+
         # Images
         image_url = None
         magic_toolbox = soup.find('div', class_='MagicToolboxContainer')
@@ -225,6 +241,7 @@ def save_product_to_db(data, name, price, desc, image_url):
                 'price': price,
                 'image': image_path,
                 'rating': data['rating'],  # Use parsed rating
+                'additional_description': data['additional_description'],
             }
         )
 
@@ -235,6 +252,7 @@ def save_product_to_db(data, name, price, desc, image_url):
             product.price = price
             product.image = image_path
             product.rating = data['rating']  # Update rating
+            product.additional_description = data['additional_description']
             product.save()
             logging.info(f"Product updated in database: {name} (Slug: {slug})")
         else:

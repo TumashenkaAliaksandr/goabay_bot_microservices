@@ -66,7 +66,7 @@ admin.site.register(models.Words, WordAdmin)
 #
 #     image_preview.short_description = 'Image Preview'
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'is_popular', 'is_new_product', 'image_preview')  # Отображаем нужные поля
+    list_display = ('name', 'price', 'is_popular', 'is_new_product', 'additional_description', 'image_preview')  # Отображаем нужные поля
     list_filter = ('category', 'brand', 'is_popular', 'is_new_product')  # Фильтрация по полям
     search_fields = ('name', 'desc')  # Поиск по имени и описанию
     prepopulated_fields = {'slug': ('name',)}  # Автоматическое заполнение поля slug
