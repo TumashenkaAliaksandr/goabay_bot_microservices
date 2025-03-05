@@ -12,7 +12,7 @@
                 <!-- Single Product Start -->
                 <div class="single-product">
                     <div class="fixed-size-img-brands">
-                        <a href="{{ slide.link }}"><img class="img" src="{{ slide.image.url }}"
+                        <a href="{% url 'brand-name' slide.slug %}"><img class="img" src="{{ slide.image.url }}"
                                                         alt="{{ slide.name }}"></a>
                         <div class="product-rating product-rating-position ">
                             <i class="fa fa-star"></i>

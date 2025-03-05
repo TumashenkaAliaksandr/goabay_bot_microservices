@@ -1,7 +1,7 @@
 import telebot
 from celery import shared_task
 from django.core.cache import cache
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
@@ -162,6 +162,19 @@ def brand(request):
         'sliders': sliders,
     }
     return render(request, 'webapp/shop/brand.html', context=context)
+
+def brand_name(request, slug):
+    brand_obj = Brand.objects.filter(slug=slug).first()
+    if brand_obj:
+        products_up_block = Product.objects.filter(brand=brand_obj)
+        sliders = Brand.objects.all()
+        context = {
+            'products_up_block': products_up_block,
+            'sliders': sliders,
+        }
+        return render(request, 'webapp/shop/brand.html', context=context)
+    else:
+        return HttpResponseNotFound("Бренд не найден")
 
 def single_brand(request, name, slug):
     products = get_object_or_404(Product, name=name)  # Получаем продукт по name

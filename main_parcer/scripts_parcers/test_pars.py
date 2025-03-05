@@ -291,6 +291,18 @@ def save_product_to_db(data, name, price, desc):
         # Создаем слаг на основе очищенного названия
         slug = cleaned_name.replace(' ', '-').lower()
 
+        # Add brand name to Brand model if it doesn't exist
+        brand_name = data.get('производитель')  # Get brand name from data
+        if brand_name:
+            brand, brand_created = Brand.objects.get_or_create(
+                name=brand_name,
+                defaults={'slug': slugify(brand_name)}  # Create slug from brand name
+            )
+            if brand_created:
+                logging.info(f"Бренд '{brand_name}' создан и сохранен в базе данных.")
+            else:
+                logging.info(f"Бренд '{brand_name}' уже существует в базе данных.")
+
         # Get the image URLs
         image_urls = data.get('image_urls', [])
         main_image_url = image_urls[0] if image_urls else None
@@ -308,6 +320,7 @@ def save_product_to_db(data, name, price, desc):
                 'image': main_image_path,
                 'rating': data['rating'],
                 'additional_description': data['additional_description'],
+                'brand': brand
             }
         )
 
@@ -315,18 +328,6 @@ def save_product_to_db(data, name, price, desc):
             logging.info(f"Продукт создан в базе данных: {cleaned_name} (Slug: {slug})")
         else:
             logging.info(f"Продукт уже существует в базе данных: {cleaned_name} (Slug: {slug})")
-
-        # Add brand name to Brand model if it doesn't exist
-        brand_name = data.get('производитель')  # Get brand name from data
-        if brand_name:
-            brand, brand_created = Brand.objects.get_or_create(
-                name=brand_name,
-                defaults={'slug': slugify(brand_name)}  # Create slug from brand name
-            )
-            if brand_created:
-                logging.info(f"Бренд '{brand_name}' создан и сохранен в базе данных.")
-            else:
-                logging.info(f"Бренд '{brand_name}' уже существует в базе данных.")
 
         # Обрабатываем дополнительные изображения
         processed_images = set()  # Отслеживаем обработанные URL, чтобы избежать дубликатов
@@ -407,6 +408,7 @@ def save_product_to_db(data, name, price, desc):
                 'image': main_image_path,
                 'rating': data['rating'],
                 'additional_description': data['additional_description'],
+                'brand': brand
             }
         )
 

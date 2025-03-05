@@ -34,8 +34,10 @@ class NewsletterSubscription(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, default='brand', unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
     image = models.ImageField(upload_to='brands_logo_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    brand_id = models.IntegerField(default=0)
     link = models.URLField(blank=True, null=True)
 
     def __str__(self):

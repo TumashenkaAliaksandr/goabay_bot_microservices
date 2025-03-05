@@ -3,14 +3,16 @@ from django.conf.urls.static import static
 from goabay_bot import settings
 from . import views
 from .views import news, about, contact, cart, wishlist, checkout, shop, product, compare, account, forgot_password, \
-    login, registrations, four_zero_four, product_catalog, how_we_work, brand, elephant, bestsellers, handmade
+    login, registrations, four_zero_four, product_catalog, how_we_work, brand, elephant, bestsellers, handmade, \
+    brand_name
 
 urlpatterns = [
     path('', views.index, name='home'),
     path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
-    path('brand/', brand, name='brand'),
-    path('best-sellers/', bestsellers, name='best-sellers'),
+    path('brand', brand, name='brand'),
+    path('brand-name/<slug:slug>/', brand_name, name='brand-name'),
     path('brand/<slug:slug>/<str:name>/', views.single_brand, name='single_brand'),
+    path('best-sellers/', bestsellers, name='best-sellers'),
     path('news/', news, name='news'),
     path('hand-made/', handmade, name='hand-made'),
     path('about/', about, name='about'),

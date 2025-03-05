@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
-from site_app.models import Category
+from site_app.models import Category, Brand
 from django.utils.text import slugify
 
 
@@ -50,7 +50,7 @@ class Product(models.Model):
     sizes = models.CharField(max_length=100, blank=True)  # Размеры (например: S, M, L)
     volume_liters = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Объем в литрах
 
-    brand = models.CharField(max_length=100, blank=True, default='Unknown')  # Бренд продукта
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True, related_name='products')  # Бренд продукта
     capacity = models.CharField(max_length=100, blank=True)  # Вместимость
     color = models.CharField(max_length=50, blank=True)  # Цвет
     material_up = models.CharField(max_length=100, blank=True)  # Верхний материал
