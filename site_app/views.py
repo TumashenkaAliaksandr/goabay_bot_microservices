@@ -2,9 +2,12 @@ import telebot
 from celery import shared_task
 from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json
+
+from django.views.decorators.http import require_http_methods
+
 from bot_app.models import Product
 from goabay_bot import settings
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
@@ -63,8 +66,6 @@ def shop(request):
 def checkout(request):
     return render(request, 'webapp/shop/checkout.html')
 
-def cart(request):
-    return render(request, 'webapp/shop/cart.html')
 
 def about(request):
     return render(request, 'webapp/about.html')
@@ -207,17 +208,17 @@ def bestsellers(request):
 def handmade(request):
     return render(request, 'webapp/shop/bestsellers.html')
 
-def serve_json(request):
-    try:
-        with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f: # надо будет на забыть поменять путь
-            data = json.load(f)
-        return JsonResponse(data, safe=False)
-    except FileNotFoundError:
-        return JsonResponse({"error": "Файл не найден"}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({"error": "Ошибка парсинга JSON"}, status=500)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+# def serve_json(request):
+#     try:
+#         with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f: # надо будет на забыть поменять путь
+#             data = json.load(f)
+#         return JsonResponse(data, safe=False)
+#     except FileNotFoundError:
+#         return JsonResponse({"error": "Файл не найден"}, status=404)
+#     except json.JSONDecodeError:
+#         return JsonResponse({"error": "Ошибка парсинга JSON"}, status=500)
+#     except Exception as e:
+#         return JsonResponse({"error": str(e)}, status=500)
 
 
 
@@ -230,3 +231,58 @@ def update_ishalife_products():
     cache.delete('ishalife_products')  # Удаляем старые данные из кеша
     cache.set('ishalife_products', products, timeout=86400)  # Добавляем новые данные в кеш
 
+
+
+@require_http_methods(['POST'])
+def add_to_cart(request):
+    try:
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity'))
+
+        product = get_object_or_404(Product, id=product_id)
+
+        # Логика добавления в корзину (пример с использованием сессии)
+        cart = request.session.get('cart', {})
+        if product_id in cart:
+            cart[product_id] += quantity
+        else:
+            cart[product_id] = quantity
+        request.session['cart'] = cart
+
+        # Возвращаем общее количество товаров в корзине
+        total_quantity = sum(cart.values())
+        return JsonResponse({'success': True, 'message': 'Товар добавлен в корзину', 'total_quantity': total_quantity})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
+def cart(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total = 0
+
+    for product_id, quantity in cart.items():
+        try:
+            product = Product.objects.get(id=product_id)
+            subtotal = product.price * quantity
+            total += subtotal
+            cart_items.append({
+                'product': product,
+                'quantity': quantity,
+                'subtotal': subtotal,
+            })
+        except Product.DoesNotExist:
+            # Обработка ситуации, когда товар не найден
+            pass
+
+    context = {
+        'cart_items': cart_items,
+        'total': total,
+    }
+    return render(request, 'webapp/shop/cart.html', context)
+
+def remove_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    if product_id in cart:
+        del cart[product_id]
+        request.session['cart'] = cart
+    return redirect('cart')

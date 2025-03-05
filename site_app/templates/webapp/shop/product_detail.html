@@ -114,7 +114,8 @@
                                 </p>
                             </div>
                             <div class="box-quantity">
-                                <form action="#">
+                                <form id="add-to-cart-form">
+                                    {% csrf_token %}
                                     {% if product.show_quantity %}
                                         <div class="quantity-buttons">
                                             <label class="screen-reader-text">Quantity</label>
@@ -124,7 +125,8 @@
                                             <button type="button" id="decrease-button">-</button>
                                         </div>
                                     {% endif %}
-                                    <a class="add-cart" href="#" id="add-to-cart">Add to cart</a>
+                                    <button type="submit" class="add-cart" id="add-to-cart">Add to cart</button>
+                                  <input type="hidden" name="product_id" value="{{ product.id }}">
                                 </form>
                             </div>
 

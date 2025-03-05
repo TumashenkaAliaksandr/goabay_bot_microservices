@@ -151,13 +151,17 @@ RABBITMQ_HOST = 'localhost'
 RABBITMQ_QUEUE = 'telegram_messages'
 
 # settings.py
-
-CELERY_BEAT_SCHEDULE = {
-    'update_ishalife_products_daily': {
-        'task': 'site_app.tasks.update_ishalife_products',
-        'schedule': 86400.0,  # Каждый день (в секундах)
-    },
-}
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # или ваш брокер
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+# CELERY_BEAT_SCHEDULE = {
+#     'update_ishalife_products_daily': {
+#         'task': 'site_app.tasks.ishalife_products_daily',
+#         'schedule': 50.0,  # Каждый день (в секундах)
+#     },
+# }
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme': 'silver',
