@@ -1,0 +1,714 @@
+/* 
+1. Стандартные настройки
+2. HEADER
+3. FIRST BOX
+*/
+
+
+/*🔹🔹🔹1. Стандартные настройки---------------------------------------------------------------------------------*/
+
+
+
+/* 🔹 Сброс стандартных стилей браузера */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Добавляет плавную прокрутку */
+}
+
+
+html {
+    scroll-behavior: smooth;
+    background-color: #F4F6F9;
+    color: #333;
+    width: 100%;
+}
+
+/*Кнопка зактыть*/
+.btn-close {
+    background: none;
+    border: none;
+    cursor: pointer; /* Удобство клика */
+}
+
+.btn-close:hover {
+    transform: scale(1.2);
+}
+
+.d-flex.overflow-auto {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+
+/*🔹🔹🔹2. HEADER---------------------------------------------------------------------------------*/
+
+/* 🔹 header-top Верхняя часть хедера */
+.header-top, .header-bottom {
+    background: #fff; /* Фон белый */
+   /* padding: 10px 20px;  Внутренние отступы */
+    min-height: 60px;
+    }
+
+.header{ background: #fff; /* Фон белый */}
+
+.sticky-header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/* 🔹 top-bar Верхняя часть с акцией*/
+.top-bar {
+    background: #00BA44;
+    color: white;
+    font-size: 14px;
+    height: 40px;
+    }
+.menu-button {
+    font-size: 24px;
+    cursor: pointer;
+    }
+.cart-box {
+    display: flex;
+    align-items: center;
+    }
+
+
+/* 🔹 Логотип и кнопка меню */
+.header-top img {
+    height: 40px;
+}
+
+.menu-button:hover { color: #28a745; /* Зеленый цвет при наведении */}
+
+/* 🔹 Главное меню (nav) */
+.header-top nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none; /* Убираем маркеры списка */
+    margin: 0;
+    padding: 0;
+}
+
+.header-top nav a:hover { color: #00BA44; /* Зелёный цвет при наведении */}
+
+/* 🔹 Меню справа */
+.right-menu { display: flex;}
+
+.right-menu ul {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 🔹 Кнопка "GOODS FROM INDIA" */
+
+
+.btn-success {
+    background: #00BA44;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.btn-success:hover { background: #008C33; /* Темно-зеленый при наведении */}
+
+/* 🔹 Меню в дропдауне */
+
+
+.header-bottom .dropdown-menu {
+    width: 100%;
+    min-height: 520px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+
+.list-group .list-item,
+.header-bottom .dropdown-item {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.header-bottom .dropdown-item:hover {
+    background: #00BA44;
+    color: white;
+}
+
+/* 🔹 Поле поиска */
+.search-box {
+    background: #f5f5f5;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 40px;
+}
+
+.category-select {
+    width: 40%;
+    border: none;
+    background: #E9E9E9;
+    padding: 10px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+        outline: none;
+
+    background: transparent;
+    padding: 10px;
+}
+
+
+.search-btn {
+    background: #00ba44;
+    color: white;
+    border-radius: 0px 10px 10px 0px;
+    padding: 10px;
+    border: none;
+    white-space: nowrap;
+}
+
+/* 🔹 Блок с корзиной и иконками */
+.wishlist-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-box {
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    background: #f5f5f5;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*min-width: 45px;*/
+    height: 45px;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn-box:hover { background: #e0e0e0; }
+
+.badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: translate(10%, -10%);
+    background: #ffcc00;
+    color: black;
+    font-size: 12px;
+    font-weight: 300;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid white;
+
+}
+
+.btn-title,.cart-btn-price { font-size: 13px; text-align: left;}
+
+/* 🔹🔹🔹3. FIRST BOX--------------------------------------------------------------------------------------*/
+
+
+ .box-title {
+    background: #00ba44;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+}
+
+
+/* Стили вертикального меню */
+.vertical-menu {
+    background: #fff;
+    border-radius: 10px;
+    min-height: 535px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.vertical-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vertical-menu li {/* margin-bottom: 0px;*/}
+
+.vertical-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+
+
+.vertical-menu a:hover { background: #00ba44;}
+
+/* 🔹 Стили слайдера */
+.swiper {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 520px;
+    border-radius: 10px;
+}
+
+/* 🔹 Стили баннера */
+.banner-box {
+    position: relative;
+    width: 100%;
+    height: 495px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.banner-box img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.banner-content { margin-top: 10px;}
+
+.banner-content h5 {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.btn-warning {
+    background: #ff9800;
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-warning:hover { background: #e68900;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 🔹 Основные стили слайдера */
+.slider-box {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+}
+
+/* Стили для изображений слайдера */
+.carousel-item img {
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Затемнение под текстом */
+.carousel-caption {
+   /* background: rgba(0, 0, 0, 0.6);*/
+    border-radius: 10px;
+    padding: 15px;
+    bottom: 20px;
+    left: 5%;
+    right: auto;
+    width: 90%;
+    text-align: left;
+}
+
+/* Стили для текста */
+.carousel-caption h5 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.carousel-caption p {
+    font-size: 14px;
+    color: #ddd;
+}
+
+/* Стили для кнопок */
+.carousel-caption .btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.carousel-caption .btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* 🔹 Стили для кнопок переключения (меньше и внизу слева) */
+.carousel-control-prev, .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    bottom: auto;
+    left: 10px;
+    right: auto;
+    background-color: rgb(0 186 68);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    border: none;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+/* Уменьшаем иконки стрелок */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* Расположение кнопок ближе друг к другу */
+.carousel-control-next {
+    margin-left: 40px; /* Отступ следующей кнопки от предыдущей */
+}
+
+/* 📱 Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .carousel-caption {
+        font-size: 12px;
+        padding: 10px;
+        bottom: 10px;
+        width: 95%;
+    }
+
+    .carousel-caption h5 {
+        font-size: 16px;
+    }
+
+    .carousel-caption p {
+        font-size: 12px;
+    }
+
+    .carousel-caption .btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 25px;
+        height: 25px;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .carousel-control-next {
+        margin-left: 30px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Главное боковое меню*/
+
+.side-menu {
+    position: fixed;
+    left: -350px;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background-color: #fff;
+    color: #333;
+    overflow-y: auto;        /* Прокрутка работает */
+    -ms-overflow-style: none; /* IE и Edge */
+    scrollbar-width: none;    /* Firefox */
+    transition: left 0.4s ease;
+    z-index: 1060;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+
+/* Chrome, Safari, Opera */
+.side-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.side-menu.active {
+    left: 0;
+}
+
+.side-menu .close-btn {
+    background: none;
+    color: #333;
+    border: none;
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-list li {
+    border-bottom: 0px solid #333;
+}
+
+.menu-list li a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.menu-list li a:hover {
+    background-color: #00BA44;
+}
+
+.has-submenu > a::after {
+    content: "👇";
+    float: right;
+    transition: transform 0.3s;
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    background: #E9E9E9;
+    transition: max-height 0.4s ease;
+}
+
+.has-submenu.active .submenu {
+    max-height: 500px; /* Достаточно для раскрытия */
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+    z-index: 1050;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+
+
+/* Боковое меню корзины */
+.cart-menu {
+    width: 350px;
+    max-width: 90%;
+    height: 100vh;
+    background: #fff;
+    position: fixed;
+    right: -400px; /* скрыта по умолчанию */
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 1060;
+    transition: right 0.3s ease;
+}
+
+.cart-menu.active {
+    right: 0; /* показываем корзину */
+}
+
+/* Кнопка закрытия справа */
+.close-cart-btn {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    align-self: flex-end;
+    padding: 10px;
+    margin: 5px;
+}
+
+/* Список товаров с прокруткой, но без полосы прокрутки */
+.cart-items {
+    /*padding: 15px;*/
+    flex-grow: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE и Edge */
+    scrollbar-width: none;      /* Firefox */
+}
+
+.cart-items::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari */
+}
+
+#cartOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1050;
+    transition: opacity 0.3s ease;
+}
+
+#cartOverlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Стиль товара в вертикальном списке товаров */
+
+.cart-item {
+    padding: 10px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.product-name {
+    font-size: 1rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 230px; /* регулируй под ширину блока */
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.quantity-control {
+    overflow: hidden;
+}
+
+.quantity-control button {
+    border: none;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.quantity-control button:hover {
+    background-color: #e2e6ea;
+}
+
+.quantity-control div {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Кнопка удаления в правом верхнем углу */
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
