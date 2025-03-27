@@ -48,6 +48,29 @@ html {
     height: 0;
 }
 
+/*Оверлей меню и корзины*/
+.overlay, #cartOverlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4); /* по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1050;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.overlay.active, 
+#cartOverlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+
 
 /*🔹🔹🔹2. HEADER---------------------------------------------------------------------------------*/
 
@@ -172,12 +195,10 @@ html {
 .search-input {
     flex-grow: 1;
     border: none;
-        outline: none;
-
+    outline: none;
     background: transparent;
     padding: 10px;
 }
-
 
 .search-btn {
     background: #00ba44;
@@ -245,7 +266,6 @@ html {
     text-align: center;
 }
 
-
 /* Стили вертикального меню */
 .vertical-menu {
     background: #fff;
@@ -260,8 +280,6 @@ html {
     margin: 0;
 }
 
-.vertical-menu li {/* margin-bottom: 0px;*/}
-
 .vertical-menu a {
     display: block;
     padding: 10px;
@@ -270,29 +288,13 @@ html {
     transition: background 0.3s;
 }
 
-
-
 .vertical-menu a:hover { background: #00ba44;}
-
-/* 🔹 Стили слайдера */
-.swiper {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.swiper-slide img {
-    width: 100%;
-    height: 520px;
-    border-radius: 10px;
-}
 
 /* 🔹 Стили баннера */
 .banner-box {
     position: relative;
     width: 100%;
-    height: 495px;
+    height: 580px;
     background: #fff;
     padding: 15px;
     border-radius: 10px;
@@ -338,47 +340,68 @@ html {
 
 
 
+
 /* 🔹 Основные стили слайдера */
 .slider-box {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+    width: 100%;
+    max-width: 100%;
 }
 
-/* Стили для изображений слайдера */
-.carousel-item img {
-    border-radius: 10px;
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 580px; /* Базовая высота для десктопа */
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease-in-out; /* Плавная анимация */
+    will-change: transform; /* Оптимизация анимации */
+}
+
+.slider-item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slider-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-radius: 10px;
+    display: block;
 }
 
-/* Затемнение под текстом */
-.carousel-caption {
-   /* background: rgba(0, 0, 0, 0.6);*/
-    border-radius: 10px;
-    padding: 15px;
+.slider-caption {
+    position: absolute;
     bottom: 20px;
     left: 5%;
-    right: auto;
     width: 90%;
     text-align: left;
+    color: #fff;
 }
 
-/* Стили для текста */
-.carousel-caption h5 {
+.slider-caption h5 {
     font-size: 20px;
     font-weight: bold;
-    color: #fff;
     margin-bottom: 5px;
 }
 
-.carousel-caption p {
+.slider-caption p {
     font-size: 14px;
     color: #ddd;
+    margin-bottom: 10px;
 }
 
-/* Стили для кнопок */
-.carousel-caption .btn {
+.slider-caption .btn {
     padding: 6px 14px;
     font-size: 13px;
     border-radius: 10px;
@@ -386,78 +409,99 @@ html {
     transition: all 0.3s ease-in-out;
 }
 
-.carousel-caption .btn:hover {
+.slider-caption .btn:hover {
     transform: scale(1.1);
     opacity: 0.9;
 }
 
-/* 🔹 Стили для кнопок переключения (меньше и внизу слева) */
-.carousel-control-prev, .carousel-control-next {
+.slider-control-prev,
+.slider-control-next {
+    position: absolute;
     width: 40px;
     height: 40px;
     top: 10px;
-    bottom: auto;
     left: 10px;
-    right: auto;
-    background-color: rgb(0 186 68);
+    background-color: rgb(0, 186, 68);
     border-radius: 50%;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
+    cursor: pointer;
     transition: all 0.3s ease-in-out;
-    border: none;
+    z-index: 10;
 }
 
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    opacity: 1;
+.slider-control-next {
+    left: 60px; /* Отступ от предыдущей кнопки */
 }
 
-/* Уменьшаем иконки стрелок */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
+.slider-control-prev:hover,
+.slider-control-next:hover {
+    opacity: 0.9;
+}
+
+.slider-control-icon {
     width: 15px;
     height: 15px;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-/* Расположение кнопок ближе друг к другу */
-.carousel-control-next {
-    margin-left: 40px; /* Отступ следующей кнопки от предыдущей */
+.slider-control-prev .slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z'/%3E%3C/svg%3E");
 }
 
-/* 📱 Адаптация для мобильных устройств */
-@media (max-width: 768px) {
-    .carousel-caption {
-        font-size: 12px;
-        padding: 10px;
-        bottom: 10px;
-        width: 95%;
+.slider-control-next .slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/%3E%3C/svg%3E");
+}
+
+/* Адаптивность */
+@media (max-width: 991px) {
+    .slider-container {
+        height: 350px;
     }
+    .slider-caption h5 {
+        font-size: 18px;
+    }
+    .slider-caption p {
+        font-size: 12px;
+    }
+    .slider-caption .btn {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+}
 
-    .carousel-caption h5 {
+@media (max-width: 767px) {
+    .slider-container {
+        height: 250px;
+    }
+    .slider-caption {
+        bottom: 10px;
+    }
+    .slider-caption h5 {
         font-size: 16px;
     }
-
-    .carousel-caption p {
-        font-size: 12px;
+    .slider-caption p {
+        font-size: 10px;
     }
-
-    .carousel-caption .btn {
-        font-size: 12px;
-        padding: 5px 10px;
+    .slider-caption .btn {
+        padding: 4px 10px;
+        font-size: 11px;
     }
-
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 25px;
-        height: 25px;
-        bottom: 5px;
-        left: 5px;
+    .slider-control-prev,
+    .slider-control-next {
+        width: 30px;
+        height: 30px;
     }
-
-    .carousel-control-next {
-        margin-left: 30px;
+    .slider-control-next {
+        left: 50px;
+    }
+    .slider-control-icon {
+        width: 12px;
+        height: 12px;
     }
 }
 
@@ -466,9 +510,164 @@ html {
 
 
 
+/*Блог слайдер*/
+.blog-slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
 
+.blog-slider-container {
+    position: relative;
+    width: 100%;
+    height: 580px; /* Такая же высота, как у основного слайдера */
+    overflow: hidden;
+}
 
+.blog-slider-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease-in-out;
+    will-change: transform;
+}
 
+.blog-slider-item {
+    flex: 0 0 100%; /* Один слайд занимает всю ширину */
+    width: 100%;
+    height: 100%;
+    display: flex; /* Карточки внутри слайда располагаются горизонтально */
+    gap: 10px; /* Минимальный зазор между карточками */
+    padding: 0 5px;
+}
+
+.blog-card {
+    background: #fff;
+    border-radius: 10px; /* Прямоугольные углы */
+    overflow: hidden;
+    box-shadow: none; /* Без тени */
+    flex: 1; /* Карточки равномерно делят ширину слайда */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-img {
+    width: 100%;
+    height: 80%; /* Изображение занимает 70% высоты карточки */
+    object-fit: cover;
+    display: block;
+}
+
+.blog-content {
+    padding: 10px; /* Ещё меньше padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #fff; /* Ярко-белый фон */
+}
+
+.blog-content h5 {
+    font-size: 16px; /* Чуть крупнее шрифт */
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+    line-height: 1.1; /* Более плотный текст */
+}
+
+.blog-content p {
+    font-size: 14px; /* Чуть меньше шрифт */
+    font-weight: 300;
+    color: #666;
+    margin: 0;
+    line-height: 1.2; /* Более плотный текст */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-slider-control-prev,
+.blog-slider-control-next {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(0, 186, 68);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.blog-slider-control-next {
+    left: 60px;
+}
+
+.blog-slider-control-prev:hover,
+.blog-slider-control-next:hover {
+    opacity: 0.9;
+}
+
+.blog-slider-control-icon {
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.blog-slider-control-prev .blog-slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z'/%3E%3C/svg%3E");
+}
+
+.blog-slider-control-next .blog-slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/%3E%3C/svg%3E");
+}
+
+/* Адаптивность */
+@media (max-width: 991px) {
+    .blog-slider-container {
+        height: 350px;
+    }
+    .blog-content h5 {
+        font-size: 12px;
+    }
+    .blog-content p {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-slider-container {
+        height: 250px;
+    }
+    .blog-content h5 {
+        font-size: 11px;
+    }
+    .blog-content p {
+        font-size: 7px;
+    }
+    .blog-slider-control-prev,
+    .blog-slider-control-next {
+        width: 30px;
+        height: 30px;
+    }
+    .blog-slider-control-next {
+        left: 50px;
+    }
+    .blog-slider-control-icon {
+        width: 12px;
+        height: 12px;
+    }
+}
 
 
 
@@ -518,10 +717,6 @@ html {
     padding: 0;
 }
 
-.menu-list li {
-    border-bottom: 0px solid #333;
-}
-
 .menu-list li a {
     display: block;
     padding: 15px 20px;
@@ -551,22 +746,6 @@ html {
     max-height: 500px; /* Достаточно для раскрытия */
 }
 
-.overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.4s;
-    z-index: 1050;
-}
-
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
 
 
 
@@ -616,23 +795,7 @@ html {
     display: none;  /* Chrome, Safari */
 }
 
-#cartOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1050;
-    transition: opacity 0.3s ease;
-}
 
-#cartOverlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
 
 
 
@@ -711,4 +874,450 @@ html {
     line-height: 24px;
     text-align: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Горизонтальное меню и заголовок */
+.h-list-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  /*  padding: 15px 0;*/
+}
+
+.h2-title {
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.horizontal-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;      /* Firefox */
+}
+
+.horizontal-list::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari */
+}
+
+.h-list-item {
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #0044ff;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.h-list-item:hover {
+    background: #e2e6ea;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*SERVICE SLIDER*/
+
+.swiper-wrapper {
+  align-items: stretch; /* ВЫРАВНИВАЕТ ВСЕ СЛАЙДЫ ПО ВЫСОТЕ */
+}
+
+.service-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  min-height: 180px;     /* Минимальная высота */
+  height: 100%;          /* Чтобы растягивались по одной высоте */
+  max-width: 600px;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.box-icon {
+  font-size: 70px;
+  flex-shrink: 0;
+}
+
+.service-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.service-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.service-content .description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+
+.catalog-link {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.catalog-link:hover {
+  text-decoration: underline;
+}
+
+
+
+/*BRAND SLIDER*/
+.brand-slider {
+  padding: 20px 0;
+}
+
+.brand-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 100px;
+  height: 100px;
+  width: 100px; /* Фиксированная ширина */
+  text-align: center;  /* Центр текста */
+}
+
+.brand-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.brand-box img {
+  max-height: 100px;
+  max-width: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.brand-box .brand-name {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+
+
+
+/*Category SLIDER*/
+.category-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  height: 160px;
+  text-align: center;
+}
+
+.category-box img {
+  max-height: 100px;
+  max-width: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.category-title {
+  font-size: 14px;
+  color: #333;
+}
+
+.category-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* BANNER SLIDER */
+.banner-slider {
+    width: 100%;
+    /*border-radius: 10px;*/
+    overflow: hidden;
+}
+
+.banner-slider .banner-block {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.banner-slider .banner-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.banner-slider .banner-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.banner-slider .banner-content p {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.banner-slider .catalog-link {
+    color: #0044ff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Добавьте эти стили */
+.swiper {
+    width: 100%;
+    padding: 0;
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    transition-property: transform;
+    box-sizing: content-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0ms;
+    transition-duration: 0ms;
+    -webkit-transform: translate3d(0px, 0, 0);
+    transform: translate3d(0px, 0, 0);
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition-property: transform;
+}
+
+
+
+
+
+
+
+
+.banner-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.b-list-item {
+    background: #0000006b;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #00ba44;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.b-list-item:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Горизонтальная Карточка товара */
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* чтобы занимало всю высоту */
+}
+.product-card:hover {  box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+.product-card .row {
+  height: 100%; /* растягиваем контент внутри */
+}
+
+.product-card img {
+  width: 100%;
+  height: 250px;  /* фиксированная высота для всех изображений */
+  object-fit: cover;
+  object-position: center;
+}
+
+.swiper-slide {
+  height: 100%;
+}
+
+.product-card .col-md-5, 
+.product-card .col-md-7 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-body {
+  padding: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-name {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.attributes-card {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #2643fb;
+}
+
+.price {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.wish-icon {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.btn-success {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+
+/*Количество -1+ */
+.input-group {
+  align-items: center;
+  gap: 5px;
+}
+
+.input-group .btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+}
+
+.input-group input[type="number"] {
+  width: 30px;
+  padding: 6px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 10px !important;
+  border: 1px solid #ccc;
+}
+
+.btn-outline-secondary {
+    color: #ffffff;
+    background-color: #00ba44;
+    background-image: none;
+}
+
+
+
+
+
+
+  .vertical-swiper {
+    height: 360px; /* Настраивай под себя */
+    overflow: hidden;
+  }
+
 

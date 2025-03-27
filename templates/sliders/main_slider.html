@@ -1,0 +1,44 @@
+{% load static %}
+
+
+{% block content %}
+<!-- Вторая колонка со слайдером -->
+<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+    <div class="slider-box">
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <div class="slider-item">
+                    <img src="{% static 'site_app/img/slider/1.jpg' %}" class="slider-img" alt="Слайд 1">
+                    <div class="slider-caption">
+                        <h5>Заголовок 1</h5>
+                        <p>Описание слайда 1</p>
+                        <a href="#" class="btn btn-primary">Купить</a>
+                    </div>
+                </div>
+                <div class="slider-item">
+                    <img src="{% static 'site_app/img/slider/2.jpg' %}" class="slider-img" alt="Слайд 2">
+                    <div class="slider-caption">
+                        <h5>Заголовок 2</h5>
+                        <p>Описание слайда 2</p>
+                        <a href="#" class="btn btn-primary">Купить</a>
+                    </div>
+                </div>
+                <div class="slider-item">
+                    <img src="{% static 'site_app/img/slider/3.jpg' %}" class="slider-img" alt="Слайд 3">
+                    <div class="slider-caption">
+                        <h5>Заголовок 3</h5>
+                        <p>Описание слайда 3</p>
+                        <a href="#" class="btn btn-primary">Купить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="slider-control-prev" aria-label="Previous Slide">
+            <span class="slider-control-icon"></span>
+        </button>
+        <button class="slider-control-next" aria-label="Next Slide">
+            <span class="slider-control-icon"></span>
+        </button>
+    </div>
+</div>
+{% endblock %}

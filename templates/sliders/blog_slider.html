@@ -1,0 +1,115 @@
+{% load static %}
+
+
+{% block content %}
+<!-- Третья колонка Блог Слайдер -->
+<div class="col-12 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center">
+
+    <div class="blog-slider">
+        <div class="blog-slider-container">
+            <div class="blog-slider-wrapper">
+
+
+                <!-- Слайд 1 (содержит 2 карточки) -->
+                <div class="blog-slider-item">
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/Panjim.jpg' %}" class="blog-img">
+                        <div class="blog-content">
+                            <h5>PANAJI IS THE CAPITAL OF GOA</h5>
+                            <p>Panaji (or Panjim) is the capital of Goa, located in a picturesque setting at the mouth
+                                of the Mandovi River. This small city resembles a corner of the Mediterranean, yet
+                                retains a unique Indian flavor and reflects the rich history of Portuguese
+                                heritage. </p>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/Entertainment-in-Arambol.jpg' %}" class="blog-img">
+                        <div class="blog-content">
+                            <h5>Entertainment in Arambol. What to do and where to go?</h5>
+                            <p>India’s Republic Day is not only a public holiday but also an event that unites the
+                                entire country. The celebrations include ceremonial events, cultural programs and
+                                patriotic activities that take place both at the state level and in private
+                                organizations.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Слайд 2 (содержит 2 карточки) -->
+                <div class="blog-slider-item">
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/indian-republic-day-celebration-digital-art.jpg' %}"
+                             class="blog-img">
+                        <div class="blog-content">
+                            <h5>India’s Republic Day: history and traditions of celebration</h5>
+                            <p>India’s Republic Day is not only a public holiday but also an event that unites the
+                                entire country. The celebrations include ceremonial events, cultural programs and
+                                patriotic activities that take place both at the state level and in private
+                                organizations.</p>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/flowers-garden.jpg' %}" class="blog-img">
+                        <div class="blog-content">
+                            <h5>Best-selling Indian cosmetics in 2024</h5>
+                            <p>Indian cosmetics are renowned for their natural ingredients, ancient Ayurvedic recipes
+                                and efficacy. In 2024, the popularity of products from India continues to grow, and we
+                                have prepared for you a selection of best-selling products that will help you take care
+                                of your teeth, skin, hair and overall health.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Слайд 3 (содержит 2 карточки) -->
+                <div class="blog-slider-item">
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/Coat-of-arms-of-Portuguese-India.jpg' %}"
+                             class="blog-img">
+                        <div class="blog-content">
+                            <h5>Portuguese India, Goa independence struggle</h5>
+                            <p>Goa is a unique region of India whose history is closely linked to the Portuguese
+                                colonization period of over 450 years. </p>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/young-man-holding-plastic-bag-boutique_23-2148175641.jpg' %}"
+                             class="blog-img">
+                        <div class="blog-content">
+                            <h5>PSales Leaders 2024: Indian products that have gained popularity</h5>
+                            <p>Sales Leaders 2024 from India continue to find more and more fans around the world.
+                                Unique products that combine tradition, naturalness and efficacy have become real hits.
+                                We have gathered for you a list of the best 2024 sales that are worthy of attention.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Слайд 4 (содержит 2 карточки) -->
+                <div class="blog-slider-item">
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/photo_2020-02-27_13-34-14-1170x650.jpg' %}"
+                             class="blog-img">
+                        <div class="blog-content">
+                            <h5>Arambol 2025: Market, Hippies and Goa’s Best Beaches</h5>
+                            <p>Many travelers, after arriving in Goa, immediately go to explore Arambol. This place is
+                                known to many. Those who have already been here are eager to return.</p>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="{% static 'site_app/img/blog/indian-travel.jpg' %}" class="blog-img">
+                        <div class="blog-content">
+                            <h5>Mining in India</h5>
+                            <p>India is one of the largest resource-rich countries in the world with diverse natural
+                                resources. Mining plays a crucial role in the country’s economy, providing ener gy,
+                                industry and export potential. </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <button class="blog-slider-control-prev" aria-label="Previous Slide">
+            <span class="blog-slider-control-icon"></span>
+        </button>
+        <button class="blog-slider-control-next" aria-label="Next Slide">
+            <span class="blog-slider-control-icon"></span>
+        </button>
+    </div>
+</div>
+{% endblock %}
