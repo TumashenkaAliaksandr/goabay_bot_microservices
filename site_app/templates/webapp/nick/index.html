@@ -21,11 +21,11 @@
     <link rel="stylesheet" href="{% static 'site_app/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'site_app/css/nick_style.css' %}">
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -54,7 +54,7 @@
     <!-- Десктоп версия -->
     <div class="row d-none d-lg-none d-xl-flex px-3">
         <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
-            
+
             <!-- Лого и меню -->
             <div class="d-flex w-auto" style="gap: 10px;">
                 <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
@@ -95,7 +95,7 @@
 
     <!-- Мобильная версия -->
     <div class="mobile-header d-flex d-md-none flex-column">
-            
+
         <!-- Первый ряд -->
         <div class="d-flex align-items-center py-1 w-100 justify-content-between">
             <div class="d-flex w-auto">
@@ -150,14 +150,14 @@
 
     <!-- Планшетная версия -->
     <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
-            
+
         <!-- Лого, поиск, меню -->
         <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
             <div class="d-flex w-auto" style="gap: 10px;">
                 <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
                 <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
             </div>
-                
+
             <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
                 <button class="btn-box" aria-label="Login" style="min-width: 80px;">
                     <span class="icon">🔑</span>
@@ -194,7 +194,7 @@
                 </button>
             </div>
         </div>
-    
+
         <div class="d-flex align-items-center py-1 w-100 justify-content-between">
             <div class="d-flex flex-grow-1">
                 <div class="search-box d-flex align-items-center">
@@ -269,7 +269,7 @@
             <li><a href="#">📪 Contact us</a></li>
         </ul>
     </div>
-    
+
 <!-- Оверлей -->
 <div id="overlay" class="overlay"></div>
 
@@ -283,7 +283,7 @@
 
     <!-- Список товаров с прокруткой -->
     <div class="cart-items flex-grow-1 overflow-auto">
-        
+
         <!-- Пример товара -->
         <div class="cart-item d-flex align-items-start position-relative">
             <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img me-3">
@@ -481,9 +481,9 @@
 
 <!-- 1 box -->
 <div class="container-fluid p-3">
-    
+
     <div class="row">
-        
+
         <!-- Первая колонка с вертикальным меню -->
         {% include 'main/vertical_menu_one.html' %}
 
@@ -500,30 +500,31 @@
 
 <!-- 2 box -->
 <div class="container-fluid p-3">
-    
+
     <div class="row">
-        
+
         <!-- Первая колонка с вертикальным меню -->
         <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-none d-xl-block">
 
-           
+
             <div class="video-wrapper">
-                <iframe width="100%" height="auto" 
-                    src="https://www.youtube.com/embed/ID_ВИДЕО" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
+                <iframe width="100%" height="auto"
+                        src="https://www.youtube.com/embed/InVB4HizrPo?si=fMes3-uOMBQt5__r"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
                 </iframe>
             </div>
 
         </div>
 
         <!-- Вторая колонка со слайдерами -->
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10"> 
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
 
             <div class="h-list-container">
-                
+
                 <h2 class="h2-title">Often searched</h2>
 
                 <div class="horizontal-list">
@@ -540,11 +541,11 @@
                     <a href="#" class="h-list-item">🎁 Exclusive</a>
                     <a href="#" class="h-list-item">👀 View all</a>
                 </div>
-                
+
             </div>
-            
+
             <!-- Блок с баннерами -->
-            <div class="swiper banner-slider"> 
+            <div class="swiper banner-slider">
                 <div class="swiper-wrapper py-3">
 
                     <div class="swiper-slide banner-block" style="background-image: url('{% static 'site_app/img/banner/Rectangle 1.png' %}');">
@@ -618,10 +619,10 @@
                     </div>
 
                 </div>
-            </div>  
+            </div>
 
             <div class="h-list-container">
-                
+
                 <h2 class="h2-title">Goabay Service</h2>
 
                 <div class="horizontal-list">
@@ -634,7 +635,7 @@
                   <a href="#" class="h-list-item">💬 Ask a question</a>
                   <a href="#" class="h-list-item">👀 View all</a>
                 </div>
-                
+
             </div>
 
             <div class="swiper service-slider">
@@ -721,7 +722,7 @@
             </div>
 
             <div class="h-list-container">
-                
+
                 <h2 class="h2-title">Brands</h2>
 
                 <div class="horizontal-list">
@@ -731,7 +732,7 @@
                   <a href="#" class="h-list-item">Made in India</a>
                   <a href="#" class="h-list-item">👀 View all</a>
                 </div>
-                
+
             </div>
 
             <!-- Блок с брендами -->
@@ -797,7 +798,7 @@
             </div>
 
             <div class="h-list-container">
-                
+
                 <h2 class="h2-title">Category</h2>
 
                 <div class="horizontal-list">
@@ -810,7 +811,7 @@
                     <a href="#" class="h-list-item">🗿 Souvenirs</a>
                     <a href="#" class="h-list-item">👀 View all</a>
                 </div>
-                
+
             </div>
 
             <!-- Блок с категориями -->
@@ -974,10 +975,10 @@
                             <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                                 Seventh Chakra Rama Krishna Incense
                             </h4>
-                            <ul class="attributes-card"> 
+                            <ul class="attributes-card">
                                 <li>Brand Name</li>
                                 <li>Category</li>
-                            </ul>                
+                            </ul>
                             <p class="price">
                               <span class="fw-bold">999 Rs</span>
                               <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1006,10 +1007,10 @@
                             <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                                 Seventh Chakra Rama Krishna Incense
                             </h4>
-                            <ul class="attributes-card"> 
+                            <ul class="attributes-card">
                                 <li>Brand Name</li>
                                 <li>Category</li>
-                            </ul>                
+                            </ul>
                             <p class="price">
                               <span class="fw-bold">999 Rs</span>
                               <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1038,10 +1039,10 @@
                             <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                                 Seventh Chakra Rama Krishna Incense
                             </h4>
-                            <ul class="attributes-card"> 
+                            <ul class="attributes-card">
                                 <li>Brand Name</li>
                                 <li>Category</li>
-                            </ul>                
+                            </ul>
                             <p class="price">
                               <span class="fw-bold">999 Rs</span>
                               <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1070,10 +1071,10 @@
                             <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                                 Seventh Chakra Rama Krishna Incense
                             </h4>
-                            <ul class="attributes-card"> 
+                            <ul class="attributes-card">
                                 <li>Brand Name</li>
                                 <li>Category</li>
-                            </ul>                
+                            </ul>
                             <p class="price">
                               <span class="fw-bold">999 Rs</span>
                               <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1114,10 +1115,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1140,10 +1141,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1166,10 +1167,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1192,10 +1193,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1218,10 +1219,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1244,10 +1245,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1270,10 +1271,10 @@
                     <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                       Seventh Chakra Rama Krishna Incense
                     </h4>
-                    <ul class="attributes-card"> 
+                    <ul class="attributes-card">
                       <li>Brand Name</li>
                       <li>Category</li>
-                    </ul>                
+                    </ul>
                     <p class="price">
                       <span class="fw-bold">999 Rs</span>
                       <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1310,9 +1311,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1329,9 +1330,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1348,9 +1349,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1367,9 +1368,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1386,9 +1387,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1405,9 +1406,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1424,9 +1425,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1443,9 +1444,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1462,9 +1463,9 @@
                         <h4 class="product-name fw-semibold mb-2" title="Seventh Chakra Rama Krishna Incense">
                           Seventh Chakra Rama Krishna Incense
                         </h4>
-                        <ul class="attributes-card"> 
+                        <ul class="attributes-card">
                           <li>Brand Name</li>
-                        </ul>                
+                        </ul>
                         <p class="price">
                           <span class="fw-bold">999 Rs</span>
                           <span class="text-decoration-line-through text-danger">2000 Rs</span>
@@ -1498,8 +1499,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1538,8 +1539,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/0402046.jpg' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1578,8 +1579,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/back-1800x1800-1.jpg' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1618,8 +1619,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/edit-62-1800x1800-1.jpg' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1675,8 +1676,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11 (2).png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1715,8 +1716,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11 (7).png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1755,8 +1756,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11.png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1795,8 +1796,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/genzester-29-b-1800x1800-1-300x300.jpg' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1850,15 +1851,15 @@
 
       <div class="swiper vertical-swiper">
         <div class="swiper-wrapper">
-                    
+
                     <!-- Карточка в ряд -->
                     <div class="swiper-slide product-card r-10 mb-2 p-2">
                       <div class="row align-items-center g-2">
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11.png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1876,7 +1877,7 @@
                           <span style="cursor:pointer;">✅</span>
                           <span style="cursor:pointer;">⚖️</span>
                         </div>
- 
+
                       </div>
                     </div>
 
@@ -1886,8 +1887,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11.png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1905,7 +1906,7 @@
                           <span style="cursor:pointer;">💖</span>
                           <span style="cursor:pointer;">⚖️</span>
                         </div>
- 
+
                       </div>
                     </div>
 
@@ -1915,8 +1916,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11.png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1934,7 +1935,7 @@
                           <span style="cursor:pointer;">💖</span>
                           <span style="cursor:pointer;">⚖️</span>
                         </div>
- 
+
                       </div>
                     </div>
 
@@ -1944,8 +1945,8 @@
                         <!-- Фото -->
                         <div class="col-auto">
                           <img src="{% static 'site_app/img/products/Frame 11.png' %}"
-                               alt="Product" 
-                               class="img-fluid rounded" 
+                               alt="Product"
+                               class="img-fluid rounded"
                                style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <!-- Название и атрибуты -->
@@ -1963,13 +1964,13 @@
                           <span style="cursor:pointer;">💖</span>
                           <span style="cursor:pointer;">⚖️</span>
                         </div>
- 
+
                       </div>
                     </div>
         </div>
       </div>
     </div>
-    
+
     <div class="col-12 col-md-3 p-2 h-100">
       <div class="swiper vertical-swiper">
         <div class="swiper-wrapper">
@@ -1980,7 +1981,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="col-12 col-md-3 p-2 h-100">
       <div class="swiper vertical-swiper">
         <div class="swiper-wrapper">
@@ -1991,7 +1992,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="col-12 col-md-3 p-2 h-100">
       <div class="swiper vertical-swiper">
         <div class="swiper-wrapper">

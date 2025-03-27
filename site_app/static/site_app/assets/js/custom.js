@@ -89,8 +89,6 @@ function closeCart() {
     cartOverlay.classList.remove('active');
 }
 
-
-
 // Слайдер
 document.addEventListener('DOMContentLoaded', () => {
     const sliderBox = document.querySelector('.slider-box');
@@ -225,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSlider();
     startAutoSlide(); // Запускаем авто-прокрутку при загрузке
 });
-
 
 // Блог слайдер
 document.addEventListener('DOMContentLoaded', () => {
@@ -363,149 +360,110 @@ document.addEventListener('DOMContentLoaded', () => {
     startBlogAutoSlide(); // Запускаем авто-прокрутку
 });
 
-
-// Сервис слайдер
-const swiper = new Swiper('.service-slider', {
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    slidesPerView: 3,
-    spaceBetween: 15,
-    grabCursor: true,
-    allowTouchMove: true,
-    breakpoints: {
-      // Для мобильных — по одному
-      0: { slidesPerView: 1 },
-      // Планшеты — два
-      768: { slidesPerView: 2 },
-      // Десктоп — три
-      992: { slidesPerView: 3 },
-    },
-  });
-
-
-// Бренд слайдер
-const brandSlider = new Swiper('.brand-slider', {
-  slidesPerView: 8,
-  spaceBetween: 15,
-  loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-  breakpoints: {
-    320: { slidesPerView: 2 },
-    576: { slidesPerView: 3 },
-    768: { slidesPerView: 5 },
-    1200: { slidesPerView: 8 }
-  }
-});
-
-// Категории слайдер
-const categorySlider = new Swiper('.category-slider', {
-    slidesPerView: 8,
-    spaceBetween: 15,
-    loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    breakpoints: {
-      320: { slidesPerView: 2 },
-      480: { slidesPerView: 3  },
-      768: { slidesPerView: 5 },
-      1024: { slidesPerView: 8 }
-    }
-  });
-
-// БАННЕР слайдер
-const bannerSwiper = new Swiper('.banner-slider', {
-    loop: true,
-    slidesPerView: 2,        // Показываем 2 слайда одновременно
-    spaceBetween: 15,        // Отступ между слайдами
-    autoplay: {
-        delay: 5000,
-    },
-    breakpoints: {
-      320: { slidesPerView: 1 },
-      480: { slidesPerView: 1  },
-      768: { slidesPerView: 1 },
-      1024: { slidesPerView: 2 }
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Первый слайдер
-const productSwiper = new Swiper('.product-slider', {
-  loop: true,
-  slidesPerView: 3,
-  spaceBetween: 15,
-  breakpoints: {
-    320: { slidesPerView: 1 },
-    768: { slidesPerView: 2 },
-    1200: { slidesPerView: 3 },
-  }
-});
-
-// Второй слайдер
-const secondSwiper = new Swiper('.second-product-slider', {
-  loop: true,
-  slidesPerView: 5,
-  spaceBetween: 20,
-  breakpoints: {
-    320: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1200: { slidesPerView: 6 },
-  }
-});
-
-// Третий слайдер
-const thirdSwiper = new Swiper('.third-product-slider', {
-  loop: true,
-  slidesPerView: 5,
-  spaceBetween: 20,
-  breakpoints: {
-    320: { slidesPerView: 2 },
-    768: { slidesPerView: 4 },
-    1200: { slidesPerView: 8 },
-  }
-});
-
-
-
-
-// Вертикальный слайдер в с товарами в ряд
-const sliders = document.querySelectorAll('.vertical-swiper');
-  sliders.forEach((slider) => {
-    new Swiper(slider, {
-      direction: 'vertical',
-      slidesPerView: 3,
-      spaceBetween: 10,
-      loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      allowTouchMove: true, // Можно убрать если нужен только авто-скролл
+// Инициализация Swiper слайдеров (переместите сюда все слайдеры Swiper)
+document.addEventListener('DOMContentLoaded', () => {
+    // Бренд слайдер
+    const brandSlider = new Swiper('.brand-slider', {
+        slidesPerView: 11,
+        spaceBetween: 15,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        breakpoints: {
+            320: { slidesPerView: 2 },
+            576: { slidesPerView: 3 },
+            768: { slidesPerView: 5 },
+            1200: { slidesPerView: 8 }
+        }
     });
-  });
 
+    // Категории слайдер
+    const categorySlider = new Swiper('.category-slider', {
+        slidesPerView: 8,
+        spaceBetween: 15,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        breakpoints: {
+            320: { slidesPerView: 2 },
+            480: { slidesPerView: 3 },
+            768: { slidesPerView: 5 },
+            1024: { slidesPerView: 8 }
+        }
+    });
 
+    // БАННЕР слайдер
+    const bannerSwiper = new Swiper('.banner-slider', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 25,
+        centeredSlides: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false // Автоплей продолжается после взаимодействия
+        },
+        centerInsufficientSlides: true,
+        breakpoints: {
+            320: { slidesPerView: 1 },
+            480: { slidesPerView: 1 },
+            768: { slidesPerView: 1 },
+            1024: { slidesPerView: 2 }
+        }
+    });
 
+    // Первый слайдер
+    const productSwiper = new Swiper('.product-slider', {
+        loop: true,
+        slidesPerView: 3,
+        spaceBetween: 15,
+        breakpoints: {
+            320: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 },
+        }
+    });
 
+    // Второй слайдер
+    const secondSwiper = new Swiper('.second-product-slider', {
+        loop: true,
+        slidesPerView: 5,
+        spaceBetween: 20,
+        breakpoints: {
+            320: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1200: { slidesPerView: 6 },
+        }
+    });
 
+    // Третий слайдер
+    const thirdSwiper = new Swiper('.third-product-slider', {
+        loop: true,
+        slidesPerView: 5,
+        spaceBetween: 20,
+        breakpoints: {
+            320: { slidesPerView: 2 },
+            768: { slidesPerView: 4 },
+            1200: { slidesPerView: 8 },
+        }
+    });
 
-
+    // Вертикальный слайдер в с товарами в ряд
+    const sliders = document.querySelectorAll('.vertical-swiper');
+    sliders.forEach((slider) => {
+        new Swiper(slider, {
+            direction: 'vertical',
+            slidesPerView: 3,
+            spaceBetween: 10,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            allowTouchMove: true, // Можно убрать если нужен только авто-скролл
+        });
+    });
+});

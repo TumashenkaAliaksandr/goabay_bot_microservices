@@ -1012,7 +1012,6 @@ html {
 }
 
 
-
 /*BRAND SLIDER*/
 .brand-slider {
   padding: 20px 0;
@@ -1028,8 +1027,8 @@ html {
   padding: 15px;
   min-height: 100px;
   height: 100px;
-  width: 100px; /* Фиксированная ширина */
-  text-align: center;  /* Центр текста */
+  width: 100px;
+  text-align: center;
 }
 
 .brand-box:hover {
@@ -1049,9 +1048,6 @@ html {
   color: #333;
   text-align: center;
 }
-
-
-
 
 /*Category SLIDER*/
 .category-box {
@@ -1083,91 +1079,104 @@ html {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-
 /* BANNER SLIDER */
 .banner-slider {
-    width: 100%;
-    /*border-radius: 10px;*/
-    overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 }
 
 .banner-slider .banner-block {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    min-height: 250px;
-    border-radius: 10px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  min-height: 250px;
+  border-radius: 10px;
 }
 
 .banner-slider .banner-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    color: #fff;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .banner-slider .banner-content h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .banner-slider .banner-content p {
-    font-size: 14px;
-    margin-bottom: 15px;
+  font-size: 14px;
+  margin-bottom: 15px;
 }
 
 .banner-slider .catalog-link {
-    color: #0044ff;
-    font-weight: 700;
-    text-decoration: none;
+  color: #0044ff;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-/* Добавьте эти стили */
+/* SWIPER STYLES */
 .swiper {
-    width: 100%;
-    padding: 0;
+  width: 100%;
+  padding: 0;
 }
 
 .swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-    position: relative;
-    transition-property: transform;
-    box-sizing: content-box;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-transition-property: -webkit-transform;
-    transition-property: transform;
-    -webkit-transition-duration: 0ms;
-    transition-duration: 0ms;
-    -webkit-transform: translate3d(0px, 0, 0);
-    transform: translate3d(0px, 0, 0);
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  transition-property: transform;
+  box-sizing: content-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  -webkit-transition-property: -webkit-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 300ms;
+  transition-duration: 300ms;
+  -webkit-transform: translate3d(0px, 0, 0);
+  transform: translate3d(0px, 0, 0);
 }
 
 .swiper-slide {
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transition-property: transform;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+    /*min-width: 100vw !important;  !* Растягиваем на всю ширину экрана *!*/
+  position: relative;
+  transition-property: transform;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  transform: translateX(0)!important;
+}
+
+.swiper-slide-next {
+  transform: translateX(100%);
+}
+
+.swiper-slide-prev {
+  transform: translateX(-100%);
+}
+.swiper-wrapper {
+  box-sizing: border-box !important;
+}
+.swiper {
+  padding: 0 !important;
 }
 
 
 
-
-
-
-
-
+/* BANNER LIST */
 .banner-list {
   display: flex;
   flex-wrap: wrap;
@@ -1175,29 +1184,20 @@ html {
 }
 
 .b-list-item {
-    background: #0000006b;
-    padding: 8px 16px;
-    border-radius: 8px;
-    color: #00ba44;
-    text-decoration: none;
-    white-space: nowrap;
-    font-size: 14px;
-    transition: background 0.3s;
+  background: #0000006b;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #00ba44;
+  text-decoration: none;
   white-space: nowrap;
+  font-size: 14px;
+  transition: background 0.3s;
 }
 
 .b-list-item:hover {
   background-color: #007bff;
   color: #fff;
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -1228,10 +1228,6 @@ html {
   height: 250px;  /* фиксированная высота для всех изображений */
   object-fit: cover;
   object-position: center;
-}
-
-.swiper-slide {
-  height: 100%;
 }
 
 .product-card .col-md-5, 
@@ -1311,13 +1307,10 @@ html {
 }
 
 
-
-
-
-
   .vertical-swiper {
     height: 360px; /* Настраивай под себя */
     overflow: hidden;
+      width: 100%;
   }
 
 
