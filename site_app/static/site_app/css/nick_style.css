@@ -1155,25 +1155,6 @@ html {
   transition-property: transform;
 }
 
-.swiper-slide-active {
-  opacity: 1;
-  transform: translateX(0)!important;
-}
-
-.swiper-slide-next {
-  transform: translateX(100%);
-}
-
-.swiper-slide-prev {
-  transform: translateX(-100%);
-}
-.swiper-wrapper {
-  box-sizing: border-box !important;
-}
-.swiper {
-  padding: 0 !important;
-}
-
 
 
 /* BANNER LIST */
@@ -1313,4 +1294,115 @@ html {
       width: 100%;
   }
 
+/* Стандартные настройки */
+html {
+    scroll-behavior: smooth;
+    background-color: #F4F6F9;
+    color: #333;
+    width: 100%;
+}
+
+
+
+/* Горизонтальное меню и заголовок */
+.h-list-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  /*  padding: 15px 0;*/
+}
+
+.h2-title {
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.horizontal-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;      /* Firefox */
+}
+
+.horizontal-list::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari */
+}
+
+.h-list-item {
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #0044ff;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.h-list-item:hover {
+    background: #e2e6ea;
+}
+
+
+
+/*SLIDER-WRAPPER  Общий стиль для свайперов*/
+.swiper-wrapper {
+  align-items: stretch; /* ВЫРАВНИВАЕТ ВСЕ СЛАЙДЫ ПО ВЫСОТЕ */
+}
+
+.service-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  min-height: 180px;     /* Минимальная высота */
+  height: 100%;          /* Чтобы растягивались по одной высоте */
+  max-width: 600px;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.box-icon {
+  font-size: 70px;
+  flex-shrink: 0;
+}
+
+.service-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.service-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.service-content .description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+
+.catalog-link {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.catalog-link:hover {
+  text-decoration: underline;
+}
 

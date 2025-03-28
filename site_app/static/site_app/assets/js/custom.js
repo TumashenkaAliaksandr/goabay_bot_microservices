@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Первый слайдер
     const productSwiper = new Swiper('.product-slider', {
         loop: true,
-        slidesPerView: 3,
+        slidesPerView: 8,
         spaceBetween: 15,
         breakpoints: {
             320: { slidesPerView: 1 },
@@ -449,6 +449,27 @@ document.addEventListener('DOMContentLoaded', () => {
             768: { slidesPerView: 4 },
             1200: { slidesPerView: 8 },
         }
+    });
+
+    // Сервис слайдер
+    const swiper = new Swiper('.service-slider', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        slidesPerView: 3,
+        spaceBetween: 15,
+        grabCursor: true,
+        allowTouchMove: true,
+        breakpoints: {
+            // Для мобильных — по одному
+            0: {slidesPerView: 1},
+            // Планшеты — два
+            768: {slidesPerView: 2},
+            // Десктоп — три
+            992: {slidesPerView: 3},
+        },
     });
 
     // Вертикальный слайдер в с товарами в ряд
