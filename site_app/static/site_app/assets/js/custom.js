@@ -399,9 +399,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // БАННЕР слайдер
     const bannerSwiper = new Swiper('.banner-slider', {
         loop: true,
-        slidesPerView: 1,
-        spaceBetween: 25,
-        centeredSlides: true,
+        slidesPerView: 2,
+        spaceBetween: 15,
+        centeredSlides: false,
         autoplay: {
             delay: 5000,
             disableOnInteraction: false // Автоплей продолжается после взаимодействия

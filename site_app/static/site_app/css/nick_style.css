@@ -1142,8 +1142,8 @@ html {
   transition-property: transform;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
-  -webkit-transform: translate3d(0px, 0, 0);
-  transform: translate3d(0px, 0, 0);
+  /*-webkit-transform: translate3d(0px, 0, 0);*/
+  /*transform: translate3d(0px, 0, 0);*/
 }
 
 .swiper-slide {
