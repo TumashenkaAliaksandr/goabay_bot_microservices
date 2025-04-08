@@ -18,4 +18,4 @@ bot = telebot.TeleBot(settings.BOT_TOKEN)
 #     context = {
 #         'products_up_block': products_up_block,
 #     }
-#     return render(request, 'webapp/index.html', context=context)
+#     return render(request, 'images/test-index.html', context=context)

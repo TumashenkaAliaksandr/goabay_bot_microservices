@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from goabay_bot import settings
 from . import views
-from .views import news, about, contact, cart, wishlist, checkout, shop, product, compare, account, forgot_password, \
+from .views import news, cart, checkout, shop, product, compare, account, forgot_password, \
     login, registrations, four_zero_four, product_catalog, how_we_work, brand, elephant, bestsellers, handmade, \
     brand_name
 
@@ -15,8 +15,6 @@ urlpatterns = [
     path('best-sellers/', bestsellers, name='best-sellers'),
     path('news/', news, name='news'),
     path('hand-made/', handmade, name='hand-made'),
-    path('about/', about, name='about'),
-    path('wishlist/', wishlist, name='wishlist'),
     path('compare/', compare, name='compare'),
     path('shop/', shop, name='shop'),
     path('product/', product, name='product'),
@@ -30,7 +28,6 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
-    path('contacts/', contact, name='contacts'),
     path('account/', account, name='account'),
     path('login/', login, name='login'),
     path('registrations/', registrations, name='registrations'),

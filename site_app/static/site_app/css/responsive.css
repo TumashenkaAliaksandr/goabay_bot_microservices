@@ -408,7 +408,7 @@
     width: 110px;
 }
 .cart-box > ul > li > a {
-    padding: 0 0 0 15px;
+    padding-left: 0 0 0 15px;
     line-height: 31px;
     font-size: 22px;
 }
@@ -513,7 +513,7 @@
 .header-bottom-style-two .mean-container a.meanmenu-reveal span {
     background: #fed700;
 }
-.group-title h2 {
+.group-title h2,{
     font-weight: 500;
 }
 .slider-style-three .single-banner:first-child {
@@ -828,7 +828,7 @@ p.checkout-coupon input[type="submit"] {
 .ptb-sm-0{
     padding: 0px 0;
 }
-.mt-sm-5{margin-top: 5px;}
+.mt-sm-5{margin-top: 5;}
 .footer-top{
     padding: 50px 0;
 }
@@ -1023,11 +1023,9 @@ p.checkout-coupon input[type="submit"] {
     font-size: 14px;
 }
 .pagination-box.fix {
-    display: flex; /* Не забудьте добавить display: flex; */
-    align-items: flex-start; /* Выравнивание элементов по началу контейнера */
-    flex-direction: column; /* Направление элементов по колонкам */
+    align-items: left;
+    flex-direction: column;
 }
-
 .blog-pagination {
     margin-bottom: 25px;
 }

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Goabay - Goods from India</title>
+    <title>Index 1-3</title>
     <meta name="description" content="E-commerce store for Indian products">
     <meta name="keywords" content="E-commerce, India, Goods">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,20 +19,51 @@
 
     <!-- Bootstrap & Custom CSS -->
     <link rel="stylesheet" href="{% static 'site_app/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'site_app/css/nick_style.css' %}">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{% static 'site_app/style.css' %}">
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
-
     <!-- Custom JS -->
     <script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>
+    <script src="{% static 'site_app/assets/js/header.js' %}" defer></script>
+    <script src="{% static 'site_app/assets/js/sliders.js' %}" defer></script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 </head>
 
 {% include 'main/nick/header.html' %}
 {% block content %}{% endblock %}
+<!--FOOTER В РА3АБОТКЕ-->
+<footer class="footer text-dark py-4">
+
+    <div class="container">
+        <div class="row">
+
+            <!-- 1-я колонка: Логотип и текст -->
+            <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
+                <h5>Логотип и текст</h5>
+            </div>
+
+            <!-- 2-я колонка: Меню -->
+            <div class="col-12 col-md-4 text-center">
+                <h5>Меню</h5>
+            </div>
+
+            <!-- 3-я колонка: Контакты -->
+            <div class="col-12 col-md-4 text-center text-md-end">
+                <h5>Контакты</h5>
+            </div>
+
+        </div>
+
+        <!-- Копирайт -->
+        <div class="text-center mt-3 small">
+            &copy; 2025 Все права защищены.
+        </div>
+    </div>
+</footer>

@@ -2,43 +2,51 @@
 
 
 {% block content %}
-<!-- Вторая колонка со слайдером -->
-<div class="col-12 col-sm-12 col-md-12 col-lg-6">
-    <div class="slider-box">
-        <div class="slider-container">
-            <div class="slider-wrapper">
-                <div class="slider-item">
-                    <img src="{% static 'site_app/img/slider/1.jpg' %}" class="slider-img" alt="Слайд 1">
-                    <div class="slider-caption">
-                        <h5>Заголовок 1</h5>
-                        <p>Описание слайда 1</p>
-                        <a href="#" class="btn btn-primary">Купить</a>
+    <!-- Вторая колонка со слайдером -->
+    <div class="col-12 col-sm-12 col-md-6 col-lg-5 col-xl-6 col-xxl-6">
+
+        <!-- MAIN SLIDER -->
+        <div class="slider-box mb-3">
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider-item">
+                        <img src="{% static 'site_app/img/slider/1-2.jpg' %}" class="slider-img" alt="Слайд 1">
+                        <div class="slider-caption">
+                            <h5>Tulsi Original Tea</h5>
+                            <p>Excellent Indian green tea decaffeinated Tulsi with light and expressive range of a set
+                                of spices- true gourmet.</p>
+                            <a href="#" class="btn btn-primary">Buy now</a>
+                        </div>
                     </div>
-                </div>
-                <div class="slider-item">
-                    <img src="{% static 'site_app/img/slider/2.jpg' %}" class="slider-img" alt="Слайд 2">
-                    <div class="slider-caption">
-                        <h5>Заголовок 2</h5>
-                        <p>Описание слайда 2</p>
-                        <a href="#" class="btn btn-primary">Купить</a>
+                    <div class="slider-item">
+                        <img src="{% static 'site_app/img/slider/2-2.jpg' %}" class="slider-img" alt="Слайд 2">
+                        <div class="slider-caption">
+                            <h5>Authorized distributor of HIMALAYA</h5>
+                            <p>Himalaya India's products are so recognizable and popular that they are sometimes
+                                identified directly with Ayurveda.</p>
+                            <a href="#" class="btn btn-primary">Buy now!</a>
+                        </div>
                     </div>
-                </div>
-                <div class="slider-item">
-                    <img src="{% static 'site_app/img/slider/3.jpg' %}" class="slider-img" alt="Слайд 3">
-                    <div class="slider-caption">
-                        <h5>Заголовок 3</h5>
-                        <p>Описание слайда 3</p>
-                        <a href="#" class="btn btn-primary">Купить</a>
+                    <div class="slider-item">
+                        <img src="{% static 'site_app/img/slider/3-3.jpg' %}" class="slider-img" alt="Слайд 3">
+                        <div class="slider-caption">
+                            <h5>Incense from Ram Krishna</h5>
+                            <p>You can see for yourself how wide is the range of incense from Rama Krishna in our
+                                catalog. And we are sure you will find something to your liking.</p>
+                            <a href="#" class="btn btn-primary">Buy now</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <button class="slider-control-prev" aria-label="Previous Slide">
+                <span class="slider-control-icon"></span>
+            </button>
+            <button class="slider-control-next" aria-label="Next Slide">
+                <span class="slider-control-icon"></span>
+            </button>
         </div>
-        <button class="slider-control-prev" aria-label="Previous Slide">
-            <span class="slider-control-icon"></span>
-        </button>
-        <button class="slider-control-next" aria-label="Next Slide">
-            <span class="slider-control-icon"></span>
-        </button>
+        <!-- END MAIN SLIDER -->
+
     </div>
-</div>
+    <!-- END Вторая колонка со слайдером -->
 {% endblock %}

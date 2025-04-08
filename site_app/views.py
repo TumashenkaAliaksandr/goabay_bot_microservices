@@ -1,20 +1,14 @@
 import telebot
 from celery import shared_task
 from django.core.cache import cache
-from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-import json
-
 from django.views.decorators.http import require_http_methods
 
 from bot_app.models import Product
-from goabay_bot import settings
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
-from site_app.forms import NewsletterForm
 from site_app.models import NewsletterSubscription, Brand
 
-from .forms import NewsletterForm
 
 # bot = telebot.TeleBot(settings.BOT_TOKEN)
 
@@ -28,7 +22,7 @@ def index(request):
         'products_up_block': products_up_block,
         'sliders': sliders,
     }
-    return render(request, 'webapp/nick/index.html', context=context)
+    return render(request, 'main/nick/index.html', context=context)
 
 
 def category_view(request, category_name):
@@ -51,9 +45,6 @@ def product_detail(request, name, slug):
     }
     return render(request, 'webapp/shop/product_detail.html', context)
 
-def wishlist(request):
-    return render(request, 'webapp/wishlist.html')
-
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
 
@@ -66,17 +57,8 @@ def shop(request):
 def checkout(request):
     return render(request, 'webapp/shop/checkout.html')
 
-
-def about(request):
-    return render(request, 'webapp/about.html')
-
-
 def news(request):
     return render(request, 'webapp/blog/blog.html')
-
-
-def contact(request):
-    return render(request, 'webapp/contact.html')
 
 
 def account(request):
@@ -139,7 +121,7 @@ def get_slider_images(request):
 
 # def slider_view(request):
 #     slides = SliderImage.objects.all()
-#     return render(request, 'webapp/index.html', {'slides': slides})
+#     return render(request, 'images/test-index.html', {'slides': slides})
 
 def product_catalog(request):
     products_up_block = Product.objects.all()
@@ -177,6 +159,7 @@ def brand_name(request, slug):
     else:
         return HttpResponseNotFound("Бренд не найден")
 
+
 def single_brand(request, name, slug):
     products = get_object_or_404(Product, name=name)  # Получаем продукт по name
     product = get_object_or_404(Product, slug=slug)
@@ -190,6 +173,7 @@ def single_brand(request, name, slug):
 
     }
     return render(request, 'webapp/shop/single_brand.html', context=context)
+
 
 def elephant(request):
     products_up_block = Product.objects.all()[:8]

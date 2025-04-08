@@ -1,0 +1,32 @@
+{% load static %}
+
+
+{% block content %}
+    <!-- Первая колонка с вертикальным меню -->
+    <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-block">
+
+        <!-- Липкий сайдбар баннер -->
+        <div class="side-banner mb-3 sticky-top">
+
+            <!-- баннер -->
+            <div class="position-relative overflow-hidden shadow banner-container mb-3">
+                <!-- Фоновое изображение -->
+                <img src="{% static 'site_app/img/banner/Tote Bag Mockup Hanging.jpeg' %}"
+                     alt="Летняя распродажа товаров из Индии" class="banner-image">
+                <!-- Контент поверх картинки -->
+                <div class="position-relative text-white p-3 d-flex flex-column justify-content-between h-100 banner-content">
+                    <div>
+                        <h5 class="fw-bold banner-title">🔥 Summer Sale</h5>
+                        <p class="mb-3">Discounts up to 50% on the best products from India!</p>
+                    </div>
+                    <a href="#" class="btn btn-warning text-dark fw-bold mt-auto">Go to stocks</a>
+                </div>
+            </div>
+            <!-- END баннер -->
+
+        </div>
+        <!-- END Липкий сайдбар баннер -->
+
+    </div>
+    <!-- END Первая колонка с вертикальным меню -->
+{% endblock %}
