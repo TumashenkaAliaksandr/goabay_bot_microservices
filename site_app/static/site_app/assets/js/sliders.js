@@ -293,17 +293,16 @@ const bannerSwiper = new Swiper('.banner-slider', {
     }
 });
 
-
 // Первый слайдер
 const productSwiper = new Swiper('.product-slider', {
-  loop: true,
-  slidesPerView: 3,
-  spaceBetween: 15,
-  breakpoints: {
-    320: { slidesPerView: 1 },
-    768: { slidesPerView: 2 },
-    1200: { slidesPerView: 3 },
-  }
+    loop: true,
+    slidesPerView: 8,
+    spaceBetween: 15,
+    breakpoints: {
+        320: {slidesPerView: 1},
+        768: {slidesPerView: 2},
+        1200: {slidesPerView: 3},
+    }
 });
 
 // Второй слайдер

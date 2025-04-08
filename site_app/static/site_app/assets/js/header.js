@@ -64,19 +64,6 @@ document.querySelectorAll('.has-submenu > a').forEach(link => {
     });
 });
 
-// Боковое меню корзины
-const openCartBtns = document.querySelectorAll('.open-cart-btn');
-const cartMenu = document.getElementById('cartMenu');
-const cartOverlay = document.getElementById('cartOverlay');
-const closeCartBtn = cartMenu?.querySelector('.close-cart-btn');
-
-// Открытие корзины по любой кнопке
-openCartBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        cartMenu.classList.add('active');
-        cartOverlay.classList.add('active');
-    });
-});
 
 // Закрытие корзины по крестику или оверлею
 closeCartBtn?.addEventListener('click', closeCart);
