@@ -22,6 +22,7 @@ urlpatterns = [
     path('product-catalog/', product_catalog, name='product-catalog'),
     # path('isha_bestsellers_products.json/', views.serve_json, name='serve_json'),
     path('brand/isha-life/', views.update_ishalife_products, name='isha_life_page'),
+    path('archive/', views.archive, name='archive'),
     path('category/<str:category_name>/', views.category_view, name='category'),
     path('how-we-work/', how_we_work, name='how-we-work'),
     path('checkout/', checkout, name='checkout'),

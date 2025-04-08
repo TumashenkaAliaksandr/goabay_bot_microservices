@@ -4,7 +4,6 @@ from django.core.cache import cache
 from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
-
 from bot_app.models import Product
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.models import NewsletterSubscription, Brand
@@ -15,7 +14,6 @@ from site_app.models import NewsletterSubscription, Brand
 
 
 def index(request):
-
     products_up_block = Product.objects.all()
     sliders = Brand.objects.all()
     context = {
@@ -79,6 +77,10 @@ def forgot_password(request):
 
 def four_zero_four(request):
     return render(request, 'webapp/404.html')
+
+
+def archive(request):
+    return render(request, 'main/nick/product-archive.html')
 
 
 # def newsletter_signup(request):
