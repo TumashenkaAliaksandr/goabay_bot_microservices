@@ -41,7 +41,7 @@ def product_detail(request, name, slug):
         'products_up_block': products_up_block,
 
     }
-    return render(request, 'webapp/shop/product_detail.html', context)
+    return render(request, 'main/nick/products_brands.html', context)
 
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
@@ -156,7 +156,7 @@ def brand(request):
         'products_up_block': products_up_block,
         'sliders': sliders,
     }
-    return render(request, 'webapp/shop/brand.html', context=context)
+    return render(request, 'main/nick/products_brands.html', context=context)
 
 
 def brand_name(request, slug):
@@ -168,7 +168,7 @@ def brand_name(request, slug):
             'products_up_block': products_up_block,
             'sliders': sliders,
         }
-        return render(request, 'webapp/shop/brand.html', context=context)
+        return render(request, 'main/nick/products_brands.html', context=context)
     else:
         return HttpResponseNotFound("Бренд не найден")
 
