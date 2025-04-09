@@ -11,7 +11,7 @@ django.setup()
 import requests
 import json
 from bs4 import BeautifulSoup
-from bot_app.models import Product, Category
+from site_app.models import Product, Category
 import re
 from django.utils.text import slugify
 from django.core.files.base import ContentFile

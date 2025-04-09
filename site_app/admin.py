@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from bot_app.models import ProductImage, Category, Brand
+from bot_app.models import ProductImage
+from site_app.models import Category, Brand
 
 
 # Register your models here.
