@@ -309,6 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loop: true,
         slidesPerView: 8,
         spaceBetween: 15,
+        autoplay: {
+            delay: 5000,
+        },
         breakpoints: {
             320: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
@@ -321,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loop: true,
         slidesPerView: 5,
         spaceBetween: 20,
+        autoplay: {
+            delay: 4500,
+        },
         breakpoints: {
             320: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
@@ -333,6 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loop: true,
         slidesPerView: 5,
         spaceBetween: 20,
+        autoplay: {
+            delay: 4000,
+        },
         breakpoints: {
             320: { slidesPerView: 2 },
             768: { slidesPerView: 4 },
