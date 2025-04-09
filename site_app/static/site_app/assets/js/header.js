@@ -66,12 +66,21 @@ document.querySelectorAll('.has-submenu > a').forEach(link => {
 
 
 // Закрытие корзины по крестику или оверлею
-closeCartBtn?.addEventListener('click', closeCart);
-cartOverlay?.addEventListener('click', closeCart);
+const closeCartBtn = cartMenu?.querySelector('.close-cart-btn'); // Добавьте эту строку
+
+if (closeCartBtn) {
+    closeCartBtn.addEventListener('click', closeCart);
+}
+if (cartOverlay) {
+    cartOverlay.addEventListener('click', closeCart);
+}
 
 function closeCart() {
-    cartMenu.classList.remove('active');
-    cartOverlay.classList.remove('active');
+    if (cartMenu && cartOverlay) {
+        cartMenu.classList.remove('active');
+        cartOverlay.classList.remove('active');
+    }
 }
+
 
 
