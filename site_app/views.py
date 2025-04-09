@@ -79,6 +79,16 @@ def four_zero_four(request):
     return render(request, 'webapp/404.html')
 
 
+def products_brands(request):
+    products_up_block = Product.objects.all()
+    sliders = Brand.objects.all()
+    context = {
+        'products_up_block': products_up_block,
+        'sliders': sliders,
+    }
+    return render(request, 'main/nick/products_brands.html', context)
+
+
 def archive(request):
     return render(request, 'main/nick/product-archive.html')
 
@@ -135,9 +145,6 @@ def product_catalog(request):
     return render(request, 'webapp/shop/product-catalog.html', context=context)
 
 
-def how_we_work(request):
-    return render(request, 'webapp/how-we-work.html')
-
 
 def brand(request):
     products_up_block = Product.objects.all()
@@ -147,6 +154,7 @@ def brand(request):
         'sliders': sliders,
     }
     return render(request, 'webapp/shop/brand.html', context=context)
+
 
 def brand_name(request, slug):
     brand_obj = Brand.objects.filter(slug=slug).first()

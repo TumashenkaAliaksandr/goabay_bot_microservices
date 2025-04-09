@@ -1430,6 +1430,58 @@ html {
   justify-content: space-between;
 }
 
+/* Планшеты: 4 товара в ряд */
+@media (min-width: 768px) {
+  .archive-product-4.active {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Десктопы: 6 товара в ряд */
+@media (min-width: 1200px) {
+  .archive-product-4.active {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Десктопы: 8 товара в ряд */
+@media (min-width: 1400px) {
+  .archive-product-4.active {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+
+
+/* архив товарв 5 ---------------------------- */
+.archive-product-5.active {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px;
+  justify-content: space-between;
+}
+/* Планшеты: 4 товара в ряд */
+@media (min-width: 768px) {
+  .archive-product-5.active {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Десктопы: 6 товара в ряд */
+@media (min-width: 1200px) {
+  .archive-product-5.active {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Десктопы: 8 товара в ряд */
+@media (min-width: 1400px) {
+  .archive-product-5.active {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
 
 
 /*🔹 14. PRODUCT FILTER--------------------------------------------------------------------------------------------------*/

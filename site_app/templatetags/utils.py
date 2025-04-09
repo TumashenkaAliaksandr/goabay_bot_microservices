@@ -22,6 +22,14 @@ def rating_to_stars(rating):
             stars.append('fa fa-star-o')
     return stars
 
+@register.filter
+def normalize_rating(rating):
+    try:
+        rating = float(rating)
+        return round(rating / 20, 1)
+    except (ValueError, TypeError):
+        return 0.0
+
 
 @register.filter
 def random_increase(value):
