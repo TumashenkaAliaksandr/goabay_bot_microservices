@@ -2,8 +2,8 @@
 from django import forms
 from tinymce.widgets import TinyMCE
 
-from bot_app.models import Product
-from .models import NewsletterSubscription
+from bot_app.models import Product, NewsletterSubscription
+
 
 class NewsletterForm(forms.ModelForm):
     class Meta:

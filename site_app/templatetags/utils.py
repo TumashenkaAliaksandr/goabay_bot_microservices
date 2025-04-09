@@ -30,6 +30,11 @@ def normalize_rating(rating):
     except (ValueError, TypeError):
         return 0.0
 
+# templatetags/custom_filters.py
+@register.filter
+def filter_by_category(products, category):
+    return products.filter(category=category)
+
 
 @register.filter
 def random_increase(value):

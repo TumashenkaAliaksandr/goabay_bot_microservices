@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls.static import static
-from goabay_bot import settings
 from . import views
+from django.conf import settings
 from .views import news, cart, checkout, shop, product, compare, account, forgot_password, \
     login, registrations, four_zero_four, product_catalog, brand, elephant, bestsellers, handmade, \
     brand_name, products_brands

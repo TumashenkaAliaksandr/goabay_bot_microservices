@@ -220,7 +220,7 @@
                                             <img src="{{ main_product.image.url }}" class="img-fluid rounded-start"
                                                  alt="{{ main_product.name }}"></a>
                                         {% else %}
-                                            <img src="{% static 'site_app/img/goabay_default.jpeg' %}"
+                                            <img src="{% static 'site_app/img/goabay_photo_default.jpg' %}"
                                                  class="img-fluid rounded-start" alt="{{ main_product.name }}">
                                         {% endif %}
                                     <div class="badge-container">
@@ -245,12 +245,32 @@
                                             href="{% url 'product_detail'  main_product.slug main_product.name %}">{{ main_product.name }}</a>
                                     </h4>
                                     <ul class="attributes-card mt-auto">
-                                        <li>Brand Name</li>
-                                        <li>Category</li>
+                                        {# Бренд #}
+                                        <li>
+                                            {% if main_product.brand %}
+                                                {{ main_product.brand.name|default:"Бренд не указан" }}
+                                            {% else %}
+                                                <span class="text-muted">Нет бренда</span>
+                                            {% endif %}
+                                        </li>
+
+                                        {# Категории #}
+                                        <li>
+                                            {% with categories=main_product.category.all %}
+                                                {% if categories %}
+                                                    {% for category in categories %}
+                                                        {{ category.name }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <span class="text-muted">Без категории</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </li>
                                     </ul>
+
                                     <div class="price mt-auto">
                                         <span class="fw-bold">{{ main_product.price }} Rs</span>
-                                        <span class="text-decoration-line-through text-danger">200.000 Rs</span>
+                                        <span class="text-decoration-line-through text-danger">{{ main_product.discount }} Rs</span>
                                     </div>
                                     <div class="input-group ms-auto">
                                         <button class="btn btn-outline-secondary" type="button">-</button>

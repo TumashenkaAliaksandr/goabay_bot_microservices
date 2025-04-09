@@ -10,8 +10,7 @@ import json
 from bs4 import BeautifulSoup
 import re
 from django.utils.text import slugify
-from bot_app.models import Product, Category, ProductImage  # Импортируем модели
-from site_app.models import Brand
+from bot_app.models import Product, Category, ProductImage, Brand  # Импортируем модели
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

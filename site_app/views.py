@@ -1,12 +1,12 @@
 import telebot
 from celery import shared_task
 from django.core.cache import cache
+from django.db.models import Prefetch
 from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
-from bot_app.models import Product
+from bot_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
-from site_app.models import NewsletterSubscription, Brand
 
 
 # bot = telebot.TeleBot(settings.BOT_TOKEN)
@@ -80,11 +80,14 @@ def four_zero_four(request):
 
 
 def products_brands(request):
-    products_up_block = Product.objects.all()
+    products_up_block = Product.objects.select_related('brand').prefetch_related(Prefetch('category', queryset=Category.objects.only('name'))).all()
     sliders = Brand.objects.all()
+    categories = Category.objects.all()
+
     context = {
         'products_up_block': products_up_block,
         'sliders': sliders,
+        'categories': categories,
     }
     return render(request, 'main/nick/products_brands.html', context)
 

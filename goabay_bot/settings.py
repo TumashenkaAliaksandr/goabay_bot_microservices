@@ -172,4 +172,3 @@ TINYMCE_DEFAULT_CONFIG = {
     'statusbar': True,
     'height': 360,
 }
-
