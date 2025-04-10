@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!data.has_next) {
                 loadMoreContainer.innerHTML = `
                     <p class="text-center py-3">
-                        Показано ${container.children.length} из ${data.total_pages * 18} товаров
+                        Показано ${container.children.length} из ${data.total_pages * 15} товаров
                     </p>`;
             }
         })

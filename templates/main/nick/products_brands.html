@@ -15,13 +15,26 @@
 
             <!-- BREADCRUMBS -->
             <div class="breadcrumbs-container mb-3">
-                <h1 class="breadcrumbs-title">Archive Product Title</h1>
+                {% if brand.id %}
+                    <h1 class="breadcrumbs-title">
+                        Products Brand
+                        {% with brand_name=brand.name|default:"Brand" %}
+                            {% if brand_name|length <= 13 %}
+                                {{ brand_name }}
+                            {% else %}
+                                🏷️
+                            {% endif %}
+                        {% endwith %}
+                    </h1>
+                {% endif %}
                 <nav class="breadcrumbs">
                     <a href="#" class="breadcrumb-item">Home</a>
                     <span class="breadcrumb-separator">👉🏼</span>
                     <a href="#" class="breadcrumb-item">Indian Store</a>
                     <span class="breadcrumb-separator">👉🏼</span>
-                    <a href="#" class="breadcrumb-item active">Archive Product</a>
+                    {% if brand.id %}
+                    <a href="#" class="breadcrumb-item active">{{ brand.name }}</a>
+                    {% endif %}
                 </nav>
             </div>
             <!-- END BREADCRUMBS -->

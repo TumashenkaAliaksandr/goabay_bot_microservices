@@ -95,7 +95,7 @@ def products_brands(request, slug=None):
         brand_obj = None
 
     # Оптимизированная пагинация
-    paginator = Paginator(products_qs, 12)
+    paginator = Paginator(products_qs, 15)
     page_number = request.GET.get('page', 1)
 
     try:
