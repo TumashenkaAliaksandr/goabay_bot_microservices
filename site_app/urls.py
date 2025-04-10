@@ -9,9 +9,9 @@ urlpatterns = [
     path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
 
     # Маршруты для брендов
-    path('brand/', views.brand, name='brand'),  # Список всех брендов
+    path('brand', views.brand, name='brand'),  # Список всех брендов
     path('brand/<slug:slug>/<str:name>/', views.single_brand, name='single_brand'),  # Детальная страница бренда
-    path('brand-name/<slug:slug>/', views.products_brands, name='brand-products'),  # Новое имя для AJAX-совместимости
+    path('brand-name/<slug:slug>/', views.products_brands, name='brand-name'),  # Новое имя для AJAX-совместимости
 
     # Устаревшие маршруты (можно удалить после рефакторинга)
     path('products-brands/', views.products_brands, name='products-brands'),  # Оставьте только если используется
