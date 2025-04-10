@@ -2,38 +2,41 @@ from django.urls import path
 from django.conf.urls.static import static
 from . import views
 from django.conf import settings
-from .views import news, cart, checkout, shop, product, compare, account, forgot_password, \
-    login, registrations, four_zero_four, product_catalog, brand, elephant, bestsellers, handmade, \
-    brand_name, products_brands
 
 urlpatterns = [
+    # Основные маршруты
     path('', views.index, name='home'),
     path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
-    path('brand', brand, name='brand'),
-    path('products-brands/', products_brands, name='products-brands'),
-    path('brand-name/<slug:slug>/', brand_name, name='brand-name'),
-    path('brand/<slug:slug>/<str:name>/', views.single_brand, name='single_brand'),
-    path('best-sellers/', bestsellers, name='best-sellers'),
-    path('news/', news, name='news'),
-    path('hand-made/', handmade, name='hand-made'),
-    path('compare/', compare, name='compare'),
-    path('shop/', shop, name='shop'),
-    path('product/', product, name='product'),
-    path('buy-elephant/', elephant, name='buy-elephant'),
-    path('product-catalog/', product_catalog, name='product-catalog'),
-    # path('isha_bestsellers_products.json/', views.serve_json, name='serve_json'),
-    path('brand/isha-life/', views.update_ishalife_products, name='isha_life_page'),
+
+    # Маршруты для брендов
+    path('brand/', views.brand, name='brand'),  # Список всех брендов
+    path('brand/<slug:slug>/<str:name>/', views.single_brand, name='single_brand'),  # Детальная страница бренда
+    path('brand-name/<slug:slug>/', views.products_brands, name='brand-products'),  # Новое имя для AJAX-совместимости
+
+    # Устаревшие маршруты (можно удалить после рефакторинга)
+    path('products-brands/', views.products_brands, name='products-brands'),  # Оставьте только если используется
+    path('brand/isha-life/', views.update_ishalife_products, name='isha_life_page'),  # Специфичный маршрут
+
+    # Остальные маршруты
+    path('best-sellers/', views.bestsellers, name='best-sellers'),
+    path('news/', views.news, name='news'),
+    path('hand-made/', views.handmade, name='hand-made'),
+    path('compare/', views.compare, name='compare'),
+    path('shop/', views.shop, name='shop'),
+    path('product/', views.product, name='product'),
+    path('buy-elephant/', views.elephant, name='buy-elephant'),
+    path('product-catalog/', views.product_catalog, name='product-catalog'),
     path('archive/', views.archive, name='archive'),
     path('category/<str:category_name>/', views.category_view, name='category'),
-    path('checkout/', checkout, name='checkout'),
-    path('cart/', cart, name='cart'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('cart/', views.cart, name='cart'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
-    path('account/', account, name='account'),
-    path('login/', login, name='login'),
-    path('registrations/', registrations, name='registrations'),
-    path('forgot-password/', forgot_password, name='forgot-password'),
-    path('404/', four_zero_four, name='four-zero-four'),
+    path('account/', views.account, name='account'),
+    path('login/', views.login, name='login'),
+    path('registrations/', views.registrations, name='registrations'),
+    path('forgot-password/', views.forgot_password, name='forgot-password'),
+    path('404/', views.four_zero_four, name='four-zero-four'),
     path('newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
 ]
 

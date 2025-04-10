@@ -1,9 +1,11 @@
 import telebot
 from celery import shared_task
 from django.core.cache import cache
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Prefetch
 from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
@@ -79,16 +81,52 @@ def four_zero_four(request):
     return render(request, 'webapp/404.html')
 
 
-def products_brands(request):
-    products_up_block = Product.objects.select_related('brand').prefetch_related(Prefetch('category', queryset=Category.objects.only('name'))).all()
-    sliders = Brand.objects.all()
-    categories = Category.objects.all()
+def products_brands(request, slug=None):
+    # Основной QuerySet с аннотацией бренда
+    products_qs = Product.objects.select_related('brand').prefetch_related(
+        Prefetch('category', queryset=Category.objects.only('name'))
+    ).order_by('-id')
 
+    # Фильтрация и аннотация бренда
+    if slug:
+        products_qs = products_qs.filter(brand__slug=slug)
+        brand_obj = Brand.objects.filter(slug=slug).first()
+    else:
+        brand_obj = None
+
+    # Оптимизированная пагинация
+    paginator = Paginator(products_qs, 12)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except (PageNotAnInteger, EmptyPage):
+        page_obj = paginator.page(1)
+
+    # AJAX-запрос
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        html = render_to_string(
+            'main/nick/products_partial.html',
+            {'products_up_block': page_obj}
+        )
+
+        return JsonResponse({
+            'html': html,
+            'has_next': page_obj.has_next(),
+            'current_page': page_obj.number,
+            'total_pages': paginator.num_pages
+        })
+
+    # Контекст для полной загрузки
     context = {
-        'products_up_block': products_up_block,
-        'sliders': sliders,
-        'categories': categories,
+        'products_up_block': page_obj,
+        'brand': brand_obj,
+        'sliders': Brand.objects.all(),
+        'categories': Category.objects.all(),
+        'current_page': page_obj.number,
+        'total_pages': paginator.num_pages
     }
+
     return render(request, 'main/nick/products_brands.html', context)
 
 

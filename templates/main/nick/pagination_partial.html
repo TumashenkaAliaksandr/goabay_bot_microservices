@@ -1,0 +1,41 @@
+{% load static %}
+
+<nav class="ajax-pagination">
+    <ul class="pagination">
+        {% if products_up_block.has_previous %}
+        <li class="page-item">
+            <a class="page-link ajax-paginate"
+               href="?page={{ products_up_block.previous_page_number }}"
+               data-page="{{ products_up_block.previous_page_number }}">
+                ←
+            </a>
+        </li>
+        {% endif %}
+
+        {% for num in products_up_block.paginator.page_range %}
+            {% if num >= products_up_block.number|add:-2 and num <= products_up_block.number|add:2 %}
+                <li class="page-item {% if products_up_block.number == num %}active{% endif %}">
+                    {% if products_up_block.number == num %}
+                        <span class="page-link">{{ num }}</span>
+                    {% else %}
+                        <a class="page-link ajax-paginate"
+                           href="?page={{ num }}"
+                           data-page="{{ num }}">
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if products_up_block.has_next %}
+        <li class="page-item">
+            <a class="page-link ajax-paginate"
+               href="?page={{ products_up_block.next_page_number }}"
+               data-page="{{ products_up_block.next_page_number }}">
+                →
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

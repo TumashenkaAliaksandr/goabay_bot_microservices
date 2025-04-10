@@ -207,100 +207,12 @@
             <!-- END BEFORE SHOP LOOP -->
 
             <!-- BRAND PRODUCT 1-->
-            <div class="archive-product archive-product-1 mt-3 active">
-
                 <!-- BEST SELLERS PRODUCT CART -->
-                {% for main_product in products_up_block %}
-                    <div class="swiper-slide product-card">
-                        <div class="row">
-                            <div class="col-6 col-md-5">
-                                <div class="product-image">
-                                    <a href="{% url 'product_detail' main_product.slug main_product.name %}">
-                                        {% if main_product.image %}
-                                            <img src="{{ main_product.image.url }}" class="img-fluid rounded-start"
-                                                 alt="{{ main_product.name }}"></a>
-                                        {% else %}
-                                            <img src="{% static 'site_app/img/goabay_photo_default.jpg' %}"
-                                                 class="img-fluid rounded-start" alt="{{ main_product.name }}">
-                                        {% endif %}
-                                    <div class="badge-container">
-                                        <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
-                                        <span class="product-badge badge-new">New</span>
-                                        <span class="product-badge badge-best">🔥BEST SELLER</span>
-                                        <span class="product-badge badge-discount">-50%</span>
-                                        <span class="product-badge badge-sale">SALE</span>
-                                        <span class="product-badge badge-hot">🌶 HOT</span>
-                                        <span class="product-badge badge-star">⭐️ {{ main_product.rating|normalize_rating }} <!-- Просто выводим цифру рейтинга --></span>
-                                    </div>
-                                </div>
-                                <div class="img-btn-container">
-                                    <span class="wish-btn">💖</span>
-                                    <span class="compare-btn">⚖️</span>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-7 d-flex flex-column">
-                                <div class="card-body d-flex flex-column justify-content-between px-2">
-                                    <h4 class="product-name fw-semibold mb-2"
-                                        title="Seventh Chp-2akra Rama Krishna Incense"><a
-                                            href="{% url 'product_detail'  main_product.slug main_product.name %}">{{ main_product.name }}</a>
-                                    </h4>
-                                    <ul class="attributes-card mt-auto">
-                                        {# Бренд #}
-                                        <li>
-                                            {% if main_product.brand %}
-                                                {{ main_product.brand.name|default:"Бренд не указан" }}
-                                            {% else %}
-                                                <span class="text-muted">Нет бренда</span>
-                                            {% endif %}
-                                        </li>
-
-                                        {# Категории #}
-                                        <li>
-                                            {% with categories=main_product.category.all %}
-                                                {% if categories %}
-                                                    {% for category in categories %}
-                                                        {{ category.name }}{% if not forloop.last %}, {% endif %}
-                                                    {% endfor %}
-                                                {% else %}
-                                                    <span class="text-muted">Без категории</span>
-                                                {% endif %}
-                                            {% endwith %}
-                                        </li>
-                                    </ul>
-
-                                    <div class="price mt-auto">
-                                        <span class="fw-bold">{{ main_product.price }} Rs</span>
-                                        <span class="text-decoration-line-through text-danger">{{ main_product.discount }} Rs</span>
-                                    </div>
-                                    <div class="input-group ms-auto">
-                                        <button class="btn btn-outline-secondary" type="button">-</button>
-                                        <input type="number" class="form-control text-center" value="1">
-                                        <button class="btn btn-outline-secondary" type="button">+</button>
-                                        <button class="btn btn-success">ADD</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                <!-- END BEST SELLERS PRODUCT CART -->
-
-                <!-- AFTER SHOP LOOP -->
-                <div class="after-shop-loop my-3">
-                    <button id="load-more-btn" class="load-more-btn">LOAD MORE</button>
-                    <!-- ПАГИНАЦИЯ -->
-                    <div class="pagination-container">
-                        <a href="#" class="pagination-btn disabled">←</a>
-                        <a href="#" class="pagination-btn active">1</a>
-                        <a href="#" class="pagination-btn">2</a>
-                        <a href="#" class="pagination-btn">3</a>
-                        <a href="#" class="pagination-btn">4</a>
-                        <a href="#" class="pagination-btn">→</a>
-                    </div>
+                <div id="products-container"> <!-- Сюда будут добавляться товары -->
+                    {% include 'main/nick/products_partial.html' %}
                 </div>
-                <!-- END AFTER SHOP LOOP -->
-
-            </div>
+                <div id="load-more-container"></div>
+                <!-- END BEST SELLERS PRODUCT CART -->
         <!-- END Вторая колонка -->
     </div>
 </div>
