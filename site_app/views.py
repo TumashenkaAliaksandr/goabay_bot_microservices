@@ -313,7 +313,7 @@ def cart(request):
         'cart_items': cart_items,
         'total': total,
     }
-    return render(request, 'webapp/shop/cart.html', context)
+    return render(request, 'main/nick/cart.html', context)
 
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
