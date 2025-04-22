@@ -3,6 +3,7 @@
 <!doctype html>
 <html class="no-js" lang="en-US">
 
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -20,14 +21,18 @@
     <!-- Bootstrap & Custom CSS -->
     <link rel="stylesheet" href="{% static 'site_app/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'site_app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'site_app/css/style-header.css' %}">
+    <link rel="stylesheet" href="{% static 'site_app/css/style-product.css' %}">
+    <link rel="stylesheet" href="{% static 'site_app/css/style-sliders.css' %}">
+    <link rel="stylesheet" href="{% static 'site_app/css/style-offcanvas.css' %}">
 
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-{#    <!-- Swiper CSS -->#}
-{#    <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css"/>#}
-{#    <!-- Swiper JS -->#}
-{#    <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>#}
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@11.2.6/swiper-bundle.min.css">
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper@11.2.6/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
 
@@ -66,7 +71,11 @@
 </footer>
 
 <!-- Custom JS -->
-<script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>
-<script src="{% static 'site_app/assets/js/header.js' %}" defer></script>
+{#<script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>#}
+{#<script src="{% static 'site_app/assets/js/header.js' %}" defer></script>#}
 <script src="{% static 'site_app/assets/js/sliders.js' %}" defer></script>
 <script src="{% static 'site_app/js/load_more.js' %}?v=1.0.1" defer></script>
+<script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>
+<script src="{% static 'site_app/assets/js/header.js' %}" defer></script>
+<script src="{% static 'site_app/assets/js/converter.js' %}" defer></script>
+<script src="{% static 'site_app/assets/js/single-product.js' %}" defer></script>

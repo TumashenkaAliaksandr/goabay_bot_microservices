@@ -1,0 +1,690 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Payment - Goabay</title>
+    <meta name="description" content="Payment options for Indian goods and services">
+    <meta name="keywords" content="Payment, India, Goods, E-commerce, Bank Transfer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon/logo.svg">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+        crossorigin="anonymous">
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style-header.css">
+    <link rel="stylesheet" href="css/style-product.css">
+    <link rel="stylesheet" href="css/style-admin.css">
+    <link rel="stylesheet" href="css/style-sliders.css">
+    <link rel="stylesheet" href="css/style-offcanvas.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Custom JS -->
+    <script src="assets/js/custom.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+    <script src="assets/js/sliders.js" defer></script>
+    <script src="assets/js/converter.js" defer></script>
+    <script src="assets/js/widgets.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="container-fluid header w-100 position-fixed top-0 start-0 shadow-sm" style="z-index: 1050;">
+        <!-- Верхний баннер -->
+        <div class="row top-bar align-items-center">
+            <div class="col-12 d-flex justify-content-between align-items-center px-3">
+                <span class="text-center text-md-start">
+                    🎁 Discount on your first order!
+                    <a href="/sale" class="text-decoration-none text-white">💸 Learn more →</a>
+                </span>
+                <button class="btn-close" aria-label="Close">❎</button>
+            </div>
+        </div>
+
+        <!-- Десктоп версия -->
+        <div class="row d-none d-lg-none d-xl-flex px-3">
+            <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
+                <!-- Лого и меню -->
+                <div class="d-flex w-auto" style="gap: 10px;">
+                    <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                    <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+                </div>
+                <!-- Поиск -->
+                <div class="search-box d-flex align-items-center">
+                    <select class="form-select category-select">
+                        <option>👉🏼 All categories</option>
+                        <option>👉🏼 Clothing</option>
+                        <option>👉🏼 Footwear</option>
+                        <option>👉🏼 Accessories</option>
+                        <option>👉🏼 Beauty & Health</option>
+                        <option>👉🏼 Home & Living</option>
+                    </select>
+                    <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
+                    <button class="btn btn-primary search-btn">Let's GO!</button>
+                </div>
+                <!-- Иконки действий -->
+                <div class="d-flex py-3" style="gap: 10px;">
+                    <div class="btn-box" aria-label="Currency">
+                        <span class="icon">💵</span>
+                        <select class="currency-select">
+                            <option value="INR" selected>₹ INR</option>
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="RUB">₽ RUB</option>
+                        </select>
+                    </div>
+                    <div class="btn-box" aria-label="Language">
+                        <span class="icon">🌐</span>
+                        <select class="language-select">
+                            <option value="en" selected>English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ru">Русский</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </div>
+                    <button class="btn-box" aria-label="Wishlist">💖<span class="badge">25</span></button>
+                    <button class="btn-box" aria-label="Compare products">⚖️<span class="badge">10</span></button>
+                    <button class="btn-box" aria-label="Notifications">🔔<span class="badge">10</span></button>
+                    <button class="btn-box" aria-label="Coins">💰<span class="badge">99</span></button>
+                    <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                        <span class="icon">🛒</span>
+                        <span class="badge">99</span>
+                        <span class="btn-title">157.716</span>
+                    </button>
+                    <button class="btn-box" aria-label="Login">🔑<span class="btn-title">Login</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мобильная версия -->
+        <div class="mobile-header d-flex d-md-none flex-column">
+            <div class="d-flex align-items-center py-1 w-100 justify-content-between">
+                <div class="d-flex w-auto">
+                    <img src="img/logo/logo.svg" alt="Goabay Logo" height="40">
+                </div>
+                <div class="d-flex flex-grow-1 px-2">
+                    <div class="search-box d-flex align-items-center w-100">
+                        <input type="text" class="form-control search-input" placeholder="🤔 Search">
+                        <button class="btn btn-primary search-btn">GO!</button>
+                    </div>
+                </div>
+                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+            </div>
+        </div>
+
+        <!-- Планшетная версия -->
+        <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
+            <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
+                <div class="d-flex w-auto" style="gap: 10px;">
+                    <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                    <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+                </div>
+                <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
+                    <button class="btn-box" aria-label="Login" style="min-width: 80px;">
+                        <span class="icon">🔑</span>
+                        <span class="btn-title">Login</span>
+                    </button>
+                    <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                        <span class="icon">🛒</span>
+                        <span class="badge">99</span>
+                        <span class="btn-title">157.716</span>
+                    </button>
+                    <div class="btn-box" aria-label="Currency">
+                        <span class="icon">💵</span>
+                        <select id="currency-select" class="currency-select">
+                            <option value="INR" selected>₹ INR</option>
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="RUB">₽ RUB</option>
+                        </select>
+                    </div>
+                    <div class="btn-box" aria-label="Language">
+                        <span class="icon">🌐</span>
+                        <select id="language-select" class="language-select">
+                            <option value="en" selected>English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ru">Русский</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </div>
+                    <button class="btn-box" aria-label="Wishlist">
+                        <span class="icon">💖</span>
+                        <span class="badge">25</span>
+                    </button>
+                    <button class="btn-box" aria-label="Compare products">
+                        <span class="icon">⚖️</span>
+                        <span class="badge">10</span>
+                    </button>
+                    <button class="btn-box" aria-label="Notifications">
+                        <span class="icon">🔔</span>
+                        <span class="badge">10</span>
+                    </button>
+                    <button class="btn-box" aria-label="Coins">
+                        <span class="icon">💰</span>
+                        <span class="badge">99</span>
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex align-items-center pb-2 w-100 justify-content-between">
+                <div class="d-flex flex-grow-1">
+                    <div class="search-box d-flex align-items-center">
+                        <select class="form-select category-select">
+                            <option>👉🏼 All categories</option>
+                            <option>👉🏼 Clothing</option>
+                            <option>👉🏼 Footwear</option>
+                            <option>👉🏼 Accessories</option>
+                            <option>👉🏼 Beauty & Health</option>
+                            <option>👉🏼 Home & Living</option>
+                        </select>
+                        <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
+                        <button class="btn btn-primary search-btn">Lets GO!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    <!-- Отступ под фиксированную шапку -->
+    <div class="header-offset"></div>
+
+    <!-- Основной контент -->
+    <div class="container-fluid px-3 py-4">
+        <div class="row">
+            <!-- Левая колонка (меню и виджеты) -->
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-none d-lg-block">
+                <!-- VERTICAL MENU -->
+                <div class="vertical-menu">
+                    <h5 class="v-menu-title fw-bold text-uppercase">GOODS FROM INDIA</h5>
+                    <ul class="list-group">
+                        <li><a class="list-item" href="#">📂 Product Catalog</a></li>
+                        <li><a class="list-item" href="#">🐘 Buy the Elephant</a></li>
+                        <li><a class="list-item" href="#">🛺 How we work</a></li>
+                        <li><a class="list-item" href="#">💎 Brands</a></li>
+                        <li><a class="list-item" href="#">🚢 Wholesale</a></li>
+                        <li><a class="list-item" href="#">🪬 Hand Made</a></li>
+                        <li><a class="list-item" href="#">🔖 Sales</a></li>
+                        <li><a class="list-item" href="#">🔥 Best Sellers</a></li>
+                        <li><a class="list-item" href="#">👍🏻 Recommended</a></li>
+                        <li><a class="list-item" href="#">🎁 Gifts</a></li>
+                        <li><a class="list-item" href="#">📣 Promo</a></li>
+                        <li><a class="list-item" href="#">📜 All Products</a></li>
+                    </ul>
+                </div>
+                <!-- END VERTICAL MENU -->
+
+                <!-- Липкий сайдбар баннер -->
+                <div class="side-banner mb-3 sticky-top">
+                    <!-- баннер -->
+                    <div class="position-relative overflow-hidden shadow banner-container mb-3">
+                        <img src="img/banner/Tote Bag Mockup Hanging.jpeg" alt="Летняя распродажа товаров из Индии" class="banner-image w-100">
+                        <div class="position-relative text-white p-3 d-flex flex-column justify-content-between h-100 banner-content">
+                            <div>
+                                <h5 class="fw-bold banner-title">🔥 Summer Sale</h5>
+                                <p class="mb-3">Discounts up to 50% on the best products from India!</p>
+                            </div>
+                            <a href="promo.html" class="btn btn-warning fw-bold mt-auto">Go to stocks</a>
+                        </div>
+                    </div>
+                    <!-- NOW IN GOA WIDGET -->
+                    <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                            <h5 class="city-name mb-0">Now in Goa, India</h5>
+                            <label class="switch">
+                                <input type="checkbox" class="theme-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                            <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                            <span id="day-icon" class="fs-4">🌞</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                            <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                            <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 pt-2">
+                            <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                            <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid" style="max-width: 40px; height: auto;">
+                            <div id="weather-desc" class="fw-light">--</div>
+                        </div>
+                    </div>
+                    <!-- FLIGHT BANNER TO INDIA -->
+                    <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                        <div class="fs-1">✈️</div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 text-truncate">Flights to India</h5>
+                            <a href="avia.html" class="fw-semibold">Find tickets</a>
+                        </div>
+                    </div>
+                    <!-- EXCURSIONS BANNER -->
+                    <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                        <div class="fs-1">🏝️</div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 text-truncate">Excursions in Goa</h5>
+                            <a href="goa-tour.html" class="fw-semibold">Find a tour</a>
+                        </div>
+                    </div>
+                    <!-- CURRENCY CONVERTER WIDGET -->
+                    <div id="currency-widget" class="box p-4 rounded shadow-sm mb-4">
+                        <h5 class="mb-3">INR Indian Rupees</h5>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                <input type="number" id="inr-amount" class="form-control" placeholder="Например, 1000" value="1000" min="0">
+                            </div>
+                        </div>
+                        <div id="converted-results" class="p-0">
+                            <div class="d-flex justify-content-between border-bottom pb-2">
+                                <span>$ USD:</span>
+                                <span id="usd-result">$ --</span>
+                            </div>
+                            <div class="d-flex justify-content-between border-bottom py-2">
+                                <span>€ EUR:</span>
+                                <span id="eur-result">€ --</span>
+                            </div>
+                            <div class="d-flex justify-content-between py-2">
+                                <span>₽ RUB:</span>
+                                <span id="rub-result">₽ --</span>
+                            </div>
+                        </div>
+                        <a href="currency.html">View all</a>
+                    </div>
+                </div>
+                <!-- END Липкий сайдбар баннер -->
+            </div>
+
+            <!-- Правая колонка (основной контент) -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10 col-xxl-10">
+                <!-- Заголовок -->
+                <h1 class="h2-title mb-4">Payment</h1>
+
+                <!-- Оплата индийских товаров и услуг -->
+                <section class="mb-5">
+                    <h2 class="h3 fw-bold mb-3">Payment of Goods and Services</h2>
+                    <p>Payment for Indian goods and services is only available by bank transfer. We will issue an invoice by email.</p>
+                </section>
+
+                <!-- Способы оплаты -->
+                <section class="mb-5">
+                    <h2 class="h3 fw-bold mb-4">Payment Methods</h2>
+                    <p>Available payment methods and links to our online store. We offer our customers a wide range of payment methods:</p>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <!-- PayPal -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">PayPal</h5>
+                                    <p class="card-text">International bank transfer. Allows you to pay securely for any purchase using your bank card or bank account. Payment processing: up to 5 business days.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bank Transfer -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Bank Transfer</h5>
+                                    <p class="card-text">International Internet payment system that allows you to safely pay for any purchases with a credit card or a bank account. Payment processing: up to 3 business days.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Western Union -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Western Union</h5>
+                                    <p class="card-text">Global money transfer system. Open 24/7. Payment processing: instant.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Ethereum -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Ethereum</h5>
+                                    <p class="card-text">Decentralized, open-source blockchain with smart contract functionality. Open 24/7. Payment processing: instant.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Qiwi Wallet -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Qiwi Wallet</h5>
+                                    <p class="card-text">Popular payment system. Provides e-wallet and online payment services. Payment processing: instant.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- YooMoney -->
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">YooMoney</h5>
+                                    <p class="card-text">Service of payment for goods and services via the Internet, from accounts or credit cards. Payment processing: instant.</p>
+                                    <a href="#" class="btn btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Как мы работаем -->
+                <section class="mb-5">
+                    <h2 class="h3 fw-bold mb-4">How We Are Working?</h2>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">👳🏽‍♂️</span>
+                                <div>
+                                    <h5>Free Consultation</h5>
+                                    <p>Payment of goods and services from India by post on our website comes after approval of the order by any available contact: TEL, EMAIL, VIBER, WHATSAPP, SKYPE, TELEGRAM.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">🧮</span>
+                                <div>
+                                    <h5>Order Calculation</h5>
+                                    <p>If the order is finalized and approved by the Buyer, you will be sent a bill for payment, which includes the cost of goods, the cost of postal services and the value of our services.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">💰</span>
+                                <div>
+                                    <h5>Payment</h5>
+                                    <p>Prices for all goods and services in India established in Indian rupees. Payment amount can be automatically converted into any currency in agreement with the Buyer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">🛺</span>
+                                <div>
+                                    <h5>Order Execution</h5>
+                                    <p>Upon receipt of payment from the buyer will be sent a notification and confirmation of the reception of the order for execution.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">🚀</span>
+                                <div>
+                                    <h5>Sending a Parcel</h5>
+                                    <p>Sending orders (parcels) is usually made within 2-4 working days from the moment of agreement with the Buyer. In some cases, the deadline for sending goods from India by mail may be changed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-start">
+                                <span class="fs-1 me-3">🎈</span>
+                                <div>
+                                    <h5>Track Your Order</h5>
+                                    <p>After sending the order, the Buyer is provided with the tracking number of the parcel for self-tracking the shipment online.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="work.html" class="btn btn-primary mt-3">Learn More</a>
+                </section>
+
+                <!-- Как рассчитывается стоимость заказа -->
+                <section class="mb-5">
+                    <h2 class="h3 fw-bold mb-4">How is the Cost of the Order Calculated?</h2>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="card shadow-sm mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">⚖️ The Cost of Goods</h5>
+                                    <p>Total cost: ₹10,000<br>Weight: 4kg<br>The total value of the product itself, for example, 10,000 rupees and its weight is 4kg.</p>
+                                </div>
+                            </div>
+                            <div class="card shadow-sm mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">🌎 Shipping</h5>
+                                    <p>Cost: ₹2,950<br>Weight: 4kg<br>You can always check this information yourself at <a href="https://www.indiapost.gov.in" target="_blank">indiapost.gov.in</a> by entering the weight of the shipment and the destination.</p>
+                                </div>
+                            </div>
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">📦 GoaBay Service for 4kg</h5>
+                                    <p>Fee: ₹800<br>As indicated on the website, we charge for packing and shipping services at a rate of Rs. 2,000 per 10kg of shipment in multiples of 1kg - in this case 4kg.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex align-items-center">
+                            <div class="card shadow-sm w-100">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">🧾 Total Amount of Your Order</h5>
+                                    <p class="fs-4 fw-bold">₹10,000 + ₹2,950 + ₹800 = ₹13,750</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- END Основной контент -->
+
+    <!-- OFFCANVAS -->
+    <div class="offcanvas-container">
+        <!-- SIDE MENU -->
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn">✖</button>
+            <div class="user-profile">
+                <div class="user-info">
+                    <img src="img/products/Frame 1.png" alt="User Avatar" class="avatar">
+                    <span class="username">John Doe</span>
+                </div>
+                <div class="user-actions mb-2">
+                    <a href="account.html" class="account-link">ACCOUNT</a> / 
+                    <a href="#" class="exit-link">EXIT</a>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" class="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <ul class="menu-list">
+                <li><a href="#">🏠 Home</a></li>
+                <li class="has-submenu">
+                    <a href="#">👤 My account</a>
+                    <ul class="submenu">
+                        <li><a href="wishlist.html">💖 Wishlist</a></li>
+                        <li><a href="cart.html">🛒 My Cart</a></li>
+                        <li><a href="adress.html">📍 My Adress</a></li>
+                        <li><a href="orders.html">🧾 Orders</a></li>
+                        <li><a href="track.html">🎈 Track my Order</a></li>
+                        <li><a href="#">⚙️ Settings</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">📂 Products</a>
+                    <ul class="submenu">
+                        <li><a href="shop.html">📜 All Products</a></li>
+                        <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
+                        <li><a href="brands.html">💎 Brands</a></li>
+                        <li><a href="wholesale.html">🚢 Wholesale</a></li>
+                        <li><a href="hande-made.html">🪬 Hand Made</a></li>
+                        <li><a href="sales.html">🔖 Sales</a></li>
+                        <li><a href="best.html">🔥 Best Sellers</a></li>
+                        <li><a href="gifts.html">🎁 Gifts</a></li>
+                        <li><a href="promo.html">📣 Promo</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">📑 Info</a>
+                    <ul class="submenu">
+                        <li><a href="work.html">🛺 How we work</a></li>
+                        <li><a href="about-us.html">🌴 About us</a></li>
+                        <li><a href="payment.html">💳 Payment</a></li>
+                        <li><a href="delivery.html">🚚 Delivery</a></li>
+                        <li><a href="offer.html">📋 Public offer</a></li>
+                        <li><a href="faq.html">❓ FAQ</a></li>
+                        <li><a href="reviews.html">📣 Reviews</a></li>
+                    </ul>
+                </li>
+                <li><a href="blog.html">📰 Blog</a></li>
+                <li><a href="app.html">📲 Save more on APP</a></li>
+                <li><a href="#">🤖 Goa Bot</a></li>
+                <li><a href="partner.html">💼 Partners</a></li>
+                <li><a href="contacts.html">📪 Contact us</a></li>
+            </ul>
+        </div>
+        <!-- END SIDE MENU -->
+
+        <!-- Оверлей -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- Боковое меню корзины -->
+        <div id="cartMenu" class="cart cart-menu d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between px-3">
+                <h4>🛒 Your shopping cart</h4>
+                <button class="close-cart-btn">✖</button>
+            </div>
+            <div class="cart-items flex-grow-1 overflow-auto px-2">
+                <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                    <img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 90px; height: 90px; object-fit: cover;">
+                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                                Seventh Chakra Rama Krishna Incense
+                            </h5>
+                        </a>
+                        <div class="price d-flex justify-content-end">
+                            <span class="fw-bold final-price">
+                                <span class="currency-symbol">₹</span>
+                                <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-content p-3">
+                <p>Items in cart: <span id="cartItemCount">8</span></p>
+                <p>Total: <span id="cartTotal">6,460 ₹</span></p>
+                <button class="btn btn-primary w-100 mb-2">Place an order</button>
+                <button class="btn btn-outline-primary w-100">Go to cart</button>
+            </div>
+        </div>
+        <!-- END Боковое меню корзины -->
+
+        <!-- Оверлей для корзины -->
+        <div id="cartOverlay" class="overlay"></div>
+    </div>
+    <!-- END OFFCANVAS -->
+
+    <!-- mobile bottom bar -->
+    <div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+            <button class="btn-box" aria-label="Login">
+                <span class="icon">🔑</span>
+                <span class="btn-title">Login</span>
+            </button>
+            <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                <span class="icon">🛒</span>
+                <span class="badge">99</span>
+                <span class="btn-title">157.716</span>
+            </button>
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
+            </div>
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <button class="btn-box" aria-label="Wishlist" style="min-width: 60px;">
+                <span class="icon">💖</span>
+                <span class="badge">25</span>
+            </button>
+            <button class="btn-box" aria-label="Compare products" style="min-width: 60px;">
+                <span class="icon">⚖️</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Notifications" style="min-width: 60px;">
+                <span class="icon">🔔</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Coins" style="min-width: 60px;">
+                <span class="icon">💰</span>
+                <span class="badge">99</span>
+            </button>
+        </div>
+    </div>
+    <!-- END mobile bottom bar -->
+
+    <!-- FOOTER -->
+    <footer class="footer text-dark py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <h5>Логотип и текст</h5>
+                </div>
+                <div class="col-12 col-md-4 text-center">
+                    <h5>Меню</h5>
+                </div>
+                <div class="col-12 col-md-4 text-center text-md-end">
+                    <h5>Контакты</h5>
+                </div>
+            </div>
+            <div class="text-center mt-3 small">
+                © 2025 Все права защищены.
+            </div>
+        </div>
+    </footer>
+    <!-- END FOOTER -->
+</body>
+</html>

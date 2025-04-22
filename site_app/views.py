@@ -43,7 +43,7 @@ def product_detail(request, name, slug):
         'products_up_block': products_up_block,
 
     }
-    return render(request, 'main/nick/products_brands.html', context)
+    return render(request, 'main/nick/single-product.html', context)
 
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
@@ -197,18 +197,18 @@ def brand(request):
     return render(request, 'main/nick/products_brands.html', context=context)
 
 
-def brand_name(request, slug):
-    brand_obj = Brand.objects.filter(slug=slug).first()
-    if brand_obj:
-        products_up_block = Product.objects.filter(brand=brand_obj)
-        sliders = Brand.objects.all()
-        context = {
-            'products_up_block': products_up_block,
-            'sliders': sliders,
-        }
-        return render(request, 'main/nick/products_brands.html', context=context)
-    else:
-        return HttpResponseNotFound("Бренд не найден")
+# def brand_name(request, slug):
+#     brand_obj = Brand.objects.filter(slug=slug).first()
+#     if brand_obj:
+#         products_up_block = Product.objects.filter(brand=brand_obj)
+#         sliders = Brand.objects.all()
+#         context = {
+#             'products_up_block': products_up_block,
+#             'sliders': sliders,
+#         }
+#         return render(request, 'main/nick/products_brands.html', context=context)
+#     else:
+#         return HttpResponseNotFound("Бренд не найден")
 
 
 def single_brand(request, name, slug):

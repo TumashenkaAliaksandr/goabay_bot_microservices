@@ -1,0 +1,804 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Cart 1-4</title>
+    <meta name="description" content="E-commerce store for Indian products">
+    <meta name="keywords" content="E-commerce, India, Goods">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon/logo.svg">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+        crossorigin="anonymous">
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style-header.css">
+    <link rel="stylesheet" href="css/style-product.css">
+    <link rel="stylesheet" href="css/style-offcanvas.css">
+
+    <!-- Custom JS -->
+    <script src="assets/js/custom.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+    <script src="assets/js/converter.js" defer></script>
+    <script src="assets/js/cart.js" defer></script>
+
+</head>
+
+
+<body>
+
+<!-- HEADER -->
+<header class="container-fluid header w-100 position-fixed top-0 start-0 shadow-sm " style="z-index: 1050;">
+
+    <!-- Верхний баннер -->
+    <div class="row top-bar align-items-center">
+        <div class="col-12 d-flex justify-content-between align-items-center px-3">
+            <span class="text-center text-md-start">
+                🎁 Discount on your first order!
+                <a href="/sale" class="text-decoration-none text-white">💸 Learn more →</a>
+            </span>
+            <button class="btn-close" aria-label="Close">❎</button>
+        </div>
+    </div>
+
+    <!-- Десктоп версия -->
+    <div class="row d-none d-lg-none d-xl-flex px-3">
+        <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
+            
+            <!-- Лого и меню -->
+            <div class="d-flex w-auto" style="gap: 10px;">
+                <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+            </div>
+
+            <!-- Поиск -->
+            <div class="search-box d-flex align-items-center">
+                <select class="form-select category-select">
+                    <option>👉🏼 All categories</option>
+                    <option>👉🏼 Clothing</option>
+                    <option>👉🏼 Footwear</option>
+                    <option>👉🏼 Accessories</option>
+                    <option>👉🏼 Beauty & Health</option>
+                    <option>👉🏼 Home & Living</option>
+                </select>
+                <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
+                <button class="btn btn-primary search-btn">Let's GO!</button>
+            </div>
+
+            <!-- Иконки действий -->
+            <div class="d-flex py-3" style="gap: 10px;">
+                <!-- Currency Button -->
+                <div class="btn-box" aria-label="Currency">
+                    <span class="icon">💵</span>
+                    <select class="currency-select">
+                        <option value="INR" selected>₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="RUB">₽ RUB</option>
+                    </select>
+                </div>
+                <!-- Language Button -->
+                <div class="btn-box" aria-label="Language">
+                    <span class="icon">🌐</span>
+                    <select class="language-select">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">Русский</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+                <button class="btn-box" aria-label="Wishlist">💖<span class="badge">25</span></button>
+                <button class="btn-box" aria-label="Compare products">⚖️<span class="badge">10</span></button>
+                <button class="btn-box" aria-label="Notifications">🔔<span class="badge">10</span></button>
+                <button class="btn-box" aria-label="Coins">💰<span class="badge">99</span></button>
+                <button class="btn-box" aria-label="Login">🔑<span class="btn-title">Login</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Мобильная версия -->
+    <div class="mobile-header d-flex d-md-none flex-column">
+            
+        <!-- Первый ряд -->
+        <div class="d-flex align-items-center py-1 w-100 justify-content-between">
+            <div class="d-flex w-auto">
+                <img src="img/logo/logo.svg" alt="Goabay Logo" height="40">
+            </div>
+            <div class="d-flex flex-grow-1 px-2">
+                <div class="search-box d-flex align-items-center w-100">
+                    <input type="text" class="form-control search-input" placeholder="🤔 Search">
+                    <button class="btn btn-primary search-btn">GO!</button>
+                </div>
+            </div>
+            <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+        </div>
+    </div>
+
+    <!-- Планшетная версия -->
+    <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
+            
+        <!-- Лого, поиск, меню -->
+        <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
+            <div class="d-flex w-auto" style="gap: 10px;">
+                <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+            </div>
+                
+            <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
+                <button class="btn-box" aria-label="Login" style="min-width: 80px;">
+                    <span class="icon">🔑</span>
+                    <span class="btn-title">Login</span>
+                </button>
+                <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                    <span class="icon">🛒</span>
+                    <span class="badge">99</span>
+                    <span class="btn-title">157.716</span>
+                </button>
+                <!-- Currency Button -->
+                <div class="btn-box" aria-label="Currency">
+                    <span class="icon">💵</span>
+                    <select id="currency-select" class="currency-select">
+                        <option value="INR" selected>₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="RUB">₽ RUB</option>
+                    </select>
+                </div>
+                <!-- Language Button -->
+                <div class="btn-box" aria-label="Language">
+                    <span class="icon">🌐</span>
+                    <select id="language-select" class="language-select">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">Русский</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+                <button class="btn-box" aria-label="Wishlist">
+                    <span class="icon">💖</span>
+                    <span class="badge">25</span>
+                </button>
+                <button class="btn-box" aria-label="Compare products">
+                    <span class="icon">⚖️</span>
+                    <span class="badge">10</span>
+                </button>
+                <button class="btn-box" aria-label="Notifications">
+                    <span class="icon">🔔</span>
+                    <span class="badge">10</span>
+                </button>
+                <button class="btn-box" aria-label="Coins">
+                    <span class="icon">💰</span>
+                    <span class="badge">99</span>
+                </button>
+            </div>
+        </div>
+    
+        <div class="d-flex align-items-center pb-2 w-100 justify-content-between">
+            <div class="d-flex flex-grow-1">
+                <div class="search-box d-flex align-items-center">
+                    <select class="form-select category-select">
+                        <option>👉🏼 All categories</option>
+                        <option>👉🏼 Clothing</option>
+                        <option>👉🏼 Footwear</option>
+                        <option>👉🏼 Accessories</option>
+                        <option>👉🏼 Beauty & Health</option>
+                        <option>👉🏼 Home & Living</option>
+                    </select>
+                    <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
+                    <button class="btn btn-primary search-btn">Lets GO!</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+<!-- HEADER -->
+<!-- Отступ под фиксированную шапку -->
+<div class="header-offset"></div>
+
+<!-- 1 box 3 колонки -->
+<div class="container-fluid px-3">
+    <div class="row">
+            
+        <!-- Первая колонка с вертикальным меню -->
+        <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-none d-lg-block">
+            
+            <!-- VERTICAL MENU -->
+            <div class="vertical-menu sticky-top">
+                <h1 class="v-menu-title fw-bold text-uppercase">PRODUCT CART</h1>
+                <ul class="list-group">
+                    <li><a class="list-item" href="#">📂 Product Catalog</a></li>
+                    <li><a class="list-item" href="#">🐘 Buy the Elephant</a></li>
+                    <li><a class="list-item" href="#">🛺 How we work</a></li>
+                    <li><a class="list-item" href="#">💎 Brands</a></li>
+                    <li><a class="list-item" href="#">🚢 Wholesale</a></li>
+                    <li><a class="list-item" href="#">🪬 Hand Made</a></li>
+                    <li><a class="list-item" href="#">🔖 Sales</a></li>
+                    <li><a class="list-item" href="#">🔥 Best Sellers</a></li>
+                    <li><a class="list-item" href="#">👍🏻 Recommended</a></li>
+                    <li><a class="list-item" href="#">🎁 Gifts</a></li>
+                    <li><a class="list-item" href="#">📣 Promo</a></li>
+                    <li><a class="list-item" href="#">📜 All Products</a></li>
+                </ul>
+            </div>
+            <!-- END VERTICAL MENU -->
+
+        </div>
+
+        <!-- Вторая колонка  -->
+        <div class="col-12 col-sm-12 col-md-8 col-lg-5 col-xl-6 col-xxl-8">
+            
+            <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+                        <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+                        <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+                        <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+                        <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+                        <!-- CART PRODUCT CARD -->
+            <div class="product-card w-100 mb-3">
+                <div class="row g-3 align-items-center">
+                    <!-- Фото -->
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+                        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product" style="max-height: 160px;">
+                    </div>
+                    <!-- Информация -->
+                    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+                        <!-- Product Title -->
+                        <a href="single-product.html" target="_blank" class="text-decoration-none">
+                            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">Seventh Chakra Rama Krishna Incense</h4>
+                        </a>
+                        <!-- Artibutes -->
+                        <ul class="attributes-card mt-auto"> 
+                            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                        </ul>
+                        <!-- Selected Options -->
+                        <div class="selected-options d-flex flex-wrap gap-2 mt-2">
+                            <span class="selected-badge">Weight: <span class="weight-value">125g</span></span>
+                            <span class="selected-badge">Size: XS</span>
+                            <span class="selected-badge">Options: 1</span>
+                            <span class="selected-badge">Color: Green</span>
+                        </div>
+                    </div>
+                    <!-- Цена + Количество + Кнопки -->
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between p-3">
+                        <!-- Simple Product Price Block -->
+                        <div class="price mt-auto">
+                            <span class="fw-bold final-price">
+                              <span class="currency-symbol">₹</span>
+                              <span class="final-price price-value" data-inr="100">100</span>
+                            </span>
+                        </div>
+                        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                        <div class="input-group input-group-sm d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" type="button">-</button>
+                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                            <button class="btn btn-outline-secondary" type="button">+</button>
+                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CART PRODUCT CARD -->
+
+
+
+
+        </div>
+        <!-- END Вторая колонка  -->
+
+        <!-- Третья колонка  -->
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-2">
+
+
+
+      
+            <!-- CART TOTALS -->
+            <div class="box total-price sticky-top p-0">
+
+                <h3 class="v-menu-title fw-bold text-uppercase">Cart totals</h3>
+
+                <ul class="list-unstyled px-3 ">
+
+                    <li class="d-flex justify-content-between border-bottom py-3">
+                        <span>💰 Subtotal</span>
+                        <span class="fw-bold final-price">
+                            <span class="currency-symbol">₹</span>
+                            <span class="subtotal-price price-value" data-inr="10000">10000</span>
+                        </span>
+                    </li>
+
+                    <li class="d-flex justify-content-between border-bottom py-3">
+                        <span>🛎️ Goabay Service:</span>
+                        <span class="fw-bold final-price">
+                            <span class="currency-symbol">₹</span>
+                            <span class="service-price price-value" data-inr="800">800</span>
+                        </span>
+                    </li>
+
+                    <li class="d-flex justify-content-between border-bottom py-3">
+                      <span>⚖️ Weight</span>
+                      <strong>4000 g</strong>
+                    </li>
+
+                    <li class="d-flex justify-content-between border-bottom py-3">
+                        <span>📦 Weight Shipping:</span>
+                        <span class="fw-bold final-price">
+                            <span class="currency-symbol">₹</span>
+                            <span class="subtotal-price price-value" data-inr="2950">2950</span>
+                        </span>
+                    </li>
+
+
+                    <li class="border-bottom py-3">
+                        <span>🌍 Shipping to:</span>
+                        <select id="shipping-country" class="form-select form-select mt-3"></select>
+                    </li>
+
+                    <li class="py-3">
+                        <span>🛺 Shipping method:</span>
+                        <select class="form-select mt-3 select-shipping" aria-label="Shipping methods">
+                            <option value="EMS">🚚 EMS – Express Delivery</option>
+                            <option value="IndiaPost">📮 Indian Post – Budget Delivery</option>
+                            <option value="DHL">🚛 DHL – Courier Delivery</option>
+                            <option value="FEDEX">🚚 FEDEX – Courier Delivery</option>
+                            <option value="GoabayCargo">✈️ Goabay Cargo – Air Delivery</option>
+                        </select>
+                    </li>
+
+                </ul>
+
+                <div class="d-flex justify-content-between border-top p-2">
+                    <span class="fw-bold fs-5">Total</span>
+                    <span class="fw-bold final-price">
+                        <span class="currency-symbol">₹</span>
+                        <span class="total-price price-value fw-bold fs-5 text-success" data-inr="13750">13750</span>
+                    </span>
+                </div>
+
+                <!-- блок с итогами и кнопками -->
+                <div class="cart-content p-2">
+                    <button class="btn btn-primary w-100 mb-2">Place an order</button>
+                </div>
+
+            </div>
+            <!-- CART TOTALS -->
+           
+
+        </div>
+        <!-- END Третья колонка  -->
+
+    </div>
+</div>
+<!-- END 1 box 3 колонки -->
+
+
+
+
+<!-- OFFCANVAS -->
+<div class="offcanvas-container">
+
+    <!-- SIDE MENU -->
+    <div id="sideMenu" class="side-menu">
+        <button class="close-btn">✖</button>
+        <!-- User Box -->
+        <div class="user-profile">
+            <div class="user-info">
+                <img src="img/products/Frame 1.png" alt="User Avatar" class="avatar">
+                <span class="username">John Doe</span>
+            </div>
+            <div class="user-actions mb-2">
+                <a href="account.html" class="account-link">ACCOUNT</a> / 
+                <a href="#" class="exit-link">EXIT</a>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" class="theme-toggle">
+                <span class="slider round"></span>
+            </label>
+            
+        </div>
+        <!-- menu List -->
+        <ul class="menu-list">
+            <li><a href="#">🏠 Home</a></li>
+            <li class="has-submenu">
+                <a href="#">👤 My account</a>
+                <ul class="submenu">
+                    <li><a href="wishlist.html">💖 Wishlist</a></li>
+                    <li><a href="cart.html">🛒 My Cart</a></li>
+                    <li><a href="adress.html">📍 My Adress</a></li>
+                    <li><a href="orders.html">🧾 Orders</a></li>
+                    <li><a href="track.html">🎈 Track my Order</a></li>
+                    <li><a href="#">⚙️ Settings</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">📂 Products</a>
+                <ul class="submenu">
+                    <li><a href="shop.html">📜 All Products</a></li>
+                    <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
+                    <li><a href="brands.html">💎 Brands</a></li>
+                    <li><a href="wholesale.html">🚢 Wholesale</a></li>
+                    <li><a href="hande-made.html">🪬 Hand Made</a></li>
+                    <li><a href="sales.html">🔖 Sales</a></li>
+                    <li><a href="best.html">🔥 Best Sellers</a></li>
+                    <li><a href="gifts.html">🎁 Gifts</a></li>
+                    <li><a href="promo.html">📣 Promo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#">📑 Info</a>
+                <ul class="submenu">
+                    <li><a href="work.html">🛺 How we work</a></li>
+                    <li><a href="about-us.html">🌴 About us</a></li>
+                    <li><a href="payment.html">💳 Payment</a></li>
+                    <li><a href="delivery.html">🚚 Delivery</a></li>
+                    <li><a href="offer.html">📋 Public offer</a></li>
+                    <li><a href="faq.html">❓ FAQ</a></li>
+                    <li><a href="reviews.html">📣 Reviews</a></li>
+                </ul>
+            </li>
+            <li><a href="blog.html">📰 Blog</a></li>
+            <li><a href="app.html">📲 Save more on APP</a></li>
+            <li><a href="#">🤖 Goa Bot</a></li>
+            <li><a href="partner.html">💼 Partners</a></li>
+            <li><a href="contacts.html">📪 Contact us</a></li>
+        </ul>
+    </div>
+    <!-- END SIDE MENU -->
+    
+    <!-- Оверлей -->
+    <div id="overlay" class="overlay"></div>
+
+
+
+</div>
+<!-- END OFFCANVAS -->
+
+
+
+
+<!-- mobile bottom bar -->
+<div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+        <!-- Ряд с горизонтальной прокруткой -->
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+            <button class="btn-box" aria-label="Login">
+                <span class="icon">🔑</span>
+                <span class="btn-title">Login</span>
+            </button>
+            <!-- Currency Button -->
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
+            </div>
+            <!-- Language Button -->
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <button class="btn-box" aria-label="Wishlist" style="min-width: 60px;">
+                <span class="icon">💖</span>
+                <span class="badge">25</span>
+            </button>
+            <button class="btn-box" aria-label="Compare products" style="min-width: 60px;">
+                <span class="icon">⚖️</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Notifications" style="min-width: 60px;">
+                <span class="icon">🔔</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Coins" style="min-width: 60px;">
+                <span class="icon">💰</span>
+                <span class="badge">99</span>
+            </button>
+        </div>
+</div>
+<!-- END mobile bottom bar -->
+
+
+<!--FOOTER В РА3АБОТКЕ-->
+<footer class="footer text-dark py-4">
+
+    <!-- Swiper CSS JS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <div class="container">
+        <div class="row">
+            
+            <!-- 1-я колонка: Логотип и текст -->
+            <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
+                <h5>Логотип и текст</h5>
+            </div>
+
+            <!-- 2-я колонка: Меню -->
+            <div class="col-12 col-md-4 text-center">
+                <h5>Меню</h5>
+            </div>
+
+            <!-- 3-я колонка: Контакты -->
+            <div class="col-12 col-md-4 text-center text-md-end">
+                <h5>Контакты</h5>
+            </div>
+
+        </div>
+
+        <!-- Копирайт -->
+        <div class="text-center mt-3 small">
+            &copy; 2025 Все права защищены.
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+</body>
+</html>

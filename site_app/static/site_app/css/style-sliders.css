@@ -1,0 +1,384 @@
+/* 🔹 5. MAIN SLIDER ----------------------------------------------------------------------------------------*/
+
+.slider-box {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 575px; /* Базовая высота для десктопа */
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease-in-out; /* Плавная анимация */
+    will-change: transform; /* Оптимизация анимации */
+}
+
+.slider-item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slider-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+.slider-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 2%;
+    width: 50%;
+    text-align: left;
+    color: #000000;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.slider-caption h5 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.slider-caption p {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.slider-caption .btn {
+    padding: 5px 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.slider-caption .btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+
+/* Адаптивность слайдера */
+@media (max-width: 991px) {
+    .slider-container {
+        height: 575px;
+    }
+    .slider-caption {
+    width: 80%;
+    }
+    .slider-caption h5 {
+        font-size: 18px;
+    }
+    .slider-caption p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 767px) {
+    .slider-container {
+        height: 500px;
+    }
+    .slider-caption {
+    width: 96%;
+    }
+    .slider-caption h5 {
+        font-size: 18px;
+    }
+    .slider-caption p {
+        font-size: 14px;
+    }
+    .slider-control-prev,
+    .slider-control-next {
+        width: 30px;
+        height: 30px;
+    }
+    .slider-control-next {
+        left: 50px;
+    }
+    .slider-control-icon {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* 🌙 MAIN SLIDER - Тёмная тема */
+
+[data-theme="dark"] .slider-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 2%;
+    width: 50%;
+    text-align: left;
+    color: #ffffff; /* Белый текст для контраста на тёмном фоне */
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный чёрный фон */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+[data-theme="dark"] .slider-caption p {
+    font-size: 16px;
+    color: #ffffff; /* Белый текст для тёмной темы */
+    margin-bottom: 10px;
+}
+
+/* 🔹 6. BLOG SLIDER ----------------------------------------------------------------------------------------*/
+
+.blog-slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.blog-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.blog-slider-wrapper {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+}
+
+.blog-slider-item {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 15px;
+    width: 100%;
+}
+
+.blog-card {
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.blog-content {
+    position: absolute;
+    padding: 10px;
+    background: #fff;
+    margin: 10px;
+    border-radius: 6px;
+    width: 43%;
+}
+
+.blog-content h5 {
+    font-size: 0.9rem; /* 20px */
+    font-weight: 500;
+}}
+
+
+@media (max-width: 767px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+    }
+}
+
+
+/* 🌙 BLOG SLIDER - Тёмная тема */
+[data-theme="dark"] .blog-slider,
+[data-theme="dark"] .blog-slider-container,
+[data-theme="dark"] .blog-slider-wrapper {
+    background: #121212; /* Темный фон для слайдера */
+}
+
+[data-theme="dark"] .blog-slider-item,
+[data-theme="dark"] .blog-grid {
+    background: #121212; /* Темный фон для элементов слайдера и сетки */
+}
+
+[data-theme="dark"] .blog-card {
+    background: #333; /* Тёмный фон для карточек */
+    color: #fff; /* Белый текст */
+}
+
+[data-theme="dark"] .blog-img {
+    filter: brightness(0.7); /* Затемнение изображений */
+}
+
+[data-theme="dark"] .blog-content {
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный чёрный фон для текста */
+    color: #fff; /* Белый текст */
+}
+
+[data-theme="dark"] .blog-content h5 {
+    color: #fff; /* Белый текст */
+}
+
+
+
+
+/* ! Кнопки туда-сюда на слайдерах Блог Слайдер, Главный Слайдер -----------------------------*/
+
+.blog-slider-control-prev,
+.blog-slider-control-next,
+.slider-control-prev,
+.slider-control-next {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(0, 186, 68);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.blog-slider-control-next,
+.slider-control-next {
+    left: 60px; /* Отступ от предыдущей кнопки */
+}
+
+.blog-slider-control-prev:hover,
+.blog-slider-control-next:hover,
+.slider-control-prev:hover,
+.slider-control-next:hover {
+    opacity: 0.9;
+}
+
+.blog-slider-control-icon,
+.slider-control-icon {
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.blog-slider-control-prev .blog-slider-control-icon,
+.slider-control-prev .slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z'/%3E%3C/svg%3E");
+}
+.blog-slider-control-next .blog-slider-control-icon,
+.slider-control-next .slider-control-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/%3E%3C/svg%3E");
+}
+
+
+
+
+
+/* 🔹 8. SWIPERS -------------------------------------------------------------------------------------------- */
+
+.vertical-swiper {
+    height: 360px;
+    overflow: hidden;
+}
+
+/* 🔹 8. BANNER SLIDER -------------------------------------------------------------------------------------------- */
+
+.banner-slider {
+    width: 100%;
+    /*border-radius: 10px;*/
+    overflow: hidden;
+}
+
+.banner-slider .banner-block {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.banner-slider .banner-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.banner-slider .banner-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.banner-slider .banner-content p {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.banner-slider .catalog-link {
+    color: #0044ff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* КНОПКИ НА БАННЕРЕ */
+.banner-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.b-list-item {
+    background: #0000006b;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #00ba44;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.b-list-item:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+
+
+
+
+

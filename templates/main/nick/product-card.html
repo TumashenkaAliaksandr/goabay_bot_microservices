@@ -1,0 +1,1335 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Product Card 1-4</title>
+    <meta name="description" content="E-commerce store for Indian products">
+    <meta name="keywords" content="E-commerce, India, Goods">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon/logo.svg">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+        crossorigin="anonymous">
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+        crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style-header.css">
+    <link rel="stylesheet" href="css/style-product.css">
+    <link rel="stylesheet" href="css/style-admin.css">
+
+    <!-- Custom JS -->
+    <script src="assets/js/custom.js" defer></script>
+    <script src="assets/js/converter.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="container-fluid header w-100 position-fixed top-0 start-0 shadow-sm " style="z-index: 1050;">
+
+    <!-- Десктоп версия -->
+    <div class="row d-none d-lg-none d-xl-flex px-3">
+        <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
+            
+            <!-- Лого и меню -->
+            <div class="d-flex w-auto" style="gap: 10px;">
+                <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+            </div>
+
+            <!-- Иконки действий -->
+            <div class="d-flex py-3" style="gap: 10px;">
+                <!-- Currency Button -->
+                <div class="btn-box" aria-label="Currency">
+                    <span class="icon">💵</span>
+                    <select class="currency-select">
+                        <option value="INR" selected>₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="RUB">₽ RUB</option>
+                    </select>
+                </div>
+                <!-- Language Button -->
+                <div class="btn-box" aria-label="Language">
+                    <span class="icon">🌐</span>
+                    <select class="language-select">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">Русский</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+                <button class="btn-box" aria-label="Wishlist">💖<span class="badge">25</span></button>
+                <button class="btn-box" aria-label="Notifications">🔔<span class="badge">10</span></button>
+                <button class="btn-box" aria-label="Coins">💰<span class="badge">99</span></button>
+                <!-- Cart Btn -->
+                <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                    <span class="icon">🛒</span>
+                    <span class="badge">99</span>
+                    <span class="btn-title">157.716</span>
+                </button>
+                <button class="btn-box" aria-label="Login">🪪<span class="btn-title">Hi! Mr. Nickson</span></button>
+
+                <label class="switch">
+                    <input type="checkbox" class="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Мобильная версия -->
+    <div class="mobile-header d-flex d-md-none flex-column">
+            
+        <!-- Первый ряд -->
+        <div class="d-flex align-items-center py-1 w-100 justify-content-between">
+            <div class="d-flex w-auto">
+                <img src="img/logo/logo.svg" alt="Goabay Logo" height="40">
+            </div>
+            <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+        </div>
+
+    </div>
+
+    <!-- Планшетная версия -->
+    <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
+            
+        <!-- Лого, поиск, меню -->
+        <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
+            <div class="d-flex w-auto" style="gap: 10px;">
+                <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
+                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+            </div>
+                
+            <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
+                <button class="btn-box" aria-label="Login">
+                    <span class="icon">🪪</span>
+                    <span class="btn-title">Hi! Mr. Nickson</span>
+                </button>
+                <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                    <span class="icon">🛒</span>
+                    <span class="badge">99</span>
+                    <span class="btn-title">157.716</span>
+                </button>
+                <!-- Currency Button -->
+                <div class="btn-box" aria-label="Currency">
+                    <span class="icon">💵</span>
+                    <select class="currency-select">
+                        <option value="INR" selected>₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="RUB">₽ RUB</option>
+                    </select>
+                </div>
+                <button class="btn-box" aria-label="Language">
+                    <span class="icon">🌐</span>
+                    <span class="badge">En</span>
+                </button>
+                <button class="btn-box" aria-label="Wishlist">
+                    <span class="icon">💖</span>
+                    <span class="badge">25</span>
+                </button>
+                <button class="btn-box" aria-label="Compare products">
+                    <span class="icon">⚖️</span>
+                    <span class="badge">10</span>
+                </button>
+                <button class="btn-box" aria-label="Notifications">
+                    <span class="icon">🔔</span>
+                    <span class="badge">10</span>
+                </button>
+                <button class="btn-box" aria-label="Coins">
+                    <span class="icon">💰</span>
+                    <span class="badge">99</span>
+                </button>
+            </div>
+        </div>
+    
+    </div>
+
+</header>
+<!-- HEADER -->
+<!-- Отступ под фиксированную шапку -->
+<div class="header-offset-2"></div>
+
+<!-- 2 box 2 колонки -->
+<div class="container-fluid p-3">
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-block">
+            <!-- VERTICAL MENU -->
+            <div class="vertical-menu sticky-top" style="top: 80px;">
+                <h1 class="v-menu-title fw-bold text-uppercase">PRODUCT CARTS 1-4</h1>
+                <ul class="list-group">
+                    <li><a class="list-item" href="#best">🔥 Best Sellers Product</a></li>
+                    <li><a class="list-item" href="#new">📣 New Product</a></li>
+                    <li><a class="list-item" href="#discount">🔖 Discounted Product</a></li>
+                    <li><a class="list-item" href="#recommend">👍🏻 Recommend Product</a></li>
+                    <li><a class="list-item" href="#mini">✨ Recommend Mini Product</a></li>
+                    <li><a class="list-item" href="#sidebar">🧾 Sidebar Cart Product</a></li>
+                    <li><a class="list-item" href="#admin">👨‍💼 Admin Product</a></li>
+                    <li><a class="list-item" href="#elements">🧱 Product Elements </a></li>
+                </ul>
+            </div>
+            <!-- END VERTICAL MENU -->
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 col-xxl-10">
+                
+<h2 id="best">🔥 Best Sellers Product</h2> 
+<p>Archive Product 1 <code>class="archive-product archive-product-1"</code> </p>
+<p>Best sellers Slider <code>class="product-card swiper-slide"</code> </p>
+
+<!-- ARCHIVE PRODUCT 1-->
+<div class="archive-product archive-product-1 mt-3 active">
+
+    <!-- BEST SELLERS PRODUCT CART -->
+    <div class="product-card swiper-slide">
+        <div class="row">
+            <div class="col-6 col-md-5">
+                <!-- Product Image -->
+                <div class="product-image">
+                    <img src="img/products/Frame 1.png" class="img-fluid rounded-start" alt="Product">
+                    <div class="badge-container">
+                        <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                        <span class="product-badge badge-new">New</span>
+                        <span class="product-badge badge-best">🔥BEST SELLER</span>
+                        <span class="product-badge badge-discount">-50%</span>
+                        <span class="product-badge badge-sale">SALE</span>
+                        <span class="product-badge badge-hot">🌶 HOT</span>
+                        <span class="product-badge badge-star">⭐️ 5</span>
+                    </div>
+                    <div class="img-btn-container">
+                        <span class="wish-btn">💖</span>
+                        <span class="compare-btn">⚖️</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-7 d-flex flex-column">
+                <div class="card-body d-flex flex-column justify-content-between px-2">
+                    <!-- Product Title -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h4 class="product-name fw-semibold my-3" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h4>
+                    </a>
+                    <!-- Artibutes -->
+                    <ul class="attributes-card mt-auto"> 
+                        <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                        <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                    </ul>
+                    <!-- Simple Product Price Block -->
+                    <div class="price mt-auto">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                        <span class="text-decoration-line-through text-danger original-price ms-2">
+                          <span class="currency-symbol">₹</span>
+                          <span class="original-price price-value" data-inr="200">200</span>
+                        </span>
+                    </div>
+                    <div class="input-group ms-auto mb-2">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="add-to-cart btn btn-success">ADD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BEST SELLERS PRODUCT CART -->
+
+    <!-- BEST SELLERS PRODUCT CART Variation-->
+    <div class="product-card swiper-slide">
+        <div class="row">
+            <div class="col-6 col-md-5">
+                <!-- Product Image -->
+                <div class="product-image">
+                    <img src="img/products/Frame 1.png" class="img-fluid rounded-start" alt="Product">
+                    <div class="badge-container">
+                        <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                        <span class="product-badge badge-new">New</span>
+                        <span class="product-badge badge-best">🔥BEST SELLER</span>
+                        <span class="product-badge badge-discount">-50%</span>
+                        <span class="product-badge badge-sale">SALE</span>
+                        <span class="product-badge badge-hot">🌶 HOT</span>
+                        <span class="product-badge badge-star">⭐️ 5</span>
+                    </div>
+                    <div class="img-btn-container">
+                        <span class="wish-btn">💖</span>
+                        <span class="compare-btn">⚖️</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-7 d-flex flex-column">
+                <div class="card-body d-flex flex-column justify-content-between px-2">
+                    <!-- Product Title -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h4 class="product-name fw-semibold my-3" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h4>
+                    </a>
+                    <!-- Artibutes -->
+                    <ul class="attributes-card mt-auto"> 
+                        <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                        <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+                    </ul>
+                    <!-- Variation Product Price Block -->
+                    <div class="price variation-price mt-3">
+                        <div class="d-flex justify-content-between">
+                          <span class="min">Min:</span>
+                          <span>
+                            <span class="currency-symbol">₹</span>
+                            <span class="min-price price-value" data-inr="999.999">999.999</span>
+                          </span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <span class="max">Max:</span>
+                          <span>
+                            <span class="currency-symbol">₹</span>
+                            <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="input-group ms-auto mb-2">
+                        <button class="add-to-cart btn btn-success w-100">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BEST SELLERS PRODUCT CART Variation-->
+
+</div>
+<!-- END ARCHIVE PRODUCT 1-->
+
+<hr>
+
+<h2 id="new">📣 New Product</h2> 
+<p>Archive Product 2 <code>class="archive-product archive-product-2"</code> </p>
+<p>New Slider <code>class="product-card swiper-slide"</code> </p>
+
+<!-- ARCHIVE PRODUCT 2 -->
+<div class="archive-product archive-product-2 active">
+
+    <!-- NEW PRODUCT CART -->
+    <div class="product-card swiper-slide">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="img/products/Frame 1.png" class="img-fluid" alt="Product">
+            <div class="badge-container">
+                <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                <span class="product-badge badge-new">New</span>
+                <span class="product-badge badge-best">🔥BEST SELLER</span>
+                <span class="product-badge badge-discount">-50%</span>
+                <span class="product-badge badge-sale">SALE</span>
+                <span class="product-badge badge-hot">🌶 HOT</span>
+                <span class="product-badge badge-star">⭐️ 5</span>
+            </div>
+            <div class="img-btn-container">
+                <span class="wish-btn">💖</span>
+                <span class="compare-btn">⚖️</span>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <!-- Product Title -->
+            <a href="single-product.html" target="_blank" class="text-decoration-none">
+                <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                    Seventh Chakra Rama Krishna Incense
+                </h4>
+            </a>
+            <!-- Artibutes -->
+            <ul class="attributes-card mt-auto"> 
+                <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+            </ul>
+            <!-- Simple Product Price Block -->
+            <div class="price mt-auto">
+                <span class="fw-bold final-price">
+                  <span class="currency-symbol">₹</span>
+                  <span class="final-price price-value" data-inr="100">100</span>
+                </span>
+                <span class="text-decoration-line-through text-danger original-price ms-2">
+                  <span class="currency-symbol">₹</span>
+                  <span class="original-price price-value" data-inr="200">200</span>
+                </span>
+            </div>
+            <div class="input-group mb-1">
+                <button class="btn btn-outline-secondary" type="button">-</button>
+                <input type="number" class="form-control text-center" value="10">
+                <button class="btn btn-outline-secondary" type="button">+</button>
+            </div>
+            <button class="add-to-cart btn btn-success w-100">ADD TO CART</button>
+        </div>
+    </div>
+    <!-- END NEW PRODUCT CART -->
+
+    <!-- NEW PRODUCT CART Variation -->
+    <div class="product-card swiper-slide">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="img/products/Frame 1.png" class="img-fluid" alt="Product">
+            <div class="badge-container">
+                <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                <span class="product-badge badge-new">New</span>
+                <span class="product-badge badge-best">🔥BEST SELLER</span>
+                <span class="product-badge badge-discount">-50%</span>
+                <span class="product-badge badge-sale">SALE</span>
+                <span class="product-badge badge-hot">🌶 HOT</span>
+                <span class="product-badge badge-star">⭐️ 5</span>
+            </div>
+            <div class="img-btn-container">
+                <span class="wish-btn">💖</span>
+                <span class="compare-btn">⚖️</span>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <!-- Product Title -->
+            <a href="single-product.html" target="_blank" class="text-decoration-none">
+                <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                    Seventh Chakra Rama Krishna Incense
+                </h4>
+            </a>
+            <!-- Artibutes -->
+            <ul class="attributes-card mt-auto"> 
+                <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+            </ul>
+            <!-- Variation Product Price Block -->
+            <div class="price variation-price mt-3">
+                <div class="d-flex justify-content-between">
+                  <span class="min">Min:</span>
+                  <span>
+                    <span class="currency-symbol">₹</span>
+                    <span class="min-price price-value" data-inr="999.999">999.999</span>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="max">Max:</span>
+                  <span>
+                    <span class="currency-symbol">₹</span>
+                    <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                  </span>
+                </div>
+            </div>
+            <button class="add-to-cart btn btn-success w-100">Select</button>
+        </div>
+    </div>
+    <!-- END NEW PRODUCT CART Variation -->
+
+</div>
+<!-- END ARCHIVE PRODUCT 2-->
+
+<hr>
+
+<h2 id="discount">🔖 Discounted Product</h2>
+<p>Archive Product 3 <code>class="archive-product archive-product-3"</code> </p>
+<p>Discounted Slider <code>class="product-card swiper-slide"</code> </p> 
+
+<!-- ARCHIVE PRODUCT 3 -->
+<div class="archive-product archive-product-3 active">
+
+    <!-- DISCOUNTED PRODUCT CART -->
+    <div class="product-card swiper-slide">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="img/products/Frame 1.png" class="img-fluid" alt="Product">
+            <div class="badge-container">
+                <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                <span class="product-badge badge-new">New</span>
+                <span class="product-badge badge-best">🔥BEST SELLER</span>
+                <span class="product-badge badge-discount">-50%</span>
+                <span class="product-badge badge-sale">SALE</span>
+                <span class="product-badge badge-hot">🌶 HOT</span>
+                <span class="product-badge badge-star">⭐️ 5</span>
+            </div>
+            <div class="img-btn-container">
+                <span class="wish-btn">💖</span>
+                <span class="compare-btn">⚖️</span>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <!-- Product Title -->
+            <a href="single-product.html" target="_blank" class="text-decoration-none">
+                <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                    Seventh Chakra Rama Krishna Incense
+                </h4>
+            </a>
+            <!-- Artibutes -->
+            <ul class="attributes-card mt-auto"><li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li></ul>
+            <!-- Simple Product Price Block -->
+            <div class="price mt-auto">
+                <span class="fw-bold final-price">
+                  <span class="currency-symbol">₹</span>
+                  <span class="final-price price-value" data-inr="100">100</span>
+                </span>
+                <span class="text-decoration-line-through text-danger original-price ms-2">
+                  <span class="currency-symbol">₹</span>
+                  <span class="original-price price-value" data-inr="200">200</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- END DISCOUNTED PRODUCT CART -->
+
+    <!-- DISCOUNTED PRODUCT CART Variation -->
+    <div class="product-card swiper-slide">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="img/products/Frame 1.png" class="img-fluid" alt="Product">
+            <div class="badge-container">
+                <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                <span class="product-badge badge-new">New</span>
+                <span class="product-badge badge-best">🔥BEST SELLER</span>
+                <span class="product-badge badge-discount">-50%</span>
+                <span class="product-badge badge-sale">SALE</span>
+                <span class="product-badge badge-hot">🌶 HOT</span>
+                <span class="product-badge badge-star">⭐️ 5</span>
+            </div>
+            <div class="img-btn-container">
+                <span class="wish-btn">💖</span>
+                <span class="compare-btn">⚖️</span>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <!-- Product Title -->
+            <a href="single-product.html" target="_blank" class="text-decoration-none">
+                <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                    Seventh Chakra Rama Krishna Incense
+                </h4>
+            </a>
+            <!-- Artibutes -->
+            <ul class="attributes-card mt-auto"><li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li></ul>                
+            <!-- Variation Product Price Block -->
+            <div class="price variation-price mt-3">
+                <div class="d-flex justify-content-between">
+                  <span class="min">Min:</span>
+                  <span>
+                    <span class="currency-symbol">₹</span>
+                    <span class="min-price price-value" data-inr="999.999">999.999</span>
+                  </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END DISCOUNTED PRODUCT CART Variation -->
+
+</div>
+<!-- END ARCHIVE PRODUCT 3-->
+
+<hr>
+
+<h2 id="recommend">👍🏻 Recommend Product</h2>
+<p>Archive Product 4 <code>class="archive-product archive-product-4"</code> </p>
+
+<!-- ARCHIVE PRODUCT 4 -->
+<div class="archive-product archive-product-4 active">
+
+
+<!-- RECOMMEND PRODUCT CARD -->
+<div class="product-card w-100 mb-3">
+    <div class="row g-3 align-items-end">
+    <!-- Фото -->
+    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product">
+    </div>
+    <!-- Информация -->
+    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+        <div class="badge-box mb-1">
+            <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+            <span class="product-badge badge-new">New</span>
+            <span class="product-badge badge-best">🔥 BEST SELLER</span>
+            <span class="product-badge badge-discount">-50%</span>
+            <span class="product-badge badge-sale">SALE</span>
+            <span class="product-badge badge-hot">🌶 HOT</span>
+            <span class="product-badge badge-star">⭐️ 5</span>
+        </div>
+        <!-- Product Title -->
+        <a href="single-product.html" target="_blank" class="text-decoration-none">
+            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">
+                Seventh Chakra Rama Krishna Incense
+            </h4>
+        </a>
+        <!-- Artibutes -->
+        <ul class="attributes-card mt-auto"> 
+            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+        </ul>
+        <p class="arhive-short-description">
+            A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity. A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity.
+        </p>
+    </div>
+    <!-- Цена + Количество + Кнопки -->
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between px-3">
+        <div class="mb-3">
+            <span class="wish-btn">💖</span>
+            <span class="compare-btn">⚖️</span>
+        </div>
+        <!-- Simple Product Price Block -->
+        <div class="price mt-auto">
+            <span class="fw-bold final-price">
+              <span class="currency-symbol">₹</span>
+              <span class="final-price price-value" data-inr="100">100</span>
+            </span>
+            <span class="text-decoration-line-through text-danger original-price ms-2">
+              <span class="currency-symbol">₹</span>
+              <span class="original-price price-value" data-inr="200">200</span>
+            </span>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button">-</button>
+            <input type="number" class="form-control text-center" value="1" >
+            <button class="btn btn-outline-secondary" type="button">+</button>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-success w-100">Add to Cart</button>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- END RECOMMEND PRODUCT CARD -->
+
+<!-- RECOMMEND PRODUCT CARD Variation -->
+<div class="product-card w-100 mb-3">
+    <div class="row g-3 align-items-end">
+    <!-- Фото -->
+    <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+        <img src="img/products/0402046.jpg" class="img-fluid rounded" alt="Product">
+    </div>
+    <!-- Информация -->
+    <div class="col-12 col-sm-5 col-md-6 col-lg-7 px-3">
+        <div class="badge-box mb-1">
+            <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+            <span class="product-badge badge-new">New</span>
+            <span class="product-badge badge-best">🔥 BEST SELLER</span>
+            <span class="product-badge badge-discount">-50%</span>
+            <span class="product-badge badge-sale">SALE</span>
+            <span class="product-badge badge-hot">🌶 HOT</span>
+            <span class="product-badge badge-star">⭐️ 5</span>
+        </div>
+        <!-- Product Title -->
+        <a href="single-product.html" target="_blank" class="text-decoration-none">
+            <h4 class="product-name fw-semibold my-2" title="Seventh Chakra Rama Krishna Incense">
+                Seventh Chakra Rama Krishna Incense
+            </h4>
+        </a>
+        <!-- Artibutes -->
+        <ul class="attributes-card mt-auto"> 
+            <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+            <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+        </ul>
+        <p class="arhive-short-description">
+            A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity. A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity.
+        </p>
+    </div>
+    <!-- Цена + Количество + Кнопки -->
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3 d-flex flex-column align-items-start align-items-lg-end justify-content-between px-3">
+        <div class="mb-3">
+            <span class="wish-btn">💖</span>
+            <span class="compare-btn">⚖️</span>
+        </div>
+        <!-- Variation Product Price Block -->
+        <div class="price variation-price mt-3">
+            <div class="d-flex justify-content-between">
+              <span class="min">Min:</span>
+              <span>
+                <span class="currency-symbol">₹</span>
+                <span class="min-price price-value" data-inr="999.999">999.999</span>
+              </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="max">Max:</span>
+              <span>
+                <span class="currency-symbol">₹</span>
+                <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+              </span>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-success w-100">Select Option</button>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- END RECOMMEND PRODUCT CARD Variation -->
+
+</div>
+<!-- END ARCHIVE PRODUCT 4 -->
+
+<hr>
+
+<h2 id="mini">✨ Mini Product</h2>
+<p>Recommend Slider Slider</p>
+<p>Popular Goods Slider</p>
+<p>Exclusive Slider</p>
+
+<!-- MINI PRODUCT CARD -->
+<div class="swiper-slide product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+    <!-- Mini Product Image 100 -->
+    <img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 100px; height: 100px; object-fit: cover;">
+    <!-- Инфо о товаре -->
+    <div class="flex-grow-1 d-flex flex-column justify-content-between">
+        <!-- Название -->
+        <a href="single-product.html" target="_blank" class="text-decoration-none">
+            <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                Seventh Chakra Rama Krishna Incense
+            </h4>
+        </a>
+        <!-- Simple Product Price Block -->
+        <div class="price mt-auto">
+            <span class="fw-bold final-price">
+              <span class="currency-symbol">₹</span>
+              <span class="final-price price-value" data-inr="100">100</span>
+            </span>
+        </div>
+        <!-- Кол-во и кнопка Add — -->
+        <div class="input-group input-group-sm" style="max-width: 200px;">
+            <button class="btn btn-outline-secondary" type="button">-</button>
+            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+            <button class="btn btn-outline-secondary" type="button">+</button>
+            <button class="btn btn-success btn-sm">Add</button>
+        </div>
+
+    </div>
+</div>
+<!-- END MINI PRODUCT CARD -->
+
+<!-- MINI PRODUCT CARD -->
+<div class="swiper-slide product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+    <!-- Mini Product Image 100 -->
+    <img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 100px; height: 100px; object-fit: cover;">
+    <!-- Инфо о товаре -->
+    <div class="flex-grow-1 d-flex flex-column justify-content-between">
+        <!-- Product Title -->
+        <a href="single-product.html" target="_blank" class="text-decoration-none">
+            <h4 class="product-name fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                Seventh Chakra Rama Krishna Incense
+            </h4>
+        </a>
+        <!-- Variation Product Price Block -->
+        <div class="price variation-price">
+            <div class="d-flex">
+              <span class="min">Min:</span>
+              <span>
+                <span class="currency-symbol">₹</span>
+                <span class="min-price price-value" data-inr="999.999">999.999</span>
+              </span>
+            </div>
+        </div>
+        <!-- кнопка Select -->
+        <div class="input-group input-group-sm" style="max-width: 200px;">
+            <button class="btn btn-success btn-sm">Select</button>
+        </div>
+    </div>
+</div>
+<!-- END MINI PRODUCT CARD -->
+
+<hr>
+
+<h2 id="sidebar">🧾 Sidebar Cart Product</h2>
+
+<!-- SIDEBAR CART PRODUCT CARD -->
+<div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+    <!-- Mini Product Image 90-->
+    <img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 90px; height: 90px; object-fit: cover;">
+    <!-- Инфо о товаре -->
+    <div class="flex-grow-1 d-flex flex-column justify-content-between">
+        <!-- Название -->
+        <a href="single-product.html" target="_blank" class="text-decoration-none">
+            <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                Seventh Chakra Rama Krishna Incense
+            </h5>
+        </a>
+        <!-- Simple Product Price Block -->
+        <div class="price d-flex justify-content-end">
+            <span class="fw-bold final-price">
+              <span class="currency-symbol">₹</span>
+              <span class="final-price price-value" data-inr="100">100</span>
+            </span>
+        </div>
+        <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+        <div class="input-group input-group-sm d-flex justify-content-end">
+            <button class="btn btn-outline-secondary" type="button">-</button>
+            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+            <button class="btn btn-outline-secondary" type="button">+</button>
+            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+        </div>
+    </div>
+</div>
+<!-- END SIDEBAR CART PRODUCT CARD -->
+
+<hr>
+
+<h2 id="admin">👨‍💼 Admin Product</h2>
+
+<p>Admin Product Table</p>
+
+<!-- ADMIN PRODUCT TABLE -->
+<div class="table-responsive admin-product-table">
+  <table class="table table-hover align-middle d-none d-md-table">
+    
+    <thead class="table">
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th></th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Categories</th>
+        <th>Tags</th>
+        <th>Brands</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+ 
+    <!-- ADMIN PRODUCT -->     
+      <tr>
+        <td><input type="checkbox" /></td>
+        <td><img src="img/products/Frame 1.png" class="product-img rounded" style="width: 60px; height: 60px; object-fit: cover;" /></td>
+        <td>
+            <a href="#" class="fw-bold">Seventh Chakra Rama Krishna Incense</a><br>
+            <small title="Click to copy ID" class="copy-product-id" data-id="123456" style="cursor: pointer;">ID 123456</small>
+        </td>
+        <td>
+            <!-- Simple Product Price Block -->
+            <div class="price mt-auto">
+                <span class="fw-bold final-price">
+                  <span class="currency-symbol">₹</span>
+                  <span class="final-price price-value" data-inr="100">100</span>
+                </span>
+            </div>
+        </td>
+        <td><a class="fw-light text-decoration-none">Clothes & Shoes</a>, <a class="fw-light text-decoration-none">Men, <a class="fw-light text-decoration-none">Men</a></td>
+        <td><a class="fw-light text-decoration-none">clothes</a>, <a class="fw-light text-decoration-none">jeans</a>, <a class="fw-light text-decoration-none">pants</a></td>
+        <td><a class="fw-light">Brand Name</a></td>
+        <td><small> Last modified<br>04.12.04.25 17:41 PM</small></td>
+        <td>
+            <a href="#" class="text-decoration-none">✏️</a>
+            <a href="#" class="text-decoration-none">👀</a>
+            <a href="#" class="text-decoration-none">❤️</a>
+            <a href="#" class="text-decoration-none">⏩</a>
+            <a href="#" class="text-decoration-none">🚫</a>
+        </td>
+      </tr>
+    <!-- END ADMIN PRODUCT -->
+
+    <!-- ADMIN PRODUCT -->     
+      <tr>
+        <td><input type="checkbox" /></td>
+        <td><img src="img/products/Frame 1.png" class="product-img rounded" style="width: 60px; height: 60px; object-fit: cover;" /></td>
+        <td>
+            <a href="#" class="fw-bold">Seventh Chakra Rama Krishna Incense</a><br>
+            <small title="Click to copy ID" class="copy-product-id" data-id="123456" style="cursor: pointer;">ID 123456</small>
+        </td>
+        <td>
+            <!-- Simple Product Price Block -->
+            <div class="price mt-auto">
+                <span class="fw-bold final-price">
+                  <span class="currency-symbol">₹</span>
+                  <span class="final-price price-value" data-inr="100">100</span>
+                </span>
+                <span class="text-decoration-line-through text-danger original-price ms-2">
+                  <span class="currency-symbol">₹</span>
+                  <span class="original-price price-value" data-inr="200">200</span>
+                </span>
+            </div>
+        </td>
+        <td><a class="fw-light text-decoration-none">Clothes & Shoes</a>, <a class="fw-light text-decoration-none">Men, <a class="fw-light text-decoration-none">Men</a></td>
+        <td><a class="fw-light text-decoration-none">clothes</a>, <a class="fw-light text-decoration-none">jeans</a>, <a class="fw-light text-decoration-none">pants</a></td>
+        <td><a class="fw-light">Brand Name</a></td>
+        <td><small> Last modified<br>04.12.04.25 17:41 PM</small></td>
+        <td>
+            <a href="#" class="text-decoration-none">✏️</a>
+            <a href="#" class="text-decoration-none">👀</a>
+            <a href="#" class="text-decoration-none">❤️</a>
+            <a href="#" class="text-decoration-none">⏩</a>
+            <a href="#" class="text-decoration-none">🚫</a>
+        </td>
+      </tr>
+    <!-- END ADMIN PRODUCT -->
+
+    <!-- ADMIN PRODUCT -->     
+      <tr>
+        <td><input type="checkbox" /></td>
+        <td><img src="img/products/Frame 1.png" class="product-img rounded" style="width: 60px; height: 60px; object-fit: cover;" /></td>
+        <td>
+            <a href="#" class="fw-bold">Seventh Chakra Rama Krishna Incense</a><br>
+            <small title="Click to copy ID" class="copy-product-id" data-id="123456" style="cursor: pointer;">ID 123456</small>
+        </td>
+        <td>
+            <!-- Variation Product Price Block -->
+            <div class="price variation-price mt-3">
+                <div class="d-flex justify-content-between">
+                  <span class="min">Min:</span>
+                  <span>
+                    <span class="currency-symbol">₹</span>
+                    <span class="min-price price-value" data-inr="999.999">999.999</span>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="max">Max:</span>
+                  <span>
+                    <span class="currency-symbol">₹</span>
+                    <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                  </span>
+                </div>
+            </div>
+        </td>
+        <td><a class="fw-light text-decoration-none">Clothes & Shoes</a>, <a class="fw-light text-decoration-none">Men, <a class="fw-light text-decoration-none">Men</a></td>
+        <td><a class="fw-light text-decoration-none">clothes</a>, <a class="fw-light text-decoration-none">jeans</a>, <a class="fw-light text-decoration-none">pants</a></td>
+        <td><a class="fw-light">Brand Name</a></td>
+        <td><small> Last modified<br>04.12.04.25 17:41 PM</small></td>
+        <td>
+            <a href="#" class="text-decoration-none">✏️</a>
+            <a href="#" class="text-decoration-none">👀</a>
+            <a href="#" class="text-decoration-none">❤️</a>
+            <a href="#" class="text-decoration-none">⏩</a>
+            <a href="#" class="text-decoration-none">🚫</a>
+        </td>
+      </tr>
+    <!-- END ADMIN PRODUCT -->
+
+    </tbody>
+
+  </table>
+
+<!-- ADMIN PRODUCT Mobile box -->
+<div class="d-md-none d-flex flex-column gap-3">
+
+    <!-- ADMIN PRODUCT Mobile version -->
+    <div class="box p-3 shadow-sm">
+        <div class="d-flex gap-3 align-items-center border-bottom pb-2">
+            <input type="checkbox" />
+            <img src="img/products/seven-chakra-rama-krishna.jpg" class="rounded" style="width: 80px; height: 80px; object-fit: cover;" />
+            <div class="flex-grow-1">
+                <div class="fw-bold">Seventh Chakra Rama Krishna Incense</div>
+                <!-- Simple Product Price Block -->
+                <div class="price mt-auto">
+                    <span class="fw-bold final-price">
+                      <span class="currency-symbol">₹</span>
+                      <span class="final-price price-value" data-inr="100">100</span>
+                    </span>
+                    <span class="text-decoration-line-through text-danger original-price ms-2">
+                      <span class="currency-symbol">₹</span>
+                      <span class="original-price price-value" data-inr="200">200</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div><strong>Categories:</strong> 
+                <a class="fw-light text-decoration-none">Clothes & Shoes</a>, <a class="fw-light text-decoration-none">Men, <a class="fw-light text-decoration-none">Men</a>
+            </div>
+            <div><strong>Tags:</strong>
+                <a class="fw-light text-decoration-none">clothes</a>, <a class="fw-light text-decoration-none">jeans</a>, <a class="fw-light text-decoration-none">pants</a>
+            </div>
+            <div><strong>Brand:</strong><a class="fw-light">Brand Name</a></div>
+            <div><strong>Date:</strong> 04.12.04.25 17:41 PM</div>
+        </div>
+        <div class="mt-2">
+            <a href="#" class="me-2">✏️</a>
+            <a href="#" class="me-2">👀</a>
+            <a href="#" class="me-2">❤️</a>
+            <a href="#" class="me-2">⏩</a>
+            <a href="#">🚫</a>
+            <small title="Click to copy ID" class="copy-product-id" data-id="123456" style="cursor: pointer;">ID 123456</small>
+        </div>
+    </div>
+    <!-- END ADMIN PRODUCT Mobile version -->
+
+    <!-- ADMIN PRODUCT Mobile version -->
+    <div class="box p-3 shadow-sm">
+        <div class="d-flex gap-3 align-items-center border-bottom pb-2">
+            <input type="checkbox" />
+            <img src="img/products/seven-chakra-rama-krishna.jpg" class="rounded" style="width: 80px; height: 80px; object-fit: cover;" />
+            <div class="flex-grow-1">
+                <div class="fw-bold">Seventh Chakra Rama Krishna Incense</div>
+                <!-- Variation Product Price Block -->
+                <div class="price variation-price">
+                    <div class="d-flex justify-content-between">
+                        <span class="min">Min:</span>
+                        <span>
+                            <span class="currency-symbol">₹</span>
+                            <span class="min-price price-value" data-inr="999.999">999.999</span>
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="max">Max:</span>
+                        <span>
+                            <span class="currency-symbol">₹</span>
+                            <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div><strong>Categories:</strong> 
+                <a class="fw-light text-decoration-none">Clothes & Shoes</a>, <a class="fw-light text-decoration-none">Men, <a class="fw-light text-decoration-none">Men</a>
+            </div>
+            <div><strong>Tags:</strong>
+                <a class="fw-light text-decoration-none">clothes</a>, <a class="fw-light text-decoration-none">jeans</a>, <a class="fw-light text-decoration-none">pants</a>
+            </div>
+            <div><strong>Brand:</strong><a class="fw-light">Brand Name</a></div>
+            <div><strong>Date:</strong> 04.12.04.25 17:41 PM</div>
+        </div>
+        <div class="mt-2">
+            <a href="#" class="me-2">✏️</a>
+            <a href="#" class="me-2">👀</a>
+            <a href="#" class="me-2">❤️</a>
+            <a href="#" class="me-2">⏩</a>
+            <a href="#">🚫</a>
+            <small title="Click to copy ID" class="copy-product-id" data-id="123456" style="cursor: pointer;">ID 123456</small>
+        </div>
+    </div>
+    <!-- END ADMIN PRODUCT Mobile version variation -->
+
+</div>
+<!-- END ADMIN PRODUCT TABLE -->
+
+<hr>
+
+<h2 id="elements">🧱 Product Elements</h2>
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Product Image</h3>
+
+<hr>
+
+<p>Best Sellers Product</p> 
+<p>New Product</p> 
+<p>Discounted Product</p>
+
+<!-- Product Image -->
+<div class="product-image">
+    <img src="img/products/Frame 1.png" class="img-fluid" alt="Product">
+    <div class="badge-container">
+        <span class="product-badge badge-new">New</span>
+    </div>
+    <div class="img-btn-container">
+        <span class="wish-btn">💖</span>
+        <span class="compare-btn">⚖️</span>
+    </div>
+</div>
+
+<hr>
+
+<p>Mini Product Image 100px</p> 
+<!-- Mini Product Image 100 -->
+<img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 100px; height: 100px; object-fit: cover;">
+
+<hr>
+<p>Mini Product Image 90px</p> 
+<!-- Mini Product Image 90-->
+<img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 90px; height: 90px; object-fit: cover;">
+
+<hr>
+<p>Mini Product Image 80px</p> 
+<!-- Mini Product Image 80-->
+<img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 80px; height: 80px; object-fit: cover;">
+
+<hr>
+<p>Mini Product Image 70px</p> 
+<!-- Mini Product Image 70-->
+<img src="img/products/Frame 1.png" class="product-img rounded" style="width: 70px; height: 70px; object-fit: cover;" /></td>
+
+    </div>
+    <!-- END BOX -->
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Product Badge</h3>
+<!-- Product Badge -->
+<div class="badge-container-on">
+    <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+    <span class="product-badge badge-new">New</span>
+    <span class="product-badge badge-best">🔥BEST SELLER</span>
+    <span class="product-badge badge-discount">-50%</span>
+    <span class="product-badge badge-sale">SALE</span>
+    <span class="product-badge badge-hot">🌶 HOT</span>
+    <span class="product-badge badge-star">⭐️ 5</span>
+</div>
+
+    </div>
+    <!-- END BOX -->
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Wishlist and Compare</h3>
+<!-- Wishlist and Compare -->
+<div class="img-btn-container-on">
+    <span class="wish-btn">💖</span>
+    <span class="compare-btn">⚖️</span>
+</div>
+
+    </div>
+    <!-- END BOX -->
+
+
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Product Title</h3>
+<!-- Product Title -->
+<a href="single-product.html" target="_blank" class="text-decoration-none">
+    <h4 class="product-name fw-semibold my-3" title="Seventh Chakra Rama Krishna Incense">
+        Seventh Chakra Rama Krishna Incense
+    </h4>
+</a>
+
+    </div>
+    <!-- END BOX -->
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Artibutes</h3>
+<!-- Artibutes -->
+<ul class="attributes-card mt-auto"> 
+    <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+    <li><a href="category-archive.html" class="text-decoration-none">Category</a></li>
+</ul>
+<!-- END Artibutes -->
+
+    </div>
+    <!-- END BOX -->
+
+        <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Short Description</h3>
+<!-- Short Description -->
+<p class="arhive-short-description">
+    A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity. A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity.
+</p>
+
+    </div>
+    <!-- END BOX -->
+
+    <!-- BOX -->
+    <div class="box mb-3">
+
+<h3>Price</h3>
+
+<hr>
+
+<p>Simple Product Price</p> 
+<!-- Simple Product Price Block -->
+<div class="price mt-auto">
+    <span class="fw-bold final-price">
+      <span class="currency-symbol">₹</span>
+      <span class="final-price price-value" data-inr="100">100</span>
+    </span>
+    <span class="text-decoration-line-through text-danger original-price ms-2">
+      <span class="currency-symbol">₹</span>
+      <span class="original-price price-value" data-inr="200">200</span>
+    </span>
+</div>
+
+<!-- Simple Product Price Block -->
+<div class="price mt-auto">
+    <span class="fw-bold final-price">
+      <span class="currency-symbol">₹</span>
+      <span class="final-price price-value" data-inr="100">100</span>
+    </span>
+</div>
+
+<hr>
+
+<p>Variation Variation Price</p>
+<!-- Variation Product Price Block -->
+<div class="price variation-price mt-3">
+    <div class="d-flex justify-content-between">
+      <span class="min">Min:</span>
+      <span>
+        <span class="currency-symbol">₹</span>
+        <span class="min-price price-value" data-inr="999.999">999.999</span>
+      </span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span class="max">Max:</span>
+      <span>
+        <span class="currency-symbol">₹</span>
+        <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+      </span>
+    </div>
+</div>
+
+    </div>
+    <!-- END BOX -->
+    <!-- BOX -->
+    <div class="box mb-3">
+        
+<h3>Input Group</h3>
+
+<hr>
+
+<p>One Row Input Group</p>
+<!-- One Row Input Group -->
+<div class="input-group ms-auto mb-2">
+    <button class="btn btn-outline-secondary" type="button">-</button>
+    <input type="number" class="form-control text-center" value="1">
+    <button class="btn btn-outline-secondary" type="button">+</button>
+    <button class="add-to-cart btn btn-success">ADD</button>
+</div>
+
+<hr>
+
+<p>Two Rows Input Group</p>
+<!-- One Row Input Group -->
+<div class="input-group mb-3">
+        <button class="btn btn-outline-secondary" type="button">-</button>
+        <input type="number" class="form-control text-center" value="1" >
+        <button class="btn btn-outline-secondary" type="button">+</button>
+</div>
+<div class="input-group mb-3">
+    <button class="btn btn-success w-100">Add to Cart</button>
+</div>
+
+<hr>
+
+<p>Mini Input Group</p>
+<!-- One Row Input Group -->
+<div class="input-group input-group-sm" style="max-width: 200px;">
+    <button class="btn btn-outline-secondary" type="button">-</button>
+    <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+    <button class="btn btn-outline-secondary" type="button">+</button>
+    <button class="btn btn-success btn-sm">Add</button>
+</div>
+
+<hr>
+
+<p>Select Button</p>
+<!-- Select Button -->
+<div class="input-group mb-3">
+    <button class="btn btn-success w-100">Select Option</button>
+</div>
+
+<hr>
+
+<p>Mini Select Button</p>
+<!-- Mini Input Button -->
+<div class="input-group input-group-sm" style="max-width: 200px;">
+    <button class="btn btn-success btn-sm">Select</button>
+</div>
+
+<hr>
+
+<p>Sidebar Cart Input Group</p>
+<!-- Sidebar Cart Input Group  -->
+<div class="input-group input-group-sm d-flex justify-content-end">
+    <button class="btn btn-outline-secondary" type="button">-</button>
+    <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+    <button class="btn btn-outline-secondary" type="button">+</button>
+    <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+</div>
+
+
+
+    </div>
+    <!-- END BOX -->
+
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- END box 2 колонки -->
+
+
+
+
+
+<!-- mobile bottom bar -->
+<div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+        <!-- Ряд с горизонтальной прокруткой -->
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+            <button class="btn-box" aria-label="Login">
+                <span class="icon">🪪</span>
+                <span class="btn-title">Hi! Mr. Nickson</span>
+            </button>
+            <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                <span class="icon">🛒</span>
+                <span class="badge">99</span>
+                <span class="btn-title">157.716</span>
+            </button>
+            <!-- Currency Button -->
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
+            </div>
+            <!-- Language Button -->
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <button class="btn-box" aria-label="Wishlist" style="min-width: 50px;">
+                <span class="icon">💖</span>
+                <span class="badge">25</span>
+            </button>
+            <button class="btn-box" aria-label="Compare products" style="min-width: 50px;">
+                <span class="icon">⚖️</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Notifications" style="min-width: 50px;">
+                <span class="icon">🔔</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Coins" style="min-width: 50px;">
+                <span class="icon">💰</span>
+                <span class="badge">99</span>
+            </button>
+        </div>
+</div>
+<!-- END mobile bottom bar -->
+
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Слайдер товара с лайтбоксом</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Swiper CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet" />
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+  <!-- GLightbox CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+  <!-- GLightbox JS -->
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: sans-serif;
+     padding: 30px;
+    }
+
+    .product-slider {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .single-product-slider {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .single-product-slider .swiper-slide img {
+      height: 500px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .thumbs-slider {
+      margin-top: 15px;
+    }
+
+    .thumbs-slider .swiper-slide {
+      height: 80px;
+      width: 80px !important;
+      opacity: 0.6;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .thumbs-slider .swiper-slide-thumb-active {
+      opacity: 1;
+      border-color: #0d6efd;
+    }
+
+    .thumbs-slider img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="product-slider text-center">
+  <!-- Main Swiper -->
+  <div class="swiper single-product-slider">
+    <div class="swiper-wrapper">
+      
+        <div class="swiper-slide">
+          <a href="img/products/0402046.jpg" class="glightbox" data-gallery="product-gallery">
+            <img src="img/products/0402046.jpg" class="img-fluid" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="img/products/back-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
+            <img src="img/products/back-1800x1800-1.jpg" class="img-fluid" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="img/products/edit-62-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
+            <img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid" />
+          </a>
+        </div>
+
+      
+    </div>
+  </div>
+
+    <!-- Thumbs -->
+    <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" style="width: 50px">
+          <img src="img/products/0402046.jpg" class="img-fluid rounded border border-secondary" />
+        </div>
+        <div class="swiper-slide" style="width: 50px">
+          <img src="img/products/back-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" />
+        </div>
+        <div class="swiper-slide" style="width: 50px">
+          <img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" />
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const thumbsSwiper = new Swiper(".thumbs-slider", {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      watchSlidesProgress: true,
+    });
+
+    const mainSwiper = new Swiper(".single-product-slider", {
+      spaceBetween: 10,
+      loop: true,
+      thumbs: {
+        swiper: thumbsSwiper,
+      },
+    });
+
+    const lightbox = GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: true,
+      zoomable: true,
+    });
+  });
+</script>
+
+</body>
+</html>
