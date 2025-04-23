@@ -231,6 +231,19 @@
         <div class="swiper brand-slider">
             <div class="swiper-wrapper py-3">
 
+                {% for slide in sliders %}
+
+                <div class="swiper-slide item-box">
+
+                    <a href="{% url 'brand-name' slide.slug %}"><img src="{{ slide.image.url }}" alt="{{ slide.name }}"></a>
+
+
+                    <div class="item-title"><a href="{% url 'brand-name' slide.slug %} ">{{ slide.name }}</a></div>
+
+                </div>
+
+                {% endfor %}
+
                 <div class="swiper-slide item-box">
                     <img src="{% static 'site_app/img/brand/albert david.png' %}" alt="Albert David">
                     <a href="product-archive.html" class="item-title">Albert David</a>
@@ -254,11 +267,6 @@
                 <div class="swiper-slide item-box">
                     <img src="{% static 'site_app/img/brand/Himalaya logo.png' %}" alt="Himalaya">
                     <a href="product-archive.html" class="item-title">Himalaya</a>
-                </div>
-
-                <div class="swiper-slide item-box">
-                    <img src="{% static 'site_app/img/brand/isha-logo-512.png' %}" alt="Isha Life">
-                    <a href="product-archive.html" class="item-title">Isha Life</a>
                 </div>
 
                 <div class="swiper-slide item-box">
