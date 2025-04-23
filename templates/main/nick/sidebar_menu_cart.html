@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Боковое меню корзины -->
     <div id="cartMenu" class="cart cart-menu d-flex flex-column">
-        <div class="bg-white d-flex align-items-center justify-content-between p-3 border-bottom">
+        <div class="d-flex align-items-center justify-content-between p-3">
             <h4 class="mb-0">🛒 Your shopping cart</h4>
             <button class="close-cart-btn">✖</button>
         </div>
@@ -12,36 +12,220 @@
         <div class="cart-items flex-grow-1 overflow-auto">
 
             <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product"
-                     class="product-img rounded" style="width: 80px; height: 80px; object-fit: cover;">
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
                 <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
                     </div>
                 </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIDEBAR CART PRODUCT CARD -->
+            <!-- SIDEBAR CART PRODUCT CARD -->
+            <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
+                <!-- Mini Product Image 90-->
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="Product" class="product-img rounded"
+                     style="width: 90px; height: 90px; object-fit: cover;">
+                <!-- Инфо о товаре -->
+                <div class="flex-grow-1 d-flex flex-column justify-content-between">
+                    <!-- Название -->
+                    <a href="single-product.html" target="_blank" class="text-decoration-none">
+                        <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
+                            Seventh Chakra Rama Krishna Incense
+                        </h5>
+                    </a>
+                    <!-- Simple Product Price Block -->
+                    <div class="price d-flex justify-content-end">
+                        <span class="fw-bold final-price">
+                          <span class="currency-symbol">₹</span>
+                          <span class="final-price price-value" data-inr="100">100</span>
+                        </span>
+                    </div>
+                    <!-- Кол-во и кнопка Add — прижаты вниз и вправо -->
+                    <div class="input-group input-group-sm d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
+                    </div>
+                </div>
             </div>
             <!-- END SIDEBAR CART PRODUCT CARD -->
 
         </div>
 
         <!-- Фиксированный блок с итогами и кнопками -->
-        <div class="cart-content bg-white p-3 border-top">
+        <div class="cart-content p-3">
             <p>Items in cart: <span id="cartItemCount">8</span></p>
             <p>Total: <span id="cartTotal">6,460 ₹</span></p>
             <button class="btn btn-primary w-100 mb-2">Place an order</button>

@@ -1,0 +1,123 @@
+{% extends 'main/nick/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!-- 1 box 3 колонки -->
+<div class="container-fluid px-3">
+    <div class="row">
+
+        <!-- Первая колонка с вертикальным меню -->
+        {% include 'main/nick/vertical_menu_one.html' %}
+
+        <!-- Вторая колонка со слайдером -->
+        {% include 'sliders/main_slider.html' %}
+
+        <!-- Третья колонка Блог Слайдер -->
+        {% include 'sliders/blog_slider.html' %}
+
+    </div>
+</div>
+<!-- END 1 box 3 колонки -->
+
+<!-- 2 box 2 колонки -->
+<div class="container-fluid p-3">
+    
+    <div class="row">
+
+        <!-- Первая колонка с вертикальным меню -->
+        {% include 'main/nick/sticky_sidebar.html' %}
+        <!-- END Первая колонка с вертикальным меню -->
+
+        <!-- Вторая колонка -->
+        {% include 'main/nick/second_column.html' %}
+        <!-- end Вторая колонка -->
+
+    </div>
+</div>
+<!-- END 2 box 2 колонки -->
+
+
+
+
+
+<!-- OFFCANVAS -->
+<div class="offcanvas-container">
+
+    <!-- SIDE MENU -->
+    {% include 'main/nick/side_menu.html' %}
+    <!-- END SIDE MENU -->
+    
+    <!-- Оверлей -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Боковое меню корзины -->
+    {% include 'main/nick/sidebar_menu_cart.html' %}
+    <!-- END Боковое меню корзины -->
+
+<!-- Оверлей для корзины -->
+<div id="cartOverlay" class="overlay"></div>
+
+</div>
+<!-- END OFFCANVAS -->
+
+
+
+<!-- mobile bottom bar -->
+<div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+        <!-- Ряд с горизонтальной прокруткой -->
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+            <button class="btn-box" aria-label="Login">
+                <span class="icon">🔑</span>
+                <span class="btn-title">Login</span>
+            </button>
+            <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                <span class="icon">🛒</span>
+                <span class="badge">99</span>
+                <span class="btn-title">157.716</span>
+            </button>
+            <!-- Currency Button -->
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
+            </div>
+            <!-- Language Button -->
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <button class="btn-box" aria-label="Wishlist" style="min-width: 60px;">
+                <span class="icon">💖</span>
+                <span class="badge">25</span>
+            </button>
+            <button class="btn-box" aria-label="Compare products" style="min-width: 60px;">
+                <span class="icon">⚖️</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Notifications" style="min-width: 60px;">
+                <span class="icon">🔔</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Coins" style="min-width: 60px;">
+                <span class="icon">💰</span>
+                <span class="badge">99</span>
+            </button>
+        </div>
+</div>
+<!-- END mobile bottom bar -->
+
+
+{% endblock %}

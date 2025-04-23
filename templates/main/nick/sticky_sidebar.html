@@ -3,7 +3,7 @@
 
 {% block content %}
     <!-- Первая колонка с вертикальным меню -->
-    <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-block">
+    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-none d-lg-block">
 
         <!-- Липкий сайдбар баннер -->
         <div class="side-banner mb-3 sticky-top">
@@ -12,20 +12,111 @@
             <div class="position-relative overflow-hidden shadow banner-container mb-3">
                 <!-- Фоновое изображение -->
                 <img src="{% static 'site_app/img/banner/Tote Bag Mockup Hanging.jpeg' %}"
-                     alt="Летняя распродажа товаров из Индии" class="banner-image">
+                     alt="Летняя распродажа товаров из Индии" class="banner-image w-100">
                 <!-- Контент поверх картинки -->
                 <div class="position-relative text-white p-3 d-flex flex-column justify-content-between h-100 banner-content">
                     <div>
                         <h5 class="fw-bold banner-title">🔥 Summer Sale</h5>
                         <p class="mb-3">Discounts up to 50% on the best products from India!</p>
                     </div>
-                    <a href="#" class="btn btn-warning text-dark fw-bold mt-auto">Go to stocks</a>
+                    <a href="promo.html" class="btn btn-warning fw-bold mt-auto">Go to stocks</a>
                 </div>
             </div>
             <!-- END баннер -->
 
+            <!-- NOW IN GOA WIDGET -->
+            <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
+
+                <!-- Top row: title and theme toggle -->
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <h5 class="city-name mb-0">Now in Goa, India</h5>
+
+                    <label class="switch">
+                        <input type="checkbox" class="theme-toggle">
+                        <span class="slider round"></span>
+                    </label>
+
+                </div>
+
+                <!-- Time and day/night icon -->
+                <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                    <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                    <span id="day-icon" class="fs-4">🌞</span>
+                </div>
+
+                <!-- Sunrise and sunset -->
+                <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                    <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                    <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                </div>
+
+                <!-- Temperature and weather -->
+                <div class="d-flex align-items-center gap-3 pt-2">
+                    <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                    <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                         style="max-width: 40px; height: auto;">
+                    <div id="weather-desc" class="fw-light">--</div>
+                </div>
+
+            </div>
+            <!-- END NOW IN GOA WIDGET -->
+
+            <!-- FLIGHT BANNER TO INDIA -->
+            <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                <!-- Эмодзи -->
+                <div class="fs-1">✈️</div>
+                <!-- Текст -->
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-truncate">Flights to India</h5>
+                    <a href="avia.html" class="fw-semibold">Find tickets</a>
+                </div>
+            </div>
+            <!-- END FLIGHT BANNER -->
+
+            <!-- FLIGHT BANNER TO INDIA -->
+            <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                <!-- Эмодзи -->
+                <div class="fs-1">🏝️</div>
+                <!-- Текст -->
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-truncate">Excursions in Goa</h5>
+                    <a href="goa-tour.html" class="fw-semibold">Find a tour</a>
+                </div>
+            </div>
+            <!-- END FLIGHT BANNER -->
+
+            <!-- CURRENCY CONVERTER WIDGET -->
+            <div id="currency-widget" class="box p-4 rounded shadow-sm mb-4">
+                <h5 class="mb-3">INR Indian Rupees</h5>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" id="inr-amount" class="form-control" placeholder="Например, 1000"
+                               value="1000" min="0">
+                    </div>
+                </div>
+
+                <div id="converted-results" class="p-0">
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <span>$ USD:</span>
+                        <span id="usd-result">$ --</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <span>€ EUR:</span>
+                        <span id="eur-result">€ --</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-2">
+                        <span>₽ RUB:</span>
+                        <span id="rub-result">₽ --</span>
+                    </div>
+                </div>
+                <a href="currency.html">View all</a>
+            </div>
+
         </div>
         <!-- END Липкий сайдбар баннер -->
+
 
     </div>
     <!-- END Первая колонка с вертикальным меню -->
