@@ -59,600 +59,405 @@
 13 750 рупий
 
 -->
+{% extends 'main/nick/base.html' %}
+{% load static %}
 
-<!doctype html>
-<html class="no-js" lang="en-US">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Index 1-4</title>
-    <meta name="description" content="E-commerce store for Indian products">
-    <meta name="keywords" content="E-commerce, India, Goods">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Отступ под фиксированную шапку -->
+<div class="header-offset"></div>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/icon/logo.svg">
+<!-- Основной контент -->
+<div class="container-fluid px-3 py-4">
+    <div class="row">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+        <!-- Левая колонка (меню и виджеты) -->
+        <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-none d-lg-block">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-        crossorigin="anonymous">
-
-    <!-- Bootstrap Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-        crossorigin="anonymous"></script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/style-header.css">
-    <link rel="stylesheet" href="css/style-product.css">
-    <link rel="stylesheet" href="css/style-admin.css">
-    <link rel="stylesheet" href="css/style-sliders.css">
-    <link rel="stylesheet" href="css/style-offcanvas.css">
-
-    <!-- Custom JS -->
-    <script src="assets/js/custom.js" defer></script>
-    <script src="assets/js/header.js" defer></script>
-    <script src="assets/js/sliders.js" defer></script>
-    <script src="assets/js/converter.js" defer></script>
-    <script src="assets/js/widgets.js" defer></script>
-
-</head>
-
-<body>
-    <!-- HEADER -->
-    <header class="container-fluid header w-100 position-fixed top-0 start-0 shadow-sm" style="z-index: 1050;">
-        <!-- Верхний баннер -->
-        <div class="row top-bar align-items-center">
-            <div class="col-12 d-flex justify-content-between align-items-center px-3">
-                <span class="text-center text-md-start">
-                    🎁 Discount on your first order!
-                    <a href="/sale" class="text-decoration-none text-white">💸 Learn more →</a>
-                </span>
-                <button class="btn-close" aria-label="Close">❎</button>
+            <!-- VERTICAL MENU -->
+            <div class="vertical-menu">
+                <h5 class="v-menu-title fw-bold text-uppercase">Delivery of Goods from India</h5>
+                <ul class="list-group">
+                    <li><a class="list-item" href="#">📂 Product Catalog</a></li>
+                    <li><a class="list-item" href="#">🐘 Buy the Elephant</a></li>
+                    <li><a class="list-item" href="#">🛺 How we work</a></li>
+                    <li><a class="list-item" href="#">💎 Brands</a></li>
+                    <li><a class="list-item" href="#">🚢 Wholesale</a></li>
+                    <li><a class="list-item" href="#">🪬 Hand Made</a></li>
+                    <li><a class="list-item" href="#">🔖 Sales</a></li>
+                    <li><a class="list-item" href="#">🔥 Best Sellers</a></li>
+                    <li><a class="list-item" href="#">👍🏻 Recommended</a></li>
+                    <li><a class="list-item" href="#">🎁 Gifts</a></li>
+                    <li><a class="list-item" href="#">📣 Promo</a></li>
+                    <li><a class="list-item" href="#">📜 All Products</a></li>
+                </ul>
             </div>
-        </div>
+            <!-- END VERTICAL MENU -->
 
-        <!-- Десктоп версия -->
-        <div class="row d-none d-lg-none d-xl-flex px-3">
-            <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
-                <!-- Лого и меню -->
-                <div class="d-flex w-auto" style="gap: 10px;">
-                    <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
-                    <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
-                </div>
-                <!-- Поиск -->
-                <div class="search-box d-flex align-items-center">
-                    <select class="form-select category-select">
-                        <option>👉🏼 All categories</option>
-                        <option>👉🏼 Clothing</option>
-                        <option>👉🏼 Footwear</option>
-                        <option>👉🏼 Accessories</option>
-                        <option>👉🏼 Beauty & Health</option>
-                        <option>👉🏼 Home & Living</option>
-                    </select>
-                    <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
-                    <button class="btn btn-primary search-btn">Let's GO!</button>
-                </div>
-                <!-- Иконки действий -->
-                <div class="d-flex py-3" style="gap: 10px;">
-                    <div class="btn-box" aria-label="Currency">
-                        <span class="icon">💵</span>
-                        <select class="currency-select">
-                            <option value="INR" selected>₹ INR</option>
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="RUB">₽ RUB</option>
-                        </select>
-                    </div>
-                    <div class="btn-box" aria-label="Language">
-                        <span class="icon">🌐</span>
-                        <select class="language-select">
-                            <option value="en" selected>English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
-                            <option value="ru">Русский</option>
-                            <option value="hi">हिन्दी</option>
-                            <option value="zh">中文</option>
-                        </select>
-                    </div>
-                    <button class="btn-box" aria-label="Wishlist">💖<span class="badge">25</span></button>
-                    <button class="btn-box" aria-label="Compare products">⚖️<span class="badge">10</span></button>
-                    <button class="btn-box" aria-label="Notifications">🔔<span class="badge">10</span></button>
-                    <button class="btn-box" aria-label="Coins">💰<span class="badge">99</span></button>
-                    <button class="btn-box open-cart-btn" aria-label="Shopping cart">
-                        <span class="icon">🛒</span>
-                        <span class="badge">99</span>
-                        <span class="btn-title">157.716</span>
-                    </button>
-                    <button class="btn-box" aria-label="Login">🔑<span class="btn-title">Login</span></button>
-                </div>
-            </div>
-        </div>
+            <!-- Липкий сайдбар баннер -->
+            <div class="side-banner my-3">
 
-        <!-- Мобильная версия -->
-        <div class="mobile-header d-flex d-md-none flex-column">
-            <div class="d-flex align-items-center py-1 w-100 justify-content-between">
-                <div class="d-flex w-auto">
-                    <img src="img/logo/logo.svg" alt="Goabay Logo" height="40">
-                </div>
-                <div class="d-flex flex-grow-1 px-2">
-                    <div class="search-box d-flex align-items-center w-100">
-                        <input type="text" class="form-control search-input" placeholder="🤔 Search">
-                        <button class="btn btn-primary search-btn">GO!</button>
-                    </div>
-                </div>
-                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
-            </div>
-        </div>
-
-        <!-- Планшетная версия -->
-        <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
-            <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
-                <div class="d-flex w-auto" style="gap: 10px;">
-                    <img src="img/logo/logo-25.svg" alt="Goabay Logo" height="40">
-                    <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
-                </div>
-                <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
-                    <button class="btn-box" aria-label="Login" style="min-width: 80px;">
-                        <span class="icon">🔑</span>
-                        <span class="btn-title">Login</span>
-                    </button>
-                    <button class="btn-box open-cart-btn" aria-label="Shopping cart">
-                        <span class="icon">🛒</span>
-                        <span class="badge">99</span>
-                        <span class="btn-title">157.716</span>
-                    </button>
-                    <div class="btn-box" aria-label="Currency">
-                        <span class="icon">💵</span>
-                        <select id="currency-select" class="currency-select">
-                            <option value="INR" selected>₹ INR</option>
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="RUB">₽ RUB</option>
-                        </select>
-                    </div>
-                    <div class="btn-box" aria-label="Language">
-                        <span class="icon">🌐</span>
-                        <select id="language-select" class="language-select">
-                            <option value="en" selected>English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
-                            <option value="ru">Русский</option>
-                            <option value="hi">हिन्दी</option>
-                            <option value="zh">中文</option>
-                        </select>
-                    </div>
-                    <button class="btn-box" aria-label="Wishlist">
-                        <span class="icon">💖</span>
-                        <span class="badge">25</span>
-                    </button>
-                    <button class="btn-box" aria-label="Compare products">
-                        <span class="icon">⚖️</span>
-                        <span class="badge">10</span>
-                    </button>
-                    <button class="btn-box" aria-label="Notifications">
-                        <span class="icon">🔔</span>
-                        <span class="badge">10</span>
-                    </button>
-                    <button class="btn-box" aria-label="Coins">
-                        <span class="icon">💰</span>
-                        <span class="badge">99</span>
-                    </button>
-                </div>
-            </div>
-            <div class="d-flex align-items-center pb-2 w-100 justify-content-between">
-                <div class="d-flex flex-grow-1">
-                    <div class="search-box d-flex align-items-center">
-                        <select class="form-select category-select">
-                            <option>👉🏼 All categories</option>
-                            <option>👉🏼 Clothing</option>
-                            <option>👉🏼 Footwear</option>
-                            <option>👉🏼 Accessories</option>
-                            <option>👉🏼 Beauty & Health</option>
-                            <option>👉🏼 Home & Living</option>
-                        </select>
-                        <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
-                        <button class="btn btn-primary search-btn">Lets GO!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- END HEADER -->
-
-    <!-- Отступ под фиксированную шапку -->
-    <div class="header-offset"></div>
-
-    <!-- Основной контент -->
-    <div class="container-fluid px-3 py-4">
-        <div class="row">
-            
-            <!-- Левая колонка (меню и виджеты) -->
-            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 col-xxl-2 d-none d-lg-block">
-                
-                <!-- VERTICAL MENU -->
-                <div class="vertical-menu">
-                    <h5 class="v-menu-title fw-bold text-uppercase">Delivery of Goods from India</h5>
-                    <ul class="list-group">
-                        <li><a class="list-item" href="#">📂 Product Catalog</a></li>
-                        <li><a class="list-item" href="#">🐘 Buy the Elephant</a></li>
-                        <li><a class="list-item" href="#">🛺 How we work</a></li>
-                        <li><a class="list-item" href="#">💎 Brands</a></li>
-                        <li><a class="list-item" href="#">🚢 Wholesale</a></li>
-                        <li><a class="list-item" href="#">🪬 Hand Made</a></li>
-                        <li><a class="list-item" href="#">🔖 Sales</a></li>
-                        <li><a class="list-item" href="#">🔥 Best Sellers</a></li>
-                        <li><a class="list-item" href="#">👍🏻 Recommended</a></li>
-                        <li><a class="list-item" href="#">🎁 Gifts</a></li>
-                        <li><a class="list-item" href="#">📣 Promo</a></li>
-                        <li><a class="list-item" href="#">📜 All Products</a></li>
-                    </ul>
-                </div>
-                <!-- END VERTICAL MENU -->
-
-                <!-- Липкий сайдбар баннер -->
-                <div class="side-banner my-3">
-                    
-                    <!-- баннер -->
-                    <div class="position-relative overflow-hidden shadow banner-container mb-3">
-                        <!-- Фоновое изображение -->
-                        <img src="img/banner/Tote Bag Mockup Hanging.jpeg" alt="Летняя распродажа товаров из Индии" class="banner-image w-100">
-                        <!-- Контент поверх картинки -->
-                        <div class="position-relative text-white p-3 d-flex flex-column justify-content-between h-100 banner-content">
-                            <div>
-                                <h5 class="fw-bold banner-title">🔥 Summer Sale</h5>
-                                <p class="mb-3">Discounts up to 50% on the best products from India!</p>
-                            </div>
-                            <a href="promo.html" class="btn btn-warning fw-bold mt-auto">Go to stocks</a>
+                <!-- баннер -->
+                <div class="position-relative overflow-hidden shadow banner-container mb-3">
+                    <!-- Фоновое изображение -->
+                    <img src="img/banner/Tote Bag Mockup Hanging.jpeg" alt="Летняя распродажа товаров из Индии"
+                         class="banner-image w-100">
+                    <!-- Контент поверх картинки -->
+                    <div class="position-relative text-white p-3 d-flex flex-column justify-content-between h-100 banner-content">
+                        <div>
+                            <h5 class="fw-bold banner-title">🔥 Summer Sale</h5>
+                            <p class="mb-3">Discounts up to 50% on the best products from India!</p>
                         </div>
+                        <a href="promo.html" class="btn btn-warning fw-bold mt-auto">Go to stocks</a>
                     </div>
-                    <!-- END баннер -->
+                </div>
+                <!-- END баннер -->
 
-                    <!-- NOW IN GOA WIDGET -->
-                    <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
+                <!-- NOW IN GOA WIDGET -->
+                <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
 
-                      <!-- Top row: title and theme toggle -->
-                      <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <!-- Top row: title and theme toggle -->
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
                         <h5 class="city-name mb-0">Now in Goa, India</h5>
-                        
-                        <label class="switch">
-                          <input type="checkbox" class="theme-toggle">
-                          <span class="slider round"></span>
-                        </label>
-                                            
-                      </div>
 
-                      <!-- Time and day/night icon -->
-                      <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                        <label class="switch">
+                            <input type="checkbox" class="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+
+                    </div>
+
+                    <!-- Time and day/night icon -->
+                    <div class="d-flex align-items-center gap-3 border-bottom py-2">
                         <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
                         <span id="day-icon" class="fs-4">🌞</span>
-                      </div>
+                    </div>
 
-                      <!-- Sunrise and sunset -->
-                      <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                    <!-- Sunrise and sunset -->
+                    <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
                         <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
                         <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
-                      </div>
+                    </div>
 
-                      <!-- Temperature and weather -->
-                      <div class="d-flex align-items-center gap-3 pt-2">
+                    <!-- Temperature and weather -->
+                    <div class="d-flex align-items-center gap-3 pt-2">
                         <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
-                        <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid" style="max-width: 40px; height: auto;">
+                        <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                             style="max-width: 40px; height: auto;">
                         <div id="weather-desc" class="fw-light">--</div>
-                      </div>
-
-                    </div>
-                    <!-- END NOW IN GOA WIDGET -->
-
-                    <!-- FLIGHT BANNER TO INDIA -->
-                    <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
-                      <!-- Эмодзи -->
-                      <div class="fs-1">✈️</div>
-                      <!-- Текст -->
-                      <div class="flex-grow-1">
-                        <h5 class="mb-1 text-truncate">Flights to India</h5>
-                        <a href="avia.html" class="fw-semibold">Find tickets</a>
-                      </div>
-                    </div>
-                    <!-- END FLIGHT BANNER -->
-
-                    <!-- FLIGHT BANNER TO INDIA -->
-                    <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
-                      <!-- Эмодзи -->
-                      <div class="fs-1">🏝️</div>
-                      <!-- Текст -->
-                      <div class="flex-grow-1">
-                        <h5 class="mb-1 text-truncate">Excursions in Goa</h5>
-                        <a href="goa-tour.html" class="fw-semibold">Find a tour</a>
-                      </div>
-                    </div>
-                    <!-- END FLIGHT BANNER -->
-
-                    <!-- CURRENCY CONVERTER WIDGET -->
-                    <div id="currency-widget" class="box p-4 rounded shadow-sm mb-4">
-                      <h5 class="mb-3">INR Indian Rupees</h5>
-
-                      <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text">₹</span>
-                          <input type="number" id="inr-amount" class="form-control" placeholder="Например, 1000" value="1000" min="0">
-                        </div>
-                      </div>
-
-                      <div id="converted-results" class="p-0">
-                        <div class="d-flex justify-content-between border-bottom pb-2">
-                          <span>$ USD:</span>
-                          <span id="usd-result">$ --</span>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom py-2">
-                          <span>€ EUR:</span>
-                          <span id="eur-result">€ --</span>
-                        </div>
-                        <div class="d-flex justify-content-between py-2">
-                          <span>₽ RUB:</span>
-                          <span id="rub-result">₽ --</span>
-                        </div>
-                      </div>
-                      <a href="currency.html">View all</a>
                     </div>
 
                 </div>
-                <!-- END Липкий сайдбар баннер -->
+                <!-- END NOW IN GOA WIDGET -->
+
+                <!-- FLIGHT BANNER TO INDIA -->
+                <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                    <!-- Эмодзи -->
+                    <div class="fs-1">✈️</div>
+                    <!-- Текст -->
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1 text-truncate">Flights to India</h5>
+                        <a href="avia.html" class="fw-semibold">Find tickets</a>
+                    </div>
+                </div>
+                <!-- END FLIGHT BANNER -->
+
+                <!-- FLIGHT BANNER TO INDIA -->
+                <div class="flight-banner box p-3 rounded shadow-sm d-flex gap-4 mb-4 flex-wrap">
+                    <!-- Эмодзи -->
+                    <div class="fs-1">🏝️</div>
+                    <!-- Текст -->
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1 text-truncate">Excursions in Goa</h5>
+                        <a href="goa-tour.html" class="fw-semibold">Find a tour</a>
+                    </div>
+                </div>
+                <!-- END FLIGHT BANNER -->
+
+                <!-- CURRENCY CONVERTER WIDGET -->
+                <div id="currency-widget" class="box p-4 rounded shadow-sm mb-4">
+                    <h5 class="mb-3">INR Indian Rupees</h5>
+
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" id="inr-amount" class="form-control" placeholder="Например, 1000"
+                                   value="1000" min="0">
+                        </div>
+                    </div>
+
+                    <div id="converted-results" class="p-0">
+                        <div class="d-flex justify-content-between border-bottom pb-2">
+                            <span>$ USD:</span>
+                            <span id="usd-result">$ --</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom py-2">
+                            <span>€ EUR:</span>
+                            <span id="eur-result">€ --</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2">
+                            <span>₽ RUB:</span>
+                            <span id="rub-result">₽ --</span>
+                        </div>
+                    </div>
+                    <a href="currency.html">View all</a>
+                </div>
 
             </div>
+            <!-- END Липкий сайдбар баннер -->
 
-            <!-- Правая колонка (основной контент) -->
-            <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10 col-xxl-10">
+        </div>
 
-
-<h2 class="h3 fw-bold mb-2">Shipping Options from India</h2>
-<p>Sending parcels is done in coordination with the buyer by the following postal services:</p>
-
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-<!-- India Post -->
-<div class="col">
-
-  <div class="box h-100">
-
-    <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
-
-    <div class="card-body">
-      
-      <span class="text-muted d-block mb-2">Budget Delivery</span>
-
-      <div class="border-top pt-2 mt-2">
-        <strong>Cost:</strong> ₹6,500 / 10kg
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Delivery time:</strong> 14–35 days
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Availability:</strong> Businesses & Individuals
-      </div>
-      <div class="border-top pt-2 mt-2 mb-3">
-        <strong>Restrictions:</strong> Size & content limits apply
-      </div>
-
-      <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
-    </div>
-
-  </div>
-  
-</div>
+        <!-- Правая колонка (основной контент) -->
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10 col-xxl-10">
 
 
-<!-- India Post -->
-<div class="col">
+            <h2 class="h3 fw-bold mb-2">Shipping Options from India</h2>
+            <p>Sending parcels is done in coordination with the buyer by the following postal services:</p>
 
-  <div class="box h-100">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-    <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
+                <!-- India Post -->
+                <div class="col">
 
-    <div class="card-body">
-      
-      <span class="text-muted d-block mb-2">Budget Delivery</span>
+                    <div class="box h-100">
 
-      <div class="border-top pt-2 mt-2">
-        <strong>Cost:</strong> ₹6,500 / 10kg
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Delivery time:</strong> 14–35 days
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Availability:</strong> Businesses & Individuals
-      </div>
-      <div class="border-top pt-2 mt-2 mb-3">
-        <strong>Restrictions:</strong> Size & content limits apply
-      </div>
+                        <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
 
-      <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
-    </div>
+                        <div class="card-body">
 
-  </div>
-  
-</div>
+                            <span class="text-muted d-block mb-2">Budget Delivery</span>
 
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Cost:</strong> ₹6,500 / 10kg
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Delivery time:</strong> 14–35 days
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Availability:</strong> Businesses & Individuals
+                            </div>
+                            <div class="border-top pt-2 mt-2 mb-3">
+                                <strong>Restrictions:</strong> Size & content limits apply
+                            </div>
 
-<!-- India Post -->
-<div class="col">
+                            <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
+                        </div>
 
-  <div class="box h-100">
+                    </div>
 
-    <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
-
-    <div class="card-body">
-      
-      <span class="text-muted d-block mb-2">Budget Delivery</span>
-
-      <div class="border-top pt-2 mt-2">
-        <strong>Cost:</strong> ₹6,500 / 10kg
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Delivery time:</strong> 14–35 days
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Availability:</strong> Businesses & Individuals
-      </div>
-      <div class="border-top pt-2 mt-2 mb-3">
-        <strong>Restrictions:</strong> Size & content limits apply
-      </div>
-
-      <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
-    </div>
-
-  </div>
-  
-</div>
-
-<!-- India Post -->
-<div class="col">
-
-  <div class="box h-100">
-
-    <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
-
-    <div class="card-body">
-      
-      <span class="text-muted d-block mb-2">Budget Delivery</span>
-
-      <div class="border-top pt-2 mt-2">
-        <strong>Cost:</strong> ₹6,500 / 10kg
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Delivery time:</strong> 14–35 days
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Availability:</strong> Businesses & Individuals
-      </div>
-      <div class="border-top pt-2 mt-2 mb-3">
-        <strong>Restrictions:</strong> Size & content limits apply
-      </div>
-
-      <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
-    </div>
-
-  </div>
-  
-</div>
+                </div>
 
 
-<!-- India Post -->
-<div class="col">
+                <!-- India Post -->
+                <div class="col">
 
-  <div class="box h-100">
+                    <div class="box h-100">
 
-    <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
+                        <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
 
-    <div class="card-body">
-      
-      <span class="text-muted d-block mb-2">Budget Delivery</span>
+                        <div class="card-body">
 
-      <div class="border-top pt-2 mt-2">
-        <strong>Cost:</strong> ₹6,500 / 10kg
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Delivery time:</strong> 14–35 days
-      </div>
-      <div class="border-top pt-2 mt-2">
-        <strong>Availability:</strong> Businesses & Individuals
-      </div>
-      <div class="border-top pt-2 mt-2 mb-3">
-        <strong>Restrictions:</strong> Size & content limits apply
-      </div>
+                            <span class="text-muted d-block mb-2">Budget Delivery</span>
 
-      <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
-    </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Cost:</strong> ₹6,500 / 10kg
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Delivery time:</strong> 14–35 days
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Availability:</strong> Businesses & Individuals
+                            </div>
+                            <div class="border-top pt-2 mt-2 mb-3">
+                                <strong>Restrictions:</strong> Size & content limits apply
+                            </div>
 
-  </div>
-  
-</div>
+                            <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
+                        </div>
 
+                    </div>
 
-  </div>
+                </div>
 
 
+                <!-- India Post -->
+                <div class="col">
+
+                    <div class="box h-100">
+
+                        <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
+
+                        <div class="card-body">
+
+                            <span class="text-muted d-block mb-2">Budget Delivery</span>
+
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Cost:</strong> ₹6,500 / 10kg
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Delivery time:</strong> 14–35 days
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Availability:</strong> Businesses & Individuals
+                            </div>
+                            <div class="border-top pt-2 mt-2 mb-3">
+                                <strong>Restrictions:</strong> Size & content limits apply
+                            </div>
+
+                            <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- India Post -->
+                <div class="col">
+
+                    <div class="box h-100">
+
+                        <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
+
+                        <div class="card-body">
+
+                            <span class="text-muted d-block mb-2">Budget Delivery</span>
+
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Cost:</strong> ₹6,500 / 10kg
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Delivery time:</strong> 14–35 days
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Availability:</strong> Businesses & Individuals
+                            </div>
+                            <div class="border-top pt-2 mt-2 mb-3">
+                                <strong>Restrictions:</strong> Size & content limits apply
+                            </div>
+
+                            <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
+                        </div>
+
+                    </div>
+
+                </div>
 
 
+                <!-- India Post -->
+                <div class="col">
 
+                    <div class="box h-100">
+
+                        <h5 class="v-menu-title fw-bold text-uppercase">📦 Indian Post</h5>
+
+                        <div class="card-body">
+
+                            <span class="text-muted d-block mb-2">Budget Delivery</span>
+
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Cost:</strong> ₹6,500 / 10kg
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Delivery time:</strong> 14–35 days
+                            </div>
+                            <div class="border-top pt-2 mt-2">
+                                <strong>Availability:</strong> Businesses & Individuals
+                            </div>
+                            <div class="border-top pt-2 mt-2 mb-3">
+                                <strong>Restrictions:</strong> Size & content limits apply
+                            </div>
+
+                            <a href="#" class="btn btn-outline-secondary w-100">Read more</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
             <!-- How We Work SLIDER -->
             <section class="swiper service-slider">
                 <h2 class="h3 fw-bold mb-2">How We Work</h2>
                 <div class="swiper-wrapper py-3">
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">👳🏽‍♂️</div>
-                        <div class="col-9">
-                          <div class="service-title">Free Consultation</div>
-                          <div class="description">The cost of delivery to your zip, you can always ask a question to the operator of one of any available contacts.</div>
-                          <a href="blog.html" class="catalog-link">READ MORE</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">👳🏽‍♂️</div>
+                            <div class="col-9">
+                                <div class="service-title">Free Consultation</div>
+                                <div class="description">The cost of delivery to your zip, you can always ask a question
+                                    to the operator of one of any available contacts.
+                                </div>
+                                <a href="blog.html" class="catalog-link">READ MORE</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">🏣</div>
-                        <div class="col-9">
-                          <div class="service-title">Warehouse in India</div>
-                          <div class="description">We will give you our address to receive your goods and send you to any country in the world.</div>
-                          <a href="product-archive.html" class="catalog-link">READ MORE</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">🏣</div>
+                            <div class="col-9">
+                                <div class="service-title">Warehouse in India</div>
+                                <div class="description">We will give you our address to receive your goods and send you
+                                    to any country in the world.
+                                </div>
+                                <a href="product-archive.html" class="catalog-link">READ MORE</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">🐘</div>
-                        <div class="col-9">
-                          <div class="service-title">Shipping Weight</div>
-                          <div class="description">Recommended maximum weight of one parcel: 10kg. Sending orders exceeding this provision will be a multiple of 10kg, in different parcels.</div>
-                          <a href="#" class="catalog-link">OPEN IN TELEGRAM</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">🐘</div>
+                            <div class="col-9">
+                                <div class="service-title">Shipping Weight</div>
+                                <div class="description">Recommended maximum weight of one parcel: 10kg. Sending orders
+                                    exceeding this provision will be a multiple of 10kg, in different parcels.
+                                </div>
+                                <a href="#" class="catalog-link">OPEN IN TELEGRAM</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">🚢</div>
-                        <div class="col-9">
-                          <div class="service-title">Bulky Goods</div>
-                          <div class="description">We also send bulky goods (furniture, home furnishings, fabrics) and more by sea.</div>
-                          <a href="app.html" class="catalog-link">DOWNLOAD APP</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">🚢</div>
+                            <div class="col-9">
+                                <div class="service-title">Bulky Goods</div>
+                                <div class="description">We also send bulky goods (furniture, home furnishings, fabrics)
+                                    and more by sea.
+                                </div>
+                                <a href="app.html" class="catalog-link">DOWNLOAD APP</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">⏰</div>
-                        <div class="col-9">
-                          <div class="service-title">Term of Dispatch</div>
-                          <div class="description">Sending orders (parcels) is usually carried out within 2-4 working days after agreement with the Buyer. In some cases, the time for dispatching the goods from India by post can be changed.</div>
-                          <a href="partner.html" class="catalog-link">JOIN PARTNER</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">⏰</div>
+                            <div class="col-9">
+                                <div class="service-title">Term of Dispatch</div>
+                                <div class="description">Sending orders (parcels) is usually carried out within 2-4
+                                    working days after agreement with the Buyer. In some cases, the time for dispatching
+                                    the goods from India by post can be changed.
+                                </div>
+                                <a href="partner.html" class="catalog-link">JOIN PARTNER</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="swiper-slide service-box">
-                      <div class="row w-100">
-                        <div class="col-3 box-icon">🎈</div>
-                        <div class="col-9">
-                          <div class="service-title">Package Tracking</div>
-                          <div class="description">While order is being shipped, the Buyer is provided a track-number to track the origin of goods online.</div>
-                          <a href="work.html" class="catalog-link">HOW WE WORK</a>
+                        <div class="row w-100">
+                            <div class="col-3 box-icon">🎈</div>
+                            <div class="col-9">
+                                <div class="service-title">Package Tracking</div>
+                                <div class="description">While order is being shipped, the Buyer is provided a
+                                    track-number to track the origin of goods online.
+                                </div>
+                                <a href="work.html" class="catalog-link">HOW WE WORK</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                 </div>
@@ -660,533 +465,357 @@
             <!-- END How We Work SLIDER -->
 
 
-
-
-
-
-  
-                <!-- Стоимость доставки -->
-                <section class="mb-5">
-                    <h2 class="h3 fw-bold mb-4">Cost of Delivery</h2>
-                    <div class="row row-cols-1 row-cols-md-2 g-4">
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title">💸 Cost of Delivery</h5>
-                                    <p>Determined by the weight of the postage and costs from $10 to $30 for the first kilogram, and $5 to $10 for each subsequent kilogram.</p>
-                                </div>
+            <!-- Стоимость доставки -->
+            <section class="mb-5">
+                <h2 class="h3 fw-bold mb-4">Cost of Delivery</h2>
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">💸 Cost of Delivery</h5>
+                                <p>Determined by the weight of the postage and costs from $10 to $30 for the first
+                                    kilogram, and $5 to $10 for each subsequent kilogram.</p>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title">📦 Packaging and Shipping Service Costs</h5>
-                                    <p>For items from India by post is ₹2,000 (for a shipment weighing 10.00kg). In individual cases, the cost of the service is subject to change.</p>
-                                </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">📦 Packaging and Shipping Service Costs</h5>
+                                <p>For items from India by post is ₹2,000 (for a shipment weighing 10.00kg). In
+                                    individual cases, the cost of the service is subject to change.</p>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title">🚁 Cost of Delivery to a Specific Point</h5>
-                                    <p>Ask for the exact cost of delivery to your zip, you can always ask a question to the operator in one of any available contacts.</p>
-                                </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">🚁 Cost of Delivery to a Specific Point</h5>
+                                <p>Ask for the exact cost of delivery to your zip, you can always ask a question to the
+                                    operator in one of any available contacts.</p>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title">⚠️ Attention!</h5>
-                                    <p>Please note that our company does not carry out consultations on customs clearance and certification of received items. We comply with customs regulations for export of goods from India through the postal services, while compliance with the rules of importation of goods is the full responsibility of the buyer.</p>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">⚠️ Attention!</h5>
+                                <p>Please note that our company does not carry out consultations on customs clearance
+                                    and certification of received items. We comply with customs regulations for export
+                                    of goods from India through the postal services, while compliance with the rules of
+                                    importation of goods is the full responsibility of the buyer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вопросы и ответы -->
+            <section class="mb-5">
+                <h2 class="h3 fw-bold mb-4">Questions & Answers</h2>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                                On which site to track the shipment?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can track the parcel on any tracking site. For the information on the movement of
+                                the shipment to appear in the tracking systems, it should take 7–14 days. Usually, this
+                                happens earlier—wait for the shipment data to be updated in the tracking systems. The
+                                full history of the movement of your parcel you can track by clicking on the link here:
+                                <a href="https://track24.ru" target="_blank">track24.ru</a>.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                                What to do if I receive the goods in a damaged condition?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Please contact our support team via any available contact method (TEL, EMAIL, VIBER,
+                                WHATSAPP, SKYPE, TELEGRAM) to report the issue. Provide photos of the damaged goods and
+                                the packaging, and we will assist you with the next steps, including possible refunds or
+                                replacements, subject to our terms and conditions.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                                What if the delivery of my order is late?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Delivery times may vary due to postal service delays or customs processing. Use the
+                                provided tracking number to monitor your parcel’s status. If the delivery exceeds the
+                                estimated time, contact our support team, and we will investigate the issue with the
+                                postal service.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                                We buy it ourselves, you receive the cargo and send it to us. Is it possible?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, it is possible. You can purchase goods and have them sent to our warehouse address
+                                in India. We will receive, consolidate, and ship the goods to your specified
+                                destination. Contact our team to coordinate the process and confirm shipping details.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                                Is it possible to order goods with delivery abroad?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, we ship goods to any country in the world using our postal services (EMS, Indian
+                                Post, DHL, FedEx, Goabay Cargo). The cost and delivery time depend on the destination
+                                and weight. Contact our support team to get a precise quote for your location.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Международная доставка -->
+            <section class="mb-5">
+                <h2 class="h3 fw-bold mb-4">International Delivery</h2>
+                <p>We ship to over 219 countries and territories via India Post. Check shipping rates and availability
+                    at <a href="https://www.indiapost.gov.in" target="_blank">indiapost.gov.in</a>. Recommended maximum
+                    parcel weight: 10kg. Heavier orders are split into multiple parcels.</p>
+                <div class="accordion" id="countriesAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#countriesList" aria-expanded="true" aria-controls="countriesList">
+                                View Available Countries (192+)
+                            </button>
+                        </h2>
+                        <div id="countriesList" class="accordion-collapse collapse show"
+                             data-bs-parent="#countriesAccordion">
+                            <div class="accordion-body">
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                                    <div class="col">United States</div>
+                                    <div class="col">United Kingdom</div>
+                                    <div class="col">Australia</div>
+                                    <div class="col">Canada</div>
+                                    <div class="col">Germany</div>
+                                    <div class="col">France</div>
+                                    <div class="col">Japan</div>
+                                    <div class="col">Singapore</div>
+                                    <div class="col">Malaysia</div>
+                                    <div class="col">United Arab Emirates</div>
+                                    <div class="col">Saudi Arabia</div>
+                                    <div class="col">South Korea</div>
+                                    <div class="col">Thailand</div>
+                                    <div class="col">Indonesia</div>
+                                    <div class="col">Brazil</div>
+                                    <div class="col">Russia</div>
+                                    <div class="col">China</div>
+                                    <div class="col">Sri Lanka</div>
+                                    <div class="col">Bangladesh</div>
+                                    <div class="col">Kuwait</div>
+                                    <div class="col">Philippines</div>
+                                    <div class="col">Italy</div>
+                                    <div class="col">Spain</div>
+                                    <div class="col">Netherlands</div>
+                                    <div class="col">South Africa</div>
+                                    <div class="col">Nigeria</div>
+                                    <div class="col">Kenya</div>
+                                    <div class="col">New Zealand</div>
+                                    <div class="col">Argentina</div>
+                                    <div class="col">Chile</div>
+                                    <div class="col">Pakistan</div>
+                                    <div class="col">Nepal</div>
+                                    <div class="col">Vietnam</div>
+                                    <div class="col">Hong Kong</div>
+                                    <div class="col">Qatar</div>
+                                    <div class="col">Oman</div>
+                                    <div class="col">Bahrain</div>
+                                    <div class="col">Belgium</div>
+                                    <div class="col">Denmark</div>
+                                    <div class="col">Finland</div>
+                                    <div class="col">Ireland</div>
+                                    <div class="col">Norway</div>
+                                    <div class="col">Sweden</div>
+                                    <div class="col">Switzerland</div>
+                                    <div class="col">Turkey</div>
+                                    <div class="col">Egypt</div>
+                                    <div class="col">Morocco</div>
+                                    <div class="col">Algeria</div>
+                                    <div class="col">Colombia</div>
+                                    <div class="col">Peru</div>
+                                    <div class="col">Mexico</div>
+                                    <div class="col">Afghanistan</div>
+                                    <div class="col">Albania</div>
+                                    <div class="col">Andorra</div>
+                                    <div class="col">Angola</div>
+                                    <div class="col">Antigua and Barbuda</div>
+                                    <div class="col">Armenia</div>
+                                    <div class="col">Austria</div>
+                                    <div class="col">Azerbaijan</div>
+                                    <div class="col">Bahamas</div>
+                                    <div class="col">Barbados</div>
+                                    <div class="col">Belarus</div>
+                                    <div class="col">Belize</div>
+                                    <div class="col">Benin</div>
+                                    <div class="col">Bhutan</div>
+                                    <div class="col">Bolivia</div>
+                                    <div class="col">Bosnia and Herzegovina</div>
+                                    <div class="col">Botswana</div>
+                                    <div class="col">Brunei</div>
+                                    <div class="col">Bulgaria</div>
+                                    <div class="col">Burkina Faso</div>
+                                    <div class="col">Burundi</div>
+                                    <div class="col">Cambodia</div>
+                                    <div class="col">Cameroon</div>
+                                    <div class="col">Cape Verde</div>
+                                    <div class="col">Central African Republic</div>
+                                    <div class="col">Chad</div>
+                                    <div class="col">Comoros</div>
+                                    <div class="col">Congo</div>
+                                    <div class="col">Costa Rica</div>
+                                    <div class="col">Croatia</div>
+                                    <div class="col">Cuba</div>
+                                    <div class="col">Cyprus</div>
+                                    <div class="col">Czech Republic</div>
+                                    <div class="col">Democratic Republic of the Congo</div>
+                                    <div class="col">Djibouti</div>
+                                    <div class="col">Dominica</div>
+                                    <div class="col">Dominican Republic</div>
+                                    <div class="col">Ecuador</div>
+                                    <div class="col">El Salvador</div>
+                                    <div class="col">Equatorial Guinea</div>
+                                    <div class="col">Eritrea</div>
+                                    <div class="col">Estonia</div>
+                                    <div class="col">Eswatini</div>
+                                    <div class="col">Ethiopia</div>
+                                    <div class="col">Fiji</div>
+                                    <div class="col">Gabon</div>
+                                    <div class="col">Gambia</div>
+                                    <div class="col">Georgia</div>
+                                    <div class="col">Ghana</div>
+                                    <div class="col">Greece</div>
+                                    <div class="col">Grenada</div>
+                                    <div class="col">Guatemala</div>
+                                    <div class="col">Guinea</div>
+                                    <div class="col">Guinea-Bissau</div>
+                                    <div class="col">Guyana</div>
+                                    <div class="col">Haiti</div>
+                                    <div class="col">Honduras</div>
+                                    <div class="col">Hungary</div>
+                                    <div class="col">Iceland</div>
+                                    <div class="col">Iran</div>
+                                    <div class="col">Iraq</div>
+                                    <div class="col">Israel</div>
+                                    <div class="col">Jamaica</div>
+                                    <div class="col">Jordan</div>
+                                    <div class="col">Kazakhstan</div>
+                                    <div class="col">Kiribati</div>
+                                    <div class="col">Kyrgyzstan</div>
+                                    <div class="col">Laos</div>
+                                    <div class="col">Latvia</div>
+                                    <div class="col">Lebanon</div>
+                                    <div class="col">Lesotho</div>
+                                    <div class="col">Liberia</div>
+                                    <div class="col">Libya</div>
+                                    <div class="col">Liechtenstein</div>
+                                    <div class="col">Lithuania</div>
+                                    <div class="col">Luxembourg</div>
+                                    <div class="col">Macau</div>
+                                    <div class="col">Madagascar</div>
+                                    <div class="col">Malawi</div>
+                                    <div class="col">Maldives</div>
+                                    <div class="col">Mali</div>
+                                    <div class="col">Malta</div>
+                                    <div class="col">Marshall Islands</div>
+                                    <div class="col">Mauritania</div>
+                                    <div class="col">Mauritius</div>
+                                    <div class="col">Micronesia</div>
+                                    <div class="col">Moldova</div>
+                                    <div class="col">Monaco</div>
+                                    <div class="col">Mongolia</div>
+                                    <div class="col">Montenegro</div>
+                                    <div class="col">Mozambique</div>
+                                    <div class="col">Myanmar</div>
+                                    <div class="col">Namibia</div>
+                                    <div class="col">Nauru</div>
+                                    <div class="col">Nicaragua</div>
+                                    <div class="col">Niger</div>
+                                    <div class="col">North Macedonia</div>
+                                    <div class="col">Palau</div>
+                                    <div class="col">Panama</div>
+                                    <div class="col">Papua New Guinea</div>
+                                    <div class="col">Paraguay</div>
+                                    <div class="col">Poland</div>
+                                    <div class="col">Portugal</div>
+                                    <div class="col">Romania</div>
+                                    <div class="col">Rwanda</div>
+                                    <div class="col">Saint Kitts and Nevis</div>
+                                    <div class="col">Saint Lucia</div>
+                                    <div class="col">Saint Vincent and the Grenadines</div>
+                                    <div class="col">Samoa</div>
+                                    <div class="col">San Marino</div>
+                                    <div class="col">Sao Tome and Principe</div>
+                                    <div class="col">Senegal</div>
+                                    <div class="col">Serbia</div>
+                                    <div class="col">Seychelles</div>
+                                    <div class="col">Sierra Leone</div>
+                                    <div class="col">Slovakia</div>
+                                    <div class="col">Slovenia</div>
+                                    <div class="col">Solomon Islands</div>
+                                    <div class="col">Somalia</div>
+                                    <div class="col">South Sudan</div>
+                                    <div class="col">Suriname</div>
+                                    <div class="col">Syria</div>
+                                    <div class="col">Taiwan</div>
+                                    <div class="col">Tajikistan</div>
+                                    <div class="col">Tanzania</div>
+                                    <div class="col">Timor-Leste</div>
+                                    <div class="col">Togo</div>
+                                    <div class="col">Tonga</div>
+                                    <div class="col">Trinidad and Tobago</div>
+                                    <div class="col">Tunisia</div>
+                                    <div class="col">Turkmenistan</div>
+                                    <div class="col">Tuvalu</div>
+                                    <div class="col">Uganda</div>
+                                    <div class="col">Ukraine</div>
+                                    <div class="col">Uruguay</div>
+                                    <div class="col">Uzbekistan</div>
+                                    <div class="col">Vanuatu</div>
+                                    <div class="col">Vatican City</div>
+                                    <div class="col">Venezuela</div>
+                                    <div class="col">Yemen</div>
+                                    <div class="col">Zambia</div>
+                                    <div class="col">Zimbabwe</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Вопросы и ответы -->
-                <section class="mb-5">
-                    <h2 class="h3 fw-bold mb-4">Questions & Answers</h2>
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                    On which site to track the shipment?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    You can track the parcel on any tracking site. For the information on the movement of the shipment to appear in the tracking systems, it should take 7–14 days. Usually, this happens earlier—wait for the shipment data to be updated in the tracking systems. The full history of the movement of your parcel you can track by clicking on the link here: <a href="https://track24.ru" target="_blank">track24.ru</a>.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
-                                    What to do if I receive the goods in a damaged condition?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Please contact our support team via any available contact method (TEL, EMAIL, VIBER, WHATSAPP, SKYPE, TELEGRAM) to report the issue. Provide photos of the damaged goods and the packaging, and we will assist you with the next steps, including possible refunds or replacements, subject to our terms and conditions.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
-                                    What if the delivery of my order is late?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Delivery times may vary due to postal service delays or customs processing. Use the provided tracking number to monitor your parcel’s status. If the delivery exceeds the estimated time, contact our support team, and we will investigate the issue with the postal service.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
-                                    We buy it ourselves, you receive the cargo and send it to us. Is it possible?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Yes, it is possible. You can purchase goods and have them sent to our warehouse address in India. We will receive, consolidate, and ship the goods to your specified destination. Contact our team to coordinate the process and confirm shipping details.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
-                                    Is it possible to order goods with delivery abroad?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Yes, we ship goods to any country in the world using our postal services (EMS, Indian Post, DHL, FedEx, Goabay Cargo). The cost and delivery time depend on the destination and weight. Contact our support team to get a precise quote for your location.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Международная доставка -->
-                <section class="mb-5">
-                    <h2 class="h3 fw-bold mb-4">International Delivery</h2>
-                    <p>We ship to over 219 countries and territories via India Post. Check shipping rates and availability at <a href="https://www.indiapost.gov.in" target="_blank">indiapost.gov.in</a>. Recommended maximum parcel weight: 10kg. Heavier orders are split into multiple parcels.</p>
-                    <div class="accordion" id="countriesAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#countriesList" aria-expanded="true" aria-controls="countriesList">
-                                    View Available Countries (192+)
-                                </button>
-                            </h2>
-                            <div id="countriesList" class="accordion-collapse collapse show" data-bs-parent="#countriesAccordion">
-                                <div class="accordion-body">
-                                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-                                        <div class="col">United States</div>
-                                        <div class="col">United Kingdom</div>
-                                        <div class="col">Australia</div>
-                                        <div class="col">Canada</div>
-                                        <div class="col">Germany</div>
-                                        <div class="col">France</div>
-                                        <div class="col">Japan</div>
-                                        <div class="col">Singapore</div>
-                                        <div class="col">Malaysia</div>
-                                        <div class="col">United Arab Emirates</div>
-                                        <div class="col">Saudi Arabia</div>
-                                        <div class="col">South Korea</div>
-                                        <div class="col">Thailand</div>
-                                        <div class="col">Indonesia</div>
-                                        <div class="col">Brazil</div>
-                                        <div class="col">Russia</div>
-                                        <div class="col">China</div>
-                                        <div class="col">Sri Lanka</div>
-                                        <div class="col">Bangladesh</div>
-                                        <div class="col">Kuwait</div>
-                                        <div class="col">Philippines</div>
-                                        <div class="col">Italy</div>
-                                        <div class="col">Spain</div>
-                                        <div class="col">Netherlands</div>
-                                        <div class="col">South Africa</div>
-                                        <div class="col">Nigeria</div>
-                                        <div class="col">Kenya</div>
-                                        <div class="col">New Zealand</div>
-                                        <div class="col">Argentina</div>
-                                        <div class="col">Chile</div>
-                                        <div class="col">Pakistan</div>
-                                        <div class="col">Nepal</div>
-                                        <div class="col">Vietnam</div>
-                                        <div class="col">Hong Kong</div>
-                                        <div class="col">Qatar</div>
-                                        <div class="col">Oman</div>
-                                        <div class="col">Bahrain</div>
-                                        <div class="col">Belgium</div>
-                                        <div class="col">Denmark</div>
-                                        <div class="col">Finland</div>
-                                        <div class="col">Ireland</div>
-                                        <div class="col">Norway</div>
-                                        <div class="col">Sweden</div>
-                                        <div class="col">Switzerland</div>
-                                        <div class="col">Turkey</div>
-                                        <div class="col">Egypt</div>
-                                        <div class="col">Morocco</div>
-                                        <div class="col">Algeria</div>
-                                        <div class="col">Colombia</div>
-                                        <div class="col">Peru</div>
-                                        <div class="col">Mexico</div>
-                                        <div class="col">Afghanistan</div>
-                                        <div class="col">Albania</div>
-                                        <div class="col">Andorra</div>
-                                        <div class="col">Angola</div>
-                                        <div class="col">Antigua and Barbuda</div>
-                                        <div class="col">Armenia</div>
-                                        <div class="col">Austria</div>
-                                        <div class="col">Azerbaijan</div>
-                                        <div class="col">Bahamas</div>
-                                        <div class="col">Barbados</div>
-                                        <div class="col">Belarus</div>
-                                        <div class="col">Belize</div>
-                                        <div class="col">Benin</div>
-                                        <div class="col">Bhutan</div>
-                                        <div class="col">Bolivia</div>
-                                        <div class="col">Bosnia and Herzegovina</div>
-                                        <div class="col">Botswana</div>
-                                        <div class="col">Brunei</div>
-                                        <div class="col">Bulgaria</div>
-                                        <div class="col">Burkina Faso</div>
-                                        <div class="col">Burundi</div>
-                                        <div class="col">Cambodia</div>
-                                        <div class="col">Cameroon</div>
-                                        <div class="col">Cape Verde</div>
-                                        <div class="col">Central African Republic</div>
-                                        <div class="col">Chad</div>
-                                        <div class="col">Comoros</div>
-                                        <div class="col">Congo</div>
-                                        <div class="col">Costa Rica</div>
-                                        <div class="col">Croatia</div>
-                                        <div class="col">Cuba</div>
-                                        <div class="col">Cyprus</div>
-                                        <div class="col">Czech Republic</div>
-                                        <div class="col">Democratic Republic of the Congo</div>
-                                        <div class="col">Djibouti</div>
-                                        <div class="col">Dominica</div>
-                                        <div class="col">Dominican Republic</div>
-                                        <div class="col">Ecuador</div>
-                                        <div class="col">El Salvador</div>
-                                        <div class="col">Equatorial Guinea</div>
-                                        <div class="col">Eritrea</div>
-                                        <div class="col">Estonia</div>
-                                        <div class="col">Eswatini</div>
-                                        <div class="col">Ethiopia</div>
-                                        <div class="col">Fiji</div>
-                                        <div class="col">Gabon</div>
-                                        <div class="col">Gambia</div>
-                                        <div class="col">Georgia</div>
-                                        <div class="col">Ghana</div>
-                                        <div class="col">Greece</div>
-                                        <div class="col">Grenada</div>
-                                        <div class="col">Guatemala</div>
-                                        <div class="col">Guinea</div>
-                                        <div class="col">Guinea-Bissau</div>
-                                        <div class="col">Guyana</div>
-                                        <div class="col">Haiti</div>
-                                        <div class="col">Honduras</div>
-                                        <div class="col">Hungary</div>
-                                        <div class="col">Iceland</div>
-                                        <div class="col">Iran</div>
-                                        <div class="col">Iraq</div>
-                                        <div class="col">Israel</div>
-                                        <div class="col">Jamaica</div>
-                                        <div class="col">Jordan</div>
-                                        <div class="col">Kazakhstan</div>
-                                        <div class="col">Kiribati</div>
-                                        <div class="col">Kyrgyzstan</div>
-                                        <div class="col">Laos</div>
-                                        <div class="col">Latvia</div>
-                                        <div class="col">Lebanon</div>
-                                        <div class="col">Lesotho</div>
-                                        <div class="col">Liberia</div>
-                                        <div class="col">Libya</div>
-                                        <div class="col">Liechtenstein</div>
-                                        <div class="col">Lithuania</div>
-                                        <div class="col">Luxembourg</div>
-                                        <div class="col">Macau</div>
-                                        <div class="col">Madagascar</div>
-                                        <div class="col">Malawi</div>
-                                        <div class="col">Maldives</div>
-                                        <div class="col">Mali</div>
-                                        <div class="col">Malta</div>
-                                        <div class="col">Marshall Islands</div>
-                                        <div class="col">Mauritania</div>
-                                        <div class="col">Mauritius</div>
-                                        <div class="col">Micronesia</div>
-                                        <div class="col">Moldova</div>
-                                        <div class="col">Monaco</div>
-                                        <div class="col">Mongolia</div>
-                                        <div class="col">Montenegro</div>
-                                        <div class="col">Mozambique</div>
-                                        <div class="col">Myanmar</div>
-                                        <div class="col">Namibia</div>
-                                        <div class="col">Nauru</div>
-                                        <div class="col">Nicaragua</div>
-                                        <div class="col">Niger</div>
-                                        <div class="col">North Macedonia</div>
-                                        <div class="col">Palau</div>
-                                        <div class="col">Panama</div>
-                                        <div class="col">Papua New Guinea</div>
-                                        <div class="col">Paraguay</div>
-                                        <div class="col">Poland</div>
-                                        <div class="col">Portugal</div>
-                                        <div class="col">Romania</div>
-                                        <div class="col">Rwanda</div>
-                                        <div class="col">Saint Kitts and Nevis</div>
-                                        <div class="col">Saint Lucia</div>
-                                        <div class="col">Saint Vincent and the Grenadines</div>
-                                        <div class="col">Samoa</div>
-                                        <div class="col">San Marino</div>
-                                        <div class="col">Sao Tome and Principe</div>
-                                        <div class="col">Senegal</div>
-                                        <div class="col">Serbia</div>
-                                        <div class="col">Seychelles</div>
-                                        <div class="col">Sierra Leone</div>
-                                        <div class="col">Slovakia</div>
-                                        <div class="col">Slovenia</div>
-                                        <div class="col">Solomon Islands</div>
-                                        <div class="col">Somalia</div>
-                                        <div class="col">South Sudan</div>
-                                        <div class="col">Suriname</div>
-                                        <div class="col">Syria</div>
-                                        <div class="col">Taiwan</div>
-                                        <div class="col">Tajikistan</div>
-                                        <div class="col">Tanzania</div>
-                                        <div class="col">Timor-Leste</div>
-                                        <div class="col">Togo</div>
-                                        <div class="col">Tonga</div>
-                                        <div class="col">Trinidad and Tobago</div>
-                                        <div class="col">Tunisia</div>
-                                        <div class="col">Turkmenistan</div>
-                                        <div class="col">Tuvalu</div>
-                                        <div class="col">Uganda</div>
-                                        <div class="col">Ukraine</div>
-                                        <div class="col">Uruguay</div>
-                                        <div class="col">Uzbekistan</div>
-                                        <div class="col">Vanuatu</div>
-                                        <div class="col">Vatican City</div>
-                                        <div class="col">Venezuela</div>
-                                        <div class="col">Yemen</div>
-                                        <div class="col">Zambia</div>
-                                        <div class="col">Zimbabwe</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-
-
-
-
-            </div>
         </div>
     </div>
-    <!-- END Основной контент -->
+</div>
+<!-- END Основной контент -->
 
-    <!-- OFFCANVAS -->
-    <div class="offcanvas-container">
-        <!-- SIDE MENU -->
-        <div id="sideMenu" class="side-menu">
-            <button class="close-btn">✖</button>
-            <div class="user-profile">
-                <div class="user-info">
-                    <img src="img/products/Frame 1.png" alt="User Avatar" class="avatar">
-                    <span class="username">John Doe</span>
-                </div>
-                <div class="user-actions mb-2">
-                    <a href="account.html" class="account-link">ACCOUNT</a> / 
-                    <a href="#" class="exit-link">EXIT</a>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" class="theme-toggle">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <ul class="menu-list">
-                <li><a href="#">🏠 Home</a></li>
-                <li class="has-submenu">
-                    <a href="#">👤 My account</a>
-                    <ul class="submenu">
-                        <li><a href="wishlist.html">💖 Wishlist</a></li>
-                        <li><a href="cart.html">🛒 My Cart</a></li>
-                        <li><a href="adress.html">📍 My Adress</a></li>
-                        <li><a href="orders.html">🧾 Orders</a></li>
-                        <li><a href="track.html">🎈 Track my Order</a></li>
-                        <li><a href="#">⚙️ Settings</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu">
-                    <a href="#">📂 Products</a>
-                    <ul class="submenu">
-                        <li><a href="shop.html">📜 All Products</a></li>
-                        <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
-                        <li><a href="brands.html">💎 Brands</a></li>
-                        <li><a href="wholesale.html">🚢 Wholesale</a></li>
-                        <li><a href="hande-made.html">🪬 Hand Made</a></li>
-                        <li><a href="sales.html">🔖 Sales</a></li>
-                        <li><a href="best.html">🔥 Best Sellers</a></li>
-                        <li><a href="gifts.html">🎁 Gifts</a></li>
-                        <li><a href="promo.html">📣 Promo</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu">
-                    <a href="#">📑 Info</a>
-                    <ul class="submenu">
-                        <li><a href="work.html">🛺 How we work</a></li>
-                        <li><a href="about-us.html">🌴 About us</a></li>
-                        <li><a href="payment.html">💳 Payment</a></li>
-                        <li><a href="delivery.html">🚚 Delivery</a></li>
-                        <li><a href="offer.html">📋 Public offer</a></li>
-                        <li><a href="faq.html">❓ FAQ</a></li>
-                        <li><a href="reviews.html">📣 Reviews</a></li>
-                    </ul>
-                </li>
-                <li><a href="blog.html">📰 Blog</a></li>
-                <li><a href="app.html">📲 Save more on APP</a></li>
-                <li><a href="#">🤖 Goa Bot</a></li>
-                <li><a href="partner.html">💼 Partners</a></li>
-                <li><a href="contacts.html">📪 Contact us</a></li>
-            </ul>
-        </div>
-        <!-- END SIDE MENU -->
-
-        <!-- Оверлей -->
-        <div id="overlay" class="overlay"></div>
-
-        <!-- Боковое меню корзины -->
-        <div id="cartMenu" class="cart cart-menu d-flex flex-column">
-            <div class="d-flex align-items-center justify-content-between px-3">
-                <h4>🛒 Your shopping cart</h4>
-                <button class="close-cart-btn">✖</button>
-            </div>
-            <div class="cart-items flex-grow-1 overflow-auto px-2">
-                <div class="product-card w-100 d-flex gap-2 p-2 position-relative mb-2">
-                    <img src="img/products/Frame 1.png" alt="Product" class="product-img rounded" style="width: 90px; height: 90px; object-fit: cover;">
-                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                        <a href="single-product.html" target="_blank" class="text-decoration-none">
-                            <h5 class="product-name-mini fw-semibold" title="Seventh Chakra Rama Krishna Incense">
-                                Seventh Chakra Rama Krishna Incense
-                            </h5>
-                        </a>
-                        <div class="price d-flex justify-content-end">
-                            <span class="fw-bold final-price">
-                                <span class="currency-symbol">₹</span>
-                                <span class="final-price price-value" data-inr="100">100</span>
-                            </span>
-                        </div>
-                        <div class="input-group input-group-sm d-flex justify-content-end">
-                            <button class="btn btn-outline-secondary" type="button">-</button>
-                            <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
-                            <button class="btn btn-outline-secondary" type="button">+</button>
-                            <button class="btn btn-outline-danger remove-btn" title="Remove">🚫</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cart-content p-3">
-                <p>Items in cart: <span id="cartItemCount">8</span></p>
-                <p>Total: <span id="cartTotal">6,460 ₹</span></p>
-                <button class="btn btn-primary w-100 mb-2">Place an order</button>
-                <button class="btn btn-outline-primary w-100">Go to cart</button>
-            </div>
-        </div>
-        <!-- END Боковое меню корзины -->
-
-        <!-- Оверлей для корзины -->
-        <div id="cartOverlay" class="overlay"></div>
-    </div>
-    <!-- END OFFCANVAS -->
-
-    <!-- mobile bottom bar -->
-    <div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
-        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
-            <button class="btn-box" aria-label="Login">
-                <span class="icon">🔑</span>
-                <span class="btn-title">Login</span>
-            </button>
-            <button class="btn-box open-cart-btn" aria-label="Shopping cart">
-                <span class="icon">🛒</span>
-                <span class="badge">99</span>
-                <span class="btn-title">157.716</span>
-            </button>
-            <div class="btn-box" aria-label="Currency">
-                <span class="icon">💵</span>
-                <select id="currency-select" class="currency-select">
-                    <option value="INR" selected>₹ INR</option>
-                    <option value="USD">$ USD</option>
-                    <option value="EUR">€ EUR</option>
-                    <option value="RUB">₽ RUB</option>
-                </select>
-            </div>
-            <div class="btn-box" aria-label="Language">
-                <span class="icon">🌐</span>
-                <select id="language-select" class="language-select">
-                    <option value="en" selected>English</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="ru">Русский</option>
-                    <option value="hi">हिन्दी</option>
-                    <option value="zh">中文</option>
-                </select>
-            </div>
-            <button class="btn-box" aria-label="Wishlist" style="min-width: 60px;">
-                <span class="icon">💖</span>
-                <span class="badge">25</span>
-            </button>
-            <button class="btn-box" aria-label="Compare products" style="min-width: 60px;">
-                <span class="icon">⚖️</span>
-                <span class="badge">10</span>
-            </button>
-            <button class="btn-box" aria-label="Notifications" style="min-width: 60px;">
-                <span class="icon">🔔</span>
-                <span class="badge">10</span>
-            </button>
-            <button class="btn-box" aria-label="Coins" style="min-width: 60px;">
-                <span class="icon">💰</span>
-                <span class="badge">99</span>
-            </button>
-        </div>
-    </div>
-    <!-- END mobile bottom bar -->
-
-    <!-- FOOTER -->
-    <footer class="footer text-dark py-4">
-
-
-    <!-- Swiper CSS JS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <h5>Логотип и текст</h5>
-                </div>
-                <div class="col-12 col-md-4 text-center">
-                    <h5>Меню</h5>
-                </div>
-                <div class="col-12 col-md-4 text-center text-md-end">
-                    <h5>Контакты</h5>
-                </div>
-            </div>
-            <div class="text-center mt-3 small">
-                © 2025 Все права защищены.
-            </div>
-        </div>
-    </footer>
-    <!-- END FOOTER -->
-</body>
-</html>
