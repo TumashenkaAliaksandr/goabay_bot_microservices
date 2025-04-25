@@ -22,7 +22,7 @@ def index(request):
         'products_up_block': products_up_block,
         'sliders': sliders,
     }
-    return render(request, 'main/nick/index.html', context=context)
+    return render(request, 'webapp/index.html', context=context)
 
 
 def category_view(request, category_name):
