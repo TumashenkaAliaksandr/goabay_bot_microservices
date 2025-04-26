@@ -142,7 +142,7 @@
 
 /* Отступ от хедера*/
 .header-offset {
-    height: 130px; /* По умолчанию */
+    height: 65px; /* По умолчанию */
 }
 .header-offset-2{
     height: 80px; /* По умолчанию */
