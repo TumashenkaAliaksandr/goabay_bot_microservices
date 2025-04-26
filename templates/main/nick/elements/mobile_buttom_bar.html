@@ -1,0 +1,57 @@
+{% load static %}
+
+<!-- mobile bottom bar -->
+<div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+        <!-- Ряд с горизонтальной прокруткой -->
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+            <button class="btn-box" aria-label="Login">
+                <span class="icon">🔑</span>
+                <span class="btn-title">Login</span>
+            </button>
+            <button class="btn-box open-cart-btn" aria-label="Shopping cart">
+                <span class="icon">🛒</span>
+                <span class="badge">99</span>
+                <span class="btn-title">157.716</span>
+            </button>
+            <!-- Currency Button -->
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
+            </div>
+            <!-- Language Button -->
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+            <button class="btn-box" aria-label="Wishlist" style="min-width: 60px;">
+                <span class="icon">💖</span>
+                <span class="badge">25</span>
+            </button>
+            <button class="btn-box" aria-label="Compare products" style="min-width: 60px;">
+                <span class="icon">⚖️</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Notifications" style="min-width: 60px;">
+                <span class="icon">🔔</span>
+                <span class="badge">10</span>
+            </button>
+            <button class="btn-box" aria-label="Coins" style="min-width: 60px;">
+                <span class="icon">💰</span>
+                <span class="badge">99</span>
+            </button>
+        </div>
+</div>
+<!-- END mobile bottom bar -->

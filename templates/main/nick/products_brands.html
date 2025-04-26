@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-12">
 
-
             <!-- Отступ под фиксированную шапку -->
             <div class="header-offset"></div>
 
@@ -57,6 +56,42 @@
 
                 <!-- FILTER PRODUCT-->
                 <div class="filter-container">
+                    <!-- NOW IN GOA WIDGET -->
+                    <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
+
+                        <!-- Top row: title and theme toggle -->
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                            <h5 class="city-name mb-0">Now in Goa, India</h5>
+
+                            <label class="switch">
+                                <input type="checkbox" class="theme-toggle">
+                                <span class="slider round"></span>
+                            </label>
+
+                        </div>
+
+                        <!-- Time and day/night icon -->
+                        <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                            <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                            <span id="day-icon" class="fs-4">🌞</span>
+                        </div>
+
+                        <!-- Sunrise and sunset -->
+                        <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                            <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                            <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                        </div>
+
+                        <!-- Temperature and weather -->
+                        <div class="d-flex align-items-center gap-3 pt-2">
+                            <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                            <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                                 style="max-width: 40px; height: auto;">
+                            <div id="weather-desc" class="fw-light">--</div>
+                        </div>
+
+                    </div>
+                    <!-- END NOW IN GOA WIDGET -->
 
                     <!-- Фильтр по бренду -->
                     <div class="filter-brand mb-2">
@@ -193,7 +228,6 @@
 
                 </div>
                 <!-- END FILTER PRODUCT-->
-
             </div>
             <!-- END FILTER BOX-->
 

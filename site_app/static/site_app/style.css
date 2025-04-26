@@ -1,25 +1,9 @@
-/* 
+/* Version 1-5  */
 
-Version 1-4
-
-Типографика
-Стандартные настройки
-
-VERTICAL MENU
-HORIZONTAL LIST, BEFORE SHOP LOOP, BREADCRUMBS, PAGINATION 
-
-ACCOUNT 
-The switch - the box around the slider 
-
-FOOTER
-
-*/
-
-/* Типографика ---------------------------------------------------------------------------------*/:root {
+/* Типографика ---------------------------------------------------------------------------------*/
+:root {
   --primary-color: #2bcbba;
 }
-
-
 
 
 h1 {
@@ -76,8 +60,8 @@ body{
 
 html {
   scroll-behavior: smooth;
-  background-color:  #f4f6f9;
-  color:  #f4f6f9;
+  background-color: #f4f6f9;
+  color: #333;
   width: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -122,6 +106,64 @@ html {
 [data-theme="dark"] .box {
   background-color: #1f1f1f;
 }
+
+
+/* CARD STYLE --------------------------------------------------------*/
+
+[data-theme="dark"] .card li {
+  color: #fff;
+}
+
+/*прайсинг табл хедел калар*/
+.ems { background-color: #ff8843;}
+.indpost { background-color: #fd6667;}
+.dhl { background-color: #ffd75a;}
+.fed { background-color: #721dcf;}
+
+
+
+/* Аккордеон ----------------------------------------------------- */
+.accordion-button:not(.collapsed) {
+    background-color: #00ba44;
+    color: #fff;
+}
+
+/* Темная тема для сектора FAQ */
+[data-theme="dark"] #faqAccordion {
+    background-color: #1f1f1f;
+    color: #fff;
+}
+
+[data-theme="dark"] .accordion-button {
+    background-color: #1f1f1f;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background-color: #00ba44;
+    color: #fff;
+    border: none;
+}
+
+[data-theme="dark"] .accordion-body {
+    background-color: #1f1f1f;
+    color: #bbb;
+    border: none;
+}
+
+[data-theme="dark"] .accordion-body a {
+    color: #56c5ff;
+}
+
+[data-theme="dark"] .accordion-item {
+    background-color: #1f1f1f;
+    border-color: #000 !important;
+    border-radius: 0 !important;
+    margin-bottom: 1px; /* тонкая граница между элементами, опционально */
+}
+
 
 
 /* ITEM BOX - CATEGORY BRAND BOX -------------------------------------------------------------------*/
@@ -253,7 +295,6 @@ html {
 .vertical-menu {
     background: #fff;
     border-radius: 10px;
-  /*  min-height: 535px;*/
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -336,8 +377,6 @@ html {
     color: #000000;
 }
 
-
-
 /* HORIZONTAL LIST, BEFORE/AFTER SHOP LOOP, BREADCRUMBS, PAGINATION --------------------------------------------------------------------------------*/
 
 /*контейнер*/
@@ -350,12 +389,10 @@ html {
     gap: 20px;
 }
 
-.shop-loop-title,
-.breadcrumbs-title,
-.h2-title {
+.shop-loop-title, .breadcrumbs-title, .h2-title {
     flex-shrink: 0;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 700;
     white-space: nowrap;
     margin: 0;
 }
@@ -409,9 +446,7 @@ html {
     padding: 10px;
 }
 
-
-
-/*breadcrumbs -----------------------------------*/
+/*breadcrumbs ------------------------------------------------*/
 .breadcrumbs-box{
     background: #efefef;
 }
@@ -514,8 +549,6 @@ html {
     background-color: var(--primary-color, #0044ff);
 }
 
-
-
 /* ACCOUNT ------------------------------------------------------------------------------------------------------------- */
 
 .user-profile {
@@ -586,21 +619,22 @@ html {
 
 
 /* The switch - the box around the slider -----------------------------------*/
+/* Контейнер переключателя */
 .switch {
   position: relative;
   display: inline-block;
-  width: 50px;
+  width: 46px;
   height: 24px;
 }
 
-/* Hide default HTML checkbox */
+/* Скрываем стандартный checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The slider */
+/* Стиль ползунка */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -609,58 +643,34 @@ html {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
+  border-radius: 24px;
 }
 
+/* Круглая ручка переключателя */
 .slider:before {
   position: absolute;
   content: "";
-  height: 30px;
-  width: 30px;
-  left: 0px;
-  bottom: 4px;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  -webkit-transition: 0.4s;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
   transition: 0.4s;
-  box-shadow: 0 0 15px #2020203d;
-  background: white url('https://i.ibb.co/7JfqXxB/sunny.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(24px);
-  -ms-transform: translateX(24px);
-  transform: translateX(24px);
-    background: white url('https://i.ibb.co/FxzBYR9/night.png');
-
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
   border-radius: 50%;
 }
 
+/* Состояние включено */
+.switch input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
 
 
-/* FOOTER ---------------------------------------------------------------------------------------------------*/
+/* FOOTER -----------------------------------------------------------------------------------------------------------------*/
 
 .footer  {
 background: #fff;
@@ -668,6 +678,117 @@ background: #fff;
 
 [data-theme="dark"] .footer {
 background: #000;
+}
+
+
+/* СОЦИКОНКИ --------------------------*/
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+    font-size: 1.5rem; /* Размер иконок */
+    color: #fff; /* Белый цвет для иконок */
+    width: 40px;
+    height: 40px;
+    border-radius: 8px; 
+    text-decoration: none; 
+  }
+
+  /* Плавное увеличение и смена цвета при наведении */
+  .social-links a:hover {
+    transform: scale(1.1); /* Увеличение иконки при наведении */
+    color: #fff; /* Белый цвет при наведении */
+  }
+
+  .social-links i {
+    transition: color 0.3s ease;
+  }
+
+  /* Стиль для иконок */
+  .social-icon {
+    padding: 10px; /* Отступы вокруг иконок */
+    background-color: #6c757d; /* Основной цвет фона (серый) */
+  }
+
+  /* Индивидуальные цвета для каждой соцсети */
+  .social-icon:nth-child(1) { background-color: #3b5998; } /* Facebook */
+  .social-icon:nth-child(2) { background-color: #1da1f2; } /* Twitter */
+  .social-icon:nth-child(3) { background-color: #ff0000; } /* YouTube */
+  .social-icon:nth-child(4) { background-color: #4c75a3; } /* VK */
+  .social-icon:nth-child(5) { background-color: #e4405f; } /* Instagram */
+  .social-icon:nth-child(6) { background-color: #f2a900; } /* Odnoklassniki */
+  .social-icon:nth-child(7) { background-color: #0088cc; } /* Telegram */
+
+
+
+    .footer .social-links {
+        justify-content: end;
+    }
+
+
+/* Стиль для мобильной и планшетной версии ---------------------------------*/
+@media (max-width: 767px) {
+    .footer .container-fluid {
+       padding-bottom: 40px;
+    }
+
+    .footer .row {
+        text-align: center; /* Центрируем контент */
+    }
+
+    .footer .col-12 {
+        margin-bottom: 20px; /* Отступы между колонками на мобильных */
+    }
+
+    .footer .social-links {
+        justify-content: center; /* Центрируем социальные иконки */
+    }
+
+    .footer-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-nav a {
+        font-size: 0.9rem; /* Уменьшаем шрифт на мобильных */
+        padding: 5px 10px; /* Увеличиваем отступы между пунктами */
+    }
+
+    .footer .col-12.col-md-4 {
+        text-align: center; /* Центрируем контент в каждой колонке */
+    }
+
+
+}
+
+/* Стиль для планшетов */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .footer .container-fluid {
+        padding: 0 30px; /* Отступы по бокам для планшетов */
+    }
+
+    .footer-nav a {
+        font-size: 1rem; 
+        padding: 10px; 
+    }
+
+    .footer .social-links {
+        justify-content: center;
+        gap: 20px; /* Увеличиваем отступы между иконками */
+    }
+
+    .footer .social-icon {
+        font-size: 2rem; /* Размер иконок */
+    }
+}
+
+
+/* НАВЕРХ Скрыть на телефонах */
+@media (max-width: 767.98px) {
+  #backToTop {
+    display: none !important;
+  }
 }
 
 

@@ -1,98 +1,152 @@
-// Обновляем текущее время в Гоа в формате AM/PM
-function updateGoaTime() {
-  const now = new Date();
-  const goaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-  
-  // Получаем часы и минуты
-  let hours = goaTime.getHours();
-  const minutes = goaTime.getMinutes().toString().padStart(2, '0');
-  
-  // Определяем AM или PM
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // Час в 12-часовом формате
-  const formattedTime = `${hours}:${minutes} ${ampm}`;
+document.addEventListener('DOMContentLoaded', () => {
+    // Боковое меню корзины
+    const openCartBtns = document.querySelectorAll('.open-cart-btn');
+    const cartMenu = document.getElementById('cartMenu');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const closeCartBtn = cartMenu?.querySelector('.close-cart-btn');
 
-  document.getElementById('goa-time').textContent = formattedTime;
-
-  const dayIcon = document.getElementById('day-icon');
-  dayIcon.textContent = (goaTime.getHours() >= 6 && goaTime.getHours() < 18) ? '🌞' : '🌜';
-}
-
-// Обновляем время восхода и заката в формате AM/PM
-function updateSunTimes() {
-  fetch('https://api.sunrisesunset.io/json?lat=15.325556&lng=74.054111')
-    .then(response => response.json())
-    .then(data => {
-      const sunriseUTC = data.results.sunrise;
-      const sunsetUTC = data.results.sunset;
-
-      const sunriseTime = convertUTCToLocal(sunriseUTC);
-      const sunsetTime = convertUTCToLocal(sunsetUTC);
-
-      document.getElementById('sunrise-time').textContent = sunsetTime; // Время восхода
-      document.getElementById('sunset-time').textContent = sunriseTime; // Время заката
-    })
-    .catch(error => {
-      console.error('Ошибка при получении данных:', error);
+    // Открытие корзины по любой кнопке
+    openCartBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            cartMenu?.classList.add('active');
+            cartOverlay?.classList.add('active');
+        });
     });
-}
 
-// Преобразуем время UTC из API в местное индийское время (UTC+5:30) и формат AM/PM
-function convertUTCToLocal(utcTimeStr) {
-  const [time, modifier] = utcTimeStr.split(' ');
-  let [hours, minutes, seconds] = time.split(':').map(Number);
+    // Закрытие корзины по крестику или оверлею
+    closeCartBtn?.addEventListener('click', closeCart);
+    cartOverlay?.addEventListener('click', closeCart);
 
-  if (modifier === 'PM' && hours !== 12) hours += 12;
-  if (modifier === 'AM' && hours === 12) hours = 0;
+    function closeCart() {
+        cartMenu?.classList.remove('active');
+        cartOverlay?.classList.remove('active');
+    }
 
-  const dateUTC = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
-  dateUTC.setMinutes(dateUTC.getMinutes() + 330); // +5:30 для индийского времени
+    // Универсальная функция инициализации слайдера
+    function initSlider(selector, wrapperSelector, itemSelector, prevBtnSelector, nextBtnSelector) {
+        const sliderBox = document.querySelector(selector);
+        if (!sliderBox) return;
 
-  let localHours = dateUTC.getHours();
-  const localMinutes = dateUTC.getMinutes().toString().padStart(2, '0');
-  
-  const ampm = localHours >= 12 ? 'PM' : 'AM';
-  localHours = localHours % 12;
-  localHours = localHours ? localHours : 12; // Час в 12-часовом формате
+        const wrapper = sliderBox.querySelector(wrapperSelector);
+        const items = sliderBox.querySelectorAll(itemSelector);
+        const prevBtn = sliderBox.querySelector(prevBtnSelector);
+        const nextBtn = sliderBox.querySelector(nextBtnSelector);
 
-  return `${localHours}:${localMinutes} ${ampm}`;
-}
+        let currentIndex = 0;
+        let isAnimating = false;
+        let startX = 0;
+        let isDragging = false;
+        let autoSlideInterval;
 
-// Основная функция обновления виджета
-function updateWidget() {
-  updateGoaTime();
-  updateSunTimes();
-}
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(goToNext, 5000);
+        }
 
-// Старт при загрузке
-updateWidget();
-setInterval(updateWidget, 60000);
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
 
-// ТВОЙ API-ключ от OpenWeatherMap
-const WEATHER_API_KEY = 'c9aeb88dc3a32f57f5415395da797c10'; 
+        function updateSlider() {
+            if (isAnimating) return;
+            isAnimating = true;
+            wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            setTimeout(() => {
+                isAnimating = false;
+            }, 400);
+        }
 
-// Функция для получения и отображения погоды
-function updateWeather() {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=15.325556&lon=74.054111&appid=${WEATHER_API_KEY}&units=metric&lang=en`;
+        function goToPrev() {
+            stopAutoSlide();
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+            updateSlider();
+            startAutoSlide();
+        }
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const temp = Math.round(data.main.temp); // температура
-      const iconCode = data.weather[0].icon; // код иконки
-      const description = data.weather[0].description; // описание
+        function goToNext() {
+            stopAutoSlide();
+            currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+            updateSlider();
+            startAutoSlide();
+        }
 
-      document.getElementById('weather-temp').textContent = `${temp}°C`;
-      document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`; // Иконка
-      document.getElementById('weather-icon').alt = description;
-      document.getElementById('weather-desc').textContent = description.charAt(0).toUpperCase() + description.slice(1);
-    })
-    .catch(error => {
-      console.error('Ошибка при получении погоды:', error);
-    });
-}
+        prevBtn?.addEventListener('click', goToPrev);
+        nextBtn?.addEventListener('click', goToNext);
 
-// Вызов при загрузке и периодическое обновление
-updateWeather();
-setInterval(updateWeather, 60 * 60 * 1000); // обновлять каждый час
+        sliderBox.addEventListener('mouseenter', stopAutoSlide);
+        sliderBox.addEventListener('mouseleave', startAutoSlide);
+
+        // Drag & Touch Events
+        wrapper.addEventListener('mousedown', (e) => {
+            stopAutoSlide();
+            startX = e.clientX;
+            isDragging = true;
+            wrapper.style.transition = 'none';
+            e.preventDefault();
+        });
+
+        wrapper.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            const translate = -currentIndex * 100 + (diff / wrapper.offsetWidth) * 100;
+            wrapper.style.transform = `translateX(${translate}%)`;
+        });
+
+        wrapper.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            wrapper.style.transition = 'transform 0.4s ease-in-out';
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 50) {
+                diff > 0 ? goToPrev() : goToNext();
+            } else {
+                updateSlider();
+            }
+            startAutoSlide();
+        });
+
+        wrapper.addEventListener('mouseleave', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            wrapper.style.transition = 'transform 0.4s ease-in-out';
+            updateSlider();
+            startAutoSlide();
+        });
+
+        wrapper.addEventListener('touchstart', (e) => {
+            stopAutoSlide();
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            wrapper.style.transition = 'none';
+        });
+
+        wrapper.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const diff = e.touches[0].clientX - startX;
+            const translate = -currentIndex * 100 + (diff / wrapper.offsetWidth) * 100;
+            wrapper.style.transform = `translateX(${translate}%)`;
+            e.preventDefault();
+        });
+
+        wrapper.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            wrapper.style.transition = 'transform 0.4s ease-in-out';
+            const diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > 50) {
+                diff > 0 ? goToPrev() : goToNext();
+            } else {
+                updateSlider();
+            }
+            startAutoSlide();
+        });
+
+        updateSlider();
+        startAutoSlide();
+    }
+
+    // Инициализация слайдера продуктов
+    initSlider('.slider-box', '.slider-wrapper', '.slider-item', '.slider-control-prev', '.slider-control-next');
+
+    // Инициализация слайдера блога
+    initSlider('.blog-slider', '.blog-slider-wrapper', '.blog-slider-item', '.blog-slider-control-prev', '.blog-slider-control-next');
+});

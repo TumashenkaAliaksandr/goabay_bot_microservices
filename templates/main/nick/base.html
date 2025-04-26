@@ -46,35 +46,23 @@
 </head>
 
 {% include 'main/nick/header.html' %}
-{% block content %}{% endblock %}<!--FOOTER В РА3АБОТКЕ-->
-<footer class="footer text-dark py-4">
+{% block content %}{% endblock %}
 
-    <div class="container">
-        <div class="row">
 
-            <!-- 1-я колонка: Логотип и текст -->
-            <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                <h5>Логотип и текст</h5>
-            </div>
+<button id="backToTop"
+        type="button"
+        class="btn btn-success rounded-circle d-none position-fixed"
+        style="right: 20px; bottom: 20px; width: 48px; height: 48px; z-index: 1050;">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 12a.5.5 0 0 1-.5-.5V4.707L4.354 8.854a.5.5 0 1 1-.708-.708l4-4a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1-.708.708L8.5 4.707V11.5A.5.5 0 0 1 8 12z"/>
+  </svg>
+</button>
 
-            <!-- 2-я колонка: Меню -->
-            <div class="col-12 col-md-4 text-center">
-                <h5>Меню</h5>
-            </div>
+<!--FOOTER-->
 
-            <!-- 3-я колонка: Контакты -->
-            <div class="col-12 col-md-4 text-center text-md-end">
-                <h5>Контакты</h5>
-            </div>
+{% include 'main/nick/footer.html' %}
 
-        </div>
-
-        <!-- Копирайт -->
-        <div class="text-center mt-3 small">
-            &copy; 2025 Все права защищены.
-        </div>
-    </div>
-</footer>
+<!--END FOOTER-->
 
 <!-- Custom JS -->
 {#<script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>#}
@@ -92,3 +80,5 @@
 <!-- Swiper CSS JS-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- FA Icons CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
