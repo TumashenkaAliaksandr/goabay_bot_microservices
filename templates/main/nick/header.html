@@ -20,7 +20,9 @@
             
             <!-- Лого и меню -->
             <div class="d-flex w-auto" style="gap: 10px;">
-                <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
+                <a href="/" aria-label="Goabay Home">
+                    <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
+                </a>
                 <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
             </div>
 
@@ -179,5 +181,3 @@
 
 </header>
 <!-- HEADER -->
-<!-- Отступ под фиксированную шапку -->
-<div class="header-offset"></div>

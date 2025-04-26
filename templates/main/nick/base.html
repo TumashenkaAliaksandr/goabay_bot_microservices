@@ -23,17 +23,8 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
 
-    <!-- Bootstrap Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-
     <!-- GLightbox CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
-
-    <!-- GLightbox JS -->
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'site_app/style.css' %}">
@@ -43,7 +34,15 @@
     <link rel="stylesheet" href="{% static 'site_app/css/style-sliders.css' %}">
     <link rel="stylesheet" href="{% static 'site_app/css/style-offcanvas.css' %}">
 
+    <!-- FA Icons CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+
 </head>
+
+<body>
 
 {% include 'main/nick/header.html' %}
 {% block content %}{% endblock %}
@@ -55,9 +54,21 @@
 
 <!--END FOOTER-->
 
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+        defer></script>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous" defer></script>
+
+<!-- GLightbox JS -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js" defer></script>
+
 <!-- Custom JS -->
-{#<script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>#}
-{#<script src="{% static 'site_app/assets/js/header.js' %}" defer></script>#}
+
 <script src="{% static 'site_app/assets/js/sliders.js' %}" defer></script>
 <script src="{% static 'site_app/js/load_more.js' %}?v=1.0.1" defer></script>
 <script src="{% static 'site_app/assets/js/custom.js' %}" defer></script>
@@ -67,9 +78,3 @@
 <script src="{% static 'site_app/assets/js/widgets.js' %}" defer></script>
 <script src="{% static 'site_app/assets/js/cart.js' %}" defer></script>
 
-
-<!-- Swiper CSS JS-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<!-- FA Icons CDN -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

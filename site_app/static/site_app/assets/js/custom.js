@@ -128,8 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-
-
 // ADMIN Копировать ID в буфер обмена
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".copy-product-id").forEach(function (element) {
@@ -147,17 +145,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
