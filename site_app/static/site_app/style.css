@@ -790,3 +790,116 @@ background: #000;
     display: none !important;
   }
 }
+
+body {
+      /*background-image: url('img/banner/mockup-box-pattern-2.png');*/
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .tab-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    .tab-buttons button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: #e9ecef;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .tab-buttons button.active {
+      background: #2db34a;
+      color: white;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+    }
+    .social-login {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .social-login button {
+      margin: 5px;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      font-size: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .social-login button:hover {
+      background-color: #ddd;
+    }
+    .is-invalid {
+      border-color: #dc3545;
+    }
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+      font-size: 0.875rem;
+    }
+    .is-invalid ~ .invalid-feedback {
+      display: block;
+    }
+    .iti {
+      width: 100%;
+    }
+    .iti__flag-container {
+      z-index: 1;
+    }
+    .iti__country-list {
+      max-height: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 2;
+      width: 336px;
+      border: 1px solid #ccc;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .iti__country {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+    }
+    .iti__flag {
+      margin-right: 10px;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 75%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .password-field {
+      position: relative;
+    }

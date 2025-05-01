@@ -66,7 +66,7 @@ def account(request):
 
 
 def login(request):
-    return render(request, 'webapp/account/login.html')
+    return render(request, 'main/nick/login.html')
 
 
 def registrations(request):
