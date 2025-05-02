@@ -1,32 +1,34 @@
 {% load static %}
 
-<!-- HEADER -->
-<header class="container-fluid header w-100 position-fixed top-0 start-0 shadow-sm " style="z-index: 1050;">
+<!-- HEADER 1-5 -->
+<header class="container-fluid header w-100 position-fixed top-0 start-0">
 
-    <!-- Верхний баннер -->
+    <!-- TOP BAR -->
     <div class="row top-bar align-items-center">
-        <div class="col-12 d-flex justify-content-between align-items-center px-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
             <span class="text-center text-md-start">
                 🎁 Discount on your first order!
-                <a href="/sale" class="text-decoration-none text-white">💸 Learn more →</a>
+                <a href="promo.html" class="text-decoration-none text-white">💸 Learn more →</a>
             </span>
             <button class="btn-close" aria-label="Close">❎</button>
         </div>
     </div>
 
-    <!-- Десктоп версия -->
-    <div class="row d-none d-lg-none d-xl-flex px-3">
+    <!-- DESKTOP -->
+    <div class="row d-none d-lg-none d-xl-flex">
         <div class="d-flex align-items-center w-100 justify-content-between" style="gap: 10px;">
-            
-            <!-- Лого и меню -->
+
+            <!-- Logo / Menu -->
             <div class="d-flex w-auto" style="gap: 10px;">
-                <a href="/" aria-label="Goabay Home">
-                    <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
-                </a>
-                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+
+                <a href="{% url 'home' %}"><img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40"></a>
+
+                <!-- Menu Button -->
+                <button class="btn-box btn-box--menu" aria-label="Menu"><span class="icon">☰</span></button>
+
             </div>
 
-            <!-- Поиск -->
+            <!-- Search Desk -->
             <div class="search-box d-flex align-items-center">
                 <select class="form-select category-select">
                     <option>👉🏼 All categories</option>
@@ -40,8 +42,15 @@
                 <button class="btn btn-primary search-btn">Let's GO!</button>
             </div>
 
-            <!-- Иконки действий -->
+            <!-- ACTION BAR -->
             <div class="d-flex py-3" style="gap: 10px;">
+
+                <!-- Location -->
+                <button class="btn-box location" aria-label="Your Location">
+                    <span class="icon">📍</span>
+                    <span class="your-city"></span>
+                </button>
+
                 <!-- Currency Button -->
                 <div class="btn-box" aria-label="Currency">
                     <span class="icon">💵</span>
@@ -52,6 +61,7 @@
                         <option value="RUB">₽ RUB</option>
                     </select>
                 </div>
+
                 <!-- Language Button -->
                 <div class="btn-box" aria-label="Language">
                     <span class="icon">🌐</span>
@@ -65,75 +75,240 @@
                         <option value="zh">中文</option>
                     </select>
                 </div>
-                <button class="btn-box" aria-label="Wishlist">💖<span class="badge">25</span></button>
-                <button class="btn-box" aria-label="Compare products">⚖️<span class="badge">10</span></button>
-                <button class="btn-box" aria-label="Notifications">🔔<span class="badge">10</span></button>
-                <button class="btn-box" aria-label="Coins">💰<span class="badge">99</span></button>
-                <!-- Cart Btn -->
-                <button class="btn-box open-cart-btn" aria-label="Shopping cart">
-                    <span class="icon">🛒</span>
-                    <span class="badge">99</span>
-                    <span class="btn-title">157.716</span>
+
+                <!-- Wishlist -->
+                <button class="btn-box btn-box--wishlist" aria-label="Wishlist">
+                    <span class="btn-box__icon">💖</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
-                <button class="btn-box" aria-label="Login" onclick="window.location.href='{% url 'login' %}'">
-                    🔑<span class="btn-title">Login</span>
+
+                <!-- Messages -->
+                <button class="btn-box btn-box--messages" aria-label="Messages">
+                    <span class="btn-box__icon">🔔</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
+
+                <!-- Wallet -->
+                <button class="btn-box btn-box--wallet" aria-label="Wallet">
+                    <span class="btn-box__icon">💰</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
+                </button>
+
+                <!-- Cart -->
+                <button class="btn-box btn-box--cart" aria-label="Shopping cart">
+                    <span class="btn-box__icon">🛒</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
+                    <span class="btn-box__title btn-box__title--price">
+                        <span class="final-price price-value" data-inr="0">0</span>
+                        <span class="currency-symbol">₹</span>
+                    </span>
+                </button>
+
+                <!-- Login -->
+                <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">
+                    <span class="icon">🔑</span>
+                    <span class="btn-title">Login</span>
+                </a>
+
+                <!-- Account -->
+                <div class="dropdown">
+                    <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="user-avatar">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li><a class="dropdown-item" href="{% url 'account' %}">🪪 My Account</a></li>
+                        <li><a class="dropdown-item" href="wishlist.html">💖 Wishlist</a></li>
+                        <li><a class="dropdown-item" href="wallet.html">💰 Wallet</a></li>
+                        <li><a class="dropdown-item" href="coupons.html">🎫 Coupons & Discounts</a></li>
+                        <li><a class="dropdown-item" href="messages.html">🔔 Notifications</a></li>
+                        <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
+                        <li><a class="dropdown-item" href="adress.html">📍 My Adress</a></li>
+                        <li><a class="dropdown-item" href="orders.html">🧾 Orders</a></li>
+                        <li><a class="dropdown-item" href="track.html">🎈 Track my Order</a></li>
+                        <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
+                        <li><a class="dropdown-item text-danger" href="#">⬅️ Logout</a></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Мобильная версия -->
+    <!-- MOBILE TOP BAR-->
     <div class="mobile-header d-flex d-md-none flex-column">
-            
-        <!-- Первый ряд -->
+
+        <!-- 1 Row -->
         <div class="d-flex align-items-center py-1 w-100 justify-content-between">
+
+            <!-- Logo Mob -->
             <div class="d-flex w-auto">
-                <img src="{% static 'site_app/img/logo/logo.svg' %}" alt="Goabay Logo" height="40">
+                <a href="{% url 'home' %}"><img src="{% static 'site_app/img/logo/logo.svg' %}" alt="Goabay Logo" height="40"></a>
             </div>
+
+            <!-- Search Mob -->
             <div class="d-flex flex-grow-1 px-2">
                 <div class="search-box d-flex align-items-center w-100">
                     <input type="text" class="form-control search-input" placeholder="🤔 Search">
                     <button class="btn btn-primary search-btn">GO!</button>
                 </div>
             </div>
-            <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+
+            <!-- Account mob-->
+            <button class="btn btn-link p-0 d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#mobileAccountDropdown" aria-expanded="false">
+                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="user-avatar me-2">
+            </button>
+
         </div>
+
+        <!-- Account menu mob (будет сворачиваться) -->
+        <div class="collapse" id="mobileAccountDropdown">
+            <ul class="list-group">
+                <li><a class="list-group-item" href="{% url 'account' %}">🪪 My Account</a></li>
+                <li><a class="list-group-item" href="wishlist.html">💖 Wishlist</a></li>
+                <li><a class="list-group-item" href="wallet.html">💰 Wallet</a></li>
+                <li><a class="list-group-item" href="coupons.html">🎫 Coupons & Discounts</a></li>
+                <li><a class="list-group-item" href="messages.html">🔔 Notifications</a></li>
+                <li><a class="list-group-item" href="cart.html">🛒 My Cart</a></li>
+                <li><a class="list-group-item" href="adress.html">📍 My Adress</a></li>
+                <li><a class="list-group-item" href="orders.html">🧾 Orders</a></li>
+                <li><a class="list-group-item" href="track.html">🎈 Track my Order</a></li>
+                <li><a class="list-group-item" href="settings.html">⚙️ Settings</a></li>
+                <li><a class="list-group-item text-danger" href="#">⬅️ Logout</a></li>
+            </ul>
+        </div>
+
+
     </div>
 
-    <!-- Планшетная версия -->
-    <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
-            
-        <!-- Лого, поиск, меню -->
-        <div class="d-flex align-items-center py-1 w-100 justify-content-between" style="gap: 10px;">
-            <div class="d-flex w-auto" style="gap: 10px;">
-                <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
-                <button class="btn-box menu-button" aria-label="Menu"><span class="icon">☰</span></button>
+    <!-- overlay dropdown mob menu-->
+    <div id="overlay-dropdown"></div>
+
+    <!-- MOBILE BOTTOM BAR -->
+    <div class="mobile-bottom-bar d-flex align-items-center d-md-none gap-2">
+
+        <!-- ACTION BAR Horizontal scrolling -->
+        <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
+
+            <!-- Login -->
+            <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">
+                <span class="icon">🔑</span>
+                <span class="btn-title">Login</span>
+            </a>
+
+            <!-- Cart -->
+            <button class="btn-box btn-box--cart" aria-label="Shopping cart">
+                <span class="btn-box__icon">🛒</span>
+                <span class="btn-box__badge btn-box__badge--count">0</span>
+                <span class="btn-box__title btn-box__title--price">
+                    <span class="final-price price-value" data-inr="0">0</span>
+                    <span class="currency-symbol">₹</span>
+                </span>
+            </button>
+
+            <!-- Currency -->
+            <div class="btn-box" aria-label="Currency">
+                <span class="icon">💵</span>
+                <select id="currency-select" class="currency-select">
+                    <option value="INR" selected>₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                    <option value="RUB">₽ RUB</option>
+                </select>
             </div>
-                
-            <div class="d-flex flex-nowrap overflow-auto justify-content-between p-1 w-100" style="gap: 10px;">
-                <button class="btn-box" aria-label="Login" style="min-width: 80px;">
+
+            <!-- Language -->
+            <div class="btn-box" aria-label="Language">
+                <span class="icon">🌐</span>
+                <select id="language-select" class="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ru">Русский</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                </select>
+            </div>
+
+            <!-- Wishlist -->
+            <button class="btn-box btn-box--wishlist" aria-label="Wishlist">
+                <span class="btn-box__icon">💖</span>
+                <span class="btn-box__badge btn-box__badge--count">0</span>
+            </button>
+
+            <!-- Messages -->
+            <button class="btn-box btn-box--messages" aria-label="Messages">
+                <span class="btn-box__icon">🔔</span>
+                <span class="btn-box__badge btn-box__badge--count">0</span>
+            </button>
+
+            <!-- Wallet -->
+            <button class="btn-box btn-box--wallet" aria-label="Wallet">
+                <span class="btn-box__icon">💰</span>
+                <span class="btn-box__badge btn-box__badge--count">0</span>
+            </button>
+
+        </div>
+
+        <!-- Menu Button -->
+        <button class="btn-box btn-box--menu" aria-label="Menu"><span class="icon">☰</span></button>
+
+    </div>
+
+    <!-- TABLET -->
+    <div class="row pad-header d-none d-md-flex d-lg-flex d-xl-none px-3">
+
+        <!-- 1 ROW -->
+        <div class="d-flex align-items-center p-1 w-100 justify-content-between" style="gap: 10px;">
+
+            <!-- logo, menu -->
+            <div class="d-flex w-auto" style="gap: 10px;">
+
+                <!-- Logo Small -->
+                <img src="{% static 'site_app/img/logo/logo-25.svg' %}" alt="Goabay Logo" height="40">
+
+                <!-- Menu Button -->
+                <button class="btn-box btn-box--menu" aria-label="Menu"><span class="icon">☰</span></button>
+
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="d-flex flex-nowrap overflow-auto p-1 w-100" style="gap: 10px;">
+
+                <!-- Account Mobile !!СДЕЛАТЬ ОТДЕЛЬНОЕ ВЫПАДАЮЩЕЕ МЕНЮ ДЛЯ ТЕЛЕФОНА И ПЛАНШЕТА !!-->
+                <button class="btn-box" aria-label="Login">🪪<span class="btn-title">Hi! Mr. Nickson</span></button>
+
+                <!-- Login -->
+                <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">
                     <span class="icon">🔑</span>
                     <span class="btn-title">Login</span>
+                </a>
+
+                <!-- Cart -->
+                <button class="btn-box btn-box--cart" aria-label="Shopping cart">
+                    <span class="btn-box__icon">🛒</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
+                    <span class="btn-box__title btn-box__title--price">
+                        <span class="final-price price-value" data-inr="0">0</span>
+                        <span class="currency-symbol">₹</span>
+                    </span>
                 </button>
-                <button class="btn-box open-cart-btn" aria-label="Shopping cart">
-                    <span class="icon">🛒</span>
-                    <span class="badge">99</span>
-                    <span class="btn-title">157.716</span>
-                </button>
-                <!-- Currency Button -->
+
+                <!-- Currency -->
                 <div class="btn-box" aria-label="Currency">
                     <span class="icon">💵</span>
-                    <select id="currency-select" class="currency-select">
+                    <select class="currency-select">
                         <option value="INR" selected>₹ INR</option>
                         <option value="USD">$ USD</option>
                         <option value="EUR">€ EUR</option>
                         <option value="RUB">₽ RUB</option>
                     </select>
                 </div>
-                <!-- Language Button -->
+
+                <!-- Language -->
                 <div class="btn-box" aria-label="Language">
                     <span class="icon">🌐</span>
-                    <select id="language-select" class="language-select">
+                    <select class="language-select">
                         <option value="en" selected>English</option>
                         <option value="es">Español</option>
                         <option value="fr">Français</option>
@@ -143,26 +318,31 @@
                         <option value="zh">中文</option>
                     </select>
                 </div>
-                <button class="btn-box" aria-label="Wishlist">
-                    <span class="icon">💖</span>
-                    <span class="badge">25</span>
+
+                <!-- Wishlist -->
+                <button class="btn-box btn-box--wishlist" aria-label="Wishlist">
+                    <span class="btn-box__icon">💖</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
-                <button class="btn-box" aria-label="Compare products">
-                    <span class="icon">⚖️</span>
-                    <span class="badge">10</span>
+
+                <!-- Messages -->
+                <button class="btn-box btn-box--messages" aria-label="Messages">
+                    <span class="btn-box__icon">🔔</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
-                <button class="btn-box" aria-label="Notifications">
-                    <span class="icon">🔔</span>
-                    <span class="badge">10</span>
+
+                <!-- Wallet -->
+                <button class="btn-box btn-box--wallet" aria-label="Wallet">
+                    <span class="btn-box__icon">💰</span>
+                    <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
-                <button class="btn-box" aria-label="Coins">
-                    <span class="icon">💰</span>
-                    <span class="badge">99</span>
-                </button>
+
             </div>
         </div>
 
-        <div class="d-flex align-items-center pb-2 w-100 justify-content-between">
+        <!-- 2 ROW -->
+        <div class="d-flex align-items-center pb-2 px-0 w-100 justify-content-between">
+
             <div class="d-flex flex-grow-1">
                 <div class="search-box d-flex align-items-center">
                     <select class="form-select category-select">
@@ -177,6 +357,7 @@
                     <button class="btn btn-primary search-btn">Lets GO!</button>
                 </div>
             </div>
+
         </div>
 
     </div>

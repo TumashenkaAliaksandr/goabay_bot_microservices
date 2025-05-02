@@ -1,15 +1,40 @@
 /* Version 1-5  */
 
-/* Типографика ---------------------------------------------------------------------------------*/
-:root {
-  --primary-color: #2bcbba;
-}
+/* TYPOGRAPHY ----------------------------------------------------------------------------------*/
+/* DEFAULT SETTINGS ----------------------------------------------------------------------------*/
+
+/* HEADER --------------------------------------------------------------------------------------*/
+/* SEARCH FIELD --------------------------------------------------------------------------------*/
+/* BTN BOX STYLE -------------------------------------------------------------------------------*/
+
+/* BOX -----------------------------------------------------------------------------------------*/
+/* CART ----------------------------------------------------------------------------------------*/
+
+/* OFFCANVAS -----------------------------------------------------------------------------------*/
+
+/* ACCORDION -----------------------------------------------------------------------------------*/
+
+/* ITEM BOX - CATEGORY BRAND BOX ---------------------------------------------------------------*/
+/* SERVICE BOX ---------------------------------------------------------------------------------*/
+
+/* VERTICAL MENU -------------------------------------------------------------------------------*/
+
+/* STICKY SIDE BANNER --------------------------------------------------------------------------*/
+
+/* HORIZONTAL LIST, BEFORE/AFTER SHOP LOOP, BREADCRUMBS, PAGINATION ----------------------------*/
+
+/* ACCOUNT -------------------------------------------------------------------------------------*/
+
+/* THE SWITCH - THE BOX AROUND THE SLIDER ------------------------------------------------------*/
+
+/* FOOTER --------------------------------------------------------------------------------------*/
 
 
+
+/* TYPOGRAPHY ----------------------------------------------------------------------------------*/
 h1 {
     font-size: 1.8rem; /* 40px */
     font-weight: 600;
-
 }
 
 h2 {
@@ -37,7 +62,7 @@ h6 {
     font-weight: 300;
 }
 
-/* Стандартные настройки---------------------------------------------------------------------------------*/
+/* DEFAULT SETTINGS ----------------------------------------------------------------------------*/
 
 /* Сброс стандартных стилей браузера */
 * {
@@ -46,7 +71,6 @@ h6 {
     box-sizing: border-box;
     scroll-behavior: smooth; /* Добавляет плавную прокрутку */
 }
-
 
 body{
   background-color: #F4F6F9;
@@ -78,22 +102,267 @@ html {
     height: 0;
 }
 
+/* HEADER --------------------------------------------------------------------------------------*/
+.header{ background: #fff; /* Фон белый */
+    z-index: 1200;
 
-/*Тестовые боксы для проверки высоты и ширины блока-----------------------------*/
-.test-box {
-    background: #fff;
-    padding: 15px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+}
+[data-theme="dark"] .header {
+    background: #121212; /* Тёмный фон */
+}
+
+/* top-bar Верхняя часть с акцией */
+.top-bar {
+    position: relative;
+    z-index: 1200;
+    background: #00BA44;
+    color: white;
+    font-size: 14px;
+    height: 40px;
+    }
+.menu-button {
+    font-size: 24px;
+    cursor: pointer;
+    }
+.cart-box {
+    display: flex;
+    align-items: center;
+}
+
+/*Кнопка зактыть*/
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer; /* Удобство клика */
+}
+[data-theme="dark"] .top-bar {
+    background: #000000;
+    color: #ffffff;
+}
+
+/*Mobile bottom bar*/
+.mobile-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+}
+[data-theme="dark"] .mobile-bottom-bar {
+    background-color: #121212;
+}
+
+.mobile-header {
+    position: relative;
+    z-index: 1200;
+}
+
+#overlay-dropdown {
+    position: fixed;
+    inset: 0;
+    background: rgb(255, 255, 255);
+    z-index: 1150;
+    display: none;
+  }
+  #overlay-dropdown.active {
+    display: block;
+  }
+  [data-theme="dark"] #overlay-dropdown {
+    background: rgb(0, 0, 0);
+  }
+
+/* Отступ от хедера */
+.header-offset {
+    height: 120px; /* По умолчанию */
+}
+
+@media (max-width: 1200px) {
+    .header-offset {
+        height: 170px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-offset {
+        height: 100px;
+    }
+}
+
+
+/* SEARCH FIELD --------------------------------------------------------------------------------*/
+.search-box {
+    background: #f5f5f5;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
     width: 100%;
+    min-height: 40px;
+}
+[data-theme="dark"] .search-box {
+    background: #2c2c2e;
 }
 
-[data-theme="dark"] .test-box{
-  background-color: #1f1f1f;
+.category-select {
+    width: 40%;
+    border: none;
+    background: #E9E9E9;
+    padding: 10px;
+    border-radius: 10px 4px 4px 10px;
+}
+[data-theme="dark"] .category-select {
+    background: #3a3a3c;
+    color: #fff;
 }
 
-/* BOX  -------------------------------------------------------------------*/
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+}
+.search-btn {
+    background: #00ba44;
+    color: white;
+    border-radius: 4px 10px 10px 4px;
+    padding: 10px;
+    border: none;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .search-input::placeholder
+ {
+    color: #777;
+}
+
+
+/* BTN BOX STYLE -------------------------------------------------------------------------------*/
+.btn-box {
+    position: relative;
+    font-size: 16px;
+    cursor: pointer;
+    background: #f5f5f5;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    height: 45px;
+    transition: background 0.3s ease-in-out;
+    width: max-content;
+    gap: 8px;
+}
+.btn-box:hover {
+    background-color: #e9ecef;
+}
+[data-theme="dark"] .btn-box {
+    background: #2c2c2e;
+    color: white;
+}
+[data-theme="dark"] .btn-box:hover {
+    background: #3a3a3c;
+}
+
+/* Button icon style */
+.btn-box__icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Box Badge style */
+.btn-box__badge {
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    z-index: 10;
+    color: #a1a1a1;
+}
+
+/* Title style inside buttons */
+.btn-box__title {
+    margin-left: 6px;
+    font-size: 13px;
+    font-weight: 300;
+    color: #000;
+}
+
+[data-theme="dark"] .btn-box__title--price,
+[data-theme="dark"] .btn-title {
+    color: #fff;
+}
+
+/* Cart price style */
+.btn-box__title--price {
+    font-weight: 600;
+    color: #212529;
+}
+
+/*Dropdown menu*/
+.dropdown-menu.show {
+    z-index: 1020;
+}
+[data-theme="dark"]  .dropdown-item {
+    color: #eee; 
+}
+[data-theme="dark"]  .dropdown-item:hover {
+    background-color: #000;
+}
+
+/* Dropdown menu Обёртка collapse */
+#mobileAccountDropdown {
+    background-color: none;
+}
+/* Сами пункты */
+#mobileAccountDropdown .list-group-item {
+    padding: 0.75rem 1rem;
+    font-size: 15px;
+    border: none;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+/* Наведение */
+  #mobileAccountDropdown .list-group-item:hover {
+    background-color: #24d43c;
+}
+[data-theme="dark"] #mobileAccountDropdown .list-group-item {
+    color: #dee2e6;
+}
+
+
+/* Location Currency Language BTN */
+.your-city,
+.language-select,
+.currency-select {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 4px 8px;
+    cursor: pointer;
+    outline: none;
+}
+
+[data-theme="dark"] .language-select,
+[data-theme="dark"] .currency-select {
+    background-color: transparent;
+    color: #eee;
+    border: none;
+}
+
+[data-theme="dark"] .dropdown-menu.show,
+[data-theme="dark"] .language-select option,
+[data-theme="dark"] .currency-select option {
+    background-color: #222; /* фон выпадающих пунктов */
+    color: #eee;            /* текст */
+}
+
+/* BOX -----------------------------------------------------------------------------------------*/
 .box {
     background: #fff;
     padding: 15px;
@@ -107,22 +376,196 @@ html {
   background-color: #1f1f1f;
 }
 
+/* CART ----------------------------------------------------------------------------------------*/
+.card {
+  background: #fff;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  border-radius: 10px;
+  width: 100%;
+  border: none;
+}
+.card-header {
+  background-color: #e9e9e9;
+  border-bottom: none;
+  font-size: 1rem;
+}
 
-/* CARD STYLE --------------------------------------------------------*/
+/* Темная тема */
+[data-theme="dark"] .card {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #ddd;
+}
+
+[data-theme="dark"] .card-header {
+  background-color: #2a2a2a;
+  border-bottom-color: #444;
+  color: #fff;
+}
 
 [data-theme="dark"] .card li {
   color: #fff;
 }
 
-/*прайсинг табл хедел калар*/
+/*прайсинг табл хедел калар на стр оплаты*/
 .ems { background-color: #ff8843;}
 .indpost { background-color: #fd6667;}
 .dhl { background-color: #ffd75a;}
 .fed { background-color: #721dcf;}
 
 
+/* OFFCANVAS -----------------------------------------------------------------------------------*/
 
-/* Аккордеон ----------------------------------------------------- */
+/*SIDE MENU*/
+.side-menu {
+    position: fixed;
+    left: -350px;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background-color: #fff;
+    color: #333;
+    overflow-y: auto;        /* Прокрутка работает */
+    -ms-overflow-style: none; /* IE и Edge */
+    scrollbar-width: none;    /* Firefox */
+    transition: left 0.4s ease;
+    z-index: 1300;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+/* Chrome, Safari, Opera */
+.side-menu::-webkit-scrollbar {
+    display: none;
+}
+.side-menu.active {
+    left: 0;
+}
+.menu-list {
+    list-style: none;
+    padding: 0;
+}
+.menu-list li a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+.menu-list li a:hover {
+    background-color: #00BA44;
+}
+.has-submenu > a::after {
+    float: right;
+    transition: transform 0.3s;
+}
+.has-submenu ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    background: #E9E9E9;
+    transition: max-height 0.4s ease;
+}
+.has-submenu.active .submenu {
+    max-height: 500px; 
+}
+
+/* Тёмная тема для бокового меню */
+[data-theme="dark"] .side-menu {
+    background-color: #000;
+    color: #f0f0f0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .side-menu .close-btn {
+    color: #ccc;
+}
+[data-theme="dark"] .menu-list li a {
+    color: #eee;
+}
+[data-theme="dark"] .menu-list li a:hover {
+    background-color: #2e7d32; /* Темнее зелёного */
+}
+[data-theme="dark"] .submenu {
+    background: #121212;
+}
+
+/* SIDE MENUS */
+.cart-menu {
+    width: 350px;
+    max-width: 90%;
+    height: 100vh;
+    background: #ededed;
+    position: fixed;
+    right: -400px; /* скрыта по умолчанию */
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 1300;
+    transition: right 0.3s ease;
+}
+.cart-menu.active {
+    right: 0; /* показываем корзину */
+}
+
+/* Кнопка закрытия справа */
+.close-side-btn {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* Список товаров с прокруткой, но без полосы прокрутки */
+.cart-menu__items {
+    padding: 5px;
+    flex-grow: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* IE и Edge */
+    scrollbar-width: none;      /* Firefox */
+}
+.cart-menu__items::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari */
+}
+
+/*Оверлей меню и корзины*/
+.overlay, #cartOverlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4); /* по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1250;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.overlay.active, 
+#cartOverlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/*темная тема*/
+[data-theme="dark"] .cart-menu {
+    background: #1e1e1e;
+    color: #f0f0f0;
+    box-shadow: -2px 0 12px rgba(0, 0, 0, 0.6);
+}
+[data-theme="dark"] .cart-menu__items {
+    background-color: #121212; /* на случай, если фон будет прозрачным */
+}
+
+
+/* ACCORDION -----------------------------------------------------------------------------------*/
 .accordion-button:not(.collapsed) {
     background-color: #00ba44;
     color: #fff;
@@ -165,8 +608,7 @@ html {
 }
 
 
-
-/* ITEM BOX - CATEGORY BRAND BOX -------------------------------------------------------------------*/
+/* ITEM BOX - CATEGORY BRAND BOX ---------------------------------------------------------------*/
 .item-box {
   display: flex;
   flex-direction: column;
@@ -178,14 +620,12 @@ html {
   height: 160px;
   text-align: center;
 }
-
 .item-box img {
   max-height: 100px;
   max-width: 100px;
   object-fit: contain;
   margin-bottom: 10px;
 }
-
 .item-title {
   display: block;
   margin-top: 10px;
@@ -193,7 +633,6 @@ html {
   font-weight: 400;
   text-decoration: none;
 }
-
 .item-box:hover {
   transform: translateY(-5px);
 }
@@ -212,7 +651,7 @@ html {
 }
 
 
-/* 🔹 SERVICE BOX----------------------------------------------------------------------------------------------*/
+/* SERVICE BOX ---------------------------------------------------------------------------------*/
 .service-box {
   display: flex;
  /* align-items: center;*/
@@ -225,36 +664,30 @@ html {
   height: 100%;
   transition: transform 0.3s ease;
 }
-
 .service-box:hover {
   transform: translateY(-5px);
 }
-
 .box-icon {
   font-size: 50px;
   flex-shrink: 0;
 }
-
 .service-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 5px;
   color: #000;
 }
-
 .description {
   font-size: 0.8rem;
   color: #555;
   margin-bottom: 10px;
   flex-grow: 1;
 }
-
 .catalog-link {
   font-weight: 600;
   color: #007bff;
   text-decoration: none;
 }
-
 .catalog-link:hover {
   text-decoration: underline;
 }
@@ -291,13 +724,11 @@ html {
   color: #00ba44; /* Изменение цвета ссылки в темной теме */
 }
 
-/* VERTICAL MENU ---------------------------------------------------------------------------------*/
+/* VERTICAL MENU -------------------------------------------------------------------------------*/
 .vertical-menu {
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
 .v-menu-title {
     background: #00ba44;
     color: #fff;
@@ -306,13 +737,11 @@ html {
     border-radius: 10px 10px 0px 0px;
     text-align: center;
 }
-
 .vertical-menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .vertical-menu a {
     display: block;
     padding: 10px;
@@ -327,16 +756,14 @@ html {
     background: #1e1e1e;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
 }
-
 [data-theme="dark"] .v-menu-title {
     color: #fff;
 }
-
 [data-theme="dark"] .vertical-menu a {
     color: #ddd; /* Светлый текст */
 }
 
-/* Липкий сайд-баннер ----------------------------------------------------------------*/
+/* STICKY SIDE BANNER --------------------------------------------------------------------------*/
 .side-banner {
   top: 140px;
   z-index: 1000;
@@ -377,7 +804,7 @@ html {
     color: #000000;
 }
 
-/* HORIZONTAL LIST, BEFORE/AFTER SHOP LOOP, BREADCRUMBS, PAGINATION --------------------------------------------------------------------------------*/
+/* HORIZONTAL LIST, BEFORE/AFTER SHOP LOOP, BREADCRUMBS, PAGINATION ----------------------------*/
 
 /*контейнер*/
 .before-shop-loop,
@@ -446,7 +873,7 @@ html {
     padding: 10px;
 }
 
-/*breadcrumbs ------------------------------------------------*/
+/*breadcrumbs */
 .breadcrumbs-box{
     background: #efefef;
 }
@@ -470,7 +897,7 @@ html {
     font-weight: 600;
 }
 
-/*LOAD MORE Pagination  BTN ----------*/
+/*LOAD MORE Pagination  BTN */
 .load-more-btn {
     display: inline-block;
     background-color: var(--primary-color, #0044ff);
@@ -549,7 +976,7 @@ html {
     background-color: var(--primary-color, #0044ff);
 }
 
-/* ACCOUNT ------------------------------------------------------------------------------------------------------------- */
+/* ACCOUNT -------------------------------------------------------------------------------------*/
 
 .user-profile {
     display: flex;
@@ -558,39 +985,32 @@ html {
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #f9f9f9;
-    margin: 0px 10px 0px 10px;
+   /* margin: 0px 10px 0px 10px;*/
 
 }
-
 .user-info {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px; /* Отступ между блоками */
 }
-
-.avatar {
-    width: 50px;
-    height: 50px;
+.user-avatar {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     object-fit: cover;
 }
-
 .username {
     font-size: 18px;
     font-weight: bold;
 }
-
 .user-actions {
     font-size: 14px;
 }
-
 .account-link,
 .exit-link {
     text-decoration: none;
     color: #007bff;
 }
-
 .account-link:hover,
 .exit-link:hover {
     text-decoration: underline;
@@ -601,16 +1021,13 @@ html {
     border: 1px solid #333;
     color: #e0e0e0;
 }
-
 [data-theme="dark"] .username {
     color: #fff;
 }
-
 [data-theme="dark"] .account-link,
 [data-theme="dark"] .exit-link {
     color: #66b0ff;
 }
-
 [data-theme="dark"] .account-link:hover,
 [data-theme="dark"] .exit-link:hover {
     color: #99ccff;
@@ -618,7 +1035,8 @@ html {
 }
 
 
-/* The switch - the box around the slider -----------------------------------*/
+/* THE SWITCH - THE BOX AROUND THE SLIDER ------------------------------------------------------*/
+
 /* Контейнер переключателя */
 .switch {
   position: relative;
@@ -670,8 +1088,7 @@ html {
 }
 
 
-/* FOOTER -----------------------------------------------------------------------------------------------------------------*/
-
+/* FOOTER --------------------------------------------------------------------------------------*/
 .footer  {
 background: #fff;
 }
@@ -680,8 +1097,7 @@ background: #fff;
 background: #000;
 }
 
-
-/* СОЦИКОНКИ --------------------------*/
+/* СОЦИКОНКИ */
   .social-links a {
     display: flex;
     align-items: center;
@@ -720,12 +1136,9 @@ background: #000;
   .social-icon:nth-child(6) { background-color: #f2a900; } /* Odnoklassniki */
   .social-icon:nth-child(7) { background-color: #0088cc; } /* Telegram */
 
-
-
     .footer .social-links {
         justify-content: end;
     }
-
 
 /* Стиль для мобильной и планшетной версии ---------------------------------*/
 @media (max-width: 767px) {
@@ -759,7 +1172,6 @@ background: #000;
         text-align: center; /* Центрируем контент в каждой колонке */
     }
 
-
 }
 
 /* Стиль для планшетов */
@@ -783,7 +1195,6 @@ background: #000;
     }
 }
 
-
 /* НАВЕРХ Скрыть на телефонах */
 @media (max-width: 767.98px) {
   #backToTop {
@@ -791,115 +1202,4 @@ background: #000;
   }
 }
 
-body {
-      /*background-image: url('img/banner/mockup-box-pattern-2.png');*/
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .auth-box {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-    .tab-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
-    .tab-buttons button {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      background: #e9ecef;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .tab-buttons button.active {
-      background: #2db34a;
-      color: white;
-    }
-    .form-section {
-      display: none;
-    }
-    .form-section.active {
-      display: block;
-    }
-    .social-login {
-      margin-top: 1rem;
-      text-align: center;
-    }
-    .social-login button {
-      margin: 5px;
-      width: 48px;
-      height: 48px;
-      border: none;
-      border-radius: 50%;
-      font-size: 22px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f0f0f0;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .social-login button:hover {
-      background-color: #ddd;
-    }
-    .is-invalid {
-      border-color: #dc3545;
-    }
-    .invalid-feedback {
-      display: none;
-      color: #dc3545;
-      font-size: 0.875rem;
-    }
-    .is-invalid ~ .invalid-feedback {
-      display: block;
-    }
-    .iti {
-      width: 100%;
-    }
-    .iti__flag-container {
-      z-index: 1;
-    }
-    .iti__country-list {
-      max-height: 200px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      z-index: 2;
-      width: 336px;
-      border: 1px solid #ccc;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .iti__country {
-      display: flex;
-      align-items: center;
-      padding: 5px 10px;
-    }
-    .iti__flag {
-      margin-right: 10px;
-    }
-    .password-toggle {
-      position: absolute;
-      right: 10px;
-      top: 75%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-    .password-field {
-      position: relative;
-    }
+
