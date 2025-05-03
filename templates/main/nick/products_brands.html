@@ -4,582 +4,299 @@
 
 
 {% block content %}
-<!-- BREADCRUMBS BOX-->
-<div class="container-fluid breadcrumbs-box mb-3">
-    <div class="row">
-        <div class="col-12">
+    <!-- BREADCRUMBS BOX-->
+    <div class="container-fluid breadcrumbs-box mb-3">
+        <div class="row">
+            <div class="col-12">
 
-            <!-- Отступ под фиксированную шапку -->
-            <div class="header-offset"></div>
+                <!-- Отступ под фиксированную шапку -->
+                <div class="header-offset"></div>
 
-            <!-- BREADCRUMBS -->
-            <div class="breadcrumbs-container mb-3">
-                {% if brand.id %}
-                    <h1 class="breadcrumbs-title">
-                        Products Brand
-                        {% with brand_name=brand.name|default:"Brand" %}
-                            {% if brand_name|length <= 13 %}
-                                {{ brand_name }}
-                            {% else %}
-                                🏷️
-                            {% endif %}
-                        {% endwith %}
-                    </h1>
-                {% endif %}
-                <nav class="breadcrumbs">
-                    <a href="#" class="breadcrumb-item">Home</a>
-                    <span class="breadcrumb-separator">👉🏼</span>
-                    <a href="#" class="breadcrumb-item">Indian Store</a>
-                    <span class="breadcrumb-separator">👉🏼</span>
+                <!-- BREADCRUMBS -->
+                <div class="breadcrumbs-container mb-3">
                     {% if brand.id %}
-                    <a href="#" class="breadcrumb-item active">{{ brand.name }}</a>
+                        <h1 class="breadcrumbs-title">
+                            Products Brand
+                            {% with brand_name=brand.name|default:"Brand" %}
+                                {% if brand_name|length <= 13 %}
+                                    {{ brand_name }}
+                                {% else %}
+                                    🏷️
+                                {% endif %}
+                            {% endwith %}
+                        </h1>
                     {% endif %}
-                </nav>
-            </div>
-            <!-- END BREADCRUMBS -->
+                    <nav class="breadcrumbs">
+                        <a href="#" class="breadcrumb-item">Home</a>
+                        <span class="breadcrumb-separator">👉🏼</span>
+                        <a href="#" class="breadcrumb-item">Indian Store</a>
+                        <span class="breadcrumb-separator">👉🏼</span>
+                        {% if brand.id %}
+                            <a href="#" class="breadcrumb-item active">{{ brand.name }}</a>
+                        {% endif %}
+                    </nav>
+                </div>
+                <!-- END BREADCRUMBS -->
 
+            </div>
         </div>
     </div>
-</div>
-<!-- END BREADCRUMBS BOX -->
+    <!-- END BREADCRUMBS BOX -->
 
-<!-- 2 box 2 колонки -->
-<div class="container-fluid">
-    <div class="row">
+    <!-- 2 box 2 колонки -->
+    <div class="container-fluid">
+        <div class="row">
 
-        <!-- Первая колонка с вертикальным меню -->
-        <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-block">
+            <!-- Первая колонка с вертикальным меню -->
+            <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-none d-lg-block">
 
-            <!-- FILTER BOX-->
-            <div class="vertical-menu mb-3 sticky-top" style="top: 140px; z-index: 1000;">
-                <h4 class="v-menu-title fw-bold text-uppercase">Goods from India</h4>
+                <!-- FILTER BOX-->
+                <div class="vertical-menu mb-3 sticky-top" style="top: 140px; z-index: 1000;">
+                    <h4 class="v-menu-title fw-bold text-uppercase">Goods from India</h4>
 
-                <!-- FILTER PRODUCT-->
-                <div class="filter-container">
-                    <!-- NOW IN GOA WIDGET -->
-                    <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
+                    <!-- FILTER PRODUCT-->
+                    <div class="filter-container">
+                        <!-- NOW IN GOA WIDGET -->
+                        <div id="goa-widget" class="box goa-widget mb-3 p-3 rounded shadow-sm">
 
-                        <!-- Top row: title and theme toggle -->
-                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
-                            <h5 class="city-name mb-0">Now in Goa, India</h5>
+                            <!-- Top row: title and theme toggle -->
+                            <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                                <h5 class="city-name mb-0">Now in Goa, India</h5>
 
-                            <label class="switch">
-                                <input type="checkbox" class="theme-toggle">
-                                <span class="slider round"></span>
-                            </label>
+                                <label class="switch">
+                                    <input type="checkbox" class="theme-toggle">
+                                    <span class="slider round"></span>
+                                </label>
+
+                            </div>
+
+                            <!-- Time and day/night icon -->
+                            <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                                <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                                <span id="day-icon" class="fs-4">🌞</span>
+                            </div>
+
+                            <!-- Sunrise and sunset -->
+                            <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                                <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                                <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                            </div>
+
+                            <!-- Temperature and weather -->
+                            <div class="d-flex align-items-center gap-3 pt-2">
+                                <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                                <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                                     style="max-width: 40px; height: auto;">
+                                <div id="weather-desc" class="fw-light">--</div>
+                            </div>
 
                         </div>
+                        <!-- END NOW IN GOA WIDGET -->
 
-                        <!-- Time and day/night icon -->
-                        <div class="d-flex align-items-center gap-3 border-bottom py-2">
-                            <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
-                            <span id="day-icon" class="fs-4">🌞</span>
+                        <!-- Фильтр по бренду -->
+                        <div class="filter-brand mb-2">
+                            <h5>Brand</h5>
+                            <div class="brand-list" id="brand-list">
+                                <!-- Первые 10 брендов -->
+                                <label><input type="checkbox" value="sharp" onchange="applyFilter()"> Sharp</label>
+                                <label><input type="checkbox" value="xiaomi" onchange="applyFilter()"> Xiaomi</label>
+                                <label><input type="checkbox" value="lg" onchange="applyFilter()"> LG</label>
+                                <label><input type="checkbox" value="levoit" onchange="applyFilter()"> Levoit</label>
+                                <label><input type="checkbox" value="daikin" onchange="applyFilter()"> Daikin</label>
+                                <label><input type="checkbox" value="philips" onchange="applyFilter()"> Philips</label>
+                                <label><input type="checkbox" value="kudixiong" onchange="applyFilter()">
+                                    KUDIXIONG</label>
+                                <label><input type="checkbox" value="jiashi" onchange="applyFilter()"> JIASHI</label>
+                                <label><input type="checkbox" value="uvgreen" onchange="applyFilter()"> UVGreen</label>
+                                <label><input type="checkbox" value="samsung" onchange="applyFilter()"> Samsung</label>
+
+                                <!-- Остальные бренды скрыты по умолчанию -->
+                                <div id="more-brands" class="hidden">
+                                    <label><input type="checkbox" value="electrolux" onchange="applyFilter()">
+                                        Electrolux</label>
+                                    <label><input type="checkbox" value="coway" onchange="applyFilter()"> Coway</label>
+                                    <label><input type="checkbox" value="homedics" onchange="applyFilter()">
+                                        HoMedics</label>
+                                    <label><input type="checkbox" value="nobard" onchange="applyFilter()">
+                                        Nobard</label>
+                                    <label><input type="checkbox" value="hapo" onchange="applyFilter()"> HAPO</label>
+                                    <label><input type="checkbox" value="taotronics" onchange="applyFilter()">
+                                        TaoTronics</label>
+                                    <label><input type="checkbox" value="xiaozhubangchu" onchange="applyFilter()">
+                                        XiaoZhubangchu</label>
+                                    <label><input type="checkbox" value="locklock" onchange="applyFilter()">
+                                        Lock&Lock</label>
+                                    <label><input type="checkbox" value="taidu" onchange="applyFilter()"> TAIDU</label>
+                                    <label><input type="checkbox" value="sada" onchange="applyFilter()"> Sada</label>
+                                    <label><input type="checkbox" value="sunhouse" onchange="applyFilter()">
+                                        Sunhouse</label>
+                                    <label><input type="checkbox" value="aloma" onchange="applyFilter()"> ALOMA</label>
+                                    <label><input type="checkbox" value="uultty" onchange="applyFilter()"> U
+                                        ULTY</label>
+                                    <label><input type="checkbox" value="purifie" onchange="applyFilter()">
+                                        Purifie</label>
+                                    <label><input type="checkbox" value="airdog" onchange="applyFilter()">
+                                        Airdog</label>
+                                    <label><input type="checkbox" value="casper" onchange="applyFilter()">
+                                        Casper</label>
+                                    <label><input type="checkbox" value="fujihome" onchange="applyFilter()">
+                                        FujiHome</label>
+                                    <label><input type="checkbox" value="romoss" onchange="applyFilter()">
+                                        Romoss</label>
+                                </div>
+                            </div>
+                            <a href="#" class="toggle-brands" onclick="toggleBrands(event)">VIEW MORE</a>
                         </div>
 
-                        <!-- Sunrise and sunset -->
-                        <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
-                            <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
-                            <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                        <!-- Фильтр по рейтингу -->
+                        <div class="filter-rating mb-2">
+                            <h5>Rating</h5>
+                            <label><input type="checkbox" value="5" onchange="applyFilter()"> ⭐⭐⭐⭐⭐</label><br>
+                            <label><input type="checkbox" value="4" onchange="applyFilter()"> ⭐⭐⭐⭐</label><br>
+                            <label><input type="checkbox" value="3" onchange="applyFilter()"> ⭐⭐⭐</label><br>
+                            <label><input type="checkbox" value="2" onchange="applyFilter()"> ⭐⭐</label><br>
+                            <label><input type="checkbox" value="1" onchange="applyFilter()"> ⭐</label>
                         </div>
 
-                        <!-- Temperature and weather -->
-                        <div class="d-flex align-items-center gap-3 pt-2">
-                            <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
-                            <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
-                                 style="max-width: 40px; height: auto;">
-                            <div id="weather-desc" class="fw-light">--</div>
+                        <!-- Фильтр по сортировке -->
+                        <div class="filter-sort mb-2">
+                            <h5>Sort by</h5>
+                            <label><input type="checkbox" value="all" onchange="applyFilter()"> All Products</label><br>
+                            <label><input type="checkbox" value="low-high" onchange="applyFilter()"> Price: Low to
+                                High</label><br>
+                            <label><input type="checkbox" value="high-low" onchange="applyFilter()"> Price: High to
+                                Low</label><br>
+                            <label><input type="checkbox" value="newest" onchange="applyFilter()"> Newest
+                                First</label><br>
+                            <label><input type="checkbox" value="bestsellers" onchange="applyFilter()"> Best
+                                Sellers</label><br>
+                            <label><input type="checkbox" value="top-rated" onchange="applyFilter()"> Best Rated</label><br>
+                            <label><input type="checkbox" value="discounted" onchange="applyFilter()">
+                                Discounted</label>
                         </div>
 
-                    </div>
-                    <!-- END NOW IN GOA WIDGET -->
+                        <!-- Фильтр по цене -->
+                        <div class="filter-price mb-2">
+                            <h5>Price</h5>
+                            <label><input type="checkbox" value="0-50" onchange="applyFilter()"> ₹50 – ₹500</label><br>
+                            <label><input type="checkbox" value="51-100" onchange="applyFilter()"> ₹500 –
+                                ₹1000</label><br>
+                            <label><input type="checkbox" value="101-200" onchange="applyFilter()"> ₹1000 –
+                                ₹5000</label><br>
+                            <label><input type="checkbox" value="201-500" onchange="applyFilter()"> ₹5000 –
+                                ₹10000</label><br>
+                            <label><input type="checkbox" value="501+" onchange="applyFilter()"> ₹10000+</label>
+                        </div>
 
-                    <!-- Фильтр по бренду -->
-                    <div class="filter-brand mb-2">
-                        <h5>Brand</h5>
-                        <div class="brand-list" id="brand-list">
-                            <!-- Первые 10 брендов -->
-                            <label><input type="checkbox" value="sharp" onchange="applyFilter()"> Sharp</label>
-                            <label><input type="checkbox" value="xiaomi" onchange="applyFilter()"> Xiaomi</label>
-                            <label><input type="checkbox" value="lg" onchange="applyFilter()"> LG</label>
-                            <label><input type="checkbox" value="levoit" onchange="applyFilter()"> Levoit</label>
-                            <label><input type="checkbox" value="daikin" onchange="applyFilter()"> Daikin</label>
-                            <label><input type="checkbox" value="philips" onchange="applyFilter()"> Philips</label>
-                            <label><input type="checkbox" value="kudixiong" onchange="applyFilter()"> KUDIXIONG</label>
-                            <label><input type="checkbox" value="jiashi" onchange="applyFilter()"> JIASHI</label>
-                            <label><input type="checkbox" value="uvgreen" onchange="applyFilter()"> UVGreen</label>
-                            <label><input type="checkbox" value="samsung" onchange="applyFilter()"> Samsung</label>
-
-                            <!-- Остальные бренды скрыты по умолчанию -->
-                            <div id="more-brands" class="hidden">
-                                <label><input type="checkbox" value="electrolux" onchange="applyFilter()">
-                                    Electrolux</label>
-                                <label><input type="checkbox" value="coway" onchange="applyFilter()"> Coway</label>
-                                <label><input type="checkbox" value="homedics" onchange="applyFilter()">
-                                    HoMedics</label>
-                                <label><input type="checkbox" value="nobard" onchange="applyFilter()"> Nobard</label>
-                                <label><input type="checkbox" value="hapo" onchange="applyFilter()"> HAPO</label>
-                                <label><input type="checkbox" value="taotronics" onchange="applyFilter()">
-                                    TaoTronics</label>
-                                <label><input type="checkbox" value="xiaozhubangchu" onchange="applyFilter()">
-                                    XiaoZhubangchu</label>
-                                <label><input type="checkbox" value="locklock" onchange="applyFilter()">
-                                    Lock&Lock</label>
-                                <label><input type="checkbox" value="taidu" onchange="applyFilter()"> TAIDU</label>
-                                <label><input type="checkbox" value="sada" onchange="applyFilter()"> Sada</label>
-                                <label><input type="checkbox" value="sunhouse" onchange="applyFilter()">
-                                    Sunhouse</label>
-                                <label><input type="checkbox" value="aloma" onchange="applyFilter()"> ALOMA</label>
-                                <label><input type="checkbox" value="uultty" onchange="applyFilter()"> U ULTY</label>
-                                <label><input type="checkbox" value="purifie" onchange="applyFilter()"> Purifie</label>
-                                <label><input type="checkbox" value="airdog" onchange="applyFilter()"> Airdog</label>
-                                <label><input type="checkbox" value="casper" onchange="applyFilter()"> Casper</label>
-                                <label><input type="checkbox" value="fujihome" onchange="applyFilter()">
-                                    FujiHome</label>
-                                <label><input type="checkbox" value="romoss" onchange="applyFilter()"> Romoss</label>
+                        <!-- Фильтр по цвету -->
+                        <div class="filter-color mb-2">
+                            <h5>Color</h5>
+                            <div class="color-boxes">
+                                <label class="color-box" style="--color: black"><input type="checkbox" value="black"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: white"><input type="checkbox" value="white"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: red"><input type="checkbox" value="red"
+                                                                                     onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: blue"><input type="checkbox" value="blue"
+                                                                                      onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: green"><input type="checkbox" value="green"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: yellow"><input type="checkbox" value="yellow"
+                                                                                        onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: orange"><input type="checkbox" value="orange"
+                                                                                        onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: pink"><input type="checkbox" value="pink"
+                                                                                      onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: purple"><input type="checkbox" value="purple"
+                                                                                        onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: brown"><input type="checkbox" value="brown"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: gray"><input type="checkbox" value="gray"
+                                                                                      onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: beige"><input type="checkbox" value="beige"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: cyan"><input type="checkbox" value="cyan"
+                                                                                      onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: navy"><input type="checkbox" value="navy"
+                                                                                      onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: olive"><input type="checkbox" value="olive"
+                                                                                       onchange="applyFilter()"></label>
+                                <label class="color-box" style="--color: gold"><input type="checkbox" value="gold"
+                                                                                      onchange="applyFilter()"></label>
                             </div>
                         </div>
-                        <a href="#" class="toggle-brands" onclick="toggleBrands(event)">VIEW MORE</a>
-                    </div>
 
-                    <!-- Фильтр по рейтингу -->
-                    <div class="filter-rating mb-2">
-                        <h5>Rating</h5>
-                        <label><input type="checkbox" value="5" onchange="applyFilter()"> ⭐⭐⭐⭐⭐</label><br>
-                        <label><input type="checkbox" value="4" onchange="applyFilter()"> ⭐⭐⭐⭐</label><br>
-                        <label><input type="checkbox" value="3" onchange="applyFilter()"> ⭐⭐⭐</label><br>
-                        <label><input type="checkbox" value="2" onchange="applyFilter()"> ⭐⭐</label><br>
-                        <label><input type="checkbox" value="1" onchange="applyFilter()"> ⭐</label>
-                    </div>
-
-                    <!-- Фильтр по сортировке -->
-                    <div class="filter-sort mb-2">
-                        <h5>Sort by</h5>
-                        <label><input type="checkbox" value="all" onchange="applyFilter()"> All Products</label><br>
-                        <label><input type="checkbox" value="low-high" onchange="applyFilter()"> Price: Low to
-                            High</label><br>
-                        <label><input type="checkbox" value="high-low" onchange="applyFilter()"> Price: High to
-                            Low</label><br>
-                        <label><input type="checkbox" value="newest" onchange="applyFilter()"> Newest First</label><br>
-                        <label><input type="checkbox" value="bestsellers" onchange="applyFilter()"> Best Sellers</label><br>
-                        <label><input type="checkbox" value="top-rated" onchange="applyFilter()"> Best Rated</label><br>
-                        <label><input type="checkbox" value="discounted" onchange="applyFilter()"> Discounted</label>
-                    </div>
-
-                    <!-- Фильтр по цене -->
-                    <div class="filter-price mb-2">
-                        <h5>Price</h5>
-                        <label><input type="checkbox" value="0-50" onchange="applyFilter()"> ₹50 – ₹500</label><br>
-                        <label><input type="checkbox" value="51-100" onchange="applyFilter()"> ₹500 – ₹1000</label><br>
-                        <label><input type="checkbox" value="101-200" onchange="applyFilter()"> ₹1000 –
-                            ₹5000</label><br>
-                        <label><input type="checkbox" value="201-500" onchange="applyFilter()"> ₹5000 –
-                            ₹10000</label><br>
-                        <label><input type="checkbox" value="501+" onchange="applyFilter()"> ₹10000+</label>
-                    </div>
-
-                    <!-- Фильтр по цвету -->
-                    <div class="filter-color mb-2">
-                        <h5>Color</h5>
-                        <div class="color-boxes">
-                            <label class="color-box" style="--color: black"><input type="checkbox" value="black"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: white"><input type="checkbox" value="white"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: red"><input type="checkbox" value="red"
-                                                                                 onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: blue"><input type="checkbox" value="blue"
-                                                                                  onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: green"><input type="checkbox" value="green"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: yellow"><input type="checkbox" value="yellow"
-                                                                                    onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: orange"><input type="checkbox" value="orange"
-                                                                                    onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: pink"><input type="checkbox" value="pink"
-                                                                                  onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: purple"><input type="checkbox" value="purple"
-                                                                                    onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: brown"><input type="checkbox" value="brown"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: gray"><input type="checkbox" value="gray"
-                                                                                  onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: beige"><input type="checkbox" value="beige"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: cyan"><input type="checkbox" value="cyan"
-                                                                                  onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: navy"><input type="checkbox" value="navy"
-                                                                                  onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: olive"><input type="checkbox" value="olive"
-                                                                                   onchange="applyFilter()"></label>
-                            <label class="color-box" style="--color: gold"><input type="checkbox" value="gold"
-                                                                                  onchange="applyFilter()"></label>
+                        <!-- Фильтр по размеру -->
+                        <div class="filter-attribute mb-2">
+                            <h5>Size</h5>
+                            <label><input type="checkbox" value="S" onchange="applyFilter()"> S</label><br>
+                            <label><input type="checkbox" value="M" onchange="applyFilter()"> M</label><br>
+                            <label><input type="checkbox" value="L" onchange="applyFilter()"> L</label><br>
+                            <label><input type="checkbox" value="XL" onchange="applyFilter()"> XL</label><br>
+                            <label><input type="checkbox" value="XXL" onchange="applyFilter()"> XXL</label>
                         </div>
+
                     </div>
+                    <!-- END FILTER PRODUCT-->
+                </div>
+                <!-- END FILTER BOX-->
 
-                    <!-- Фильтр по размеру -->
-                    <div class="filter-attribute mb-2">
-                        <h5>Size</h5>
-                        <label><input type="checkbox" value="S" onchange="applyFilter()"> S</label><br>
-                        <label><input type="checkbox" value="M" onchange="applyFilter()"> M</label><br>
-                        <label><input type="checkbox" value="L" onchange="applyFilter()"> L</label><br>
-                        <label><input type="checkbox" value="XL" onchange="applyFilter()"> XL</label><br>
-                        <label><input type="checkbox" value="XXL" onchange="applyFilter()"> XXL</label>
+            </div>
+            <!-- END Первая колонка с вертикальным меню -->
+
+            <!-- Вторая колонка -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 col-xxl-10">
+
+                <!-- BEFORE SHOP LOOP -->
+                <div class="before-shop-loop mb-3">
+                    <span>33-48 of over 70,000 results</span>
+
+                    <!-- Вид отображения (список, сетка и т. д.) -->
+                    <div class="shop-loop-controls">
+                        <span class="shop-loop-view">View:</span>
+                        <a href="#" class="shop-loop-item active" data-view="archive-product-1"><i
+                                class="fa fa-th-list"></i></a>
+                        <a href="#" class="shop-loop-item" data-view="archive-product-2"><i class="fa fa-th-large"></i></a>
+                        <a href="#" class="shop-loop-item" data-view="archive-product-3"><i class="fa fa-th"></i></a>
+                        <a href="#" class="shop-loop-item" data-view="archive-product-4"><i class="fa fa-list"></i></a>
                     </div>
-
                 </div>
-                <!-- END FILTER PRODUCT-->
-            </div>
-            <!-- END FILTER BOX-->
+                <!-- END BEFORE SHOP LOOP -->
 
-        </div>
-        <!-- END Первая колонка с вертикальным меню -->
-
-        <!-- Вторая колонка -->
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 col-xxl-10">
-
-            <!-- BEFORE SHOP LOOP -->
-            <div class="before-shop-loop mb-3">
-                <span>33-48 of over 70,000 results</span>
-
-                <!-- Вид отображения (список, сетка и т. д.) -->
-                <div class="shop-loop-controls">
-                    <span class="shop-loop-view">View:</span>
-                    <a href="#" class="shop-loop-item active" data-view="archive-product-1"><i
-                            class="fa fa-th-list"></i></a>
-                    <a href="#" class="shop-loop-item" data-view="archive-product-2"><i class="fa fa-th-large"></i></a>
-                    <a href="#" class="shop-loop-item" data-view="archive-product-3"><i class="fa fa-th"></i></a>
-                    <a href="#" class="shop-loop-item" data-view="archive-product-4"><i class="fa fa-list"></i></a>
-                </div>
-            </div>
-            <!-- END BEFORE SHOP LOOP -->
-
-            <!-- BRAND PRODUCT 1-->
+                <!-- BRAND PRODUCT 1-->
                 <!-- BEST SELLERS PRODUCT CART -->
                 <div id="products-container"> <!-- Сюда будут добавляться товары -->
                     {% include 'main/nick/products_partial.html' %}
                 </div>
                 <div id="load-more-container"></div>
                 <!-- END BEST SELLERS PRODUCT CART -->
-        <!-- END Вторая колонка -->
-    </div>
-</div>
-<!-- END 2 box 2 колонки -->
-
-
-<!-- OFFCANVAS -->
-<div class="offcanvas-container">
-
-    <!-- SIDE MENU -->
-    <div id="sideMenu" class="side-menu">
-        <button class="close-btn">✖</button>
-        <!-- User Box -->
-        <div class="user-profile">
-            <div class="user-info">
-                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="avatar">
-                <span class="username">John Doe</span>
+                <!-- END Вторая колонка -->
             </div>
-            <div class="user-actions mb-2">
-                <a href="#" class="account-link">ACCOUNT</a> /
-                <a href="#" class="exit-link">EXIT</a>
-            </div>
-            <label id="switch" class="switch"><input type="checkbox" onchange="toggleTheme()" id="slider"><span
-                    class="slider round"></span></label>
         </div>
-        <!-- menu List -->
-        <ul class="menu-list">
-            <li><a href="#">🏠 Home</a></li>
-            <li class="has-submenu">
-                <a href="#">👤 My account</a>
-                <ul class="submenu">
-                    <li><a href="#">💖 Wishlist</a></li>
-                    <li><a href="#">🛒 My Cart</a></li>
-                    <li><a href="#">📍 My Adress</a></li>
-                    <li><a href="#">🧾 Orders</a></li>
-                    <li><a href="#">🎈 Track my Order</a></li>
-                    <li><a href="#">⚙️ Settings</a></li>
-                </ul>
-            </li>
-            <li class="has-submenu">
-                <a href="#">📂 Products</a>
-                <ul class="submenu">
-                    <li><a href="#">📜 All Products</a></li>
-                    <li><a href="#">🐘 Buy the Elephant</a></li>
-                    <li><a href="#">💎 Brands</a></li>
-                    <li><a href="#">🚢 Wholesale</a></li>
-                    <li><a href="#">🪬 Hand Made</a></li>
-                    <li><a href="#">🔖 Sales</a></li>
-                    <li><a href="#">🔥 Best Sellers</a></li>
-                    <li><a href="#">🎁 Gifts</a></li>
-                    <li><a href="#">📣 Promo</a></li>
-                </ul>
-            </li>
-            <li class="has-submenu">
-                <a href="#">📑 Info</a>
-                <ul class="submenu">
-                    <li><a href="#">🛺 How we work</a></li>
-                    <li><a href="#">🌴 About us</a></li>
-                    <li><a href="#">💳 Payment</a></li>
-                    <li><a href="#">🚚 Delivery</a></li>
-                    <li><a href="#">📋 Public offer</a></li>
-                    <li><a href="#">❓ FAQ</a></li>
-                    <li><a href="#">📣 Reviews</a></li>
-                </ul>
-            </li>
-            <li><a href="#">📰 Blog</a></li>
-            <li><a href="#">📲 Save more on APP</a></li>
-            <li><a href="#">🤖 Goa Bot</a></li>
-            <li><a href="#">💼 Partners</a></li>
-            <li><a href="#">📪 Contact us</a></li>
-        </ul>
-    </div>
-    <!-- END SIDE MENU -->
-
-    <!-- Оверлей -->
-    <div id="overlay" class="overlay"></div>
-
-    <!-- Боковое меню корзины -->
-    <div id="cartMenu" class="cart cart-menu d-flex flex-column">
-        <div class="bg-white d-flex align-items-center justify-content-between p-3 border-bottom">
-            <h4 class="mb-0">🛒 Your shopping cart</h4>
-            <button class="close-cart-btn">✖</button>
-        </div>
-
-        <!-- Список товаров с прокруткой -->
-        <div class="cart-items flex-grow-1 overflow-auto">
-
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-            <!-- SIDEBAR CART PRODUCT CARD -->
-            <div class="bg-white border-bottom cart-item d-flex align-items-start gap-2 p-2 position-relative">
-                <!-- Изображение товара -->
-                <img src="{% static 'site_app/img/products/seven-chakra-rama-krishna.jpg' %}" alt="Product" class="product-img rounded"
-                     style="width: 80px; height: 80px; object-fit: cover;">
-                <!-- Инфо о товаре -->
-                <div class="flex-grow-1">
-                    <h6 class="product-name fw-semibold mb-1 px-2" title="Seventh Chakra Rama Krishna Incense"
-                        style="font-size: 0.9rem;">Seventh Chakra Rama Krishna Incense</h6>
-                    <div class="d-flex justify-content-between align-items-center px-2">
-                        <!-- Цена -->
-                        <div class="price text-danger fw-bold" style="font-size: 0.9rem;">110 ₹</div>
-                        <!-- Кол-во -->
-                        <div class="quantity-control d-flex align-items-center border rounded overflow-hidden">
-                            <button class="btn btn-sm btn-light border-0 px-2">-</button>
-                            <div class="px-2" style="min-width: 24px; text-align: center;">1</div>
-                            <button class="btn btn-sm btn-light border-0 px-2">+</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Кнопка удалить -->
-                <button class="btn btn-sm border-0 rounded-circle position-absolute top-0 end-0 m-1 d-flex justify-content-center align-items-center"
-                        style="width: 24px; height: 24px;">🗑
-                </button>
-            </div>
-            <!-- END SIDEBAR CART PRODUCT CARD -->
-
-        </div>
-
-        <!-- Фиксированный блок с итогами и кнопками -->
-        <div class="cart-content bg-white p-3 border-top">
-            <p>Items in cart: <span id="cartItemCount">8</span></p>
-            <p>Total: <span id="cartTotal">6,460 ₹</span></p>
-            <button class="btn btn-primary w-100 mb-2">Place an order</button>
-            <button class="btn btn-outline-primary w-100">Go to cart</button>
-        </div>
+        <!-- END 2 box 2 колонки -->
     </div>
 
-    <!-- Оверлей для корзины -->
-    <div id="cartOverlay" class="overlay"></div>
+    <!-- OFFCANVAS -->
+    <div class="offcanvas-container">
 
-</div>
-<!-- END OFFCANVAS -->
-</div>
+        <!-- SIDE MENU -->
+        {% include 'main/nick/side_menu.html' %}
+        <!-- END SIDE MENU -->
 
+        <!-- WISHLIST SIDE MENU -->
+        {% include 'main/nick/wishlist.html' %}
+
+        <!-- Оверлей -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- Боковое меню корзины -->
+        {% include 'main/nick/sidebar_menu_cart.html' %}
+        <!-- END Боковое меню корзины -->
+
+        <!-- Оверлей для корзины -->
+        <div id="cartOverlay" class="overlay"></div>
+
+    </div>
+    <!-- END OFFCANVAS -->
 {% endblock %}

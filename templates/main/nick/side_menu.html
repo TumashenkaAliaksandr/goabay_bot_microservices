@@ -2,25 +2,54 @@
 
 {% block content %}
     <!-- SIDE MENU -->
-    <div id="sideMenu" class="side-menu">
-        <button class="close-btn">✖</button>
+    <div id="sideMenu" class="side-menu d-flex flex-column">
+
         <!-- User Box -->
-        <div class="user-profile">
-            <div class="user-info">
-                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="avatar">
-                <span class="username">John Doe</span>
-            </div>
-            <div class="user-actions mb-2">
-                <a href="account.html" class="account-link">ACCOUNT</a> /
-                <a href="#" class="exit-link">EXIT</a>
+        <div class="user-profile m-2">
+
+            <!-- Информация: аватар + имя + действия -->
+            <div class="user-info d-flex justify-content-between align-items-start pb-2 mb-2">
+
+                <div class="d-flex align-items-center">
+
+                    <!-- Аватар слева -->
+                    <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar"
+                         class="user-avatar me-3">
+
+                    <!-- Справа: имя и ссылки -->
+                    <span class="username d-block">Mr. Nickson</span>
+
+                </div>
+
+                <!-- Кнопка закрытия -->
+                <div class="d-flex align-items-start">
+                    <button class="close-side-btn">✖</button>
+                </div>
+
             </div>
 
-<label class="switch">
-  <input type="checkbox" class="theme-toggle">
-  <span class="slider round"></span>
-</label>
+            <!-- Нижняя панель: тема + ссылки -->
+            <div class="user-bottom d-flex justify-content-between align-items-center">
+
+                <!-- Ссылки -->
+                <div class="user-actions">
+                    <a href="{% url 'account' %}" class="account-link">ACCOUNT</a> /
+                    <a href="#" class="exit-link">EXIT</a>
+                </div>
+
+                <!-- Переключатель темы -->
+                <div class="user-theme">
+                    <label class="switch m-0">
+                        <input type="checkbox" class="theme-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+            </div>
 
         </div>
+        <!-- END User Box -->
+
         <!-- menu List -->
         <ul class="menu-list">
             <li><a href="#">🏠 Home</a></li>
@@ -67,6 +96,7 @@
             <li><a href="partner.html">💼 Partners</a></li>
             <li><a href="contacts.html">📪 Contact us</a></li>
         </ul>
+
     </div>
     <!-- END SIDE MENU -->
 {% endblock %}

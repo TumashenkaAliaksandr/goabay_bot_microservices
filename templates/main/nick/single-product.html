@@ -37,456 +37,507 @@
     <!-- END BREADCRUMBS BOX -->
 
 
-<!-- 1 box 3 колонки -->
-<div class="container-fluid px-3">
-    <div class="row">
+    <!-- 1 box 3 колонки -->
+    <div class="container-fluid px-3">
+        <div class="row">
 
-        <!-- PRODUCT PHOTO SLIDER -->
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
-            <div class="product-slider sticky-top">
+            <!-- PRODUCT PHOTO SLIDER -->
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
+                <div class="product-slider sticky-top">
 
-                <!-- Main Swiper -->
-                <div class="swiper single-product-slider">
-                    <div class="swiper-wrapper">
+                    <!-- Main Swiper -->
+                    <div class="swiper single-product-slider">
+                        <div class="swiper-wrapper">
 
-                        <!-- Основное изображение продукта -->
-                        {% if product.image %}
-                            <div class="swiper-slide">
-                                <a href="{{ product.image.url }}" class="glightbox" data-gallery="product-gallery">
-                                    <img src="{{ product.image.url }}" class="img-fluid"/>
-                                </a>
-                            </div>
-                        {% endif %}
+                            <!-- Основное изображение продукта -->
+                            {% if product.image %}
+                                <div class="swiper-slide">
+                                    <a href="{{ product.image.url }}" class="glightbox" data-gallery="product-gallery">
+                                        <img src="{{ product.image.url }}" class="img-fluid"/>
+                                    </a>
+                                </div>
+                            {% endif %}
 
-                        <!-- Дополнительные изображения -->
-                        {% for img in product.additional_images.all %}
-                            <div class="swiper-slide">
-                                <a href="{{ img.image.url }}" class="glightbox" data-gallery="product-gallery">
-                                    <img src="{{ img.image.url }}" class="img-fluid"/>
-                                </a>
-                            </div>
-                        {% empty %}
-                            <!-- Если дополнительных изображений нет, можно ничего не показывать -->
-                        {% endfor %}
+                            <!-- Дополнительные изображения -->
+                            {% for img in product.additional_images.all %}
+                                <div class="swiper-slide">
+                                    <a href="{{ img.image.url }}" class="glightbox" data-gallery="product-gallery">
+                                        <img src="{{ img.image.url }}" class="img-fluid"/>
+                                    </a>
+                                </div>
+                            {% empty %}
+                                <!-- Если дополнительных изображений нет, можно ничего не показывать -->
+                            {% endfor %}
 
+                        </div>
                     </div>
-                </div>
 
-                <!-- Thumbs -->
-                <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
-                    <div class="swiper-wrapper">
+                    <!-- Thumbs -->
+                    <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
+                        <div class="swiper-wrapper">
 
-                        <!-- Миниатюра основного изображения -->
-                        {% if product.image %}
-                            <div class="swiper-slide" style="width: 50px">
-                                <img src="{{ product.image.url }}" class="img-fluid rounded border border-secondary"/>
-                            </div>
-                        {% endif %}
+                            <!-- Миниатюра основного изображения -->
+                            {% if product.image %}
+                                <div class="swiper-slide" style="width: 50px">
+                                    <img src="{{ product.image.url }}"
+                                         class="img-fluid rounded border border-secondary"/>
+                                </div>
+                            {% endif %}
 
-                        <!-- Миниатюры дополнительных изображений -->
-                        {% for img in product.additional_images.all %}
-                            <div class="swiper-slide" style="width: 50px">
-                                <img src="{{ img.image.url }}" class="img-fluid rounded border border-secondary"/>
-                            </div>
-                        {% endfor %}
+                            <!-- Миниатюры дополнительных изображений -->
+                            {% for img in product.additional_images.all %}
+                                <div class="swiper-slide" style="width: 50px">
+                                    <img src="{{ img.image.url }}" class="img-fluid rounded border border-secondary"/>
+                                </div>
+                            {% endfor %}
 
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
 
-        <!-- SHORT DESCRIPTION -->
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
-            <div class="box mb-3 p-3">
+            <!-- SHORT DESCRIPTION -->
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
+                <div class="box mb-3 p-3">
 
-                <!-- Product Title -->
-                <h1 class="product-name-full fw-semibold pt-2" title="{{ product.name }}">
-                    {{ product.name }}
-                </h1>
+                    <!-- Product Title -->
+                    <h1 class="product-name-full fw-semibold pt-2" title="{{ product.name }}">
+                        {{ product.name }}
+                    </h1>
 
-                <!-- Product Badge -->
-                <div class="badge-container-on border-bottom pb-3">
-                    {% if product.rating %}
-                        <a href="#rating"><span class="product-badge badge-star">⭐️ {{ product.rating|normalize_rating }}</span></a>
-                    {% endif %}
-                    {% if product.is_not_stock %}
-                        <span class="product-badge badge-out-of-stock">🚫 Нет в наличии</span>
-                    {% endif %}
-                    {% if product.is_new_product %}
-                        <span class="product-badge badge-new">New</span>
-                    {% endif %}
-                    {% if product.is_popular %}
-                        <span class="product-badge badge-best">🔥BEST SELLER</span>
-                    {% endif %}
-                    {% if product.discount and product.discount > 0 %}
-                        <span class="product-badge badge-discount">-{{ product.discount|floatformat:0 }}%</span>
-                    {% endif %}
-                    {% if product.is_sale %}
-                        <span class="product-badge badge-sale">SALE</span>
-                    {% endif %}
-                    {% if product.is_main_slider %}
-                        <span class="product-badge badge-hot">🌶 HOT</span>
-                    {% endif %}
-                </div>
+                    <!-- Product Badge -->
+                    <div class="badge-container-on border-bottom pb-3">
+                        {% if product.rating %}
+                            <a href="#rating"><span
+                                    class="product-badge badge-star">⭐️ {{ product.rating|normalize_rating }}</span></a>
+                        {% endif %}
+                        {% if product.is_not_stock %}
+                            <span class="product-badge badge-out-of-stock">🚫 Нет в наличии</span>
+                        {% endif %}
+                        {% if product.is_new_product %}
+                            <span class="product-badge badge-new">New</span>
+                        {% endif %}
+                        {% if product.is_popular %}
+                            <span class="product-badge badge-best">🔥BEST SELLER</span>
+                        {% endif %}
+                        {% if product.discount and product.discount > 0 %}
+                            <span class="product-badge badge-discount">-{{ product.discount|floatformat:0 }}%</span>
+                        {% endif %}
+                        {% if product.is_sale %}
+                            <span class="product-badge badge-sale">SALE</span>
+                        {% endif %}
+                        {% if product.is_main_slider %}
+                            <span class="product-badge badge-hot">🌶 HOT</span>
+                        {% endif %}
+                    </div>
 
-                <!-- Simple Product Price Block -->
-                <div class="price price-full border-bottom py-3">
+                    <!-- Simple Product Price Block -->
+                    <div class="price price-full border-bottom py-3">
                     <span class="fw-bold final-price">
-                         <span class="price-full" id="total-price">₽{{ product.price }}</span>
-                                    <del class="prev-price">-₽{{ product.price|random_increase }}</del>
+                         <span class="price-full" id="total-price">₹ {{ product.price }}</span>
+                                    <del class="prev-price">-₹ {{ product.price|random_increase }}</del>
                     </span>
-                </div>
+                    </div>
 
 
-                <!-- Short Description -->
-                <div class="short-description border-bottom pt-3">
-                    <h4>Краткое описание</h4>
-                    <p>
-                        {{ product.desc|safe }}
-                    </p>
-                    {% if product.additional_description %}
-                        <p class="text-muted">{{ product.additional_description|safe }}</p>
-                    {% endif %}
-                </div>
+                    <!-- Short Description -->
+                    <div class="short-description border-bottom pt-3">
+                        <h4>Краткое описание</h4>
+                        <p>
+                            {{ product.desc|safe }}
+                        </p>
+                        {% if product.additional_description %}
+                            <p class="text-muted">{{ product.additional_description|safe }}</p>
+                        {% endif %}
+                    </div>
 
-                <!-- Attributes -->
-                <ul class="attributes-card mt-auto py-3">
-                    {% if product.brand %}
-                        <li><a href="{{ product.brand.get_absolute_url }}" class="text-decoration-none">{{ product.brand.name }}</a></li>
-                    {% endif %}
-                    <li>
-                        {% for cat in product.category.all %}
-                            <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">{{ cat.name }}</a>
-                            {% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </li>
-                    {# Если есть теги, добавьте аналогичный блок для тегов #}
-                </ul>
+                    <!-- Attributes -->
+                    <ul class="attributes-card mt-auto py-3">
+                        {% if product.brand %}
+                            <li><a href="{{ product.brand.get_absolute_url }}"
+                                   class="text-decoration-none">{{ product.brand.name }}</a></li>
+                        {% endif %}
+                        <li>
+                            {% for cat in product.category.all %}
+                                <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">{{ cat.name }}</a>
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                        {# Если есть теги, добавьте аналогичный блок для тегов #}
+                    </ul>
 
-                <!-- PRODUCT ATTRIBUTES -->
-                <div class="product-attributes table-responsive">
-                    <table class="table table-bordered table-sm align-middle">
-                        <tbody>
+                    <!-- PRODUCT ATTRIBUTES -->
+                    <div class="product-attributes table-responsive">
+                        <table class="table table-bordered table-sm align-middle">
+                            <tbody>
                             {% if product.capacity %}
-                            <tr>
-                                <th scope="row">Вместимость</th>
-                                <td>{{ product.capacity }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Вместимость</th>
+                                    <td>{{ product.capacity }}</td>
+                                </tr>
                             {% endif %}
                             {% if product.color %}
-                            <tr>
-                                <th scope="row">Цвет</th>
-                                <td>{{ product.color }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Цвет</th>
+                                    <td>{{ product.color }}</td>
+                                </tr>
                             {% endif %}
                             {% if product.sizes %}
-                            <tr>
-                                <th scope="row">Размер</th>
-                                <td>{{ product.sizes }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Размер</th>
+                                    <td>{{ product.sizes }}</td>
+                                </tr>
                             {% endif %}
                             {% if product.material %}
-                            <tr>
-                                <th scope="row">Материал</th>
-                                <td>{{ product.material }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Материал</th>
+                                    <td>{{ product.material }}</td>
+                                </tr>
                             {% endif %}
                             {% if product.volume_liters %}
-                            <tr>
-                                <th scope="row">Объем</th>
-                                <td>{{ product.volume_liters }} л</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Объем</th>
+                                    <td>{{ product.volume_liters }} л</td>
+                                </tr>
                             {% endif %}
                             {% if product.quantity %}
-                            <tr>
-                                <th scope="row">Количество на складе</th>
-                                <td>{{ product.quantity }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">Количество на складе</th>
+                                    <td>{{ product.quantity }}</td>
+                                </tr>
                             {% endif %}
                             {# Добавьте другие характеристики по аналогии #}
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            <!-- END SHORT DESCRIPTION -->
-
-            <!-- info box -->
-            <div class="box border rounded p-3 mb-3">
-                <h5 class="mb-3">Information</h5>
-                <ul class="list-unstyled mb-0">
-                    <li class="mb-2">🚚<strong>Delivery:</strong> Worldwide within 30 days</li>
-                    <li class="mb-2">🔁<strong>Returns:</strong> Within 14 days of receipt</li>
-                    <li class="mb-2">💳<strong>Payment:</strong> Card, PayPal, Cryptocurrency</li>
-                    <li class="mb-2">📦<strong>Shipping:</strong> Within 48 hours after payment</li>
-                </ul>
-            </div>
-            <!-- END info box -->
-
-            <!-- PRODUCT  -->
-            <div class="box mb-3 p-3">
-
-                <!-- Полное описание -->
-                <div class="product-description mb-3">
-
-                    <h2 class="mb-3">Product Description</h2>
-                    <p>{{ product.desc }}</p>
-
-                </div>
-
-            </div>
-            <!-- END SHORT DESCRIPTION -->
-
-            <!-- 2 box  -->
-            <div class="box mb-3 p-3">
-
-                <!-- Рейтинг -->
-                <div id="rating" class="product-rating-summary border-bottom pt-3 mb-3">
-
-                    <h3 class="mb-3">Customer Ratings</h3>
-
-                    <!-- Всего отзывов -->
-                    <div class="total-rating mb-3">
-                        <strong class="fs-4">4.4</strong> из 5
-                        <span class="text-muted ms-2">(23 отзыва)</span>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <!-- Таблица по звездам -->
-                    <div class="rating-breakdown mb-3">
+                </div>
+                <!-- END SHORT DESCRIPTION -->
 
-                        <div class="d-flex align-items-center mb-1">
-                            <div class="me-2" style="width: 40px;">5 ⭐</div>
-                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                <div class="progress-bar bg-success" style="width: 60%"></div>
-                            </div>
-                            <div class="text-muted small">14</div>
-                        </div>
+                <!-- info box -->
+                <div class="box border rounded p-3 mb-3">
+                    <h5 class="mb-3">Information</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">🚚<strong>Delivery:</strong> Worldwide within 30 days</li>
+                        <li class="mb-2">🔁<strong>Returns:</strong> Within 14 days of receipt</li>
+                        <li class="mb-2">💳<strong>Payment:</strong> Card, PayPal, Cryptocurrency</li>
+                        <li class="mb-2">📦<strong>Shipping:</strong> Within 48 hours after payment</li>
+                    </ul>
+                </div>
+                <!-- END info box -->
 
-                        <div class="d-flex align-items-center mb-1">
-                            <div class="me-2">4 ⭐</div>
-                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                <div class="progress-bar bg-info" style="width: 20%"></div>
-                            </div>
-                            <div class="text-muted small">5</div>
-                        </div>
+                <!-- PRODUCT  -->
+                <div class="box mb-3 p-3">
 
-                        <div class="d-flex align-items-center mb-1">
-                            <div class="me-2">3 ⭐</div>
-                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" style="width: 10%"></div>
-                            </div>
-                            <div class="text-muted small">2</div>
-                        </div>
+                    <!-- Полное описание -->
+                    <div class="product-description mb-3">
 
-                        <div class="d-flex align-items-center mb-1">
-                            <div class="me-2">2 ⭐</div>
-                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                <div class="progress-bar bg-warning" style="width: 5%"></div>
-                            </div>
-                            <div class="text-muted small">1</div>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-1">
-                            <div class="me-2">1 ⭐</div>
-                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                <div class="progress-bar bg-danger" style="width: 5%"></div>
-                            </div>
-                            <div class="text-muted small">1</div>
-                        </div>
+                        <h2 class="mb-3">Product Description</h2>
+                        <p>{{ product.desc }}</p>
 
                     </div>
-                    <!-- END Таблица по звездам -->
 
                 </div>
-                <!-- END Рейтинг -->
+                <!-- END SHORT DESCRIPTION -->
 
-                <!-- От3ывы -->
-                <div class="product-reviews mb-4">
+                <!-- 2 box  -->
+                <div class="box mb-3 p-3">
 
-                    <h3 class="mb-1">Reviews</h3>
+                    <!-- Рейтинг -->
+                    <div id="rating" class="product-rating-summary border-bottom pt-3 mb-3">
 
-                    <div class=" review-card review-section rounded p-3 mb-3">
+                        <h3 class="mb-3">Customer Ratings</h3>
 
-                        <!-- Кнопка показать форму -->
-                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#review-form" aria-expanded="false" aria-controls="review-form">
-                            📝 Оставить отзыв
-                        </button>
+                        <!-- Всего отзывов -->
+                        <div class="total-rating mb-3">
+                            <strong class="fs-4">4.4</strong> из 5
+                            <span class="text-muted ms-2">(23 отзыва)</span>
+                        </div>
 
-                        <!-- Скрытая форма -->
-                        <div class="collapse" id="review-form">
-                            <h5 class="my-3">Be the first to review “{{ product.name }}”</h5>
+                        <!-- Таблица по звездам -->
+                        <div class="rating-breakdown mb-3">
 
-                            <!-- Rating stars -->
-                            <div class="mb-3">
-                                <label class="form-label d-block">Your Rating *</label>
-                                <div class="rating-stars">
-                                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">⭐</label>
-                                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">⭐</label>
-                                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">⭐</label>
-                                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">⭐</label>
-                                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">⭐</label>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-2" style="width: 40px;">5 ⭐</div>
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 60%"></div>
+                                </div>
+                                <div class="text-muted small">14</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-2">4 ⭐</div>
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar bg-info" style="width: 20%"></div>
+                                </div>
+                                <div class="text-muted small">5</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-2">3 ⭐</div>
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar bg-secondary" style="width: 10%"></div>
+                                </div>
+                                <div class="text-muted small">2</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-2">2 ⭐</div>
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar bg-warning" style="width: 5%"></div>
+                                </div>
+                                <div class="text-muted small">1</div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-2">1 ⭐</div>
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar bg-danger" style="width: 5%"></div>
+                                </div>
+                                <div class="text-muted small">1</div>
+                            </div>
+
+                        </div>
+                        <!-- END Таблица по звездам -->
+
+                    </div>
+                    <!-- END Рейтинг -->
+
+                    <!-- От3ывы -->
+                    <div class="product-reviews mb-4">
+
+                        <h3 class="mb-1">Reviews</h3>
+
+                        <div class=" review-card review-section rounded p-3 mb-3">
+
+                            <!-- Кнопка показать форму -->
+                            <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#review-form" aria-expanded="false" aria-controls="review-form">
+                                📝 Оставить отзыв
+                            </button>
+
+                            <!-- Скрытая форма -->
+                            <div class="collapse" id="review-form">
+                                <h5 class="my-3">Be the first to review “{{ product.name }}”</h5>
+
+                                <!-- Rating stars -->
+                                <div class="mb-3">
+                                    <label class="form-label d-block">Your Rating *</label>
+                                    <div class="rating-stars">
+                                        <input type="radio" name="rating" id="star5" value="5"><label
+                                            for="star5">⭐</label>
+                                        <input type="radio" name="rating" id="star4" value="4"><label
+                                            for="star4">⭐</label>
+                                        <input type="radio" name="rating" id="star3" value="3"><label
+                                            for="star3">⭐</label>
+                                        <input type="radio" name="rating" id="star2" value="2"><label
+                                            for="star2">⭐</label>
+                                        <input type="radio" name="rating" id="star1" value="1"><label
+                                            for="star1">⭐</label>
+                                    </div>
+                                </div>
+
+                                <!-- Review textarea -->
+                                <div class="mb-3">
+                                    <label for="review" class="form-label">Your Review *</label>
+                                    <textarea id="review" class="form-control" rows="5" required></textarea>
+                                </div>
+
+                                <!-- Submit -->
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+
+                        <!-- Отзывы список -->
+                        <div class="review-list">
+
+                            <!-- отзыв -->
+                            <div class="review-card rounded p-3 mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>MacMike</strong>
+                                    <span class="text-warning fs-5">⭐⭐⭐⭐⭐</span>
+                                </div>
+                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
+                                    2024</small>
+                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                                <div class="review-text mt-2">
+                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
+                                        give a fair assessment.
+                                        Bottom line: best phone I've ever owned.</p>
+                                </div>
+                                <div class="text-muted small mt-3 d-flex justify-content-between">
+                                    <span>👍 18 like it</span>
+                                    <a href="#" class="text-decoration-none">Report</a>
                                 </div>
                             </div>
+                            <!-- END отзыв -->
+                            <!-- отзыв -->
+                            <div class="review-card rounded p-3 mb-4 d-none">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>MacMike</strong>
+                                    <span class="text-warning fs-5">⭐⭐⭐⭐</span>
+                                </div>
+                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
+                                    2024</small>
+                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                                <div class="review-text mt-2">
+                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
+                                        give a fair assessment.
+                                        Bottom line: best phone I've ever owned.</p>
+                                </div>
+                                <div class="text-muted small mt-3 d-flex justify-content-between">
+                                    <span>👍 18 like it</span>
+                                    <a href="#" class="text-decoration-none">Report</a>
+                                </div>
+                            </div>
+                            <!-- END отзыв -->
+                            <!-- отзыв -->
+                            <div class="review-card rounded p-3 mb-4 d-none">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>MacMike</strong>
+                                    <span class="text-warning fs-5">⭐⭐⭐</span>
+                                </div>
+                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
+                                    2024</small>
+                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                                <div class="review-text mt-2">
+                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
+                                        give a fair assessment.
+                                        Bottom line: best phone I've ever owned.</p>
+                                </div>
+                                <div class="text-muted small mt-3 d-flex justify-content-between">
+                                    <span>👍 18 like it</span>
+                                    <a href="#" class="text-decoration-none">Report</a>
+                                </div>
+                            </div>
+                            <!-- END отзыв -->
 
-                            <!-- Review textarea -->
-                            <div class="mb-3">
-                                <label for="review" class="form-label">Your Review *</label>
-                                <textarea id="review" class="form-control" rows="5" required></textarea>
-                            </div>
-
-                            <!-- Submit -->
-                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-                    </div>
-
-                    <!-- Отзывы список -->
-                    <div class="review-list">
-
-                        <!-- отзыв -->
-                        <div class="review-card rounded p-3 mb-4">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <strong>MacMike</strong>
-                                <span class="text-warning fs-5">⭐⭐⭐⭐⭐</span>
-                            </div>
-                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
-                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                            <div class="review-text mt-2">
-                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
-                                Bottom line: best phone I've ever owned.</p>
-                            </div>
-                            <div class="text-muted small mt-3 d-flex justify-content-between">
-                                <span>👍 18 like it</span>
-                                <a href="#" class="text-decoration-none">Report</a>
-                            </div>
-                        </div>
-                        <!-- END отзыв -->
-                        <!-- отзыв -->
-                        <div class="review-card rounded p-3 mb-4 d-none">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <strong>MacMike</strong>
-                                <span class="text-warning fs-5">⭐⭐⭐⭐</span>
-                            </div>
-                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
-                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                            <div class="review-text mt-2">
-                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
-                                Bottom line: best phone I've ever owned.</p>
-                            </div>
-                            <div class="text-muted small mt-3 d-flex justify-content-between">
-                                <span>👍 18 like it</span>
-                                <a href="#" class="text-decoration-none">Report</a>
-                            </div>
-                        </div>
-                        <!-- END отзыв -->
-                        <!-- отзыв -->
-                        <div class="review-card rounded p-3 mb-4 d-none">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <strong>MacMike</strong>
-                                <span class="text-warning fs-5">⭐⭐⭐</span>
-                            </div>
-                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
-                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                            <div class="review-text mt-2">
-                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
-                                Bottom line: best phone I've ever owned.</p>
-                            </div>
-                            <div class="text-muted small mt-3 d-flex justify-content-between">
-                                <span>👍 18 like it</span>
-                                <a href="#" class="text-decoration-none">Report</a>
-                            </div>
-                        </div>
-                        <!-- END отзыв -->
 
                     </div>
 
                 </div>
+                <!-- END 2 box  -->
 
             </div>
-            <!-- END 2 box  -->
+            <!-- END SHORT DESCRIPTION -->
 
-        </div>
-        <!-- END SHORT DESCRIPTION -->
+            <!-- SIDEBAR -->
+            <div class="col-12 col-sm-12 col-md-3 col-lg-12 col-xl-2 col-xxl-2 d-none d-lg-block">
 
-        <!-- SIDEBAR -->
-        <div class="col-12 col-sm-12 col-md-3 col-lg-12 col-xl-2 col-xxl-2 d-none d-lg-block">
-
-            <!-- Navigation box -->
-              <div class="product-navigation box p-3 rounded">
-                <!-- Цена -->
-                <div class="price border-bottom pb-3">
+                <!-- Navigation box -->
+                <div class="product-navigation box p-3 rounded">
+                    <!-- Цена -->
+                    <div class="price border-bottom pb-3">
                   <span class="fw-bold">
                     <span class="currency-symbol">₹</span>
                     <span class="price-value" data-inr="100">100</span>
                   </span>
-                </div>
+                    </div>
 
-                <!-- Выбранные опции -->
-                <div class="border-bottom py-3">
-                  <div class="d-flex justify-content-between"><span>Size:</span><span class="fw-bold size-value">-</span></div>
-                  <div class="d-flex justify-content-between"><span>Options:</span><span class="fw-bold option-value">-</span></div>
-                  <div class="d-flex justify-content-between"><span>Color:</span><span class="fw-bold color-value">-</span></div>
-                </div>
+                    <!-- Выбранные опции -->
+                    <div class="border-bottom py-3">
+                        <div class="d-flex justify-content-between"><span>Size:</span><span
+                                class="fw-bold size-value">-</span></div>
+                        <div class="d-flex justify-content-between"><span>Options:</span><span
+                                class="fw-bold option-value">-</span></div>
+                        <div class="d-flex justify-content-between"><span>Color:</span><span
+                                class="fw-bold color-value">-</span></div>
+                    </div>
 
-                <!-- Количество -->
-                <div class="input-group my-3">
-                  <button class="btn btn-outline-secondary" type="button">-</button>
-                  <input type="number" class="form-control text-center" value="1" min="1" step="1">
-                  <button class="btn btn-outline-secondary" type="button">+</button>
-                </div>
+                    <!-- Количество -->
+                    <div class="input-group my-3">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" min="1" step="1">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                    </div>
 
-                <!-- Размер -->
-                <div class="product-variations border-bottom py-3">
-                  <label class="fw-semibold mb-2 d-block">Size:</label>
-                  <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">XS</button>
-                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="10">S</button>
-                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="15">M</button>
-                  </div>
-                </div>
+                    <!-- Размер -->
+                    <div class="product-variations border-bottom py-3">
+                        <label class="fw-semibold mb-2 d-block">Size:</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">
+                                XS
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-variation" data-price="10">S
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-variation" data-price="15">M
+                            </button>
+                        </div>
+                    </div>
 
-                <!-- Опции -->
-                <div class="product-variations border-bottom py-3">
-                  <label class="fw-semibold mb-2 d-block">Options:</label>
-                  <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">Option 1</button>
-                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="25">Option 2</button>
-                  </div>
-                </div>
+                    <!-- Опции -->
+                    <div class="product-variations border-bottom py-3">
+                        <label class="fw-semibold mb-2 d-block">Options:</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">
+                                Option 1
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-variation" data-price="25">Option
+                                2
+                            </button>
+                        </div>
+                    </div>
 
-                <!-- Цвет -->
-                <div class="product-variations py-3">
-                  <label class="fw-semibold mb-2 d-block">Color:</label>
-                  <div class="color-boxes d-flex flex-wrap gap-1">
-                    <label class="color-box" style="--color: red"><input type="checkbox" value="red" data-price="5"></label>
-                    <label class="color-box" style="--color: blue"><input type="checkbox" value="blue" data-price="8"></label>
-                    <label class="color-box" style="--color: green"><input type="checkbox" value="green" data-price="0"></label>
-                  </div>
+                    <!-- Цвет -->
+                    <div class="product-variations py-3">
+                        <label class="fw-semibold mb-2 d-block">Color:</label>
+                        <div class="color-boxes d-flex flex-wrap gap-1">
+                            <label class="color-box" style="--color: red"><input type="checkbox" value="red"
+                                                                                 data-price="5"></label>
+                            <label class="color-box" style="--color: blue"><input type="checkbox" value="blue"
+                                                                                  data-price="8"></label>
+                            <label class="color-box" style="--color: green"><input type="checkbox" value="green"
+                                                                                   data-price="0"></label>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            <!-- END Navigation box -->
+                <!-- END Navigation box -->
+
+            </div>
+            <!-- END SIDEBAR -->
 
         </div>
-        <!-- END SIDEBAR -->
+    </div>
+    <!-- END 1 box 3 колонки -->
+
+    <!-- mobile bottom bar -->
+    <div class="mobile-bottom-bar">
+
+        <div class="d-flex align-items-center d-md-none gap-2">
+            <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Wishlist">💖</button>
+            <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Compare products">⚖️</button>
+            <button class="add-to-cart btn btn-primary w-100">ADD TO CART</button>
+        </div>
 
     </div>
-</div>
-<!-- END 1 box 3 колонки -->
+    <!-- END mobile bottom bar -->
 
-<!-- mobile bottom bar -->
-<div class="mobile-bottom-bar">
+    <!-- OFFCANVAS -->
+    <div class="offcanvas-container">
 
-    <div class="d-flex align-items-center d-md-none gap-2">
-      <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Wishlist">💖</button>
-      <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Compare products">⚖️</button>
-      <button class="add-to-cart btn btn-primary w-100">ADD TO CART</button>
+        <!-- SIDE MENU -->
+        {% include 'main/nick/side_menu.html' %}
+        <!-- END SIDE MENU -->
+
+        <!-- WISHLIST SIDE MENU -->
+        {% include 'main/nick/wishlist.html' %}
+
+        <!-- Оверлей -->
+        <div id="overlay" class="overlay"></div>
+
+        <!-- Боковое меню корзины -->
+        {% include 'main/nick/sidebar_menu_cart.html' %}
+        <!-- END Боковое меню корзины -->
+
+        <!-- Оверлей для корзины -->
+        <div id="cartOverlay" class="overlay"></div>
+
     </div>
-
-</div>
-<!-- END mobile bottom bar -->
-
+    <!-- END OFFCANVAS -->
 
 {% endblock %}

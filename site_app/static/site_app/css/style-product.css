@@ -4,7 +4,7 @@
 
 /*продукт бокс*/
 .product-card {
-    background: #fff; 
+    background: #fff;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
@@ -98,6 +98,7 @@
     opacity: 0; /* Прячем кнопки */
     transition: opacity 0.3s ease; /* Плавное появление */
 }
+
 /* При наведении на .product-card отображать кнопки */
 .product-card:hover .img-btn-container {
     opacity: 1; /* Показать кнопки */
@@ -162,12 +163,12 @@
 
 .variation-price .min{
     font-size: 12px;
-    padding-right: 5px; 
+    padding-right: 5px;
     color: #00ba44;
 }
 .variation-price .max{
     font-size: 12px;
-    padding-right: 5px; 
+    padding-right: 5px;
     color: #ff0018;
 }
 /* Цена зачеркнутая */
@@ -188,13 +189,13 @@
 
 /* Кнопки Добавить в корину */
 .add-to-cart{
-    background-color: #00ba44;     
+    background-color: #00ba44;
     border: none;
 }
 .buy-now { background: #ffcc00; border: none; }
 
 .input-group .remove-btn{
-    background-color: #ff0018;     
+    background-color: #ff0018;
     border: none;
 }
 
@@ -295,7 +296,7 @@
 .archive-product-3.active {
   display: grid;
   gap: 15px;
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* Планшеты: 4 товара в ряд */
@@ -489,9 +490,12 @@ border-color: #444;
 
 [data-theme="dark"] .var-title {color: #f5f5f5;}
 
+
+
 [data-theme="dark"] .border-bottom {
-    border-bottom: var(--bs-border-width) var(--bs-border-style) #343a40 !important;
+    border-bottom: #343a40 !important;
 }
+
 
 
 
