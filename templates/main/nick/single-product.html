@@ -3,10 +3,12 @@
 {% load utils %}
 
 {% block content %}
+
     <!-- BREADCRUMBS BOX-->
     <div class="container-fluid breadcrumbs-box mb-3">
         <div class="row">
             <div class="col-12">
+
 
                 <!-- Отступ под фиксированную шапку -->
                 <div class="header-offset"></div>
@@ -17,7 +19,6 @@
                     <nav class="breadcrumbs">
                         <a href="{% url 'home' %}" class="breadcrumb-item">Home</a>
                         <span class="breadcrumb-separator">👉🏼</span>
-
                         {% if product.category.all %}
                             {% with first_category=product.category.all.0 %}
                                 <a href="{{ first_category.get_absolute_url }}"
@@ -135,9 +136,32 @@
                     <!-- Simple Product Price Block -->
                     <div class="price price-full border-bottom py-3">
                     <span class="fw-bold final-price">
-                         <span class="price-full" id="total-price">₹ {{ product.price }}</span>
-                                    <del class="prev-price">-₹ {{ product.price|random_increase }}</del>
-                    </span>
+                        <span class="currency-symbol">₹</span>
+                         <span class="price-full final-price price-value"
+                               data-inr={{ product.price }}> {{ product.price }}</span>
+                         </span>
+                        <span class="text-decoration-line-through text-danger original-price ms-2">
+                        <span class="currency-symbol">₹</span>
+                            <del class=" original-price price-value"> {{ product.price|random_increase }}</del>
+                        </span>
+                    </div>
+
+                    <!-- Variation Product Price Block -->
+                    <div class="price price-full variation-price border-bottom py-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="min">Min:</span>
+                            <span>
+                        <span class="currency-symbol">₹</span>
+                        <span class="min-price price-value" data-inr="999.999">999.999</span>
+                      </span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="max">Max:</span>
+                            <span>
+                        <span class="currency-symbol">₹</span>
+                        <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                      </span>
+                        </div>
                     </div>
 
 

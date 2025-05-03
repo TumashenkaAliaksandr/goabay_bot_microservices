@@ -1,0 +1,521 @@
+{% extends 'main/nick/base.html' %}
+{% load static %}
+{% load utils %}
+
+{% block content %}
+
+<!-- BREADCRUMBS BOX-->
+<div class="container-fluid breadcrumbs-box mb-3">
+    <div class="row">
+        <div class="col-12">
+
+
+            <!-- Отступ под фиксированную шапку -->
+            <div class="header-offset"></div>
+
+            <!-- BREADCRUMBS -->
+            <div class="breadcrumbs-container mb-3">
+                <p class="breadcrumbs-title">{{ product.name }}</p>
+                <nav class="breadcrumbs">
+                    <a href="{% url 'home' %}" class="breadcrumb-item">Home</a>
+                    <span class="breadcrumb-separator">👉🏼</span>
+                    {% if product.category.all %}
+                        {% with first_category=product.category.all.0 %}
+                            <a href="{{ first_category.get_absolute_url }}"
+                               class="breadcrumb-item">{{ first_category.name }}</a>
+                            <span class="breadcrumb-separator">👉🏼</span>
+                        {% endwith %}
+                    {% endif %}
+
+                    <span class="breadcrumb-item active">{{ product.name }}</span>
+                </nav>
+            </div>
+            <!-- END BREADCRUMBS -->
+
+        </div>
+    </div>
+</div>
+<!-- END BREADCRUMBS BOX -->
+
+
+<!-- 1 box 3 колонки -->
+<div class="container-fluid px-3">
+    <div class="row">
+
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
+
+            <!-- PRODUCT PHOTO SLIDER -->
+            <div class="product-slider sticky-top">
+
+                <!-- Main Swiper -->
+                <div class="swiper single-product-slider">
+                    <div class="swiper-wrapper">
+
+                        <div class="swiper-slide">
+                            <a href="img/products/0402046.jpg" class="glightbox" data-gallery="product-gallery">
+                                <img src="img/products/0402046.jpg" class="img-fluid" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="img/products/back-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
+                                <img src="img/products/back-1800x1800-1.jpg" class="img-fluid" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="img/products/edit-62-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
+                                <img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid" />
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Thumbs -->
+                <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="width: 50px"><img src="img/products/0402046.jpg" class="img-fluid rounded border border-secondary" /></div>
+                        <div class="swiper-slide" style="width: 50px"><img src="img/products/back-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" /></div>
+                        <div class="swiper-slide" style="width: 50px"><img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" /></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
+
+            <!-- SHORT DESCRIPTION -->
+            <div class="box mb-3 p-3">
+
+                <!-- Product Title -->
+                <h1 class="product-name-full fw-semibold pt-2" title="Seventh Chakra Rama Krishna Incense">
+                    Seventh Chakra Rama Krishna Incense
+                </h1>
+
+                <!-- Product Badge -->
+                <div class="badge-container-on border-bottom pb-3">
+                    <a href="#rating"><span class="product-badge badge-star">⭐️⭐️⭐️⭐️⭐️ 5</span></a>
+                    <span class="product-badge badge-out-of-stock">🚫 Out of Stock</span>
+                    <span class="product-badge badge-new">New</span>
+                    <span class="product-badge badge-best">🔥BEST SELLER</span>
+                    <span class="product-badge badge-discount">-50%</span>
+                    <span class="product-badge badge-sale">SALE</span>
+                    <span class="product-badge badge-hot">🌶 HOT</span>
+                </div>
+
+                <!-- Simple Product Price Block -->
+                <div class="price price-full border-bottom py-3">
+                    <span class="fw-bold final-price">
+                      <span class="currency-symbol">₹</span>
+                      <span class="final-price price-value" data-inr="100">100</span>
+                    </span>
+                    <span class="text-decoration-line-through text-danger original-price ms-2">
+                      <span class="currency-symbol">₹</span>
+                      <span class="original-price price-value" data-inr="200">200</span>
+                    </span>
+                </div>
+
+                <!-- Variation Product Price Block -->
+                <div class="price price-full variation-price border-bottom py-3">
+                    <div class="d-flex justify-content-between">
+                      <span class="min">Min:</span>
+                      <span>
+                        <span class="currency-symbol">₹</span>
+                        <span class="min-price price-value" data-inr="999.999">999.999</span>
+                      </span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span class="max">Max:</span>
+                      <span>
+                        <span class="currency-symbol">₹</span>
+                        <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                      </span>
+                    </div>
+                </div>
+
+                <!-- Short Description -->
+                <div class="short-description border-bottom pt-3">
+                    <h4>Short Description</h4>
+                    <p>
+                        A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity. A soothing blend of traditional Indian herbs and natural oils designed to activate the crown chakra and promote spiritual clarity.
+                    </p>
+                </div>
+
+                <!-- Artibutes -->
+                <ul class="attributes-card mt-auto py-3">
+                    <li><a href="brand-archive.html" class="text-decoration-none">Brand Name</a></li>
+                    <li><a href="category-archive.html" class="text-decoration-none">Category</a>, <a href="category-archive.html" class="text-decoration-none">Sub Category</a>, <a href="category-archive.html" class="text-decoration-none">Two Sub Category</a></li>
+                    <li><a href="tag-archive.html" class="text-decoration-none">Tag One</a>, <a href="tag-archive.html" class="text-decoration-none">Two Tag</a>, <a href="tag-archive.html" class="text-decoration-none">Three Tag</a></li>
+                </ul>
+
+                <!-- PRODUCT ATTRIBUTES -->
+                <div class="product-attributes table-responsive">
+                    <table class="table table-bordered table-sm align-middle">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Net Weight</th>
+                                <td>50 g</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Delivery Weight</th>
+                                <td>100 g</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Color</th>
+                                <td>White</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Aroma</th>
+                                <td>Sandalwood</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Size</th>
+                                <td>M</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Material</th>
+                                <td>100% Cotton</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Volume</th>
+                                <td>200 ml</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Options</th>
+                                <td>With/Without Lid</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Memory</th>
+                                <td>64 GB</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">RAM</th>
+                                <td>4 GB</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Quantity in Pack</th>
+                                <td>10 pcs</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Made in</th>
+                                <td>India</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Shelf Life</th>
+                                <td>24 months</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Skin Type</th>
+                                <td>All types</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Gender</th>
+                                <td>Unisex</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Suitable for</th>
+                                <td>Yoga, Meditation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- END SHORT DESCRIPTION -->
+
+            <!-- info box -->
+            <div class="box border rounded p-3 mb-3">
+                <h5 class="mb-3">Information</h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">🚚<strong>Delivery:</strong> Worldwide within 30 days</li>
+                    <li class="mb-2">🔁<strong>Returns:</strong> Within 14 days of receipt</li>
+                    <li class="mb-2">💳<strong>Payment:</strong> Card, PayPal, Cryptocurrency</li>
+                    <li class="mb-2">📦<strong>Shipping:</strong> Within 48 hours after payment</li>
+                </ul>
+            </div>
+            <!-- END info box -->
+
+            <!-- PRODUCT  -->
+            <div class="box mb-3 p-3">
+
+                <!-- Полное описание -->
+                <div class="product-description mb-3">
+
+                    <h2 class="mb-3">Product Description</h2>
+
+                    <p>Откройте для себя <strong>Seventh Chakra Rama Krishna Incense</strong> — уникальные благовония, созданные по традиционным рецептам в самом сердце Индии. Эти ароматические палочки насыщены натуральными экстрактами сандала, цветов и специй, направленными на пробуждение энергии седьмой чакры — Сахасрары.</p>
+
+                    <p>Подходят для медитаций, практик йоги, расслабления после напряженного дня или создания уютной атмосферы в доме.
+                        Не содержат химических добавок и изготовлены вручную с соблюдением древних традиций.</p>
+
+                    <p>Почувствуйте, как пространство наполняется гармонией и легкостью — с каждым вдохом вы приближаетесь к себе настоящему.</p>
+
+                </div>
+
+            </div>
+            <!-- END SHORT DESCRIPTION -->
+
+            <!-- 2 box  -->
+            <div class="box mb-3 p-3">
+
+                <!-- Рейтинг -->
+                <div id="rating" class="product-rating-summary border-bottom pt-3 mb-3">
+
+                    <h3 class="mb-3">Customer Ratings</h3>
+
+                    <!-- Всего отзывов -->
+                    <div class="total-rating mb-3">
+                        <strong class="fs-4">4.4</strong> из 5
+                        <span class="text-muted ms-2">(23 отзыва)</span>
+                    </div>
+
+                    <!-- Таблица по звездам -->
+                    <div class="rating-breakdown mb-3">
+
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="me-2" style="width: 40px;">5 ⭐</div>
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 60%"></div>
+                            </div>
+                            <div class="text-muted small">14</div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="me-2">4 ⭐</div>
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar bg-info" style="width: 20%"></div>
+                            </div>
+                            <div class="text-muted small">5</div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="me-2">3 ⭐</div>
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar bg-secondary" style="width: 10%"></div>
+                            </div>
+                            <div class="text-muted small">2</div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="me-2">2 ⭐</div>
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: 5%"></div>
+                            </div>
+                            <div class="text-muted small">1</div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="me-2">1 ⭐</div>
+                            <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                <div class="progress-bar bg-danger" style="width: 5%"></div>
+                            </div>
+                            <div class="text-muted small">1</div>
+                        </div>
+
+                    </div>
+                    <!-- END Таблица по звездам -->
+
+                </div>
+                <!-- END Рейтинг -->
+
+                <!-- От3ывы -->
+                <div class="product-reviews mb-4">
+
+                    <h3 class="mb-1">Reviews</h3>
+
+                    <div class=" review-card review-section rounded p-3 mb-3">
+
+                        <!-- Кнопка показать форму -->
+                        <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#review-form"
+                            aria-expanded="false"
+                            aria-controls="review-form">
+                            📝 Оставить отзыв
+                        </button>
+
+                        <!-- Скрытая форма -->
+                        <div class="collapse" id="review-form">
+                            <h5 class="my-3">Be the first to review “Brass Casted Butter Lamp with Gold and Silver Color finish”</h5>
+
+                            <!-- Rating stars -->
+                            <div class="mb-3">
+                                <label class="form-label d-block">Your Rating *</label>
+                                <div class="rating-stars">
+                                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">⭐</label>
+                                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">⭐</label>
+                                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">⭐</label>
+                                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">⭐</label>
+                                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">⭐</label>
+                                </div>
+                            </div>
+
+                            <!-- Review textarea -->
+                            <div class="mb-3">
+                                <label for="review" class="form-label">Your Review *</label>
+                                <textarea id="review" class="form-control" rows="5" required></textarea>
+                            </div>
+
+                            <!-- Submit -->
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+
+                    <!-- Отзывы список -->
+                    <div class="review-list">
+
+                        <!-- отзыв -->
+                        <div class="review-card rounded p-3 mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>MacMike</strong>
+                                <span class="text-warning fs-5">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
+                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                            <div class="review-text mt-2">
+                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
+                                Bottom line: best phone I've ever owned.</p>
+                            </div>
+                            <div class="text-muted small mt-3 d-flex justify-content-between">
+                                <span>👍 18 like it</span>
+                                <a href="#" class="text-decoration-none">Report</a>
+                            </div>
+                        </div>
+                        <!-- END отзыв -->
+                        <!-- отзыв -->
+                        <div class="review-card rounded p-3 mb-4 d-none">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>MacMike</strong>
+                                <span class="text-warning fs-5">⭐⭐⭐⭐</span>
+                            </div>
+                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
+                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                            <div class="review-text mt-2">
+                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
+                                Bottom line: best phone I've ever owned.</p>
+                            </div>
+                            <div class="text-muted small mt-3 d-flex justify-content-between">
+                                <span>👍 18 like it</span>
+                                <a href="#" class="text-decoration-none">Report</a>
+                            </div>
+                        </div>
+                        <!-- END отзыв -->
+                        <!-- отзыв -->
+                        <div class="review-card rounded p-3 mb-4 d-none">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>MacMike</strong>
+                                <span class="text-warning fs-5">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
+                            <small class="text-secondary mb-1">Reviewed in the United States on December 2, 2024</small>
+                            <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
+                            <div class="review-text mt-2">
+                                <p>I've been using this phone for a full year now, so I feel I've used it enough to give a fair assessment.
+                                Bottom line: best phone I've ever owned.</p>
+                            </div>
+                            <div class="text-muted small mt-3 d-flex justify-content-between">
+                                <span>👍 18 like it</span>
+                                <a href="#" class="text-decoration-none">Report</a>
+                            </div>
+                        </div>
+                        <!-- END отзыв -->
+
+                    </div>
+                    <!-- END Отзывы список -->
+
+                    <span class="view-more-reviews text-primary" style="cursor:pointer;">View more Reviews</span>
+                    <span class="hide-reviews text-primary d-none" style="cursor:pointer;">Hide Reviews</span>
+
+                </div>
+                <!-- От3ывы -->
+
+            </div>
+            <!-- END 2 box  -->
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="col-12 col-sm-12 col-md-3 col-lg-12 col-xl-2 col-xxl-2 d-none d-lg-block">
+
+            <!-- Navigation box -->
+              <div class="product-navigation box p-3 rounded">
+                <!-- Цена -->
+                <div class="price border-bottom pb-3">
+                  <span class="fw-bold">
+                    <span class="currency-symbol">₹</span>
+                    <span class="price-value" data-inr="100">100</span>
+                  </span>
+                </div>
+
+                <!-- Выбранные опции -->
+                <div class="border-bottom py-3">
+                  <div class="d-flex justify-content-between"><span>Size:</span><span class="fw-bold size-value">-</span></div>
+                  <div class="d-flex justify-content-between"><span>Options:</span><span class="fw-bold option-value">-</span></div>
+                  <div class="d-flex justify-content-between"><span>Color:</span><span class="fw-bold color-value">-</span></div>
+                </div>
+
+                <!-- Количество -->
+                <div class="input-group my-3">
+                  <button class="btn btn-outline-secondary" type="button">-</button>
+                  <input type="number" class="form-control text-center" value="1" min="1" step="1">
+                  <button class="btn btn-outline-secondary" type="button">+</button>
+                </div>
+
+                <!-- Размер -->
+                <div class="product-variations border-bottom py-3">
+                  <label class="fw-semibold mb-2 d-block">Size:</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">XS</button>
+                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="10">S</button>
+                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="15">M</button>
+                  </div>
+                </div>
+
+                <!-- Опции -->
+                <div class="product-variations border-bottom py-3">
+                  <label class="fw-semibold mb-2 d-block">Options:</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">Option 1</button>
+                    <button type="button" class="btn btn-outline-secondary btn-variation" data-price="25">Option 2</button>
+                  </div>
+                </div>
+
+                <!-- Цвет -->
+                <div class="product-variations py-3">
+                  <label class="fw-semibold mb-2 d-block">Color:</label>
+                  <div class="color-boxes d-flex flex-wrap gap-1">
+                    <label class="color-box" style="--color: red"><input type="checkbox" value="red" data-price="5"></label>
+                    <label class="color-box" style="--color: blue"><input type="checkbox" value="blue" data-price="8"></label>
+                    <label class="color-box" style="--color: green"><input type="checkbox" value="green" data-price="0"></label>
+                  </div>
+                </div>
+              </div>
+            <!-- END Navigation box -->
+
+        </div>
+        <!-- END SIDEBAR -->
+
+    </div>
+</div>
+<!-- END 1 box 3 колонки -->
+
+<!-- mobile bottom bar -->
+<div class="mobile-bottom-bar">
+
+    <div class="d-flex align-items-center d-md-none gap-2">
+      <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Wishlist">💖</button>
+      <button class="btn-box wish-btn flex-shrink-0 w-10" aria-label="Compare products">⚖️</button>
+      <button class="add-to-cart btn btn-primary w-100">ADD TO CART</button>
+    </div>
+
+</div>
+<!-- END mobile bottom bar -->
+
+{% endblock %}
