@@ -152,14 +152,14 @@
                             <span class="min">Min:</span>
                             <span>
                         <span class="currency-symbol">₹</span>
-                        <span class="min-price price-value" data-inr="999.999">999.999</span>
+                        <span class="min-price price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
                       </span>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex price fw-bold justify-content-between">
                             <span class="max">Max:</span>
                             <span>
                         <span class="currency-symbol">₹</span>
-                        <span class="max-price price-value" data-inr="1500.999">1500.999</span>
+                        <span class="max-price price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
                       </span>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                     <div class="product-description mb-3">
 
                         <h2 class="mb-3">Product Description</h2>
-                        <p>{{ product.desc }}</p>
+                        <p>{{ product.desc|safe }}</p>
 
                     </div>
 
@@ -275,7 +275,7 @@
 
                         <!-- Всего отзывов -->
                         <div class="total-rating mb-3">
-                            <strong class="fs-4">4.4</strong> из 5
+                            <strong class="fs-4">{{ product.rating|normalize_rating }}</strong> из 5
                             <span class="text-muted ms-2">(23 отзыва)</span>
                         </div>
 
@@ -459,7 +459,7 @@
                     <div class="price border-bottom pb-3">
                   <span class="fw-bold">
                     <span class="currency-symbol">₹</span>
-                    <span class="price-value" data-inr="100">100</span>
+                    <span class="price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
                   </span>
                     </div>
 
