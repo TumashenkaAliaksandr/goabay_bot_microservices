@@ -69,7 +69,7 @@ def product_detail(request, name, slug):
         'reviews': reviews,
 
     }
-    return render(request, 'main/nick/single-product.html', context)
+    return render(request, 'webapp/shop/single-product.html', context)
 
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
@@ -339,7 +339,7 @@ def cart(request):
         'cart_items': cart_items,
         'total': total,
     }
-    return render(request, 'main/nick/cart.html', context)
+    return render(request, 'webapp/shop/cart.html', context)
 
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})

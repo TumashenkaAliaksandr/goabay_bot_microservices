@@ -372,8 +372,8 @@
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <strong>{{ review.author_name }}</strong>
                                             <span class="text-warning fs-5">
-                        {% for i in "12345"|slice:":review.rating"|make_list %}⭐{% endfor %}
-                    </span>
+                                                {% for i in "12345"|slice:":review.rating"|make_list %}⭐{% endfor %}
+                                            </span>
                                         </div>
                                         <p class="text-muted mb-1 strong">{{ review.rating }}.0 из 5 звезд</p>
                                         <small class="text-secondary mb-1">Отзыв
