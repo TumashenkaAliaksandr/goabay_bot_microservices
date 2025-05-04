@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bot_app.models import ProductImage
+from bot_app.models import ProductImage, Review
 from site_app.models import Category, Brand
 
 
@@ -26,4 +26,13 @@ admin.site.register(ProductImage)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'image', 'created_at', 'link']
     ordering = ['-created_at']
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('author_name', 'product_slug', 'rating', 'created_at')
+    list_filter = ('rating', 'created_at', 'product_slug')
+    search_fields = ('author_name', 'review_text', 'product_slug')
+    ordering = ('-created_at',)
+
 

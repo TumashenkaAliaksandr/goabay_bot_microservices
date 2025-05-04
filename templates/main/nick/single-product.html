@@ -275,175 +275,119 @@
 
                         <!-- Всего отзывов -->
                         <div class="total-rating mb-3">
-                            <strong class="fs-4">{{ product.rating|normalize_rating }}</strong> из 5
-                            <span class="text-muted ms-2">(23 отзыва)</span>
+                            <strong class="fs-4">
+                                {% if total_votes > 0 %}
+                                    {{ reviews|average_rating|floatformat:1 }}
+                                {% else %}
+                                    0.0
+                                {% endif %}
+                            </strong> из 5
+                            <span class="text-muted ms-2">({{ total_votes }} {{ total_votes|pluralize:"отзыв,отзыва,отзывов" }})</span>
                         </div>
 
-                        <!-- Таблица по звездам -->
+
+                        <!-- Таблица рейтинга -->
                         <div class="rating-breakdown mb-3">
-
-                            <div class="d-flex align-items-center mb-1">
-                                <div class="me-2" style="width: 40px;">5 ⭐</div>
-                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                    <div class="progress-bar bg-success" style="width: 60%"></div>
+                            {% for item in rating_breakdown %}
+                                <div class="d-flex align-items-center mb-1">
+                                    <div class="me-2" style="width: 40px;">{{ item.star }} ⭐</div>
+                                    <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                        <div class="progress-bar
+                                        {% if item.star == 5 %}bg-success
+                                        {% elif item.star == 4 %}bg-info
+                                        {% elif item.star == 3 %}bg-secondary
+                                        {% elif item.star == 2 %}bg-warning
+                                        {% else %}bg-danger{% endif %}" style="width: {{ item.percent }}%">
+                                        </div>
+                                    </div>
+                                    <div class="text-muted small">{{ item.count }}</div>
+                                    <div class="text-muted small ms-2">{{ item.percent }}%</div>
                                 </div>
-                                <div class="text-muted small">14</div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-1">
-                                <div class="me-2">4 ⭐</div>
-                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                    <div class="progress-bar bg-info" style="width: 20%"></div>
-                                </div>
-                                <div class="text-muted small">5</div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-1">
-                                <div class="me-2">3 ⭐</div>
-                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                    <div class="progress-bar bg-secondary" style="width: 10%"></div>
-                                </div>
-                                <div class="text-muted small">2</div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-1">
-                                <div class="me-2">2 ⭐</div>
-                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                    <div class="progress-bar bg-warning" style="width: 5%"></div>
-                                </div>
-                                <div class="text-muted small">1</div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-1">
-                                <div class="me-2">1 ⭐</div>
-                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
-                                    <div class="progress-bar bg-danger" style="width: 5%"></div>
-                                </div>
-                                <div class="text-muted small">1</div>
-                            </div>
-
+                            {% endfor %}
                         </div>
-                        <!-- END Таблица по звездам -->
-
                     </div>
-                    <!-- END Рейтинг -->
 
-                    <!-- От3ывы -->
+                    <!-- Форма отзыва -->
                     <div class="product-reviews mb-4">
+                        <h3 class="mb-1">Отзывы</h3>
 
-                        <h3 class="mb-1">Reviews</h3>
-
-                        <div class=" review-card review-section rounded p-3 mb-3">
-
-                            <!-- Кнопка показать форму -->
+                        <div class="review-card review-section rounded p-3 mb-3">
                             <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#review-form" aria-expanded="false" aria-controls="review-form">
                                 📝 Оставить отзыв
                             </button>
 
-                            <!-- Скрытая форма -->
                             <div class="collapse" id="review-form">
-                                <h5 class="my-3">Be the first to review “{{ product.name }}”</h5>
+                                <h5 class="my-3">Оставить отзыв для “{{ product.name }}”</h5>
+                                <form method="post" novalidate>
+                                    {% csrf_token %}
+                                    {{ form.non_field_errors }}
 
-                                <!-- Rating stars -->
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Your Rating *</label>
-                                    <div class="rating-stars">
-                                        <input type="radio" name="rating" id="star5" value="5"><label
-                                            for="star5">⭐</label>
-                                        <input type="radio" name="rating" id="star4" value="4"><label
-                                            for="star4">⭐</label>
-                                        <input type="radio" name="rating" id="star3" value="3"><label
-                                            for="star3">⭐</label>
-                                        <input type="radio" name="rating" id="star2" value="2"><label
-                                            for="star2">⭐</label>
-                                        <input type="radio" name="rating" id="star1" value="1"><label
-                                            for="star1">⭐</label>
+                                    <div class="mb-3">
+                                        <label for="{{ form.author_name.id_for_label }}"
+                                               class="form-label">{{ form.author_name.label }}</label>
+                                        {{ form.author_name }}
+                                        {{ form.author_name.errors }}
                                     </div>
-                                </div>
 
-                                <!-- Review textarea -->
-                                <div class="mb-3">
-                                    <label for="review" class="form-label">Your Review *</label>
-                                    <textarea id="review" class="form-control" rows="5" required></textarea>
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">{{ form.rating.label }}</label>
+                                        <div>
+                                            {% for radio in form.rating %}
+                                                <div class="form-check form-check-inline">
+                                                    {{ radio.tag }}
+                                                    <label class="form-check-label"
+                                                           for="{{ radio.id_for_label }}">{{ radio.choice_label }}
+                                                        ⭐</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        {{ form.rating.errors }}
+                                    </div>
 
-                                <!-- Submit -->
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                    <div class="mb-3">
+                                        <label for="{{ form.review_text.id_for_label }}"
+                                               class="form-label">{{ form.review_text.label }}</label>
+                                        {{ form.review_text }}
+                                        {{ form.review_text.errors }}
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </form>
+
                             </div>
                         </div>
 
-                        <!-- Отзывы список -->
-                        <div class="review-list">
+                        <!-- Кнопка для показа/скрытия отзывов -->
+                        <button class="btn btn-outline-secondary mb-3" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#reviewsCollapse" aria-expanded="false" aria-controls="reviewsCollapse">
+                            👁️ Посмотреть отзывы ({{ total_votes }})
+                        </button>
 
-                            <!-- отзыв -->
-                            <div class="review-card rounded p-3 mb-4">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>MacMike</strong>
-                                    <span class="text-warning fs-5">⭐⭐⭐⭐⭐</span>
-                                </div>
-                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
-                                    2024</small>
-                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                                <div class="review-text mt-2">
-                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
-                                        give a fair assessment.
-                                        Bottom line: best phone I've ever owned.</p>
-                                </div>
-                                <div class="text-muted small mt-3 d-flex justify-content-between">
-                                    <span>👍 18 like it</span>
-                                    <a href="#" class="text-decoration-none">Report</a>
-                                </div>
+                        <!-- Список отзывов, скрытый по умолчанию -->
+                        <div class="collapse" id="reviewsCollapse">
+                            <div class="review-list">
+                                {% for review in reviews %}
+                                    <div class="review-card rounded p-3 mb-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <strong>{{ review.author_name }}</strong>
+                                            <span class="text-warning fs-5">
+                        {% for i in "12345"|slice:":review.rating"|make_list %}⭐{% endfor %}
+                    </span>
+                                        </div>
+                                        <p class="text-muted mb-1 strong">{{ review.rating }}.0 из 5 звезд</p>
+                                        <small class="text-secondary mb-1">Отзыв
+                                            от {{ review.created_at|date:"d F Y" }}</small>
+                                        <div class="review-text mt-2">
+                                            <p>{{ review.review_text }}</p>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p>Пока нет отзывов. Будьте первым!</p>
+                                {% endfor %}
                             </div>
-                            <!-- END отзыв -->
-                            <!-- отзыв -->
-                            <div class="review-card rounded p-3 mb-4 d-none">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>MacMike</strong>
-                                    <span class="text-warning fs-5">⭐⭐⭐⭐</span>
-                                </div>
-                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
-                                    2024</small>
-                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                                <div class="review-text mt-2">
-                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
-                                        give a fair assessment.
-                                        Bottom line: best phone I've ever owned.</p>
-                                </div>
-                                <div class="text-muted small mt-3 d-flex justify-content-between">
-                                    <span>👍 18 like it</span>
-                                    <a href="#" class="text-decoration-none">Report</a>
-                                </div>
-                            </div>
-                            <!-- END отзыв -->
-                            <!-- отзыв -->
-                            <div class="review-card rounded p-3 mb-4 d-none">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>MacMike</strong>
-                                    <span class="text-warning fs-5">⭐⭐⭐</span>
-                                </div>
-                                <p class="text-muted mb-1 strong">5.0 out of 5 stars</p>
-                                <small class="text-secondary mb-1">Reviewed in the United States on December 2,
-                                    2024</small>
-                                <span class="bg-success-subtle p-1 rounded text-success small">✔ Verified Purchase</span>
-                                <div class="review-text mt-2">
-                                    <p>I've been using this phone for a full year now, so I feel I've used it enough to
-                                        give a fair assessment.
-                                        Bottom line: best phone I've ever owned.</p>
-                                </div>
-                                <div class="text-muted small mt-3 d-flex justify-content-between">
-                                    <span>👍 18 like it</span>
-                                    <a href="#" class="text-decoration-none">Report</a>
-                                </div>
-                            </div>
-                            <!-- END отзыв -->
-
                         </div>
-
                     </div>
-
                 </div>
                 <!-- END 2 box  -->
 

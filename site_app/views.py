@@ -7,8 +7,12 @@ from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
+
+from bot_app.models import Review
+from site_app.forms import ReviewForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
+from site_app.templatetags.utils import get_rating_breakdown
 
 
 # bot = telebot.TeleBot(settings.BOT_TOKEN)
@@ -36,11 +40,33 @@ def product_detail(request, name, slug):
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     products_up_block = Product.objects.all()
+    # Получаем отзывы для данного продукта
+    reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product_slug = slug
+            review.save()
+            # Перенаправление для предотвращения повторной отправки формы при обновлении страницы
+            return redirect('product_detail', name=name, slug=slug)
+    else:
+        form = ReviewForm()
+
+    # Подсчёт рейтингов для отображения
+    ratings = [review.rating * 20 for review in reviews]  # переводим 1-5 в 20-100
+    rating_breakdown = get_rating_breakdown(ratings)
+    total_votes = len(ratings)
     context = {
         'products': products,
         'product': product,
         'product_name': product_name,
         'products_up_block': products_up_block,
+        'rating_breakdown': rating_breakdown,
+        'total_votes': total_votes,
+        'form': form,
+        'reviews': reviews,
 
     }
     return render(request, 'main/nick/single-product.html', context)

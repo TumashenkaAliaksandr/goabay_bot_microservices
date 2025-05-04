@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.text import slugify
 
 
@@ -161,3 +162,14 @@ class NewsletterSubscription(models.Model):
 def create_slug(sender, instance, *args, **kwargs):
     if not instance.slug or instance.slug == 'default-slug':
         instance.slug = slugify(instance.name)
+
+
+class Review(models.Model):
+    product_slug = models.SlugField(max_length=300, db_index=True)  # Связь с продуктом по slug
+    author_name = models.CharField(max_length=100)
+    review_text = models.TextField()
+    rating = models.PositiveSmallIntegerField(choices=[(i, f'{i} ⭐') for i in range(1, 6)])
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'Review by {self.author_name} for {self.product_slug}'
