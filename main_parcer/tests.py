@@ -73,7 +73,7 @@ if __name__ == '__main__':
     urls = [
         'https://www.rippletea.com/shop',
         'https://ridersarena.com/products/',
-        'https://toycra.com/products',
+        'https://toycra.com/collections/',
         # добавьте сюда другие URL сайтов
     ]
 

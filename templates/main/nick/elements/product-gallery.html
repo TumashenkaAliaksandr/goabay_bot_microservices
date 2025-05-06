@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% load static %}
+
+
 <head>
   <meta charset="UTF-8">
   <title>Слайдер товара с лайтбоксом</title>
@@ -67,7 +68,6 @@
     }
   </style>
 </head>
-<body>
 
 <div class="product-slider text-center">
   <!-- Main Swiper -->
@@ -75,18 +75,18 @@
     <div class="swiper-wrapper">
       
         <div class="swiper-slide">
-          <a href="img/products/0402046.jpg" class="glightbox" data-gallery="product-gallery">
-            <img src="img/products/0402046.jpg" class="img-fluid" />
+          <a href="{% static 'site_app/img/products/0402046.jpg' %}" class="glightbox" data-gallery="product-gallery">
+            <img src="{% static 'site_app/img/products/0402046.jpg' %}" class="img-fluid" />
           </a>
         </div>
         <div class="swiper-slide">
-          <a href="img/products/back-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
-            <img src="img/products/back-1800x1800-1.jpg" class="img-fluid" />
+          <a href="{% static 'site_app/img/products/back-1800x1800-1.jpg' %}" class="glightbox" data-gallery="product-gallery">
+            <img src="{% static 'site_app/img/products/back-1800x1800-1.jpg' %}" class="img-fluid" />
           </a>
         </div>
         <div class="swiper-slide">
-          <a href="img/products/edit-62-1800x1800-1.jpg" class="glightbox" data-gallery="product-gallery">
-            <img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid" />
+          <a href="{% static 'site_app/img/products/edit-62-1800x1800-1.jpg' %}" class="glightbox" data-gallery="product-gallery">
+            <img src="{% static 'site_app/img/products/edit-62-1800x1800-1.jpg' %}" class="img-fluid" />
           </a>
         </div>
 
@@ -98,13 +98,13 @@
     <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
       <div class="swiper-wrapper">
         <div class="swiper-slide" style="width: 50px">
-          <img src="img/products/0402046.jpg" class="img-fluid rounded border border-secondary" />
+          <img src="{% static 'site_app/img/products/0402046.jpg' %}" class="img-fluid rounded border border-secondary" />
         </div>
         <div class="swiper-slide" style="width: 50px">
-          <img src="img/products/back-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" />
+          <img src="{% static 'site_app/img/products/back-1800x1800-1.jpg' %}" class="img-fluid rounded border border-secondary" />
         </div>
         <div class="swiper-slide" style="width: 50px">
-          <img src="img/products/edit-62-1800x1800-1.jpg" class="img-fluid rounded border border-secondary" />
+          <img src="{% static 'site_app/img/products/edit-62-1800x1800-1.jpg' %}" class="img-fluid rounded border border-secondary" />
         </div>
       </div>
     </div>
@@ -136,5 +136,3 @@
   });
 </script>
 
-</body>
-</html>
