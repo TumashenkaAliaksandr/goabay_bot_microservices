@@ -80,6 +80,11 @@ def product(request):
 def shop(request):
     return render(request, 'webapp/shop/shop.html')
 
+
+def payments(request):
+    return render(request, 'webapp/shop/payment.html')
+
+
 def checkout(request):
     return render(request, 'webapp/shop/checkout.html')
 
@@ -92,7 +97,7 @@ def account(request):
 
 
 def login(request):
-    return render(request, 'main/nick/login.html')
+    return render(request, 'webapp/account/login.html')
 
 
 def registrations(request):
