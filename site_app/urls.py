@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = [
     # Основные маршруты
     path('', views.index, name='home'),
+    path('account/', views.account, name='account'),
     path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
 
     # Маршруты для брендов

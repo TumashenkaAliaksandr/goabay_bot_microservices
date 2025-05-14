@@ -29,6 +29,11 @@ def index(request):
     return render(request, 'webapp/index.html', context=context)
 
 
+def account(request):
+    """Account page"""
+    return render(request, 'main/nick/account.html')
+
+
 def category_view(request, category_name):
     # Логика для отображения категории
     return render(request, 'webapp/shop/category.html', {'category': category_name})

@@ -1,0 +1,31 @@
+{% extends 'main/nick/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <!-- BREADCRUMBS BOX-->
+    <div class="container-fluid breadcrumbs-box mb-3">
+        <div class="row">
+            <div class="col-12">
+
+                <!-- Отступ под фиксированную шапку -->
+                <div class="header-offset"></div>
+
+                <!-- BREADCRUMBS -->
+                <div class="breadcrumbs-container mb-3">
+                    <h1 class="breadcrumbs-title">
+                       Account</h1>
+                    <nav class="breadcrumbs">
+                        <a href="#" class="breadcrumb-item">Home</a>
+                        <span class="breadcrumb-separator">👉🏼</span>
+                        <a href="#" class="breadcrumb-item">Indian Store</a>
+                        <span class="breadcrumb-separator">👉🏼</span>
+                    </nav>
+                </div>
+                <!-- END BREADCRUMBS -->
+            </div>
+        </div>
+    </div>
+    <!-- END BREADCRUMBS BOX -->
+
+{% endblock %}
