@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=goabay_bot.settings
+
+  celery:
+    build: .
+    command: celery -A goabay_bot worker -l info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=goabay_bot.settings
+
+  celery-beat:
+    build: .
+    command: celery -A goabay_bot beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=goabay_bot.settings
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
