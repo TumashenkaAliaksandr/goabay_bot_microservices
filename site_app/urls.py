@@ -40,6 +40,7 @@ urlpatterns = [
     path('forgot-password/', views.forgot_password, name='forgot-password'),
     path('404/', views.four_zero_four, name='four-zero-four'),
     path('newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
+    path('contacts/', views.newsletter_signup, name='contacts'),
 ]
 
 if settings.DEBUG:

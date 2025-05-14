@@ -357,3 +357,7 @@ def remove_from_cart(request, product_id):
         del cart[product_id]
         request.session['cart'] = cart
     return redirect('cart')
+
+
+def contacts (request):
+    return render(request, 'main/nick/contacts.html')
