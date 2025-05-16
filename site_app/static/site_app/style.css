@@ -31,6 +31,45 @@
 
 
 
+
+
+#category-list label {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 5px;
+  margin: 0px 0px 5px 0px;
+  padding: 5px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#category-list label:hover {
+  background-color: #e2e6ea;
+  border-color: #adb5bd;
+}
+
+#category-list input[type="checkbox"]:checked + span {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+
+
+
+
+
+
+
+:root {
+  --primary-color: #0044ff;
+}
+
+
 /* TYPOGRAPHY ----------------------------------------------------------------------------------*/
 h1 {
     font-size: 1.8rem; /* 40px */
@@ -307,7 +346,7 @@ html {
     z-index: 1020;
 }
 [data-theme="dark"]  .dropdown-item {
-    color: #eee; 
+    color: #eee;
 }
 [data-theme="dark"]  .dropdown-item:hover {
     background-color: #000;
@@ -470,7 +509,7 @@ html {
     transition: max-height 0.4s ease;
 }
 .has-submenu.active .submenu {
-    max-height: 500px; 
+    max-height: 500px;
 }
 
 /* Тёмная тема для бокового меню */
@@ -536,7 +575,7 @@ html {
 /*Оверлей меню и корзины*/
 .overlay, #cartOverlay {
     position: fixed;
-    top: 0; 
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -547,7 +586,7 @@ html {
     z-index: 1250;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.overlay.active, 
+.overlay.active,
 #cartOverlay.active {
     opacity: 1;
     visibility: visible;
@@ -734,7 +773,7 @@ html {
     color: #fff;
     font-size: 16px;
     padding: 10px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0px 0px;
     text-align: center;
 }
 .vertical-menu ul {
@@ -763,9 +802,30 @@ html {
     color: #ddd; /* Светлый текст */
 }
 
+/* СТИЛЬ СКРРОЛЛБАРА -----------------------------------------------------*/
+.scrollable-filter {
+    max-height: 80vh; /* Можно отрегулировать: 80% от высоты экрана */
+    overflow-y: auto;
+    padding-right: 5px; /* немного отступа для скролла */
+  }
+
+  /* Необязательное улучшение: стилизация скроллбара (для WebKit) */
+  .scrollable-filter::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollable-filter::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollable-filter::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+
 /* STICKY SIDE BANNER --------------------------------------------------------------------------*/
 .side-banner {
-  top: 140px;
   z-index: 1000;
 }
 
@@ -809,7 +869,6 @@ html {
 /*контейнер*/
 .before-shop-loop,
 .after-shop-loop,
-.breadcrumbs-container,
 .h-list-container {
     display: flex;
     align-items: center;
@@ -827,7 +886,6 @@ html {
 /*Лист*/
 .pagination-container,
 .shop-loop-controls,
-.breadcrumbs,
 .horizontal-list {
     display: flex;
     gap: 10px;
@@ -840,20 +898,13 @@ html {
 .shop-loop-controls::-webkit-scrollbar,
 .breadcrumbs::-webkit-scrollbar,
 .horizontal-list::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+    width: 0px;
+    height: 0px;
 }
-
-
-:root {
-  --primary-color: #0044ff;
-}
-
 
 /*кнопки*/
 .pagination-btn,
 .shop-loop-item,
-.breadcrumb-item,
 .h-list-item {
     background: #fff;
     padding: 8px 16px;
@@ -867,7 +918,6 @@ html {
 
 .pagination-btn:hover,
 .shop-loop-item:hover,
-.breadcrumb-item:hover,
 .h-list-item:hover {
     background: #e2e6ea;
 }
@@ -879,29 +929,12 @@ html {
     padding: 10px;
 }
 
-/*breadcrumbs */
-.breadcrumbs-box{
-    background: #efefef;
-}
-
-.breadcrumb-item.active {
-    color: #6c757d;
-    font-weight: 500;
-    pointer-events: none;
-}
-
-.breadcrumb-separator {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .pagination-btn.active {
     background-color: var(--primary-color, #0044ff);
     color: #fff;
     font-weight: 600;
 }
+
 
 /*LOAD MORE Pagination  BTN */
 .load-more-btn {
@@ -941,14 +974,12 @@ html {
 /* 🌙 Тёмная тема HORIZONTAL LIST, BEFORE/AFTER SHOP LOOP, BREADCRUMBS, PAGINATION */
 [data-theme="dark"] .shop-loop-title,
 [data-theme="dark"] .shop-loop-view,
-[data-theme="dark"] .breadcrumbs-title,
 [data-theme="dark"] .h2-title {
     color: #fff; /* Белый текст */
 }
 
 [data-theme="dark"] .pagination-btn,
 [data-theme="dark"] .shop-loop-item,
-[data-theme="dark"] .breadcrumb-item,
 [data-theme="dark"] .h-list-item {
     background: #000; /* Тёмный фон для кнопок */
     color: #ddd; /* Светлый текст */
@@ -956,7 +987,6 @@ html {
 
 [data-theme="dark"] .pagination-btn:hover,
 [data-theme="dark"] .shop-loop-item:hover,
-[data-theme="dark"] .breadcrumb-item:hover,
 [data-theme="dark"] .h-list-item:hover {
     background: #555; /* Наведение */
 }
@@ -966,16 +996,8 @@ html {
     color: #fff;
 }
 
-[data-theme="dark"] .breadcrumbs-box {
-    background: #1f1f1f; /* Тёмный фон для breadcrumbs */
-}
-
 [data-theme="dark"] .breadcrumb-item.active {
     color: #aaa; /* Светло-серый цвет для активных элементов */
-}
-
-[data-theme="dark"] .breadcrumb-separator {
-    color: #aaa; /* Светло-серый для разделителей */
 }
 
 [data-theme="dark"] .load-more-btn {
