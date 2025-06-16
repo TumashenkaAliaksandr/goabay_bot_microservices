@@ -233,16 +233,24 @@
 
                 {% for slide in sliders %}
 
-                <div class="swiper-slide item-box">
+                    <div class="swiper-slide item-box">
 
-                    <a href="{% url 'brand-name' slide.slug %}"><img src="{{ slide.image.url }}" alt="{{ slide.name }}"></a>
+                        <a href="{% url 'brand-name' slide.slug %}">
+                            {% if slide.image %}
+                                <img src="{{ slide.image.url }}" alt="{{ slide.name }}">
+                            {% else %}
+                                <img src="{% static 'site_app/img/logo/logo.svg' %}" alt="No image">
+                            {% endif %}
+                        </a>
 
+                        <div class="item-title">
+                            <a href="{% url 'brand-name' slide.slug %}">{{ slide.name }}</a>
+                        </div>
 
-                    <div class="item-title"><a href="{% url 'brand-name' slide.slug %} ">{{ slide.name }}</a></div>
-
-                </div>
+                    </div>
 
                 {% endfor %}
+
 
                 <div class="swiper-slide item-box">
                     <img src="{% static 'site_app/img/brand/albert david.png' %}" alt="Albert David">
