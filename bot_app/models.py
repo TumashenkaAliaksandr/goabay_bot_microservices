@@ -62,6 +62,9 @@ class Product(models.Model):
     net_volume = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Объем нетто в литрах', verbose_name='Объем нетто')
     color = models.CharField(max_length=50, blank=True, verbose_name='Цвет')
     aroma = models.CharField(max_length=100, blank=True, verbose_name='Аромат')
+    material_up = models.CharField(max_length=100, blank=True, verbose_name='Материал (верхний слой)')
+    material = models.CharField(max_length=100, blank=True, verbose_name='Материал')
+    capacity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, help_text='Ёмкость/вместимость', verbose_name='Ёмкость')
 
     # Технические характеристики (для электроники)
     processor = models.CharField(max_length=255, blank=True, verbose_name='Процессор')
