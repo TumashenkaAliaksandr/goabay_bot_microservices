@@ -1,3 +1,4 @@
+import csv
 import os
 import django
 import unidecode
@@ -143,10 +144,10 @@ def parse_isha_product(html_content, product_url):
         # Дополнительно можно убрать лишние пробелы (например, множественные подряд)
         name = ' '.join(name.split())
 
-        data['название'] = name
+        data['Name'] = name
 
         # Ссылка на товар
-        data['ссылка на товар'] = product_url
+        data['Product urls'] = product_url
 
         # Цена
         price = None
@@ -162,7 +163,7 @@ def parse_isha_product(html_content, product_url):
                     except ValueError:
                         logging.error(f"Не удалось преобразовать цену в число: {price_str}")
                         price = None
-        data['цена'] = price if price is not None else 0.0
+        data['price'] = price if price is not None else 0.0
 
         # Описание
         product_details_div = soup.find("div", class_="product-short-info-content")
@@ -188,8 +189,8 @@ def parse_isha_product(html_content, product_url):
                 if more_info_span:
                     more_info_text = more_info_span.get_text(separator="\n", strip=True)
                     description += "More Information:\n" + more_info_text + "\n\n"
-        data['описание'] = description.strip()
-        desc = data['описание']
+        data['descriptions'] = description.strip()
+        desc = data['descriptions']
 
         # Добавляем извлечение additional_description
         additional_description = ""
@@ -221,17 +222,17 @@ def parse_isha_product(html_content, product_url):
         if breadcrumbs_div:
             breadcrumb_links = breadcrumbs_div.find_all('a', class_='arv')
             categories = [link.text.strip() for link in breadcrumb_links]
-            data['категория'] = categories[0] if categories else "Категория не определена"
-            data['подкатегория'] = categories[1:] if len(categories) > 1 else []
+            data['Category'] = categories[0] if categories else "Категория не определена"
+            data['Subcategory'] = categories[1:] if len(categories) > 1 else []
         else:
-            data['категория'] = "Категория не определена"
-            data['подкатегория'] = []
+            data['Category'] = "Категория не определена"
+            data['Subcategory'] = []
 
         # Производитель
-        data['производитель'] = "Isha Life"
+        data['Brand'] = "Isha Life"
 
         # Размер
-        data['размер'] = "100 капсул"
+        data['Sizes'] = "100 капсул"
 
         # Доставка
         shipping_info = []
@@ -241,7 +242,7 @@ def parse_isha_product(html_content, product_url):
             for block in shipping_blocks:
                 text = block.find('p').text.strip()
                 shipping_info.append(text)
-        data['доставка'] = shipping_info if shipping_info else "Информация о доставке не найдена"
+        data['Delivery'] = shipping_info if shipping_info else "Информация о доставке не найдена"
 
         # SKU
         sku = None
@@ -291,7 +292,7 @@ def save_product_to_db(data, name, price, desc):
     """
     try:
         # Извлекаем данные из словаря
-        category_name = data['категория'] if data['категория'] else "General"
+        category_name = data['Category'] if data['Category'] else "General"
 
         # Получаем или создаем категорию
         category, created = Category.objects.get_or_create(name=category_name)
@@ -304,7 +305,7 @@ def save_product_to_db(data, name, price, desc):
         slug = cleaned_name.replace(' ', '-').lower()
 
         # Получаем название бренда из данных
-        brand_name = data.get('производитель') or 'Isha Life'  # Установите значение по умолчанию
+        brand_name = data.get('Brand') or 'Isha Life'  # Установите значение по умолчанию
 
         # Получаем или создаем бренд
         brand, brand_created = Brand.objects.get_or_create(
@@ -618,3 +619,29 @@ if __name__ == '__main__':
         json.dump(all_products_data, f, indent=4, ensure_ascii=False)  # Сохраняем данные в JSON файл
 
     print("Данные о продуктах сохранены в product_ishalife.json")
+
+    csv_file = 'jsons/product_ishalife.csv'
+
+    if all_products_data:
+        # Преобразуем поля с списками в строки без скобок
+        for product in all_products_data:
+            # Обработка поля с ссылками на изображения
+            if isinstance(product.get('image_urls'), list):
+                product['image_urls'] = ', '.join(product['image_urls'])
+            # Обработка поля подкатегорий (с заглавной буквы)
+            if isinstance(product.get('Subcategory'), list):
+                product['Subcategory'] = ', '.join(product['Subcategory'])
+            # Обработка поля доставки (с заглавной буквы)
+            if isinstance(product.get('Delivery'), list):
+                product['Delivery'] = ', '.join(product['Delivery'])
+
+        # Получаем заголовки из ключей первого словаря
+        fieldnames = all_products_data[0].keys()
+
+        with open(csv_file, 'w', newline='', encoding='utf-8') as f_csv:
+            writer = csv.DictWriter(f_csv, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(all_products_data)
+    else:
+        print("Данные для CSV пусты, файл не создан.")
+
