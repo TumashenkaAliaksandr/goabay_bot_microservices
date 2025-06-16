@@ -51,46 +51,69 @@ for model in all_models:
 # admin_site.register(models.Words, WordAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
-    # Используем кастомную форму для TinyMCE
     form = ProductForm
 
-    # Поля, отображаемые в списке продуктов
-    list_display = ('name', 'price', 'is_popular', 'is_new_product', 'has_additional_description', 'image_preview')
-
-    # Фильтрация по полям
-    list_filter = ('category', 'brand', 'is_popular', 'is_new_product')
-
-    # Поля для поиска
-    search_fields = ('name', 'desc')
-
-    # Автоматическое заполнение поля slug на основе названия продукта
+    list_display = (
+        'name', 'sku', 'price', 'stock_status', 'quantity', 'show_quantity',
+        'is_popular', 'is_new_product', 'is_sale', 'image_preview', 'has_additional_description'
+    )
+    list_filter = (
+        'category', 'brand', 'stock_status',
+        'is_popular', 'is_new_product', 'is_sale'
+    )
+    search_fields = ('name', 'desc', 'sku', 'model')
     prepopulated_fields = {'slug': ('name',)}
 
-    # Встраиваемая модель для изображений продукта
-    inlines = [ProductImageInline]
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('name', 'slug', 'sku', 'model', 'brand', 'category', 'image', 'desc', 'additional_description', 'tags')
+        }),
+        ('Цены и наличие', {
+            'fields': ('price', 'discount', 'stock_status', 'quantity', 'show_quantity', 'restock_date')
+        }),
+        ('Физические характеристики', {
+            'fields': ('length', 'width', 'height', 'gross_weight', 'net_volume', 'color', 'aroma', 'material_up', 'material', 'capacity')
+        }),
+        ('Технические характеристики', {
+            'fields': ('processor', 'internal_storage', 'screen_size', 'battery_capacity', 'resolution', 'interface', 'power_consumption')
+        }),
+        ('Одежда и обувь', {
+            'fields': ('gender', 'age_group', 'sizes', 'clothing_fit')
+        }),
+        ('Косметика и бытовая химия', {
+            'fields': ('skin_type', 'hair_type', 'effect', 'application_area', 'ingredients')
+        }),
+        ('Продукты питания', {
+            'fields': ('calories', 'nutritional_value', 'organic', 'vegan', 'gluten_free', 'additives', 'shelf_life')
+        }),
+        ('Автотовары', {
+            'fields': ('engine_type', 'fuel_type', 'vehicle_compatibility', 'transmission', 'horsepower', 'torque')
+        }),
+        ('Мебель и интерьер', {
+            'fields': ('style',)
+        }),
+        ('Дополнительно', {
+            'fields': ('barcode', 'upc', 'launch_date', 'energy_efficiency', 'reusability', 'eco_label')
+        }),
+        ('Гарантия и отзывы', {
+            'fields': ('warranty_period', 'rating', 'reviews_count')
+        }),
+        ('Маркетинговые флаги', {
+            'fields': ('is_popular', 'is_index', 'is_site_bar', 'is_sale', 'is_new_product', 'is_main_slider')
+        }),
+    )
 
     def image_preview(self, obj):
-        """Метод для отображения предварительного просмотра изображения в админке."""
         if obj.image:
-            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" />')
+            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" style="object-fit: contain;" />')
         return '-'
-
-    image_preview.short_description = 'Image Preview'  # Заголовок для колонки
+    image_preview.short_description = 'Превью'
 
     def has_additional_description(self, obj):
-        """Метод для отображения галочки, если есть additional_description."""
         return bool(obj.additional_description)
+    has_additional_description.short_description = 'Доп. описание'
+    has_additional_description.boolean = True
 
-    has_additional_description.short_description = 'Additional Description'  # Заголовок для колонки
-    has_additional_description.boolean = True  # Чтобы Django отображал как булево значение
-
-    def save_model(self, request, obj, form, change):
-        """Метод для обработки сохранения модели."""
-        obj.additional_description = form.cleaned_data['additional_description']  # Сохраняем данные из TinyMCE
-        super().save_model(request, obj, form, change)
-
-
-# Регистрируем ProductAdmin в кастомной админке
 admin_site.register(Product, ProductAdmin)
 
 class NewsImageInline(admin.TabularInline):

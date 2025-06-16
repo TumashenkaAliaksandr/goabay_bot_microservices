@@ -3,7 +3,8 @@
 
 {% block extrastyle %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'admin/css/dashboard.css' %}">
+{#<link rel="stylesheet" href="{% static 'admin/css/dashboard.css' %}">#}
+    <link rel="stylesheet" href="{% static 'site_app/dashboard.css' %}">
 {% endblock %}
 
 {% block coltype %}colMS{% endblock %}

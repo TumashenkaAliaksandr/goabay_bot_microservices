@@ -36,34 +36,110 @@ class UserRegistration(models.Model):
 
 class Product(models.Model):
     """Продукты в каталоге"""
+
+    # Основные данные
     name = models.CharField(max_length=300, db_index=True, default='Название')
     slug = models.SlugField(max_length=300, db_index=True, unique=True, default='default-slug')
-    image = models.ImageField(upload_to='products', verbose_name='photo', null=True, blank=True)
-    desc = models.TextField(blank=True, default='Описание')  # Основное описание продукта
-    additional_description = models.TextField(blank=True, null=True)  # Дополнительное описание продукта
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    rating = models.CharField(max_length=5, blank=True, null=True)
-    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True)  # Поле для скидки
-    category = models.ManyToManyField('site_app.Category', related_name='products')
-    brand = models.ForeignKey('site_app.Brand', on_delete=models.SET_NULL, null=True, blank=True, related_name='brands')  # Бренд продукта
+    sku = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
+    model = models.CharField(max_length=100, blank=True, verbose_name='Модель')
+    brand = models.ForeignKey('site_app.Brand', on_delete=models.SET_NULL, null=True, blank=True, related_name='brands')
+    image = models.ImageField(upload_to='products', verbose_name='Фото', null=True, blank=True)
+    desc = models.TextField(blank=True, default='Описание', verbose_name='Описание')
+    additional_description = models.TextField(blank=True, null=True, verbose_name='Дополнительное описание')
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='Цена')
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, verbose_name='Скидка')
 
-    # Новые поля для размеров и литров
-    sizes = models.CharField(max_length=100, blank=True)  # Размеры (например: S, M, L)
-    volume_liters = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Объем в литрах
+    # Общие атрибуты
+    warranty_period = models.PositiveIntegerField(null=True, blank=True, help_text='Гарантия в месяцах', verbose_name='Гарантия')
+    shelf_life = models.CharField(max_length=100, blank=True, verbose_name='Срок годности')
+    certification = models.CharField(max_length=255, blank=True, verbose_name='Сертификаты')
 
-    capacity = models.CharField(max_length=100, blank=True)  # Вместимость
-    color = models.CharField(max_length=50, blank=True)  # Цвет
-    material_up = models.CharField(max_length=100, blank=True)  # Верхний материал
-    power_source = models.CharField(max_length=100, blank=True)  # Источник питания
-    material = models.CharField(max_length=100, blank=True)  # Материал
-    quantity = models.PositiveIntegerField(default=0)
-    show_quantity = models.BooleanField(default=False)
+    # Физические характеристики
+    length = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text='Длина в см', verbose_name='Длина')
+    width = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text='Ширина в см', verbose_name='Ширина')
+    height = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text='Высота в см', verbose_name='Высота')
+    gross_weight = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Вес брутто в кг', verbose_name='Вес брутто')
+    net_volume = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Объем нетто в литрах', verbose_name='Объем нетто')
+    color = models.CharField(max_length=50, blank=True, verbose_name='Цвет')
+    aroma = models.CharField(max_length=100, blank=True, verbose_name='Аромат')
 
+    # Технические характеристики (для электроники)
+    processor = models.CharField(max_length=255, blank=True, verbose_name='Процессор')
+    internal_storage = models.CharField(max_length=100, blank=True, verbose_name='Встроенная память')
+    screen_size = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, verbose_name='Диагональ экрана (дюймы)')
+    battery_capacity = models.PositiveIntegerField(null=True, blank=True, verbose_name='Емкость батареи (мАч)')
+    resolution = models.CharField(max_length=100, blank=True, verbose_name='Разрешение экрана')
+    interface = models.CharField(max_length=255, blank=True, verbose_name='Интерфейсы (HDMI, USB и т.п.)')
+    power_consumption = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, help_text='Потребляемая мощность (Вт)', verbose_name='Потребление энергии')
+
+    # Одежда и обувь
+    gender = models.CharField(max_length=20, blank=True, verbose_name='Пол')
+    age_group = models.CharField(max_length=50, blank=True, verbose_name='Возрастная категория')
+    sizes = models.CharField(max_length=100, blank=True, verbose_name='Размеры (S, M, L и т.п.)')
+    clothing_fit = models.CharField(max_length=50, blank=True, verbose_name='Посадка (Slim, Regular, Oversize)')
+
+    # Косметика и бытовая химия
+    skin_type = models.CharField(max_length=100, blank=True, verbose_name='Тип кожи')
+    hair_type = models.CharField(max_length=100, blank=True, verbose_name='Тип волос')
+    effect = models.CharField(max_length=255, blank=True, verbose_name='Эффект (увлажнение, объем и т.п.)')
+    application_area = models.CharField(max_length=255, blank=True, verbose_name='Область применения')
+    ingredients = models.TextField(blank=True, verbose_name='Состав')
+
+    # Продукты питания
+    calories = models.PositiveIntegerField(null=True, blank=True, verbose_name='Калорийность (ккал)')
+    nutritional_value = models.TextField(blank=True, verbose_name='Пищевая ценность')
+    organic = models.BooleanField(default=False, verbose_name='Органический продукт')
+    vegan = models.BooleanField(default=False, verbose_name='Веганский продукт')
+    gluten_free = models.BooleanField(default=False, verbose_name='Без глютена')
+    additives = models.TextField(blank=True, verbose_name='Добавки')
+
+    # Автотовары
+    engine_type = models.CharField(max_length=100, blank=True, verbose_name='Тип двигателя')
+    fuel_type = models.CharField(max_length=100, blank=True, verbose_name='Тип топлива')
+    vehicle_compatibility = models.CharField(max_length=255, blank=True, verbose_name='Совместимость с авто')
+    transmission = models.CharField(max_length=100, blank=True, verbose_name='Коробка передач')
+    horsepower = models.PositiveIntegerField(null=True, blank=True, verbose_name='Лошадиные силы')
+    torque = models.PositiveIntegerField(null=True, blank=True, verbose_name='Крутящий момент (Нм)')
+
+    # Мебель и интерьер
+    style = models.CharField(max_length=100, blank=True, verbose_name='Стиль (лофт, модерн и т.п.)')
+
+    # Дополнительно
+    barcode = models.CharField(max_length=100, blank=True, verbose_name='Штрихкод')
+    upc = models.CharField(max_length=100, blank=True, verbose_name='Уникальный код товара (UPC)')
+    launch_date = models.DateField(null=True, blank=True, verbose_name='Дата выхода на рынок')
+    energy_efficiency = models.CharField(max_length=50, blank=True, verbose_name='Класс энергоэффективности')
+    reusability = models.BooleanField(default=False, verbose_name='Многоразовое использование')
+    eco_label = models.CharField(max_length=255, blank=True, verbose_name='Экомаркировка')
+
+    # Логистика и наличие
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Количество на складе')
+    show_quantity = models.BooleanField(default=False, verbose_name='Показывать количество')
+    STOCK_STATUS_CHOICES = [
+        ('in_stock', 'В наличии'),
+        ('out_of_stock', 'Нет в наличии'),
+        ('preorder', 'Предзаказ'),
+        ('discontinued', 'Снято с производства'),
+    ]
+    stock_status = models.CharField(max_length=20, choices=STOCK_STATUS_CHOICES, default='in_stock', verbose_name='Статус наличия')
+    restock_date = models.DateField(null=True, blank=True, verbose_name='Дата поступления')
+
+    # Рейтинг и отзывы
+    rating = models.FloatField(blank=True, null=True, default=0.0, verbose_name='Средний рейтинг')
+    reviews_count = models.PositiveIntegerField(default=0, verbose_name='Количество отзывов')
+
+    # SEO
+    meta_title = models.CharField(max_length=255, blank=True, null=True, verbose_name='SEO заголовок')
+    meta_description = models.CharField(max_length=512, blank=True, null=True, verbose_name='SEO описание')
+    tags = models.ManyToManyField('site_app.Tag', blank=True, related_name='products', verbose_name='Теги')
+
+    # Категории
+    category = models.ManyToManyField('site_app.Category', related_name='products', verbose_name='Категории')
+
+    # Маркетинговые флаги
     is_popular = models.BooleanField(verbose_name='Популярные', default=False, blank=True)
-    is_brand = models.BooleanField(verbose_name='Имя Бренда', default=False, blank=True)
     is_index = models.BooleanField(verbose_name='На главную', default=False, blank=True)
     is_site_bar = models.BooleanField(verbose_name='В сайт Бар', default=False, blank=True)
-    is_not_stock = models.BooleanField(verbose_name='Нет в наличии', default=False, blank=True)
     is_sale = models.BooleanField(verbose_name='Акции - Распродажи', default=False, blank=True)
     is_new_product = models.BooleanField(verbose_name='Новинки', default=False, blank=True)
     is_main_slider = models.BooleanField(verbose_name='В главный слайдер', default=False, blank=True)
@@ -77,10 +153,7 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        # Очищаем slug от лишних символов
         cleaned_slug = re.sub(r'[^\w\s-]', '', self.slug).strip().replace(' ', '-').lower()
-
-        # Используем только cleaned_slug в URL
         return reverse('product_detail', args=[cleaned_slug])
 
 
