@@ -43,8 +43,8 @@ def download_image(url, product_name, is_additional=False):
         product_name = slugify(product_name)  # Преобразуем имя продукта в слаг
 
         # Укорачиваем имя продукта и имя файла до 50 символов
-        product_name = product_name[:1000]
-        filename = filename[:1000]
+        product_name = product_name[:500]
+        filename = filename[:500]
 
         if is_additional:
             filepath = os.path.join('products/additional', f'{product_name}_{filename}')
@@ -173,8 +173,9 @@ def parse_puma_product(html_content, product_url):
         data['price'] = price if price is not None else 0.0
 
         # Описание
-        product_details_div = soup.find("div", attrs={"data-test-id": "pdp-product-description"})
         description = ""
+        product_details_div = soup.find("div", attrs={"data-test-id": "pdp-product-description"})
+
         if product_details_div:
             # Ищем заголовок "Description" (в вашем примере это <h2> с текстом "Description")
             description_h2 = product_details_div.find(
@@ -217,6 +218,22 @@ def parse_puma_product(html_content, product_url):
         data['additional_description'] = additional_description.strip()
         desc = data['descriptions']
 
+        # Добавляем извлечение additional_description
+        additional_description = ""
+        product_options_wrapper = soup.find('div', class_='product-options-wrapper')
+        if product_options_wrapper:
+            customize_title = product_options_wrapper.find('span', id='customizeTitle')
+            if customize_title:
+                additional_description += f"Customize: {customize_title.text.strip()}\n"
+
+            bundle_options = product_options_wrapper.find_all('div', class_='field choice')
+            for option in bundle_options:
+                label = option.find('label', class_='label')
+                if label:
+                    additional_description += f"- {label.text.strip()}\n"
+
+        data['additional_description'] = additional_description.strip()
+
         # Images
         image_urls = []
         gallery_section = soup.find('section', attrs={'data-test-id': 'product-image-gallery-section'})
@@ -230,21 +247,13 @@ def parse_puma_product(html_content, product_url):
                     image_urls.append(src)
         data['image_urls'] = image_urls  # Сохраняем все URL изображений
 
-        breadcrumb_nav = soup.find('nav', id='breadcrumb')
-        if breadcrumb_nav:
-            breadcrumbs_ul = breadcrumb_nav.find('ul')
-            if breadcrumbs_ul:
-                breadcrumb_items = breadcrumbs_ul.find_all('li')
-                categories = []
-                for li in breadcrumb_items:
-                    a_tag = li.find('a')
-                    if a_tag:
-                        categories.append(a_tag.get_text(strip=True))
-                data['Category'] = categories[0] if categories else "Категория не определена"
-                data['Subcategory'] = categories[1:] if len(categories) > 1 else []
-            else:
-                data['Category'] = "Категория не определена"
-                data['Subcategory'] = []
+        # Категория и подкатегории
+        breadcrumbs_div = soup.find('div', class_='breadcrumbs')
+        if breadcrumbs_div:
+            breadcrumb_links = breadcrumbs_div.find_all('a', class_='arv')
+            categories = [link.text.strip() for link in breadcrumb_links]
+            data['Category'] = categories[0] if categories else "Категория не определена"
+            data['Subcategory'] = categories[1:] if len(categories) > 1 else []
         else:
             data['Category'] = "Категория не определена"
             data['Subcategory'] = []
@@ -308,47 +317,30 @@ def parse_puma_product(html_content, product_url):
 
 
 def save_product_to_db(data, name, price, desc):
-    """
-    Сохраняет данные продукта в базу данных.
-    """
     try:
         logging.info(f"Начало сохранения продукта: {name}")
 
-        # Извлекаем данные из словаря
-        category_name = data['Category'] if data['Category'] else "General"
-        logging.info(f"Категория: {category_name}")
-
-        # Получаем или создаем категорию
+        category_name = data.get('Category') or "General"
         category, created = Category.objects.get_or_create(name=category_name)
         logging.info(f"Категория {'создана' if created else 'уже существует'}: {category}")
 
-        # Преобразуем не-ASCII символы и создаем слаг
         cleaned_name = unidecode.unidecode(name)
         cleaned_name = re.sub(r'[^a-zA-Z0-9\s]', '', cleaned_name).strip()[:100]
         slug = cleaned_name.replace(' ', '-').lower()
         logging.info(f"Очищенное имя: {cleaned_name}, slug: {slug}")
 
-        # Получаем название бренда из данных
         brand_name = data.get('Brand') or 'Puma'
-        logging.info(f"Бренд: {brand_name}")
-
-        # Получаем или создаем бренд
         brand, brand_created = Brand.objects.get_or_create(
             name=brand_name,
             defaults={'slug': slugify(brand_name)}
         )
         logging.info(f"Бренд {'создан' if brand_created else 'уже существует'}: {brand}")
 
-        # Получаем URL изображений
         image_urls = data.get('image_urls', [])
         main_image_url = image_urls[0] if image_urls else None
-        logging.info(f"Основное изображение: {main_image_url}")
-
-        # Скачиваем основное изображение
         main_image_path = download_image(main_image_url, slug) if main_image_url else None
         logging.info(f"Путь к изображению: {main_image_path}")
 
-        # Пытаемся получить существующий продукт или создать новый
         product, created = Product.objects.get_or_create(
             slug=slug,
             defaults={
@@ -361,9 +353,21 @@ def save_product_to_db(data, name, price, desc):
                 'brand': brand
             }
         )
-        logging.info(f"Продукт {'создан' if created else 'обновлен'}: {product}")
 
-        # Обрабатываем дополнительные изображения
+        if not created:
+            # Обновляем поля и сохраняем
+            product.name = cleaned_name
+            product.desc = desc
+            product.price = price
+            if main_image_path:
+                product.image = main_image_path
+            product.rating = data.get('rating', '0')
+            product.additional_description = data.get('additional_description', '')
+            product.brand = brand
+            product.save()
+            logging.info(f"Продукт обновлен: {product}")
+
+        # Дополнительные изображения
         if len(image_urls) > 1:
             logging.info(f"Найдено {len(image_urls) - 1} дополнительных изображений")
             for img_url in image_urls[1:]:
@@ -385,6 +389,7 @@ def save_product_to_db(data, name, price, desc):
     except Exception as e:
         logging.error(f"КРИТИЧЕСКАЯ ОШИБКА при сохранении продукта {name}: {e}", exc_info=True)
         return False
+
 
 def collect_all_product_links(category_urls):
     """

@@ -38,8 +38,8 @@ class Product(models.Model):
     """Продукты в каталоге"""
 
     # Основные данные
-    name = models.CharField(max_length=300, db_index=True, default='Название')
-    slug = models.SlugField(max_length=300, db_index=True, unique=True, default='default-slug')
+    name = models.CharField(max_length=500, db_index=True, default='Название')
+    slug = models.SlugField(max_length=500, db_index=True, unique=True, default='default-slug')
     sku = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
     model = models.CharField(max_length=100, blank=True, verbose_name='Модель')
     brand = models.ForeignKey('site_app.Brand', on_delete=models.SET_NULL, null=True, blank=True, related_name='brands')
