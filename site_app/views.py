@@ -40,12 +40,10 @@ def category_view(request, category_name):
 
 
 
-def product_detail(request, name, slug):
-    products = get_object_or_404(Product, name=name)  # Получаем продукт по name
+def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     products_up_block = Product.objects.all()
-    # Получаем отзывы для данного продукта
     reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
 
     if request.method == 'POST':
@@ -54,17 +52,15 @@ def product_detail(request, name, slug):
             review = form.save(commit=False)
             review.product_slug = slug
             review.save()
-            # Перенаправление для предотвращения повторной отправки формы при обновлении страницы
-            return redirect('product_detail', name=name, slug=slug)
+            return redirect('product_detail', slug=slug)
     else:
         form = ReviewForm()
 
-    # Подсчёт рейтингов для отображения
-    ratings = [review.rating * 20 for review in reviews]  # переводим 1-5 в 20-100
+    ratings = [review.rating * 20 for review in reviews]
     rating_breakdown = get_rating_breakdown(ratings)
     total_votes = len(ratings)
+
     context = {
-        'products': products,
         'product': product,
         'product_name': product_name,
         'products_up_block': products_up_block,
@@ -72,7 +68,6 @@ def product_detail(request, name, slug):
         'total_votes': total_votes,
         'form': form,
         'reviews': reviews,
-
     }
     return render(request, 'webapp/shop/single-product.html', context)
 

@@ -7,7 +7,7 @@ urlpatterns = [
     # Основные маршруты
     path('', views.index, name='home'),
     path('account/', views.account, name='account'),
-    path('product/<slug:slug>/<str:name>/', views.product_detail, name='product_detail'),
+    path('product/<slug:slug>/', views.product_detail, name='product_detail'),
 
     # Маршруты для брендов
     path('brand', views.brand, name='brand'),  # Список всех брендов

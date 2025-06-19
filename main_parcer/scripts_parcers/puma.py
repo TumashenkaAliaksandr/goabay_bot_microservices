@@ -23,54 +23,60 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '../media')
 BASE_URL = "https://in.puma.com"
 
+def generate_unique_slug(base_slug):
+    slug = base_slug
+    counter = 1
+    while Product.objects.filter(slug=slug).exists():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    return slug
+
+def sanitize_filename(filename):
+    filename = filename.replace('’', "'")
+    filename = re.sub(r'[^\x00-\x7F]+', '', filename)  # удаляем все не-ASCII символы
+    filename = re.sub(r'[^\w\-_\.]', '', filename)     # удаляем специальные символы
+    return filename
+
 def download_image(url, product_name, is_additional=False):
-    """
-    Скачивает изображение, сохраняет его и возвращает путь к файлу.
-
-    Аргументы:
-        url (str): URL изображения.
-        product_name (str): Название продукта для создания имени файла.
-        is_additional (bool): Флаг, указывающий, является ли изображение дополнительным.
-
-    Возвращает:
-        str: Путь к файлу изображения или None в случае ошибки.
-    """
     try:
-        response = requests.get(url, stream=True, timeout=10)
+        response = requests.get(url, stream=True, timeout=15)
         response.raise_for_status()
-        filename = os.path.basename(url).split('?')[0]  # Извлекаем имя файла из URL
 
-        product_name = slugify(product_name)  # Преобразуем имя продукта в слаг
+        # Получаем имя файла и расширение
+        original_filename = os.path.basename(url.split("?")[0])
+        name_part, ext = os.path.splitext(original_filename)
 
-        # Укорачиваем имя продукта и имя файла до 50 символов
-        product_name = product_name[:500]
-        filename = filename[:500]
+        ext = ext if ext.lower() in ['.jpg', '.jpeg', '.png', '.webp'] else '.jpg'
 
-        if is_additional:
-            filepath = os.path.join('products/additional', f'{product_name}_{filename}')
-            media_dir = os.path.join(MEDIA_ROOT, 'products/additional')
-        else:
-            filepath = os.path.join('products', f'{product_name}_{filename}')
-            media_dir = os.path.join(MEDIA_ROOT, 'products')
+        # Слаг для продукта
+        product_slug = slugify(product_name)[:40]  # ограничиваем длину
+        filename_clean = sanitize_filename(name_part)[:80]  # ограничиваем длину имени файла
 
-        if not os.path.exists(media_dir):
-            os.makedirs(media_dir)
+        # Только одна часть имени (либо slug, либо clean filename)
+        final_filename = f"{product_slug}{ext}"  # используем только slug для имени файла
 
-        full_path = os.path.join(MEDIA_ROOT, filepath)  # Полный путь к файлу
-        logging.info(f"Full image path: {full_path}")
+        # Путь для сохранения
+        subfolder = 'products/additional' if is_additional else 'products'
+        media_dir = os.path.join(MEDIA_ROOT, subfolder)
+        filepath = os.path.join(subfolder, final_filename)
+        full_path = os.path.join(MEDIA_ROOT, filepath)
 
+        os.makedirs(media_dir, exist_ok=True)
+
+        # Сохраняем файл
         with open(full_path, 'wb') as f:
             for chunk in response.iter_content(1024):
                 f.write(chunk)
-        logging.info(f"Image downloaded successfully: {url} to {filepath}")
+
+        logging.info(f"Изображение сохранено: {filepath}")
         return filepath
+
     except requests.exceptions.RequestException as e:
         logging.error(f"Ошибка при скачивании изображения с {url}: {e}")
         return None
     except Exception as e:
         logging.error(f"Ошибка при обработке изображения с {url}: {e}")
         return None
-
 
 def collect_product_links_from_category(category_url):
     """
@@ -218,25 +224,9 @@ def parse_puma_product(html_content, product_url):
         data['additional_description'] = additional_description.strip()
         desc = data['descriptions']
 
-        # Добавляем извлечение additional_description
-        additional_description = ""
-        product_options_wrapper = soup.find('div', class_='product-options-wrapper')
-        if product_options_wrapper:
-            customize_title = product_options_wrapper.find('span', id='customizeTitle')
-            if customize_title:
-                additional_description += f"Customize: {customize_title.text.strip()}\n"
-
-            bundle_options = product_options_wrapper.find_all('div', class_='field choice')
-            for option in bundle_options:
-                label = option.find('label', class_='label')
-                if label:
-                    additional_description += f"- {label.text.strip()}\n"
-
-        data['additional_description'] = additional_description.strip()
-
         # Images
         image_urls = []
-        gallery_section = soup.find('section', attrs={'data-test-id': 'product-image-gallery-section'})
+        gallery_section = soup.find('div', class_='tw-vk1bow')
         if gallery_section:
             # Ищем все <img> внутри секции галереи
             img_tags = gallery_section.find_all('img')
@@ -315,32 +305,44 @@ def parse_puma_product(html_content, product_url):
         logging.error(f"Ошибка при парсинге продукта {product_url}: {e}")
         return None, None, None, None
 
-
 def save_product_to_db(data, name, price, desc):
     try:
         logging.info(f"Начало сохранения продукта: {name}")
 
+        # Проверка и очистка поля Category
         category_name = data.get('Category') or "General"
         category, created = Category.objects.get_or_create(name=category_name)
-        logging.info(f"Категория {'создана' if created else 'уже существует'}: {category}")
 
+        # Очищаем название и обрезаем до 100 символов
         cleaned_name = unidecode.unidecode(name)
         cleaned_name = re.sub(r'[^a-zA-Z0-9\s]', '', cleaned_name).strip()[:100]
-        slug = cleaned_name.replace(' ', '-').lower()
-        logging.info(f"Очищенное имя: {cleaned_name}, slug: {slug}")
 
+        # Проверка и очистка поля SKU
+        sku = data.get('SKU')
+        if not sku or sku.strip().lower() == 'sku не найден':
+            sku = None  # Очистка некорректного значения
+
+        # Генерация базового slug
+        base_slug = slugify(sku)[:500] if sku else slugify(cleaned_name)[:500]
+        slug = generate_unique_slug(base_slug)
+
+        # Проверка и создание бренда
         brand_name = data.get('Brand') or 'Puma'
         brand, brand_created = Brand.objects.get_or_create(
             name=brand_name,
             defaults={'slug': slugify(brand_name)}
         )
-        logging.info(f"Бренд {'создан' if brand_created else 'уже существует'}: {brand}")
 
+        # Проверка и обработка изображений
         image_urls = data.get('image_urls', [])
         main_image_url = image_urls[0] if image_urls else None
         main_image_path = download_image(main_image_url, slug) if main_image_url else None
-        logging.info(f"Путь к изображению: {main_image_path}")
 
+        # Если путь изображения слишком длинный, обрезаем его
+        if main_image_path and len(main_image_path) > 100:
+            main_image_path = main_image_path[:100]
+
+        # Сохраняем продукт
         product, created = Product.objects.get_or_create(
             slug=slug,
             defaults={
@@ -350,12 +352,13 @@ def save_product_to_db(data, name, price, desc):
                 'image': main_image_path,
                 'rating': data.get('rating', '0'),
                 'additional_description': data.get('additional_description', ''),
-                'brand': brand
+                'brand': brand,
+                'sku': sku  # безопасно: None или корректный SKU
             }
         )
 
+        # Если продукт уже существует, обновляем его данные
         if not created:
-            # Обновляем поля и сохраняем
             product.name = cleaned_name
             product.desc = desc
             product.price = price
@@ -364,32 +367,31 @@ def save_product_to_db(data, name, price, desc):
             product.rating = data.get('rating', '0')
             product.additional_description = data.get('additional_description', '')
             product.brand = brand
+            if sku:
+                product.sku = sku
             product.save()
-            logging.info(f"Продукт обновлен: {product}")
 
-        # Дополнительные изображения
+        # Добавление дополнительных изображений
         if len(image_urls) > 1:
-            logging.info(f"Найдено {len(image_urls) - 1} дополнительных изображений")
             for img_url in image_urls[1:]:
                 try:
                     additional_image_path = download_image(img_url, slug, is_additional=True)
+                    # Если путь изображения слишком длинный, обрезаем его
+                    if additional_image_path and len(additional_image_path) > 100:
+                        additional_image_path = additional_image_path[:100]
                     if additional_image_path:
                         if not ProductImage.objects.filter(product=product, image=additional_image_path).exists():
                             ProductImage.objects.create(product=product, image=additional_image_path)
-                            logging.info(f"Добавлено изображение: {additional_image_path}")
                 except Exception as e:
                     logging.error(f"Ошибка при добавлении изображения: {e}")
 
-        # Обновляем категории
         product.category.clear()
         product.category.add(category)
-        logging.info(f"Добавлена категория {category} к продукту")
 
         return True
     except Exception as e:
         logging.error(f"КРИТИЧЕСКАЯ ОШИБКА при сохранении продукта {name}: {e}", exc_info=True)
         return False
-
 
 def collect_all_product_links(category_urls):
     """

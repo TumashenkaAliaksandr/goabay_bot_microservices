@@ -40,8 +40,8 @@ class Product(models.Model):
     # Основные данные
     name = models.CharField(max_length=500, db_index=True, default='Название')
     slug = models.SlugField(max_length=500, db_index=True, unique=True, default='default-slug')
-    sku = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
-    model = models.CharField(max_length=100, blank=True, verbose_name='Модель')
+    sku = models.CharField(max_length=300, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
+    model = models.CharField(max_length=300, blank=True, verbose_name='Модель')
     brand = models.ForeignKey('site_app.Brand', on_delete=models.SET_NULL, null=True, blank=True, related_name='brands')
     image = models.ImageField(upload_to='products', verbose_name='Фото', null=True, blank=True)
     desc = models.TextField(blank=True, default='Описание', verbose_name='Описание')
@@ -51,7 +51,7 @@ class Product(models.Model):
 
     # Общие атрибуты
     warranty_period = models.PositiveIntegerField(null=True, blank=True, help_text='Гарантия в месяцах', verbose_name='Гарантия')
-    shelf_life = models.CharField(max_length=100, blank=True, verbose_name='Срок годности')
+    shelf_life = models.CharField(max_length=300, blank=True, verbose_name='Срок годности')
     certification = models.CharField(max_length=255, blank=True, verbose_name='Сертификаты')
 
     # Физические характеристики
@@ -60,18 +60,18 @@ class Product(models.Model):
     height = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text='Высота в см', verbose_name='Высота')
     gross_weight = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Вес брутто в кг', verbose_name='Вес брутто')
     net_volume = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Объем нетто в литрах', verbose_name='Объем нетто')
-    color = models.CharField(max_length=50, blank=True, verbose_name='Цвет')
-    aroma = models.CharField(max_length=100, blank=True, verbose_name='Аромат')
-    material_up = models.CharField(max_length=100, blank=True, verbose_name='Материал (верхний слой)')
-    material = models.CharField(max_length=100, blank=True, verbose_name='Материал')
-    capacity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, help_text='Ёмкость/вместимость', verbose_name='Ёмкость')
+    color = models.CharField(max_length=150, blank=True, verbose_name='Цвет')
+    aroma = models.CharField(max_length=300, blank=True, verbose_name='Аромат')
+    material_up = models.CharField(max_length=300, blank=True, verbose_name='Материал (верхний слой)')
+    material = models.CharField(max_length=300, blank=True, verbose_name='Материал')
+    capacity = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, help_text='Ёмкость/вместимость', verbose_name='Ёмкость')
 
     # Технические характеристики (для электроники)
     processor = models.CharField(max_length=255, blank=True, verbose_name='Процессор')
-    internal_storage = models.CharField(max_length=100, blank=True, verbose_name='Встроенная память')
+    internal_storage = models.CharField(max_length=300, blank=True, verbose_name='Встроенная память')
     screen_size = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, verbose_name='Диагональ экрана (дюймы)')
     battery_capacity = models.PositiveIntegerField(null=True, blank=True, verbose_name='Емкость батареи (мАч)')
-    resolution = models.CharField(max_length=100, blank=True, verbose_name='Разрешение экрана')
+    resolution = models.CharField(max_length=300, blank=True, verbose_name='Разрешение экрана')
     interface = models.CharField(max_length=255, blank=True, verbose_name='Интерфейсы (HDMI, USB и т.п.)')
     power_consumption = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, help_text='Потребляемая мощность (Вт)', verbose_name='Потребление энергии')
 
@@ -82,8 +82,8 @@ class Product(models.Model):
     clothing_fit = models.CharField(max_length=50, blank=True, verbose_name='Посадка (Slim, Regular, Oversize)')
 
     # Косметика и бытовая химия
-    skin_type = models.CharField(max_length=100, blank=True, verbose_name='Тип кожи')
-    hair_type = models.CharField(max_length=100, blank=True, verbose_name='Тип волос')
+    skin_type = models.CharField(max_length=300, blank=True, verbose_name='Тип кожи')
+    hair_type = models.CharField(max_length=300, blank=True, verbose_name='Тип волос')
     effect = models.CharField(max_length=255, blank=True, verbose_name='Эффект (увлажнение, объем и т.п.)')
     application_area = models.CharField(max_length=255, blank=True, verbose_name='Область применения')
     ingredients = models.TextField(blank=True, verbose_name='Состав')
@@ -97,19 +97,19 @@ class Product(models.Model):
     additives = models.TextField(blank=True, verbose_name='Добавки')
 
     # Автотовары
-    engine_type = models.CharField(max_length=100, blank=True, verbose_name='Тип двигателя')
-    fuel_type = models.CharField(max_length=100, blank=True, verbose_name='Тип топлива')
+    engine_type = models.CharField(max_length=300, blank=True, verbose_name='Тип двигателя')
+    fuel_type = models.CharField(max_length=300, blank=True, verbose_name='Тип топлива')
     vehicle_compatibility = models.CharField(max_length=255, blank=True, verbose_name='Совместимость с авто')
-    transmission = models.CharField(max_length=100, blank=True, verbose_name='Коробка передач')
+    transmission = models.CharField(max_length=300, blank=True, verbose_name='Коробка передач')
     horsepower = models.PositiveIntegerField(null=True, blank=True, verbose_name='Лошадиные силы')
     torque = models.PositiveIntegerField(null=True, blank=True, verbose_name='Крутящий момент (Нм)')
 
     # Мебель и интерьер
-    style = models.CharField(max_length=100, blank=True, verbose_name='Стиль (лофт, модерн и т.п.)')
+    style = models.CharField(max_length=300, blank=True, verbose_name='Стиль (лофт, модерн и т.п.)')
 
     # Дополнительно
-    barcode = models.CharField(max_length=100, blank=True, verbose_name='Штрихкод')
-    upc = models.CharField(max_length=100, blank=True, verbose_name='Уникальный код товара (UPC)')
+    barcode = models.CharField(max_length=300, blank=True, verbose_name='Штрихкод')
+    upc = models.CharField(max_length=300, blank=True, verbose_name='Уникальный код товара (UPC)')
     launch_date = models.DateField(null=True, blank=True, verbose_name='Дата выхода на рынок')
     energy_efficiency = models.CharField(max_length=50, blank=True, verbose_name='Класс энергоэффективности')
     reusability = models.BooleanField(default=False, verbose_name='Многоразовое использование')
