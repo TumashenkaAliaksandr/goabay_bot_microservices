@@ -8,9 +8,15 @@ from bot_app.models import Product
 
 class Category(models.Model):
     """Категории продуктов"""
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)  # Убрали unique=True
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='subcategories')
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='subcategories'
+    )
 
     def get_all_subcategories(self):
         """Рекурсивно получаем все подкатегории"""
@@ -28,9 +34,11 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        unique_together = ('name', 'parent')  # Теперь уникальность учитывает родителя
 
     def __str__(self):
         return self.name
+
 
 
 
