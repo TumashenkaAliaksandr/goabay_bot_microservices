@@ -491,50 +491,12 @@ from bot_app.models import Product
 from site_app.models import Category, Brand
 
 
-def collect_product_links_from_category(category_url):
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    product_links = set()
-    page = 0
-    while True:
-        paginated_url = f"{category_url}?start={page * 24}"
-        print(f"Загружаем страницу: {paginated_url}")
-        try:
-            response = requests.get(paginated_url, headers=headers)
-            response.raise_for_status()
-        except requests.RequestException as e:
-            print(f"Ошибка при загрузке: {e}")
-            break
-        soup = BeautifulSoup(response.text, 'html.parser')
-        script_tags = soup.find_all('script', type='application/ld+json')
-        found_links = 0
-        for tag in script_tags:
-            try:
-                content = tag.string
-                if not content:
-                    continue
-                data = json.loads(content)
-            except Exception:
-                continue
-            if data.get('@type') == 'ItemList':
-                for item in data.get('itemListElement', []):
-                    url = item.get('item', {}).get('url')
-                    if url and url not in product_links:
-                        product_links.add(url)
-                        found_links += 1
-        if found_links == 0:
-            break
-        page += 1
-        time.sleep(1)
-    return list(product_links)
-
-
-def collect_all_product_links(category_urls):
-    all_product_links = set()
-    for url in category_urls:
-        print(f"Открываем категорию: {url}")
-        product_links = collect_product_links_from_category(url)
-        all_product_links.update(product_links)
-    return list(all_product_links)
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+import time
+import json
 
 
 def parse_json_ld(html_content):
