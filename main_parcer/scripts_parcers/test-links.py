@@ -1,6 +1,3 @@
-# Объединённый и доработанный парсер Puma с поддержкой множественных категорий, правильной иерархией, учётом вариаций товаров,
-# сохранением JSON и CSV, а также записью в Django базу данных с Category и Brand.
-
 import os
 import json
 import csv
@@ -12,13 +9,13 @@ from urllib.parse import urlparse
 from django.utils.text import slugify
 from django.core.files.base import ContentFile
 
-# Django init
+from main_parcer.scripts_parcers.categories import CATEGORIES
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
 django.setup()
 
 from bot_app.models import Product
 from site_app.models import Category, Brand
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -26,50 +23,28 @@ from selenium.webdriver.chrome.options import Options
 
 
 BASE_URL = "https://in.puma.com"
-HEADERS = {'User-Agent': 'Mozilla/5.0'}
 
 MAIN_CATEGORIES = [
     'https://in.puma.com/in/en/new-season',
     'https://in.puma.com/in/en/mens',
     'https://in.puma.com/in/en/womens',
-    'https://in.puma.com/in/en/sports',
     'https://in.puma.com/in/en/motorsport',
-    'https://in.puma.com/in/en/lifestyle',
     'https://in.puma.com/in/en/kids',
     'https://in.puma.com/in/en/puma-sale-collection',
     'https://in.puma.com/in/en/rcb-launch',
 ]
 
 
-def get_category_links(main_url):
-    try:
-        response = requests.get(main_url, headers=HEADERS)
-        response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"Ошибка при загрузке {main_url}: {e}")
-        return []
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-    links = set()
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if href.startswith('/in/en') and '/pd/' not in href and '?' not in href:
-            full_url = BASE_URL + href
-            links.add(full_url)
-    return list(links)
-
-
-def collect_product_links_from_category(category_url, scroll_pause=2, max_scrolls=100):
+def collect_product_links_from_category(category_url, scroll_pause=2, max_wait_scrolls=300):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(60)
-    driver.set_script_timeout(60)
+    driver.set_page_load_timeout(180)
+    driver.set_script_timeout(180)
 
-    print(f"Загружаем категорию: {category_url}")
     try:
         driver.get(category_url)
     except Exception as e:
@@ -77,95 +52,74 @@ def collect_product_links_from_category(category_url, scroll_pause=2, max_scroll
         driver.quit()
         return []
 
-    if "Page Not Found" in driver.page_source or "404" in driver.title:
-        print(f"⚠️ Страница не найдена: {category_url}")
-        driver.quit()
-        return []
-
     product_links = set()
-    scrolls = 0
-    last_height = driver.execute_script("return document.body.scrollHeight")
+    last_links_count = 0
+    wait_counter = 0
 
-    while scrolls < max_scrolls:
+    while wait_counter < max_wait_scrolls:
         try:
             driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
             time.sleep(scroll_pause)
-            new_height = driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
+
+            script_tags = driver.find_elements(By.XPATH, '//script[@type="application/ld+json"]')
+            for tag in script_tags:
+                try:
+                    content = tag.get_attribute('innerHTML')
+                    data = json.loads(content)
+                    if data.get('@type') == 'ItemList':
+                        for item in data.get('itemListElement', []):
+                            url = item.get('item', {}).get('url')
+                            if url:
+                                product_links.add(url)
+                except Exception:
+                    continue
+
+            if len(product_links) == last_links_count:
                 break
-            last_height = new_height
-            scrolls += 1
+            else:
+                last_links_count = len(product_links)
+                wait_counter += 1
         except Exception as e:
             print(f"⚠️ Ошибка при прокрутке: {e}")
             break
-
-    script_tags = driver.find_elements(By.XPATH, '//script[@type="application/ld+json"]')
-    for tag in script_tags:
-        try:
-            content = tag.get_attribute('innerHTML')
-            if not content:
-                continue
-            data = json.loads(content)
-            if data.get('@type') == 'ItemList':
-                for item in data.get('itemListElement', []):
-                    url = item.get('item', {}).get('url')
-                    if url:
-                        product_links.add(url)
-        except Exception:
-            continue
 
     driver.quit()
     return list(product_links)
 
 
-def collect_all_product_links(main_urls):
-    all_links = {}
-    for main_url in main_urls:
-        sub_links = get_category_links(main_url)
-        for sub_url in sub_links:
-            print(f"\n▶ Обрабатываем подкатегорию: {sub_url}")
-            links = collect_product_links_from_category(sub_url)
-            print(f"  ➤ Найдено {len(links)} товаров.")
-            all_links[sub_url] = links
-    return all_links
-
-
 def parse_json_ld(html_content, main_cat, sub_cat):
     soup = BeautifulSoup(html_content, 'html.parser')
     script_tags = soup.find_all('script', type='application/ld+json')
+    description_tag = soup.find('div', {'data-test-id': 'pdp-product-description'})
+    description = description_tag.get_text(strip=True) if description_tag else "Описание не найдено"
+    sizes = [s.get_text(strip=True) for s in soup.select('label[data-size] span[data-content="size-value"]')]
+    sizes_str = ', '.join(sizes) if sizes else 'Нет в наличии'
+
     products = []
-    brand_from_group = None
-    group_url = None
 
     for script_tag in script_tags:
         try:
-            content = script_tag.string
-            if not content:
-                continue
-            json_data = json.loads(content)
-        except Exception:
+            json_data = json.loads(script_tag.string)
+        except:
             continue
 
         typ = json_data.get('@type')
-
         if typ == 'ProductGroup':
-            brand_from_group = json_data.get('brand', {}).get('name')
-            group_url = json_data.get('url')
+            brand_name = json_data.get('brand', {}).get('name')
             for variant in json_data.get('hasVariant', []):
                 products.append({
                     'name': variant.get('name'),
-                    'url': variant.get('url') or group_url,
+                    'url': variant.get('url') or json_data.get('url'),
                     'price': variant.get('offers', {}).get('price'),
                     'currency': variant.get('offers', {}).get('priceCurrency'),
                     'image': variant.get('image'),
-                    'brand': brand_from_group,
+                    'brand': brand_name,
                     'category': main_cat,
                     'subcategory': sub_cat,
                     'color': variant.get('color'),
-                    'size': '',
-                    'description': '',
+                    'size': sizes_str,
+                    'description': description,
                 })
-
         elif typ == 'Product':
             products.append({
                 'name': json_data.get('name'),
@@ -177,24 +131,34 @@ def parse_json_ld(html_content, main_cat, sub_cat):
                 'category': main_cat,
                 'subcategory': sub_cat,
                 'color': json_data.get('color'),
-                'size': '',
-                'description': '',
+                'size': sizes_str,
+                'description': description,
             })
 
-    description_tag = soup.find('div', {'data-test-id': 'pdp-product-description'})
-    description = description_tag.get_text(strip=True) if description_tag else "Описание не найдено"
-    sizes = []
-    for label in soup.select('label[data-size]'):
-        size_span = label.select_one('span[data-content="size-value"]')
-        if size_span:
-            sizes.append(size_span.get_text(strip=True))
-    sizes_str = ', '.join(sizes) if sizes else 'Нет в наличии'
-
-    for product in products:
-        product['description'] = description
-        product['size'] = sizes_str
-
     return products
+
+
+def find_category_path(main_cat, sub_cat):
+    for top, subs in CATEGORIES.items():
+        for mid, leafs in subs.items():
+            for leaf in leafs:
+                if leaf.lower() in sub_cat.lower():
+                    return [top, mid, leaf]
+            if sub_cat.lower() in mid.lower():
+                return [top, mid]
+        if sub_cat.lower() in top.lower():
+            return [top]
+    return [main_cat, sub_cat] if main_cat and sub_cat else [main_cat or sub_cat]
+
+
+def get_or_create_category_from_path(path):
+    parent = None
+    for name in path:
+        if not name:
+            continue
+        obj, _ = Category.objects.get_or_create(name=name, parent=parent)
+        parent = obj
+    return parent
 
 
 def save_to_db(products):
@@ -203,17 +167,15 @@ def save_to_db(products):
             continue
 
         slug = slugify(item['name'])[:500]
+
         brand = None
         if item.get('brand'):
             brand_name = item['brand'].strip()
             brand_slug = slugify(brand_name)
             brand, _ = Brand.objects.get_or_create(name=brand_name, slug=brand_slug)
 
-        categories = []
-        if item.get('category') and item.get('subcategory'):
-            parent_cat, _ = Category.objects.get_or_create(name=item['category'].strip())
-            subcat, _ = Category.objects.get_or_create(name=item['subcategory'].strip(), parent=parent_cat)
-            categories.append(subcat)
+        category_path = find_category_path(item.get('category'), item.get('subcategory'))
+        category_obj = get_or_create_category_from_path(category_path)
 
         product, created = Product.objects.get_or_create(slug=slug, defaults={
             'name': item['name'],
@@ -240,8 +202,8 @@ def save_to_db(products):
             except Exception as e:
                 print(f"⚠️ Ошибка загрузки изображения: {e}")
 
-        if categories:
-            product.category.set(categories)
+        if category_obj:
+            product.category.set([category_obj])
 
         product.save()
 
@@ -250,11 +212,8 @@ def save_json_and_csv(all_products):
     os.makedirs('jsons', exist_ok=True)
     all_data = []
 
-    for subcat_key, products in all_products.items():
-        if not products:
-            continue
-
-        parsed = urlparse(subcat_key).path.strip('/').split('/')
+    for url_key, products in all_products.items():
+        parsed = urlparse(url_key).path.strip('/').split('/')
         main_cat = parsed[2] if len(parsed) > 2 else 'unknown'
         sub_cat = parsed[-1]
 
@@ -263,14 +222,12 @@ def save_json_and_csv(all_products):
             p['subcategory'] = sub_cat
             all_data.append(p)
 
-        filename_base = f"{main_cat}__{sub_cat}".replace("/", "_")
-        with open(f"jsons/{filename_base}.csv", 'w', newline='', encoding='utf-8') as csvfile:
-            fieldnames = ['name', 'url', 'price', 'currency', 'image', 'brand', 'category', 'subcategory', 'color', 'size', 'description']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        file_prefix = f"{main_cat}__{sub_cat}".replace("/", "_")
+        with open(f"jsons/{file_prefix}.csv", 'w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=['name', 'url', 'price', 'currency', 'image', 'brand', 'category', 'subcategory', 'color', 'size', 'description'])
             writer.writeheader()
             for product in products:
-                if isinstance(product['image'], list):
-                    product['image'] = product['image'][0]
+                product['image'] = product['image'][0] if isinstance(product['image'], list) else product['image']
                 writer.writerow(product)
 
     with open('jsons/product_puma_all.json', 'w', encoding='utf-8') as f:
@@ -278,25 +235,27 @@ def save_json_and_csv(all_products):
 
 
 if __name__ == '__main__':
-    all_links_by_category = collect_all_product_links(MAIN_CATEGORIES)
     all_products_by_category = {}
 
-    for category_url, product_urls in all_links_by_category.items():
+    for category_url in MAIN_CATEGORIES:
+        print(f"\n▶ Обрабатываем подкатегорию: {category_url}")
+        product_urls = collect_product_links_from_category(category_url)
+        print(f"  ➤ Найдено {len(product_urls)} товаров.")
+
         parsed = urlparse(category_url).path.strip('/').split('/')
         main_cat = parsed[2] if len(parsed) > 2 else 'unknown'
         sub_cat = parsed[-1]
 
-        products_for_category = []
-        for product_url in product_urls:
+        products = []
+        for url in product_urls:
             try:
-                response = requests.get(product_url, timeout=10)
+                response = requests.get(url, timeout=20)
                 response.raise_for_status()
-                products = parse_json_ld(response.text, main_cat, sub_cat)
-                products_for_category.extend(products)
-                print(f"✅ Спарсен продукт: {product_url}")
+                products.extend(parse_json_ld(response.text, main_cat, sub_cat))
+                print(f"✅ Спарсен продукт: {url}")
             except Exception as e:
-                print(f"❌ Ошибка: {product_url} — {e}")
-        all_products_by_category[category_url] = products_for_category
+                print(f"❌ Ошибка: {url} — {e}")
+        all_products_by_category[category_url] = products
 
     save_json_and_csv(all_products_by_category)
 
