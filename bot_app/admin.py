@@ -8,7 +8,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from site_app.admin import ProductImageInline
 from site_app.forms import ProductForm
 from . import models  # Убедитесь, что импортируете правильно
-from .models import Product, News, NewsImage, AboutUs  # Убедитесь, что импортируете правильно
+from .models import Product, News, NewsImage, AboutUs, ProductVariant  # Убедитесь, что импортируете правильно
 
 # Создаём экземпляр кастомной админки
 class MyAdminSite(AdminSite):
@@ -50,9 +50,14 @@ for model in all_models:
 #
 # admin_site.register(models.Words, WordAdmin)
 
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
+    extra = 1
+
+
 class ProductAdmin(admin.ModelAdmin):
     form = ProductForm
-
+    inlines = [ProductVariantInline]
     list_display = (
         'name', 'sku', 'price', 'stock_status', 'quantity', 'show_quantity',
         'is_popular', 'is_new_product', 'is_sale', 'image_preview', 'has_additional_description'
@@ -115,6 +120,8 @@ class ProductAdmin(admin.ModelAdmin):
     has_additional_description.boolean = True
 
 admin_site.register(Product, ProductAdmin)
+
+
 
 class NewsImageInline(admin.TabularInline):
     model = NewsImage

@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 import os
 import json
-import csv
 import time
 import django
 import requests
@@ -14,8 +14,9 @@ from main_parcer.scripts_parcers.categories import CATEGORIES
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
 django.setup()
 
-from bot_app.models import Product
+from bot_app.models import Product, ProductVariant
 from site_app.models import Category, Brand
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -23,14 +24,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 BASE_URL = "https://in.puma.com"
-
 MAIN_CATEGORIES = [
-    'https://in.puma.com/in/en/new-season',
-    'https://in.puma.com/in/en/mens',
-    'https://in.puma.com/in/en/womens',
-    'https://in.puma.com/in/en/motorsport',
-    'https://in.puma.com/in/en/kids',
-    'https://in.puma.com/in/en/puma-sale-collection',
     'https://in.puma.com/in/en/rcb-launch',
 ]
 
@@ -71,14 +65,13 @@ def collect_product_links_from_category(category_url, scroll_pause=2, max_wait_s
                             url = item.get('item', {}).get('url')
                             if url:
                                 product_links.add(url)
-                except Exception:
+                except:
                     continue
 
             if len(product_links) == last_links_count:
                 break
-            else:
-                last_links_count = len(product_links)
-                wait_counter += 1
+            last_links_count = len(product_links)
+            wait_counter += 1
         except Exception as e:
             print(f"⚠️ Ошибка при прокрутке: {e}")
             break
@@ -97,43 +90,32 @@ def parse_json_ld(html_content, main_cat, sub_cat):
 
     products = []
 
-    for script_tag in script_tags:
+    for tag in script_tags:
         try:
-            json_data = json.loads(script_tag.string)
+            data = json.loads(tag.string)
         except:
             continue
 
-        typ = json_data.get('@type')
-        if typ == 'ProductGroup':
-            brand_name = json_data.get('brand', {}).get('name')
-            for variant in json_data.get('hasVariant', []):
+        if data.get('@type') == 'ProductGroup':
+            brand = data.get('brand', {}).get('name')
+            product_name = data.get('name')
+            product_url = data.get('url')
+
+            for var in data.get('hasVariant', []):
                 products.append({
-                    'name': variant.get('name'),
-                    'url': variant.get('url') or json_data.get('url'),
-                    'price': variant.get('offers', {}).get('price'),
-                    'currency': variant.get('offers', {}).get('priceCurrency'),
-                    'image': variant.get('image'),
-                    'brand': brand_name,
+                    'base_name': product_name,
+                    'variant_name': var.get('name'),
+                    'url': var.get('url') or product_url,
+                    'price': var.get('offers', {}).get('price'),
+                    'currency': var.get('offers', {}).get('priceCurrency'),
+                    'image': var.get('image'),
+                    'brand': brand,
                     'category': main_cat,
                     'subcategory': sub_cat,
-                    'color': variant.get('color'),
+                    'color': var.get('color'),
                     'size': sizes_str,
                     'description': description,
                 })
-        elif typ == 'Product':
-            products.append({
-                'name': json_data.get('name'),
-                'url': json_data.get('url'),
-                'price': json_data.get('offers', {}).get('price'),
-                'currency': json_data.get('offers', {}).get('priceCurrency'),
-                'image': json_data.get('image'),
-                'brand': json_data.get('brand', {}).get('name'),
-                'category': main_cat,
-                'subcategory': sub_cat,
-                'color': json_data.get('color'),
-                'size': sizes_str,
-                'description': description,
-            })
 
     return products
 
@@ -162,106 +144,106 @@ def get_or_create_category_from_path(path):
 
 
 def save_to_db(products):
+    grouped = {}
     for item in products:
-        if not item.get('name'):
-            continue
+        key = slugify(item['base_name'])
+        grouped.setdefault(key, []).append(item)
 
-        slug = slugify(item['name'])[:500]
+    for slug, variants in grouped.items():
+        base = variants[0]
 
         brand = None
-        if item.get('brand'):
-            brand_name = item['brand'].strip()
-            brand_slug = slugify(brand_name)
-            brand, _ = Brand.objects.get_or_create(name=brand_name, slug=brand_slug)
+        if base.get('brand'):
+            brand_slug = slugify(base['brand'])
+            brand, _ = Brand.objects.get_or_create(name=base['brand'], slug=brand_slug)
 
-        category_path = find_category_path(item.get('category'), item.get('subcategory'))
-        category_obj = get_or_create_category_from_path(category_path)
+        cat_path = find_category_path(base['category'], base['subcategory'])
+        cat_obj = get_or_create_category_from_path(cat_path)
 
+        # Обновляем или создаем товар
         product, created = Product.objects.get_or_create(slug=slug, defaults={
-            'name': item['name'],
+            'name': base['base_name'],
             'brand': brand,
-            'desc': item.get('description', ''),
-            'price': item.get('price') or 0,
-            'color': item.get('color', ''),
-            'sizes': item.get('size', ''),
-            'stock_status': 'in_stock',
+            'desc': base.get('description', ''),
+            'price': base.get('price') or 0,
+            'color': base.get('color', ''),
+            'sizes': base.get('size', ''),
+            'stock_status': 'in_stock'
         })
 
+        # Обновление товара, если он уже существует
         if not created:
-            product.price = item.get('price') or product.price
-            product.desc = item.get('description') or product.desc
-            product.color = item.get('color') or product.color
-            product.sizes = item.get('size') or product.sizes
+            product.name = base['base_name']
+            product.brand = brand
+            product.desc = base.get('description', '')
+            product.price = base.get('price') or 0
+            product.color = base.get('color', '')
+            product.sizes = base.get('size', '')
+            product.stock_status = 'in_stock'
+            product.save()
 
-        if item.get('image') and (created or not product.image):
-            try:
-                img_url = item['image'] if isinstance(item['image'], str) else item['image'][0]
-                img_content = requests.get(img_url).content
-                image_field = ContentFile(img_content, name=img_url.split('/')[-1])
-                product.image.save(image_field.name, image_field)
-            except Exception as e:
-                print(f"⚠️ Ошибка загрузки изображения: {e}")
+        if cat_obj:
+            product.category.set([cat_obj])
 
-        if category_obj:
-            product.category.set([category_obj])
+        for var in variants:
+            sku = slugify(var['variant_name'])[:100]
 
-        product.save()
+            # Проверяем существование вариации
+            variant_obj, created = ProductVariant.objects.get_or_create(
+                sku=sku,
+                defaults={
+                    'product': product,
+                    'color': var.get('color'),
+                    'size': var.get('size')[:50],
+                    'price': var.get('price') or 0,
+                    'quantity': 0,
+                    'description': var.get('description', '')
+                }
+            )
 
+            # Обновляем вариацию, если она уже существует
+            if not created:
+                variant_obj.color = var.get('color')
+                variant_obj.size = var.get('size')[:50]
+                variant_obj.price = var.get('price') or 0
+                variant_obj.description = var.get('description', '')
+                variant_obj.save()
 
-def save_json_and_csv(all_products):
-    os.makedirs('jsons', exist_ok=True)
-    all_data = []
+            # Обновляем/создаём изображение
+            image_url = var.get('image')
+            if image_url:
+                if isinstance(image_url, list):
+                    image_url = image_url[0]
+                try:
+                    img_data = requests.get(image_url).content
+                    variant_obj.image.save(image_url.split("/")[-1], ContentFile(img_data), save=True)
+                except Exception as e:
+                    print(f"⚠️ Ошибка загрузки изображения вариации: {e}")
 
-    for url_key, products in all_products.items():
-        parsed = urlparse(url_key).path.strip('/').split('/')
-        main_cat = parsed[2] if len(parsed) > 2 else 'unknown'
-        sub_cat = parsed[-1]
-
-        for p in products:
-            p['category'] = main_cat
-            p['subcategory'] = sub_cat
-            all_data.append(p)
-
-        file_prefix = f"{main_cat}__{sub_cat}".replace("/", "_")
-        with open(f"jsons/{file_prefix}.csv", 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=['name', 'url', 'price', 'currency', 'image', 'brand', 'category', 'subcategory', 'color', 'size', 'description'])
-            writer.writeheader()
-            for product in products:
-                product['image'] = product['image'][0] if isinstance(product['image'], list) else product['image']
-                writer.writerow(product)
-
-    with open('jsons/product_puma_all.json', 'w', encoding='utf-8') as f:
-        json.dump(all_data, f, indent=2, ensure_ascii=False)
+        print(f"✅ Сохранён продукт: {product.name}")
 
 
 if __name__ == '__main__':
-    all_products_by_category = {}
+    all_products = []
 
     for category_url in MAIN_CATEGORIES:
-        print(f"\n▶ Обрабатываем подкатегорию: {category_url}")
-        product_urls = collect_product_links_from_category(category_url)
-        print(f"  ➤ Найдено {len(product_urls)} товаров.")
+        print(f"\n▶ Обработка категории: {category_url}")
+        links = collect_product_links_from_category(category_url)
+        print(f"  ➤ Найдено ссылок: {len(links)}")
 
         parsed = urlparse(category_url).path.strip('/').split('/')
         main_cat = parsed[2] if len(parsed) > 2 else 'unknown'
         sub_cat = parsed[-1]
 
-        products = []
-        for url in product_urls:
+        for url in links:
             try:
-                response = requests.get(url, timeout=20)
-                response.raise_for_status()
-                products.extend(parse_json_ld(response.text, main_cat, sub_cat))
-                print(f"✅ Спарсен продукт: {url}")
+                r = requests.get(url, timeout=30)
+                r.raise_for_status()
+                products = parse_json_ld(r.text, main_cat, sub_cat)
+                all_products.extend(products)
+                print(f"  ➕ {url} ({len(products)} вариаций)")
             except Exception as e:
-                print(f"❌ Ошибка: {url} — {e}")
-        all_products_by_category[category_url] = products
+                print(f"❌ Ошибка парсинга {url}: {e}")
 
-    save_json_and_csv(all_products_by_category)
-
-    all_flat = []
-    for prods in all_products_by_category.values():
-        all_flat.extend(prods)
-    save_to_db(all_flat)
-
-    print(f"\n✅ Парсинг завершён. Всего товаров: {len(all_flat)}")
+    save_to_db(all_products)
+    print(f"\n✅ Парсинг завершён. Всего товаров: {len(all_products)}")

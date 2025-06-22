@@ -172,6 +172,29 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"{self.product.name} - ДопИзо Товара"
 
+class ProductVariant(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='variants', verbose_name='Основной товар')
+    description = models.TextField(blank=True, default='Описание', verbose_name='Описание')
+    sku = models.CharField(max_length=300, unique=True, null=True, blank=True, verbose_name='Артикул вариации')
+    size = models.CharField(max_length=50, blank=True, verbose_name='Размер')
+    color = models.CharField(max_length=150, blank=True, verbose_name='Цвет')
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='Цена вариации')
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Количество на складе')
+    image = models.ImageField(upload_to='products/variants/', null=True, blank=True, verbose_name='Изображение вариации')
+
+    class Meta:
+        verbose_name = 'Вариация товара'
+        verbose_name_plural = 'Вариации товара'
+
+    def __str__(self):
+        parts = [self.product.name]
+        if self.color:
+            parts.append(f"Цвет: {self.color}")
+        if self.size:
+            parts.append(f"Размер: {self.size}")
+        return " | ".join(parts)
+
+
 
 class News(models.Model):
     """Модель для новостей"""

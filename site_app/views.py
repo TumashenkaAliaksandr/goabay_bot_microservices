@@ -39,12 +39,15 @@ def category_view(request, category_name):
     return render(request, 'webapp/shop/category.html', {'category': category_name})
 
 
-
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     products_up_block = Product.objects.all()
     reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
+
+    # Получаем уникальные размеры и цвета из связанных вариаций
+    variant_sizes = product.variants.values_list('size', flat=True).distinct()
+    variant_colors = product.variants.values_list('color', flat=True).distinct()
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -68,6 +71,8 @@ def product_detail(request, slug):
         'total_votes': total_votes,
         'form': form,
         'reviews': reviews,
+        'variant_sizes': variant_sizes,
+        'variant_colors': variant_colors,
     }
     return render(request, 'webapp/shop/single-product.html', context)
 
@@ -243,18 +248,26 @@ def brand(request):
 
 
 def single_brand(request, name, slug):
-    products = get_object_or_404(Product, name=name)  # Получаем продукт по name
-    product = get_object_or_404(Product, slug=slug)
-    product_name = Product.objects.all()
-    products_up_block = Product.objects.all()
-    context = {
-        'products': products,
-        'product': product,
-        'product_name': product_name,
-        'products_up_block': products_up_block,
+    # Получаем все продукты данного бренда по слагу бренда
+    brand_obj = get_object_or_404(Brand, slug=slug)  # Получаем объект бренда по слагу
 
+    # Получаем все продукты, связанные с этим брендом
+    products_qs = Product.objects.filter(brand=brand_obj).select_related('brand').prefetch_related(
+        Prefetch('category', queryset=Category.objects.only('name'))
+    ).order_by('-id')  # Все продукты этого бренда, отсортированные по id
+
+    # Получаем конкретный продукт по слагу
+    product = get_object_or_404(Product, slug=slug)
+
+    context = {
+        'products': products_qs,  # Все продукты этого бренда
+        'product': product,  # Один конкретный продукт
+        'brand': brand_obj,  # Информация о бренде
     }
+
     return render(request, 'webapp/shop/single_brand.html', context=context)
+
+
 
 
 def elephant(request):
