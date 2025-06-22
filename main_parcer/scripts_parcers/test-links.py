@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import csv
 import os
 import json
 import time
@@ -14,7 +15,7 @@ from main_parcer.scripts_parcers.categories import CATEGORIES
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
 django.setup()
 
-from bot_app.models import Product, ProductVariant
+from bot_app.models import Product, ProductVariant, ProductImage
 from site_app.models import Category, Brand
 
 from selenium import webdriver
@@ -145,22 +146,33 @@ def get_or_create_category_from_path(path):
 
 def save_to_db(products):
     grouped = {}
+    json_data = []
+    csv_rows = []
+
+    # Разделяем на вариативные и не вариативные
     for item in products:
-        key = slugify(item['base_name'])
-        grouped.setdefault(key, []).append(item)
+        if item.get('variant_name'):
+            key = slugify(item['base_name'])
+            grouped.setdefault(key, []).append(item)
+        else:
+            # Уникальный ключ даже у не вариативного
+            key = slugify(item['base_name']) + "-" + str(hash(item['image']))
+            grouped[key] = [item]
 
     for slug, variants in grouped.items():
         base = variants[0]
 
+        # --- Бренд ---
         brand = None
         if base.get('brand'):
             brand_slug = slugify(base['brand'])
             brand, _ = Brand.objects.get_or_create(name=base['brand'], slug=brand_slug)
 
+        # --- Категория ---
         cat_path = find_category_path(base['category'], base['subcategory'])
         cat_obj = get_or_create_category_from_path(cat_path)
 
-        # Обновляем или создаем товар
+        # --- Продукт ---
         product, created = Product.objects.get_or_create(slug=slug, defaults={
             'name': base['base_name'],
             'brand': brand,
@@ -171,7 +183,6 @@ def save_to_db(products):
             'stock_status': 'in_stock'
         })
 
-        # Обновление товара, если он уже существует
         if not created:
             product.name = base['base_name']
             product.brand = brand
@@ -185,42 +196,117 @@ def save_to_db(products):
         if cat_obj:
             product.category.set([cat_obj])
 
-        for var in variants:
-            sku = slugify(var['variant_name'])[:100]
+        # --- Главное изображение продукта ---
+        main_image_url = base.get('image')
+        if main_image_url:
+            if isinstance(main_image_url, list):
+                main_image_url = main_image_url[0]
+            try:
+                img_data = requests.get(main_image_url).content
+                product.image.save(main_image_url.split("/")[-1], ContentFile(img_data), save=True)
+            except Exception as e:
+                print(f"⚠️ Ошибка загрузки главного изображения: {e}")
 
-            # Проверяем существование вариации
-            variant_obj, created = ProductVariant.objects.get_or_create(
-                sku=sku,
-                defaults={
-                    'product': product,
-                    'color': var.get('color'),
-                    'size': var.get('size')[:50],
+        # --- Дополнительные изображения ---
+        additional_images = base.get('additional_images') or []
+        for img_url in additional_images:
+            try:
+                img_data = requests.get(img_url).content
+                ProductImage.objects.create(
+                    product=product,
+                    image=ContentFile(img_data, name=img_url.split("/")[-1])
+                )
+            except Exception as e:
+                print(f"⚠️ Ошибка загрузки дополнительного изображения продукта: {e}")
+
+        # --- Если товар без вариаций ---
+        if len(variants) == 1 and not variants[0].get('variant_name'):
+            var = variants[0]
+            csv_rows.append({
+                'product_name': product.name,
+                'brand': brand.name if brand else '',
+                'price': product.price,
+                'color': product.color,
+                'size': product.sizes,
+                'sku': '',
+                'description': product.desc,
+                'image': main_image_url
+            })
+        else:
+            # --- Обработка вариаций ---
+            for var in variants:
+                sku = slugify(var['variant_name'])[:100]
+                variant_obj, created = ProductVariant.objects.get_or_create(
+                    sku=sku,
+                    defaults={
+                        'product': product,
+                        'color': var.get('color'),
+                        'size': var.get('size')[:50],
+                        'price': var.get('price') or 0,
+                        'quantity': 0,
+                        'description': var.get('description', '')
+                    }
+                )
+
+                if not created:
+                    variant_obj.color = var.get('color')
+                    variant_obj.size = var.get('size')[:50]
+                    variant_obj.price = var.get('price') or 0
+                    variant_obj.description = var.get('description', '')
+                    variant_obj.save()
+
+                # --- Изображение вариации ---
+                image_url = var.get('image')
+                if image_url:
+                    if isinstance(image_url, list):
+                        image_url = image_url[0]
+                    try:
+                        img_data = requests.get(image_url).content
+                        variant_obj.image.save(image_url.split("/")[-1], ContentFile(img_data), save=True)
+                    except Exception as e:
+                        print(f"⚠️ Ошибка загрузки изображения вариации: {e}")
+
+                csv_rows.append({
+                    'product_name': product.name,
+                    'brand': brand.name if brand else '',
                     'price': var.get('price') or 0,
-                    'quantity': 0,
-                    'description': var.get('description', '')
-                }
-            )
+                    'color': var.get('color'),
+                    'size': var.get('size'),
+                    'sku': sku,
+                    'description': var.get('description', ''),
+                    'image': image_url
+                })
 
-            # Обновляем вариацию, если она уже существует
-            if not created:
-                variant_obj.color = var.get('color')
-                variant_obj.size = var.get('size')[:50]
-                variant_obj.price = var.get('price') or 0
-                variant_obj.description = var.get('description', '')
-                variant_obj.save()
-
-            # Обновляем/создаём изображение
-            image_url = var.get('image')
-            if image_url:
-                if isinstance(image_url, list):
-                    image_url = image_url[0]
-                try:
-                    img_data = requests.get(image_url).content
-                    variant_obj.image.save(image_url.split("/")[-1], ContentFile(img_data), save=True)
-                except Exception as e:
-                    print(f"⚠️ Ошибка загрузки изображения вариации: {e}")
+        # --- JSON ---
+        json_data.append({
+            'name': product.name,
+            'slug': product.slug,
+            'brand': brand.name if brand else '',
+            'desc': product.desc,
+            'price': product.price,
+            'color': product.color,
+            'sizes': product.sizes,
+            'image': main_image_url,
+            'category': cat_path,
+            'variants': variants if len(variants) > 1 or variants[0].get('variant_name') else []
+        })
 
         print(f"✅ Сохранён продукт: {product.name}")
+
+    # --- Сохраняем JSON ---
+    os.makedirs("jsons", exist_ok=True)
+    with open('jsons/products_data.json', 'w', encoding='utf-8') as jf:
+        json.dump(json_data, jf, ensure_ascii=False, indent=4)
+
+    # --- Сохраняем CSV ---
+    with open('jsons/products_data.csv', 'w', newline='', encoding='utf-8') as cf:
+        fieldnames = ['product_name', 'brand', 'price', 'color', 'size', 'sku', 'description', 'image']
+        writer = csv.DictWriter(cf, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(csv_rows)
+
+    print("📦 Данные успешно сохранены в JSON и CSV")
+
 
 
 if __name__ == '__main__':
