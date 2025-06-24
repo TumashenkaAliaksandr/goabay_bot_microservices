@@ -469,49 +469,134 @@
 #     save_to_db(all_products)
 #     print(f"\n✅ Парсинг завершён. Всего товаров: {len(all_products)}")
 
+
+# -------------------
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# import time
+# from bs4 import BeautifulSoup
+#
+# # Настройки для запуска браузера без UI (headless режим)
+# options = Options()
+# options.add_argument("--headless")  # Для запуска без UI
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# # Путь к драйверу Chrome (установите по своему пути)
+# driver = webdriver.Chrome(options=options)
+#
+# def extract_sizes_from_page(url):
+#     driver.get(url)
+#     time.sleep(3)  # Ждем загрузки страницы (можно увеличить, если надо)
+#
+#     # Получаем исходный код страницы
+#     html = driver.page_source
+#
+#     # Используем BeautifulSoup для парсинга страницы
+#     soup = BeautifulSoup(html, 'html.parser')
+#
+#     # Пример: ищем все элементы с размерами (например, через data-content)
+#     # Подставьте соответствующий класс или аттрибут для размеров
+#     size_elements = soup.find_all('span', {'data-content': 'size-value'})
+#
+#     if size_elements:
+#         sizes = [size.get_text(strip=True) for size in size_elements]
+#         print(f"✅ Все доступные размеры: {sizes}")
+#         driver.quit()
+#         return sizes
+#     else:
+#         print("❌ Размеры не найдены на странице")
+#         driver.quit()
+#         return None
+#
+# # Пример использования
+# url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0240&swatch=04"
+# sizes = extract_sizes_from_page(url)
+#
+# if sizes:
+#     print(f"✅ Все размеры: {sizes}")
+# else:
+#     print("⛔ Не удалось извлечь размеры.")
+
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
 
-# Настройки для запуска браузера без UI (headless режим)
-options = Options()
-options.add_argument("--headless")  # Для запуска без UI
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+def extract_sizes_for_all_colors(url):
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
-# Путь к драйверу Chrome (установите по своему пути)
-driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)
+    driver.set_window_size(1920, 1080)  # Увеличиваем размер окна
 
-def extract_sizes_from_page(url):
-    driver.get(url)
-    time.sleep(3)  # Ждем загрузки страницы (можно увеличить, если надо)
+    wait = WebDriverWait(driver, 15)
+    all_data = {}
 
-    # Получаем исходный код страницы
-    html = driver.page_source
+    try:
+        driver.get(url)
 
-    # Используем BeautifulSoup для парсинга страницы
-    soup = BeautifulSoup(html, 'html.parser')
+        # Ждем загрузки блока с вариантами цвета
+        wait.until(EC.presence_of_element_located((By.ID, 'style-picker')))
 
-    # Пример: ищем все элементы с размерами (например, через data-content)
-    # Подставьте соответствующий класс или аттрибут для размеров
-    size_elements = soup.find_all('span', {'data-content': 'size-value'})
+        # Находим все варианты цвета
+        color_variants = driver.find_elements(By.CSS_SELECTOR, '#style-picker label[data-test-id="color"]')
 
-    if size_elements:
-        sizes = [size.get_text(strip=True) for size in size_elements]
-        print(f"✅ Все доступные размеры: {sizes}")
+        for idx, color_variant in enumerate(color_variants):
+            try:
+                color_name = color_variant.find_element(By.CSS_SELECTOR, 'span.sr-only').text.strip()
+                if not color_name:
+                    color_name = f"color_{idx+1}"
+
+                driver.execute_script("arguments[0].scrollIntoView(true);", color_variant)
+
+                # Ждем, пока элемент станет кликабельным
+                wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, f'#style-picker label[data-test-id="color"]:nth-child({idx+1})')))
+
+                try:
+                    color_variant.click()
+                except Exception:
+                    # Если обычный клик не сработал — клик через JS
+                    driver.execute_script("arguments[0].click();", color_variant)
+
+                # Ждем обновления размеров
+                time.sleep(2)
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'label[data-size] span[data-content="size-value"]')))
+
+                html = driver.page_source
+                soup = BeautifulSoup(html, 'html.parser')
+
+                size_elements = soup.select('label[data-size] span[data-content="size-value"]')
+                sizes = [size.get_text(strip=True) for size in size_elements if size.get_text(strip=True)]
+
+                if not sizes:
+                    sizes = ['Нет в наличии']
+
+                all_data[color_name] = sizes
+                print(f"✅ Цвет '{color_name}': размеры {sizes}")
+
+            except Exception as e:
+                print(f"❌ Ошибка при обработке цвета '{color_name}': {e}")
+
+    except Exception as e:
+        print(f"❌ Ошибка при загрузке страницы или поиске элементов: {e}")
+
+    finally:
         driver.quit()
-        return sizes
-    else:
-        print("❌ Размеры не найдены на странице")
-        driver.quit()
-        return None
+
+    return all_data
 
 # Пример использования
-url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0240&swatch=04"
-sizes = extract_sizes_from_page(url)
+if __name__ == "__main__":
+    url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0200&swatch=04"
+    sizes_by_color = extract_sizes_for_all_colors(url)
 
-if sizes:
-    print(f"✅ Все размеры: {sizes}")
-else:
-    print("⛔ Не удалось извлечь размеры.")
+    print("\nВсе размеры по цветам:")
+    for color, sizes in sizes_by_color.items():
+        print(f"{color}: {sizes}")
