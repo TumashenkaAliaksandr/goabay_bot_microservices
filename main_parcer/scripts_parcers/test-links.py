@@ -526,45 +526,35 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
 
-def extract_product_info_and_sizes(url):
+def extract_product_info_and_sizes_and_images(url):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
-    driver.set_window_size(1920, 1080)  # Увеличиваем окно для предотвращения перекрытий
-
+    driver.set_window_size(1920, 1080)
     wait = WebDriverWait(driver, 15)
     all_data = {}
 
     try:
         driver.get(url)
-
-        # Ждем загрузки заголовка товара
         wait.until(EC.presence_of_element_located((By.ID, 'pdp-product-title')))
-
-        # Получаем html страницы для BeautifulSoup
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
 
-        # Извлекаем имя товара
+        # Название товара
         product_name_tag = soup.find('h1', id='pdp-product-title')
         product_name = product_name_tag.get_text(strip=True) if product_name_tag else "Неизвестное название"
 
-        # Извлекаем цены
-        # Цена со скидкой
+        # Цены
         sale_price_tag = soup.find('span', {'data-test-id': 'item-sale-price-pdp'})
         sale_price = sale_price_tag.get_text(strip=True) if sale_price_tag else None
-
-        # Обычная цена (перечеркнутая)
         original_price_tag = soup.find('span', {'data-test-id': 'item-price-pdp'})
         original_price = original_price_tag.get_text(strip=True) if original_price_tag else None
 
-        # Ждем загрузки блока с вариантами цвета
+        # Варианты цвета
         wait.until(EC.presence_of_element_located((By.ID, 'style-picker')))
-
-        # Находим все варианты цвета
         color_variants = driver.find_elements(By.CSS_SELECTOR, '#style-picker label[data-test-id="color"]')
 
         for idx, color_variant in enumerate(color_variants):
@@ -575,33 +565,49 @@ def extract_product_info_and_sizes(url):
 
                 driver.execute_script("arguments[0].scrollIntoView(true);", color_variant)
                 wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, f'#style-picker label[data-test-id="color"]:nth-child({idx+1})')))
-
                 try:
                     color_variant.click()
                 except Exception:
                     driver.execute_script("arguments[0].click();", color_variant)
 
-                # Ждем обновления размеров
                 time.sleep(2)
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'label[data-size] span[data-content="size-value"]')))
 
                 html = driver.page_source
                 soup = BeautifulSoup(html, 'html.parser')
 
+                # Размеры
                 size_elements = soup.select('label[data-size] span[data-content="size-value"]')
                 sizes = [size.get_text(strip=True) for size in size_elements if size.get_text(strip=True)]
-
                 if not sizes:
                     sizes = ['Нет в наличии']
 
+                # Фотогалерея
+                gallery_section = soup.find('section', {'data-test-id': 'product-image-gallery-section'})
+                main_image = None
+                all_images = []
+                if gallery_section:
+                    # Основное фото
+                    main_img_tag = gallery_section.find('img', {'data-test-id': 'pdp-main-image'})
+                    if main_img_tag and main_img_tag.has_attr('src'):
+                        main_image = main_img_tag['src']
+                    # Все фото вариации
+                    for img_tag in gallery_section.find_all('img'):
+                        if img_tag.has_attr('src'):
+                            all_images.append(img_tag['src'])
+                    # Удаляем дубли
+                    all_images = list(dict.fromkeys(all_images))
+
                 all_data[color_name] = {
-                    'sizes': sizes,
+                    'product_name': product_name,
                     'sale_price': sale_price,
                     'original_price': original_price,
-                    'product_name': product_name,
+                    'sizes': sizes,
+                    'main_image': main_image,
+                    'all_images': all_images
                 }
 
-                print(f"✅ Цвет '{color_name}': размеры {sizes}, цена: {sale_price} (оригинал: {original_price})")
+                print(f"✅ Цвет '{color_name}': размеры {sizes}, фото: {main_image}, всего фото: {len(all_images)}")
 
             except Exception as e:
                 print(f"❌ Ошибка при обработке цвета '{color_name}': {e}")
@@ -617,7 +623,7 @@ def extract_product_info_and_sizes(url):
 # Пример использования
 if __name__ == "__main__":
     url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0200&swatch=04"
-    product_data = extract_product_info_and_sizes(url)
+    product_data = extract_product_info_and_sizes_and_images(url)
 
     print("\nСобранные данные по цветам и размерам:")
     for color, data in product_data.items():
@@ -625,4 +631,9 @@ if __name__ == "__main__":
         print(f"  Название товара: {data['product_name']}")
         print(f"  Цена со скидкой: {data['sale_price']}")
         print(f"  Оригинальная цена: {data['original_price']}")
-        print(f"  Размеры: {data['sizes']}\n")
+        print(f"  Размеры: {data['sizes']}")
+        print(f"  Основное фото: {data['main_image']}")
+        print(f"  Все фото вариации ({len(data['all_images'])}):")
+        for img in data['all_images']:
+            print(f"    {img}")
+        print()
