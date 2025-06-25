@@ -518,6 +518,10 @@
 # else:
 #     print("⛔ Не удалось извлечь размеры.")
 
+import csv
+import json
+import random
+import string
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -526,7 +530,11 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
 
-def extract_product_info_and_sizes_and_images(url):
+def generate_random_id(length=8):
+    chars = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
+
+def extract_product_info_and_sizes_images_description_category(url):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -535,7 +543,7 @@ def extract_product_info_and_sizes_and_images(url):
     driver = webdriver.Chrome(options=options)
     driver.set_window_size(1920, 1080)
     wait = WebDriverWait(driver, 15)
-    all_data = {}
+    all_data = []
 
     try:
         driver.get(url)
@@ -550,10 +558,37 @@ def extract_product_info_and_sizes_and_images(url):
         # Цены
         sale_price_tag = soup.find('span', {'data-test-id': 'item-sale-price-pdp'})
         sale_price = sale_price_tag.get_text(strip=True) if sale_price_tag else None
+
         original_price_tag = soup.find('span', {'data-test-id': 'item-price-pdp'})
         original_price = original_price_tag.get_text(strip=True) if original_price_tag else None
 
-        # Варианты цвета
+        # Описание товара
+        desc_block = soup.find('div', {'data-test-id': 'pdp-product-description'})
+        description = ""
+        if desc_block:
+            text_div = desc_block.find('div', {'data-uds-child': 'text'})
+            if text_div:
+                description = text_div.get_text(separator="\n", strip=True)
+            else:
+                description = desc_block.get_text(separator="\n", strip=True)
+
+        # Извлечение категории из хлебных крошек
+        main_category = ""
+        subcategories = ""
+        breadcrumb_nav = soup.find('nav', id='breadcrumb')
+        if breadcrumb_nav:
+            crumbs = breadcrumb_nav.select('ul[data-uds-child="breadcrumb-list"] li a')
+            categories = [crumb.get_text(strip=True) for crumb in crumbs]
+            # Убираем 'Home' если есть
+            if categories and categories[0].lower() == 'home':
+                categories = categories[1:]
+            if categories:
+                main_category = categories[0]  # первый после Home
+                if len(categories) > 1:
+                    subcategories = " / ".join(categories[1:])
+                else:
+                    subcategories = ""
+
         wait.until(EC.presence_of_element_located((By.ID, 'style-picker')))
         color_variants = driver.find_elements(By.CSS_SELECTOR, '#style-picker label[data-test-id="color"]')
 
@@ -576,38 +611,54 @@ def extract_product_info_and_sizes_and_images(url):
                 html = driver.page_source
                 soup = BeautifulSoup(html, 'html.parser')
 
-                # Размеры
                 size_elements = soup.select('label[data-size] span[data-content="size-value"]')
                 sizes = [size.get_text(strip=True) for size in size_elements if size.get_text(strip=True)]
                 if not sizes:
                     sizes = ['Нет в наличии']
 
-                # Фотогалерея
                 gallery_section = soup.find('section', {'data-test-id': 'product-image-gallery-section'})
                 main_image = None
                 all_images = []
                 if gallery_section:
-                    # Основное фото
                     main_img_tag = gallery_section.find('img', {'data-test-id': 'pdp-main-image'})
                     if main_img_tag and main_img_tag.has_attr('src'):
                         main_image = main_img_tag['src']
-                    # Все фото вариации
                     for img_tag in gallery_section.find_all('img'):
                         if img_tag.has_attr('src'):
                             all_images.append(img_tag['src'])
-                    # Удаляем дубли
                     all_images = list(dict.fromkeys(all_images))
 
-                all_data[color_name] = {
+                random_id = generate_random_id()
+
+                product_info = {
+                    'random_id': random_id,
+                    'product_url': url,
                     'product_name': product_name,
+                    'main_category': main_category,
+                    'subcategories': subcategories,
+                    'color': color_name,
                     'sale_price': sale_price,
                     'original_price': original_price,
-                    'sizes': sizes,
+                    'sizes': ", ".join(sizes),
                     'main_image': main_image,
-                    'all_images': all_images
+                    'all_images': all_images,
+                    'description': description.replace("\n", " ").strip()
                 }
 
-                print(f"✅ Цвет '{color_name}': размеры {sizes}, фото: {main_image}, всего фото: {len(all_images)}")
+                all_data.append(product_info)
+
+                print(f"\n=== Товар ID: {random_id} ===")
+                print(f"Ссылка: {url}")
+                print(f"Название: {product_name}")
+                print(f"Основная категория: {main_category}")
+                print(f"Подкатегории: {subcategories}")
+                print(f"Цвет: {color_name}")
+                print(f"Цена (скидка): {sale_price}")
+                print(f"Оригинальная цена: {original_price}")
+                print(f"Размеры: {product_info['sizes']}")
+                print(f"Основное фото: {main_image}")
+                print(f"Всего фото вариации: {len(all_images)}")
+                print(f"Описание (первые 150 символов): {product_info['description'][:150]}...\n")
 
             except Exception as e:
                 print(f"❌ Ошибка при обработке цвета '{color_name}': {e}")
@@ -620,20 +671,34 @@ def extract_product_info_and_sizes_and_images(url):
 
     return all_data
 
-# Пример использования
+def save_to_csv(data, filename='products.csv'):
+    if not data:
+        print("Нет данных для сохранения.")
+        return
+
+    fieldnames = ['random_id', 'product_url', 'product_name', 'main_category', 'subcategories', 'color', 'sale_price', 'original_price',
+                  'sizes', 'main_image', 'all_images', 'description']
+
+    with open(filename, mode='w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            row_copy = row.copy()
+            row_copy['all_images'] = "; ".join(row['all_images']) if isinstance(row['all_images'], list) else row['all_images']
+            writer.writerow(row_copy)
+
+    print(f"Данные успешно сохранены в файл {filename}")
+
+def save_to_json(data, filename='products.json'):
+    if not data:
+        print("Нет данных для сохранения.")
+        return
+    with open(filename, 'w', encoding='utf-8') as jsonfile:
+        json.dump(data, jsonfile, indent=4, ensure_ascii=False)
+    print(f"Данные успешно сохранены в файл {filename}")
+
 if __name__ == "__main__":
     url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0200&swatch=04"
-    product_data = extract_product_info_and_sizes_and_images(url)
-
-    print("\nСобранные данные по цветам и размерам:")
-    for color, data in product_data.items():
-        print(f"Цвет: {color}")
-        print(f"  Название товара: {data['product_name']}")
-        print(f"  Цена со скидкой: {data['sale_price']}")
-        print(f"  Оригинальная цена: {data['original_price']}")
-        print(f"  Размеры: {data['sizes']}")
-        print(f"  Основное фото: {data['main_image']}")
-        print(f"  Все фото вариации ({len(data['all_images'])}):")
-        for img in data['all_images']:
-            print(f"    {img}")
-        print()
+    product_data = extract_product_info_and_sizes_images_description_category(url)
+    save_to_csv(product_data)
+    save_to_json(product_data)
