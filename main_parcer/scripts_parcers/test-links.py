@@ -518,7 +518,6 @@
 # else:
 #     print("⛔ Не удалось извлечь размеры.")
 
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -527,20 +526,40 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
 
-def extract_sizes_for_all_colors(url):
+def extract_product_info_and_sizes(url):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
-    driver.set_window_size(1920, 1080)  # Увеличиваем размер окна
+    driver.set_window_size(1920, 1080)  # Увеличиваем окно для предотвращения перекрытий
 
     wait = WebDriverWait(driver, 15)
     all_data = {}
 
     try:
         driver.get(url)
+
+        # Ждем загрузки заголовка товара
+        wait.until(EC.presence_of_element_located((By.ID, 'pdp-product-title')))
+
+        # Получаем html страницы для BeautifulSoup
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # Извлекаем имя товара
+        product_name_tag = soup.find('h1', id='pdp-product-title')
+        product_name = product_name_tag.get_text(strip=True) if product_name_tag else "Неизвестное название"
+
+        # Извлекаем цены
+        # Цена со скидкой
+        sale_price_tag = soup.find('span', {'data-test-id': 'item-sale-price-pdp'})
+        sale_price = sale_price_tag.get_text(strip=True) if sale_price_tag else None
+
+        # Обычная цена (перечеркнутая)
+        original_price_tag = soup.find('span', {'data-test-id': 'item-price-pdp'})
+        original_price = original_price_tag.get_text(strip=True) if original_price_tag else None
 
         # Ждем загрузки блока с вариантами цвета
         wait.until(EC.presence_of_element_located((By.ID, 'style-picker')))
@@ -555,14 +574,11 @@ def extract_sizes_for_all_colors(url):
                     color_name = f"color_{idx+1}"
 
                 driver.execute_script("arguments[0].scrollIntoView(true);", color_variant)
-
-                # Ждем, пока элемент станет кликабельным
                 wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, f'#style-picker label[data-test-id="color"]:nth-child({idx+1})')))
 
                 try:
                     color_variant.click()
                 except Exception:
-                    # Если обычный клик не сработал — клик через JS
                     driver.execute_script("arguments[0].click();", color_variant)
 
                 # Ждем обновления размеров
@@ -578,8 +594,14 @@ def extract_sizes_for_all_colors(url):
                 if not sizes:
                     sizes = ['Нет в наличии']
 
-                all_data[color_name] = sizes
-                print(f"✅ Цвет '{color_name}': размеры {sizes}")
+                all_data[color_name] = {
+                    'sizes': sizes,
+                    'sale_price': sale_price,
+                    'original_price': original_price,
+                    'product_name': product_name,
+                }
+
+                print(f"✅ Цвет '{color_name}': размеры {sizes}, цена: {sale_price} (оригинал: {original_price})")
 
             except Exception as e:
                 print(f"❌ Ошибка при обработке цвета '{color_name}': {e}")
@@ -595,8 +617,12 @@ def extract_sizes_for_all_colors(url):
 # Пример использования
 if __name__ == "__main__":
     url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0200&swatch=04"
-    sizes_by_color = extract_sizes_for_all_colors(url)
+    product_data = extract_product_info_and_sizes(url)
 
-    print("\nВсе размеры по цветам:")
-    for color, sizes in sizes_by_color.items():
-        print(f"{color}: {sizes}")
+    print("\nСобранные данные по цветам и размерам:")
+    for color, data in product_data.items():
+        print(f"Цвет: {color}")
+        print(f"  Название товара: {data['product_name']}")
+        print(f"  Цена со скидкой: {data['sale_price']}")
+        print(f"  Оригинальная цена: {data['original_price']}")
+        print(f"  Размеры: {data['sizes']}\n")
