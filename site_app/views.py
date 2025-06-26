@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 
 from bot_app.models import Review
+from goabay_bot import settings
 from site_app.forms import ReviewForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
@@ -39,16 +40,50 @@ def category_view(request, category_name):
     return render(request, 'webapp/shop/category.html', {'category': category_name})
 
 
+import ast
+
+
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     products_up_block = Product.objects.all()
     reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
 
-    # Получаем уникальные размеры и цвета из связанных вариаций
-    variant_sizes = product.variants.values_list('size', flat=True).distinct()
-    variant_colors = product.variants.values_list('color', flat=True).distinct()
+    # Получаем уникальные размеры из вариаций (с парсингом строковых списков)
+    variant_sizes_raw = product.variants.values_list('size', flat=True).distinct()
+    variant_sizes = []
+    for size_str in variant_sizes_raw:
+        if not size_str:
+            continue
+        try:
+            parsed = ast.literal_eval(size_str)
+            if isinstance(parsed, list):
+                variant_sizes.extend(parsed)
+            else:
+                variant_sizes.append(size_str)
+        except (ValueError, SyntaxError):
+            variant_sizes.append(size_str)
+    variant_sizes = list(sorted(set(filter(None, variant_sizes))))
 
+    # Получаем уникальные цвета из вариаций
+    variant_colors_raw = product.variants.values_list('color', flat=True).distinct()
+    variant_colors = list(sorted(set(filter(None, variant_colors_raw))))
+
+    # Получаем список вариаций с цветом и главным фото для вывода в шаблон
+    variant_data = product.variants.values('color', 'image').distinct()
+    variants_with_images = []
+    for var in variant_data:
+        img_path = var['image']
+        if img_path:
+            img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img_path.lstrip('/')}"
+        else:
+            img_url = None
+        variants_with_images.append({
+            'color': var['color'],
+            'image_url': img_url,
+        })
+
+    # Обработка формы отзыва
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -59,6 +94,7 @@ def product_detail(request, slug):
     else:
         form = ReviewForm()
 
+    # Подсчёт рейтингов в процентах (если рейтинг 1-5)
     ratings = [review.rating * 20 for review in reviews]
     rating_breakdown = get_rating_breakdown(ratings)
     total_votes = len(ratings)
@@ -73,9 +109,9 @@ def product_detail(request, slug):
         'reviews': reviews,
         'variant_sizes': variant_sizes,
         'variant_colors': variant_colors,
+        'variants_with_images': variants_with_images,
     }
     return render(request, 'webapp/shop/single-product.html', context)
-
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
 

@@ -21,15 +21,16 @@
 
                         <!-- Бренд -->
                         {% if product.brand %}
-                            <a href="{% url 'brand-name' product.brand.slug %}" class="breadcrumb-item active">{{ product.brand.name }}</a>
+                            <a href="{{ product.brand.get_absolute_url }}"
+                                   class="breadcrumb-item active">{{ product.brand.name }}</a>
                         {% endif %}
 
                         <!-- Разделитель для категории -->
                         <span class="breadcrumb-separator">👉🏼</span>
 
                         <!-- Категория товара -->
-                        {% if product.category.exists %}
-                            {% with first_category=product.category.first %}
+                        {% if product.category.all %}
+                            {% with first_category=product.category.all.0 %}
                                 <a href="{{ first_category.get_absolute_url }}" class="breadcrumb-item">
                                     {{ first_category.name }}
                                 </a>
@@ -219,16 +220,43 @@
                                     <th>Capacity</th>
                                     <td>{{ product.capacity }}</td>
                                 </tr>{% endif %}
-                            {% if product.color %}
+                            {% if variants_with_images %}
                                 <tr>
                                     <th>Color</th>
-                                    <td>{{ product.color }}</td>
-                                </tr>{% endif %}
-                            {% if product.sizes %}
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                            {% for variant in variants_with_images %}
+                                                <div class="variant-color-item text-center"
+                                                     style="min-width: 80px; cursor: pointer;"
+                                                     data-color="{{ variant.color }}"
+                                                     data-image="{{ variant.image_url }}">
+                                                    {% if variant.image_url %}
+                                                        <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
+                                                             style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">
+                                                    {% else %}
+                                                        <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>
+                                                    {% endif %}
+                                                    <div style="font-size: 0.8rem; margin-top: 4px;">{{ variant.color|cut:"PUMA "|cut:"Puma " }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endif %}
+
+
+                            {% if variant_sizes %}
                                 <tr>
                                     <th>Size</th>
-                                    <td>{{ product.sizes }}</td>
-                                </tr>{% endif %}
+                                    <td>
+                                        {% for size in variant_sizes %}
+                                            <button type="button"
+                                                    class="btn btn-outline-secondary btn-sm me-1 mb-1">{{ size }}</button>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+
                             {% if product.material %}
                                 <tr>
                                     <th>Material</th>

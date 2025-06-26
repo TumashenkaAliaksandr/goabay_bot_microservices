@@ -40,7 +40,7 @@ class Product(models.Model):
     # Основные данные
     name = models.CharField(max_length=500, db_index=True, default='Название')
     slug = models.SlugField(max_length=500, db_index=True, unique=True, default='default-slug')
-    sku = models.CharField(max_length=300, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
+    sku = models.CharField(max_length=500, unique=True, null=True, blank=True, verbose_name='Артикул (SKU)')
     model = models.CharField(max_length=300, blank=True, verbose_name='Модель')
     brand = models.ForeignKey('site_app.Brand', on_delete=models.SET_NULL, null=True, blank=True, related_name='brands')
     image = models.ImageField(upload_to='products', verbose_name='Фото', null=True, blank=True)
@@ -60,7 +60,7 @@ class Product(models.Model):
     height = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, help_text='Высота в см', verbose_name='Высота')
     gross_weight = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Вес брутто в кг', verbose_name='Вес брутто')
     net_volume = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True, help_text='Объем нетто в литрах', verbose_name='Объем нетто')
-    color = models.CharField(max_length=150, blank=True, verbose_name='Цвет')
+    color = models.CharField(max_length=550, blank=True, verbose_name='Цвет')
     aroma = models.CharField(max_length=300, blank=True, verbose_name='Аромат')
     material_up = models.CharField(max_length=300, blank=True, verbose_name='Материал (верхний слой)')
     material = models.CharField(max_length=300, blank=True, verbose_name='Материал')
@@ -78,7 +78,7 @@ class Product(models.Model):
     # Одежда и обувь
     gender = models.CharField(max_length=20, blank=True, verbose_name='Пол')
     age_group = models.CharField(max_length=50, blank=True, verbose_name='Возрастная категория')
-    sizes = models.CharField(max_length=100, blank=True, verbose_name='Размеры (S, M, L и т.п.)')
+    sizes = models.CharField(max_length=300, blank=True, verbose_name='Размеры (S, M, L и т.п.)')
     clothing_fit = models.CharField(max_length=50, blank=True, verbose_name='Посадка (Slim, Regular, Oversize)')
 
     # Косметика и бытовая химия
@@ -133,7 +133,7 @@ class Product(models.Model):
 
     # SEO
     meta_title = models.CharField(max_length=255, blank=True, null=True, verbose_name='SEO заголовок')
-    meta_description = models.CharField(max_length=512, blank=True, null=True, verbose_name='SEO описание')
+    meta_description = models.CharField(max_length=612, blank=True, null=True, verbose_name='SEO описание')
     tags = models.ManyToManyField('site_app.Tag', blank=True, related_name='products', verbose_name='Теги')
 
     # Категории
@@ -175,10 +175,10 @@ class ProductImage(models.Model):
 class ProductVariant(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='variants', verbose_name='Основной товар')
     description = models.TextField(blank=True, default='Описание', verbose_name='Описание')
-    sku = models.CharField(max_length=300, unique=True, null=True, blank=True, verbose_name='Артикул вариации')
-    size = models.CharField(max_length=50, blank=True, verbose_name='Размер')
-    color = models.CharField(max_length=150, blank=True, verbose_name='Цвет')
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='Цена вариации')
+    sku = models.CharField(max_length=500, unique=True, null=True, blank=True, verbose_name='Артикул вариации')
+    size = models.CharField(max_length=555, blank=True, verbose_name='Размер')
+    color = models.CharField(max_length=555, blank=True, verbose_name='Цвет')
+    price = models.DecimalField(max_digits=300, decimal_places=2, null=True, verbose_name='Цена вариации')
     quantity = models.PositiveIntegerField(default=0, verbose_name='Количество на складе')
     image = models.ImageField(upload_to='products/variants/', null=True, blank=True, verbose_name='Изображение вариации')
 
@@ -193,6 +193,10 @@ class ProductVariant(models.Model):
         if self.size:
             parts.append(f"Размер: {self.size}")
         return " | ".join(parts)
+
+class VariantImage(models.Model):
+    variant = models.ForeignKey(ProductVariant, related_name='additional_images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='variant_images/')
 
 
 
