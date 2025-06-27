@@ -977,7 +977,7 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
         if not created:
             updated = False
             # Обновляем размеры, если изменились
-            if set(variant_obj.sizes) != set(sizes):
+            if set(variant_obj.size) != set(sizes):
                 variant_obj.sizes = sizes
                 updated = True
             if variant_obj.price != price_var:
