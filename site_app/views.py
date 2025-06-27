@@ -1,3 +1,5 @@
+import ast
+
 import telebot
 from celery import shared_task
 from django.core.cache import cache
@@ -39,8 +41,6 @@ def category_view(request, category_name):
     # Логика для отображения категории
     return render(request, 'webapp/shop/category.html', {'category': category_name})
 
-
-import ast
 
 
 def product_detail(request, slug):
@@ -112,6 +112,7 @@ def product_detail(request, slug):
         'variants_with_images': variants_with_images,
     }
     return render(request, 'webapp/shop/single-product.html', context)
+
 def compare(request):
     return render(request, 'webapp/shop/compare.html')
 

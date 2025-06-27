@@ -22,7 +22,7 @@
                         <!-- Бренд -->
                         {% if product.brand %}
                             <a href="{{ product.brand.get_absolute_url }}"
-                                   class="breadcrumb-item active">{{ product.brand.name }}</a>
+                               class="breadcrumb-item active">{{ product.brand.name }}</a>
                         {% endif %}
 
                         <!-- Разделитель для категории -->
@@ -164,15 +164,15 @@
 
                     <!-- Price Section -->
                     <div class="price price-full border-bottom py-3">
-            <span class="fw-bold final-price">
-                <span class="currency-symbol">₹</span>
-                <span class="price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
-            </span>
+                        <span class="fw-bold final-price">
+                            <span class="currency-symbol">₹</span>
+                            <span class="price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
+                        </span>
                         {% if product.discount %}
                             <span class="text-decoration-line-through text-danger original-price ms-2">
-                    <span class="currency-symbol">₹</span>
-                    <del class="price-value">{{ product.price|random_increase }}</del>
-                </span>
+                                <span class="currency-symbol">₹</span>
+                                <del class="price-value">{{ product.price|random_increase }}</del>
+                            </span>
                         {% endif %}
                     </div>
 
@@ -225,20 +225,21 @@
                                     <th>Color</th>
                                     <td>
                                         <div class="d-flex flex-wrap gap-2 align-items-center">
-                                            {% for variant in variants_with_images %}
                                                 <div class="variant-color-item text-center"
-                                                     style="min-width: 80px; cursor: pointer;"
-                                                     data-color="{{ variant.color }}"
-                                                     data-image="{{ variant.image_url }}">
-                                                    {% if variant.image_url %}
-                                                        <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
-                                                             style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">
-                                                    {% else %}
-                                                        <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>
-                                                    {% endif %}
-                                                    <div style="font-size: 0.8rem; margin-top: 4px;">{{ variant.color|cut:"PUMA "|cut:"Puma " }}</div>
+                                                     style="min-width: 80px;">
+{#                                                    {% if variant.image_url %}#}
+{#                                                        <img src="{{ variant.image_url }}" alt="{{ variant.color }}"#}
+{#                                                             style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">#}
+{#                                                    {% else %}#}
+{#                                                        <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>#}
+{#                                                    {% endif %}#}
+                                                    <div style="font-size: 0.8rem; margin-top: 4px;">
+                                                        {% for color in variant_colors %}
+                                                            {{ color|cut:"Puma "|cut:"PUMA " }}{% if not forloop.last %}
+                                                                | {% endif %}
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
-                                            {% endfor %}
                                         </div>
                                     </td>
                                 </tr>
@@ -290,40 +291,18 @@
             </div>
             <!-- END PRODUCT DESCRIPTION -->
 
-
-
             <!-- SIDEBAR -->
-            <div class="col-12 col-sm-12 col-md-3 col-lg-12 col-xl-2 col-xxl-2 d-none d-lg-block">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-12 col-xl-2 col-xxl-2">
 
                 <!-- Navigation box -->
-                <div class="product-navigation box p-3 rounded">
+                <div id="mobile-sidebar" class="product-navigation box p-3 rounded sticky-top sidebar-box">
 
-                    <!-- Цена (будет обновляться при выборе вариации через JS) -->
-                    <div class="price border-bottom pb-3">
-            <span class="fw-bold">
-                <span class="currency-symbol">₹</span>
-                <span class="price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
-            </span>
+                    <div class="border-bottom py-2">
+                        <h4>Select Options</h4>
+                        <button class="close-sidebar-btn">✖</button>
                     </div>
 
-                    <!-- Выбранные опции -->
-                    <div class="border-bottom py-3">
-                        <div class="d-flex justify-content-between">
-                            <span>Size:</span><span class="fw-bold size-value">-</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Color:</span><span class="fw-bold color-value">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Количество -->
-                    <div class="input-group my-3">
-                        <button class="btn btn-outline-secondary" type="button">-</button>
-                        <input type="number" class="form-control text-center" value="1" min="1" step="1">
-                        <button class="btn btn-outline-secondary" type="button">+</button>
-                    </div>
-
-                    <!-- Размеры -->
+                    <!-- Размер -->
                     {% if variant_sizes %}
                         <div class="product-variations border-bottom py-3">
                             <label class="fw-semibold mb-2 d-block">Size:</label>
@@ -340,26 +319,70 @@
                         </div>
                     {% endif %}
 
-                    <!-- Цвета -->
-                    {% if variant_colors %}
-                        <div class="product-variations py-3">
-                            <label class="fw-semibold mb-2 d-block">Color:</label>
-                            <div class="color-boxes d-flex flex-wrap gap-1">
-                                {% for color in variant_colors %}
-                                    <label class="color-box" style="--color: {{ color|lower }}">
-                                        <input type="radio"
-                                               name="selected_color"
-                                               value="{{ color }}"
-                                               data-color="{{ color }}"
-                                               data-action="select-color">
-                                    </label>
-                                {% endfor %}
-                            </div>
+                    <!-- Опции -->
+                    <div class="product-variations border-bottom py-3">
+                        <label class="fw-semibold mb-2 d-block">Options:</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-variation active" data-price="0">
+                                Option 1
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-variation" data-price="25">Option
+                                2
+                            </button>
                         </div>
-                    {% endif %}
+                    </div>
+
+                    <!-- Цвет -->
+                    <div class="product-variations border-bottom py-3">
+                        <label class="fw-semibold mb-3 d-block">Color:</label>
+                        <div class="color-boxes d-flex flex-wrap gap-1">
+                            {% for variant in variants_with_images %}
+                            <div class="variant-color-item text-center"
+                                 data-color="{{ variant.color }}"
+                                 data-image="{{ variant.image_url }}">
+                                {% if variant.image_url %}
+                                    <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
+                                         style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">
+                                {% else %}
+                                    <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Выбранные опции -->
+                    <div class="border-bottom py-3">
+                        <div class="d-flex justify-content-between"><span>Size:</span><span
+                                class="fw-bold size-value">-</span></div>
+                        <div class="d-flex justify-content-between"><span>Options:</span><span
+                                class="fw-bold option-value">-</span></div>
+                        <div class="d-flex justify-content-between"><span>Color:</span><span
+                                class="fw-bold color-value">-</span></div>
+                    </div>
+
+                    <!-- Цена -->
+                    <div class="price py-3">
+                  <span class="fw-bold">
+                    <span class="currency-symbol">₹</span>
+                    <span class="price-value" data-inr="{{ product.price }}">{{ product.price }}</span>
+                  </span>
+                    </div>
+
+                    <!-- Количество -->
+                    <div class="input-group my-3">
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control text-center" value="1" min="1" step="1">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                    </div>
+
+                    <!-- В корзину -->
+                    <button class="add-to-cart btn btn-primary w-100">ADD TO CART</button>
 
                 </div>
                 <!-- END Navigation box -->
+
+                <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
             </div>
             <!-- END SIDEBAR -->
