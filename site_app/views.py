@@ -82,6 +82,16 @@ def product_detail(request, slug):
             'color': var['color'],
             'image_url': img_url,
         })
+    first_variant = product.variants.first()
+
+    # Получаем дополнительные изображения первой вариации
+    variant_additional_images = []
+    if first_variant:
+        variant_additional_images_qs = first_variant.additional_images.all()
+        for img in variant_additional_images_qs:
+            variant_additional_images.append({
+                'image_url': f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+            })
 
     # Обработка формы отзыва
     if request.method == 'POST':
@@ -110,6 +120,8 @@ def product_detail(request, slug):
         'variant_sizes': variant_sizes,
         'variant_colors': variant_colors,
         'variants_with_images': variants_with_images,
+        'first_variant': first_variant,
+        'variant_additional_images': variant_additional_images,
     }
     return render(request, 'webapp/shop/single-product.html', context)
 

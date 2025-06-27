@@ -62,35 +62,18 @@
                     <div class="swiper single-product-slider">
                         <div class="swiper-wrapper">
 
-                            {# Главное изображение продукта #}
-                            {% if product.image %}
-                                <div class="swiper-slide">
-                                    <a href="{{ product.image.url }}" class="glightbox" data-gallery="product-gallery">
-                                        <img src="{{ product.image.url }}" class="img-fluid"/>
-                                    </a>
-                                </div>
-                            {% endif %}
+                            <!-- Основное изображение первой вариации -->
 
-                            {# Изображения вариаций #}
-                            {% for variant in product.variants.all %}
-                                {% if variant.image %}
-                                    <div class="swiper-slide">
-                                        <a href="{{ variant.image.url }}" class="glightbox"
-                                           data-gallery="product-gallery">
-                                            <img src="{{ variant.image.url }}" class="img-fluid"/>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-
-                            {# Дополнительные изображения #}
-                            {% for img in product.additional_images.all %}
+                            {% for img in variant_additional_images %}
                                 <div class="swiper-slide">
-                                    <a href="{{ img.image.url }}" class="glightbox" data-gallery="product-gallery">
-                                        <img src="{{ img.image.url }}" class="img-fluid"/>
+                                    <a href="{{ img.image_url }}" class="glightbox" data-gallery="product-gallery">
+                                        <img src="{{ img.image_url }}" class="img-fluid"/>
                                     </a>
                                 </div>
                             {% endfor %}
+
+
+                            {# Можно добавить остальные вариации и дополнительные изображения, если нужно #}
 
                         </div>
                     </div>
@@ -99,27 +82,12 @@
                     <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
                         <div class="swiper-wrapper">
 
-                            {% if product.image %}
+                            {% for img in variant_additional_images %}
                                 <div class="swiper-slide" style="width: 50px">
-                                    <img src="{{ product.image.url }}"
-                                         class="img-fluid rounded border border-secondary"/>
-                                </div>
-                            {% endif %}
-
-                            {% for variant in product.variants.all %}
-                                {% if variant.image %}
-                                    <div class="swiper-slide" style="width: 50px">
-                                        <img src="{{ variant.image.url }}"
-                                             class="img-fluid rounded border border-secondary"/>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% for img in product.additional_images.all %}
-                                <div class="swiper-slide" style="width: 50px">
-                                    <img src="{{ img.image.url }}" class="img-fluid rounded border border-secondary"/>
+                                    <img src="{{ img.image_url }}" class="img-fluid rounded border border-secondary"/>
                                 </div>
                             {% endfor %}
+
 
                         </div>
                     </div>
@@ -337,17 +305,17 @@
                         <label class="fw-semibold mb-3 d-block">Color:</label>
                         <div class="color-boxes d-flex flex-wrap gap-1">
                             {% for variant in variants_with_images %}
-                            <div class="variant-color-item text-center"
-                                 data-color="{{ variant.color }}"
-                                 data-image="{{ variant.image_url }}">
-                                {% if variant.image_url %}
-                                    <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
-                                         style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">
-                                {% else %}
-                                    <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+                                <a href="{{ variant.url }}" class="variant-color-item text-center"
+                                   data-color="{{ variant.color }}" data-image="{{ variant.image_url }}"
+                                   style="display: inline-block; text-decoration: none;">
+                                    {% if variant.image_url %}
+                                        <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
+                                             style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">
+                                    {% else %}
+                                        <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
                         </div>
                     </div>
 
