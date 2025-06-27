@@ -41,6 +41,8 @@ urlpatterns = [
     path('404/', views.four_zero_four, name='four-zero-four'),
     path('newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
     path('contacts/', views.newsletter_signup, name='contacts'),
+    path('ajax/variant-images/<int:product_id>/<str:color>/', views.get_variant_images, name='get_variant_images'),
+
 ]
 
 if settings.DEBUG:

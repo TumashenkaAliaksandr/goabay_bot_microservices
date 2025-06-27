@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 
-from bot_app.models import Review
+from bot_app.models import Review, ProductVariant
 from goabay_bot import settings
 from site_app.forms import ReviewForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
@@ -124,6 +124,28 @@ def product_detail(request, slug):
         'variant_additional_images': variant_additional_images,
     }
     return render(request, 'webapp/shop/single-product.html', context)
+
+def get_variant_images(request, product_id, color):
+    variant = ProductVariant.objects.filter(product_id=product_id, color=color).first()
+    if not variant:
+        return JsonResponse({'error': 'Not found'}, status=404)
+
+    images = []
+    if variant.image:
+        images.append(request.build_absolute_uri(variant.image.url))
+    for img in variant.additional_images.all():
+        images.append(request.build_absolute_uri(img.image.url))
+
+    # Предположим, что variant.size — строка с размерами, например, "['S', 'M', 'L']"
+    try:
+        sizes = ast.literal_eval(variant.size) if variant.size else []
+    except:
+        sizes = [variant.size] if variant.size else []
+
+    return JsonResponse({
+        'images': images,
+        'sizes': sizes,
+    })
 
 def compare(request):
     return render(request, 'webapp/shop/compare.html')

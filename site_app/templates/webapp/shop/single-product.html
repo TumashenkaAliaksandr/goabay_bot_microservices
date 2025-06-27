@@ -58,12 +58,10 @@
             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5 col-xxl-5 mb-3">
                 <div class="product-slider sticky-top">
 
-                    <!-- Main Swiper -->
+                    <!-- Основной слайдер Swiper -->
                     <div class="swiper single-product-slider">
                         <div class="swiper-wrapper">
-
-                            <!-- Основное изображение первой вариации -->
-
+                            <!-- Слайды с изображениями вариации будут динамически вставляться сюда через JS -->
                             {% for img in variant_additional_images %}
                                 <div class="swiper-slide">
                                     <a href="{{ img.image_url }}" class="glightbox" data-gallery="product-gallery">
@@ -71,24 +69,17 @@
                                     </a>
                                 </div>
                             {% endfor %}
-
-
-                            {# Можно добавить остальные вариации и дополнительные изображения, если нужно #}
-
                         </div>
                     </div>
 
-                    <!-- Thumbs -->
+                    <!-- Миниатюры -->
                     <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
                         <div class="swiper-wrapper">
-
                             {% for img in variant_additional_images %}
-                                <div class="swiper-slide" style="width: 50px">
+                                <div class="swiper-slide" style="width: 50px;">
                                     <img src="{{ img.image_url }}" class="img-fluid rounded border border-secondary"/>
                                 </div>
                             {% endfor %}
-
-
                         </div>
                     </div>
 
@@ -217,14 +208,20 @@
                             {% if variant_sizes %}
                                 <tr>
                                     <th>Size</th>
-                                    <td>
+                                    <td id="variant-sizes-container">
                                         {% for size in variant_sizes %}
                                             <button type="button"
                                                     class="btn btn-outline-secondary btn-sm me-1 mb-1">{{ size }}</button>
                                         {% endfor %}
                                     </td>
                                 </tr>
+                            {% else %}
+                                <tr>
+                                    <th>Size</th>
+                                    <td id="variant-sizes-container"><em>Размеры не доступны</em></td>
+                                </tr>
                             {% endif %}
+
 
                             {% if product.material %}
                                 <tr>
@@ -305,8 +302,10 @@
                         <label class="fw-semibold mb-3 d-block">Color:</label>
                         <div class="color-boxes d-flex flex-wrap gap-1">
                             {% for variant in variants_with_images %}
-                                <a href="{{ variant.url }}" class="variant-color-item text-center"
-                                   data-color="{{ variant.color }}" data-image="{{ variant.image_url }}"
+                                <a href="#" class="variant-color-item text-center"
+                                   data-color="{{ variant.color }}"
+                                   data-image="{{ variant.image_url }}"
+                                   data-product="{{ product.id }}"
                                    style="display: inline-block; text-decoration: none;">
                                     {% if variant.image_url %}
                                         <img src="{{ variant.image_url }}" alt="{{ variant.color }}"
