@@ -52,10 +52,8 @@ import csv
 import json
 import os
 import random
-import re
+
 import string
-import uuid
-from urllib.parse import urlparse
 
 import django
 import requests
@@ -380,18 +378,6 @@ def get_or_create_category(name, parent=None):
         category = Category.objects.create(name=name, parent=parent)
     return category
 
-# def save_image_from_url(instance, image_field_name, image_url):
-#     try:
-#         response = requests.get(image_url)
-#         response.raise_for_status()
-#         img_data = response.content
-#         filename = image_url.split("/")[-1].split("?")[0]  # Убираем параметры из URL
-#         getattr(instance, image_field_name).save(filename, ContentFile(img_data), save=True)
-#         print(f"Изображение сохранено: {filename}")
-#     except Exception as e:
-#         print(f"Ошибка при сохранении изображения {image_url}: {e}")
-
-
 
 MAX_LENGTH = 100  # Максимальная длина для CharField, при необходимости меняйте
 
@@ -414,193 +400,6 @@ def save_image_from_url(instance, field_name, url):
     except Exception as e:
         print(f"❌ Ошибка при загрузке изображения {url}: {e}")
 
-# def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
-#     print("\n🔧 Начинаем сохранение товара...")
-#
-#     # 1. Категории
-#     parent = None
-#     main_category = parsed_product.get('main_category', '')
-#     subcategories = parsed_product.get('subcategories', '')
-#
-#     # Собираем список категорий
-#     cats = []
-#     if main_category and main_category.strip():
-#         cats.append(main_category.strip())
-#
-#     if subcategories and subcategories.strip():
-#         cats.extend([c.strip() for c in subcategories.split('/') if c.strip()])
-#
-#     # === ДОПОЛНИТЕЛЬНЫЙ ПОИСК КАТЕГОРИЙ В HTML ===
-#     if not cats and 'html' in parsed_product:
-#         soup = BeautifulSoup(parsed_product['html'], 'html.parser')
-#         # Ищем все li с классом, содержащим 'breadcrumb-list-item'
-#         breadcrumb_items = soup.find_all('li', class_=lambda x: x and 'breadcrumb-list-item' in x)
-#         for item in breadcrumb_items:
-#             # Ищем <a> внутри <li>
-#             a = item.find('a')
-#             if a:
-#                 cat = a.get_text(strip=True)
-#                 if cat:
-#                     cats.append(cat)
-#     # === КОНЕЦ ДОПОЛНИТЕЛЬНОГО ПОИСКА ===
-#
-#     if not cats:
-#         # Если категорий нет, используем дефолтную
-#         cats = ['Uncategorized']
-#         print(
-#             f"⚠️ Для товара '{parsed_product.get('product_name', 'Без имени')}' не найдены категории, сохранено в 'Uncategorized'")
-#
-#     main_cat, *subcats = cats
-#
-#     for cat_name in [main_cat] + subcats:
-#         parent, _ = Category.objects.get_or_create(name=cat_name, parent=parent)
-#     category = parent
-#     print(f"📂 Категория: {category.name}")
-#
-#     # 2. Бренд
-#     brand_slug = slugify(brand_name)
-#     brand = Brand.objects.filter(slug=brand_slug).first()
-#     if not brand:
-#         brand = Brand.objects.create(name=brand_name, slug=brand_slug)
-#         print(f"🆕 Создан новый бренд: {brand_name}")
-#     else:
-#         print(f"🔄 Найден бренд: {brand_name}")
-#
-#     # 3. Продукт
-#     base_slug = slugify(parsed_product['product_name'])
-#     product_slug = f"{base_slug}"[:500]
-#     print(f"🆔 Slug продукта: {product_slug}")
-#
-#     try:
-#         product = Product.objects.get(slug=product_slug)
-#         print("🔄 Продукт найден, обновляем данные...")
-#
-#         updated = False
-#         if product.name != parsed_product['product_name']:
-#             product.name = parsed_product['product_name']
-#             updated = True
-#         if product.desc != parsed_product.get('description', ''):
-#             product.desc = parsed_product.get('description', '')
-#             updated = True
-#         if product.brand != brand:
-#             product.brand = brand
-#             updated = True
-#         try:
-#             new_price = Decimal(str(parsed_product.get('sale_price', '')).replace('₹', '').replace(',',
-#                                                                                                    '').strip()) if parsed_product.get(
-#                 'sale_price') else None
-#             if product.price != new_price:
-#                 product.price = new_price
-#                 updated = True
-#         except:
-#             pass
-#         try:
-#             new_discount = Decimal(str(parsed_product.get('original_price', '')).replace('₹', '').replace(',',
-#                                                                                                           '').strip()) if parsed_product.get(
-#                 'original_price') else None
-#             if product.discount != new_discount:
-#                 product.discount = new_discount
-#                 updated = True
-#         except:
-#             pass
-#         if updated:
-#             product.save()
-#             print("🔄 Продукт обновлён")
-#
-#     except Product.DoesNotExist:
-#         print("🆕 Продукт не найден, создаём новый...")
-#         product = Product.objects.create(
-#             slug=product_slug,
-#             name=parsed_product['product_name'],
-#             desc=parsed_product.get('description', ''),
-#             brand=brand,
-#             price=None,
-#             discount=None
-#         )
-#         print("✅ Продукт создан")
-#
-#     # Категория
-#     if not product.category.filter(id=category.id).exists():
-#         product.category.add(category)
-#         print(f"📁 Категория добавлена: {category.name}")
-#
-#     # Главное изображение продукта (берём из первой вариации, если нет)
-#     main_img_url = parsed_product.get('variations', [{}])[0].get('main_image')
-#     if main_img_url and (not product.image or not product.image.name):
-#         save_image_from_url(product, 'image', main_img_url)
-#
-#     # Собираем все фото вариаций для добавления в дополнительные фото продукта
-#     all_variant_images = set()
-#     for var in parsed_product.get('variations', []):
-#         main_img = var.get('main_image')
-#         if main_img:
-#             all_variant_images.add(main_img)
-#
-#     # Добавляем дополнительные фото продукта (включая фото вариаций)
-#     all_images = {img for var in parsed_product.get('variations', []) for img in var.get('all_images', [])}
-#     all_images.update(all_variant_images)  # объединяем с фото вариаций
-#
-#     for img_url in all_images:
-#         if img_url:
-#             # Проверяем, есть ли уже такое изображение у продукта
-#             exists = ProductImage.objects.filter(product=product, image=img_url).exists()
-#             if not exists:
-#                 img_instance = ProductImage(product=product)
-#                 save_image_from_url(img_instance, 'image', img_url)
-#                 img_instance.save()
-#
-#     # Вариации — один объект на цвет с списком размеров
-#     for var in parsed_product.get('variations', []):
-#         color = (var.get('color') or '').strip()[:255]
-#         sizes = var.get('sizes', []) or ['']  # если пусто, создаём вариацию без размера
-#         main_image_url = var.get('main_image')
-#         try:
-#             price_var = Decimal(str(var.get('price')).replace('₹', '').replace(',', '').strip()) if var.get('price') else product.price
-#         except:
-#             price_var = product.price
-#         desc_var = var.get('description', '') or parsed_product.get('description', '')
-#
-#         sku = f"{product_slug}-{color.replace(' ', '').replace('/', '')}"[:100]
-#
-#         variant_obj, created = ProductVariant.objects.get_or_create(
-#             product=product,
-#             color=color,
-#             defaults={
-#                 'size': sizes,
-#                 'sku': sku,
-#                 'price': price_var,
-#             }
-#         )
-#         if not created:
-#             updated = False
-#             # Обновляем размеры, если изменились
-#             if set(variant_obj.size) != set(sizes):
-#                 variant_obj.sizes = sizes
-#                 updated = True
-#             if variant_obj.price != price_var:
-#                 variant_obj.price = price_var
-#                 updated = True
-#             if variant_obj.description != desc_var:
-#                 variant_obj.description = desc_var
-#                 updated = True
-#             if updated:
-#                 variant_obj.save()
-#                 print(f"🔄 Вариация обновлена: color={color}")
-#
-#         # Главное фото вариации
-#         if main_image_url and (not variant_obj.image or not variant_obj.image.name):
-#             save_image_from_url(variant_obj, 'image', main_image_url)
-#
-#         # Дополнительные фото вариации
-#         for img_url in var.get('all_images', []):
-#             if img_url and not variant_obj.additional_images.filter(image=img_url).exists():
-#                 img_instance = VariantImage(variant=variant_obj)
-#                 save_image_from_url(img_instance, 'image', img_url)
-#                 img_instance.save()
-#
-#         print(f"{'✅' if created else '🔄'} Вариация: color={color}, sizes={sizes}, sku={sku}")
-#
-#     print(f"\n✅ Продукт сохранён: {product.name}\n")
 
 def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
     print("\n🔧 Начинаем сохранение товара...")
@@ -713,7 +512,10 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
         print(f"📁 Категория добавлена: {category.name}")
 
     # Главное изображение продукта (берём из первой вариации, если нет)
-    main_img_url = parsed_product.get('variations', [{}])[0].get('main_image')
+    # main_img_url = parsed_product.get('variations', [{}])[0].get('main_image')
+    variations = parsed_product.get('variations', [])
+    main_img_url = variations[0].get('main_image') if variations else None
+
     if main_img_url and (not product.image or not product.image.name):
         save_image_from_url(product, 'image', main_img_url)
 
@@ -841,6 +643,7 @@ def collect_product_links_with_scroll(category_url, scroll_pause=2, max_scrolls=
 if __name__ == "__main__":
     MAIN_CATEGORIES = [
         'https://in.puma.com/in/en/rcb-launch',
+        'https://in.puma.com/in/en/kids',
         # Добавьте другие категории, если нужно
     ]
 

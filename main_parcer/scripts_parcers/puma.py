@@ -1,668 +1,590 @@
-# import csv
-# import os
-# from urllib.parse import urljoin
-#
-# import django
-# import unidecode
-#
-# from main_parcer.scripts_parcers.categories import CATEGORIES
-#
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
-# django.setup()
-#
-# import requests
-# import json
-# from bs4 import BeautifulSoup
-# import re
-# from django.utils.text import slugify
-# from bot_app.models import Product, ProductImage  # Импортируем модели
-# from site_app.models import Brand, Category
-# import logging
-#
-# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-#
-# MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '../media')
-# BASE_URL = "https://in.puma.com"
-#
-# def generate_unique_slug(base_slug):
-#     slug = base_slug
-#     counter = 1
-#     while Product.objects.filter(slug=slug).exists():
-#         slug = f"{base_slug}-{counter}"
-#         counter += 1
-#     return slug
-#
-# def sanitize_filename(filename):
-#     filename = filename.replace('’', "'")
-#     filename = re.sub(r'[^\x00-\x7F]+', '', filename)  # удаляем все не-ASCII символы
-#     filename = re.sub(r'[^\w\-_\.]', '', filename)     # удаляем специальные символы
-#     return filename
-#
-# def download_image(url, product_name, is_additional=False):
-#     try:
-#         response = requests.get(url, stream=True, timeout=15)
-#         response.raise_for_status()
-#
-#         # Получаем имя файла и расширение
-#         original_filename = os.path.basename(url.split("?")[0])
-#         name_part, ext = os.path.splitext(original_filename)
-#
-#         ext = ext if ext.lower() in ['.jpg', '.jpeg', '.png', '.webp'] else '.jpg'
-#
-#         # Слаг для продукта
-#         product_slug = slugify(product_name)[:40]  # ограничиваем длину
-#         filename_clean = sanitize_filename(name_part)[:80]  # ограничиваем длину имени файла
-#
-#         # Только одна часть имени (либо slug, либо clean filename)
-#         final_filename = f"{product_slug}{ext}"  # используем только slug для имени файла
-#
-#         # Путь для сохранения
-#         subfolder = 'products/additional' if is_additional else 'products'
-#         media_dir = os.path.join(MEDIA_ROOT, subfolder)
-#         filepath = os.path.join(subfolder, final_filename)
-#         full_path = os.path.join(MEDIA_ROOT, filepath)
-#
-#         os.makedirs(media_dir, exist_ok=True)
-#
-#         # Сохраняем файл
-#         with open(full_path, 'wb') as f:
-#             for chunk in response.iter_content(1024):
-#                 f.write(chunk)
-#
-#         logging.info(f"Изображение сохранено: {filepath}")
-#         return filepath
-#
-#     except requests.exceptions.RequestException as e:
-#         logging.error(f"Ошибка при скачивании изображения с {url}: {e}")
-#         return None
-#     except Exception as e:
-#         logging.error(f"Ошибка при обработке изображения с {url}: {e}")
-#         return None
-#
-# def collect_product_links_from_category(category_url):
-#     """
-#     Собирает ссылки на продукты из URL категории.
-#
-#     Аргументы:
-#         category_url (str): URL категории.
-#
-#     Возвращает:
-#         list: Список полных ссылок на продукты.
-#     """
-#     try:
-#         response = requests.get(category_url, timeout=10)
-#         response.raise_for_status()
-#         soup = BeautifulSoup(response.content, 'html.parser')
-#         product_links = set()
-#
-#         # Находим все <li> с data-test-id="product-list-item"
-#         product_items = soup.find_all('li', attrs={'data-test-id': 'product-list-item'})
-#
-#         for item in product_items:
-#             a_tag = item.find('a', attrs={'data-test-id': 'product-list-item-link'}, href=True)
-#             if a_tag:
-#                 # Формируем полный URL из относительного href
-#                 full_url = urljoin(BASE_URL, a_tag['href'])
-#                 product_links.add(full_url)
-#
-#         return list(product_links)
-#
-#     except requests.exceptions.RequestException as e:
-#         logging.error(f"Ошибка при запросе к {category_url}: {e}")
-#         return []
-#     except Exception as e:
-#         logging.error(f"Ошибка при парсинге {category_url}: {e}")
-#         return []
-#
-# def parse_puma_product(html_content, product_url):
-#     """
-#     Парсит HTML контент страницы продукта.
-#
-#     Аргументы:
-#         html_content (str): HTML контент страницы продукта.
-#         product_url (str): URL страницы продукта.
-#
-#     Возвращает:
-#         tuple: Кортеж с данными продукта, названием, ценой и описанием.
-#     """
-#     try:
-#         soup = BeautifulSoup(html_content, 'html.parser')
-#
-#         data = {}
-#
-#         import unicodedata
-#
-#         # Получаем элемент с названием товара по новому селектору
-#         title_element = soup.find('h1', attrs={'data-test-id': 'pdp-title'})
-#         raw_name = title_element.text.strip() if title_element else "Название не найдено"
-#
-#         def is_letter_digit_or_space(char):
-#             """
-#             Проверяет, является ли символ буквой (любой алфавит Unicode),
-#             цифрой или пробелом.
-#             """
-#             uni_category = unicodedata.category(char)
-#             return uni_category.startswith('L') or uni_category.startswith('N') or char.isspace()
-#
-#         # Очищаем название, оставляя только буквы, цифры и пробелы
-#         name = ''.join(char for char in raw_name if is_letter_digit_or_space(char))
-#
-#         # Убираем лишние пробелы (множественные подряд)
-#         name = ' '.join(name.split())
-#
-#         data['Name'] = name
-#
-#         # Сохраняем ссылку на товар
-#         data['Product urls'] = product_url
-#
-#         # Получаем блок с ценой по новому селектору
-#         price = None
-#         price_region = soup.find('div', attrs={'data-test-id': 'pdp-price-region'})
-#         if price_region:
-#             # Ищем цену со скидкой (актуальную цену)
-#             sale_price_span = price_region.find('span', attrs={'data-test-id': 'item-sale-price-pdp'})
-#             if sale_price_span and sale_price_span.text.strip():
-#                 price_str = sale_price_span.text.strip()
-#             else:
-#                 # Если нет цены со скидкой, берем обычную цену
-#                 price_span = price_region.find('span', attrs={'data-test-id': 'item-price-pdp'})
-#                 price_str = price_span.text.strip() if price_span else None
-#
-#             if price_str:
-#                 # Убираем символы валюты и пробелы
-#                 price_str_clean = price_str.replace('₹', '').replace(',', '').strip()
-#                 try:
-#                     price = float(re.sub(r'[^\d.]', '', price_str_clean))
-#                 except ValueError:
-#                     logging.error(f"Не удалось преобразовать цену в число: {price_str_clean}")
-#                     price = None
-#
-#         data['price'] = price if price is not None else 0.0
-#
-#         # Описание
-#         description = ""
-#         product_details_div = soup.find("div", attrs={"data-test-id": "pdp-product-description"})
-#
-#         if product_details_div:
-#             # Ищем заголовок "Description" (в вашем примере это <h2> с текстом "Description")
-#             description_h2 = product_details_div.find(
-#                 lambda tag: tag.name in ['h2', 'h3'] and tag.get_text(strip=True) == "Description")
-#             if description_h2:
-#                 # Ищем следующий sibling с текстом описания (обычно div с текстом)
-#                 description_div = description_h2.find_next_sibling()
-#                 if description_div:
-#                     description_text = description_div.get_text(separator="\n", strip=True)
-#                     if description_text:
-#                         description += description_text + "\n\n"
-#
-#             # Ищем дополнительные списки с информацией (например, ul с классом, содержащим 'list-disc')
-#             additional_lists = product_details_div.find_all('ul', class_=lambda x: x and 'list-disc' in x)
-#             for ul in additional_lists:
-#                 ul_texts = []
-#                 for li in ul.find_all('li'):
-#                     li_text = li.get_text(strip=True)
-#                     if li_text:
-#                         ul_texts.append(f"- {li_text}")
-#                 if ul_texts:
-#                     description += "Additional Information:\n" + "\n".join(ul_texts) + "\n\n"
-#
-#         data['descriptions'] = description.strip()
-#
-#         # Добавляем извлечение additional_description
-#         additional_description = ""
-#         product_options_wrapper = soup.find('div', class_='product-options-wrapper')
-#         if product_options_wrapper:
-#             customize_title = product_options_wrapper.find('span', id='customizeTitle')
-#             if customize_title:
-#                 additional_description += f"Customize: {customize_title.text.strip()}\n"
-#
-#             bundle_options = product_options_wrapper.find_all('div', class_='field choice')
-#             for option in bundle_options:
-#                 label = option.find('label', class_='label')
-#                 if label:
-#                     additional_description += f"- {label.text.strip()}\n"
-#
-#         data['additional_description'] = additional_description.strip()
-#         desc = data['descriptions']
-#
-#         # Images
-#         image_urls = []
-#         gallery_section = soup.find('div', class_='tw-vk1bow')
-#         if gallery_section:
-#             # Ищем все <img> внутри секции галереи
-#             img_tags = gallery_section.find_all('img')
-#             for img in img_tags:
-#                 # Берём src только если он начинается с http (или https)
-#                 src = img.get('src')
-#                 if src and src.startswith('http'):
-#                     image_urls.append(src)
-#         data['image_urls'] = image_urls  # Сохраняем все URL изображений
-#
-#         # Категория и подкатегории
-#         breadcrumbs_div = soup.find('div', class_='breadcrumbs')
-#         if breadcrumbs_div:
-#             breadcrumb_links = breadcrumbs_div.find_all('a', class_='arv')
-#             categories = [link.text.strip() for link in breadcrumb_links]
-#             data['Category'] = categories[0] if categories else "Категория не определена"
-#             data['Subcategory'] = categories[1:] if len(categories) > 1 else []
-#         else:
-#             data['Category'] = "Категория не определена"
-#             data['Subcategory'] = []
-#
-#         # Производитель
-#         data['Brand'] = "Puma"
-#
-#         # Размер
-#         data['Sizes'] = "100 капсул"
-#
-#         # Доставка
-#         shipping_info = []
-#         shipping_wrap = soup.find('div', class_='shipping-wrap')
-#         if shipping_wrap:
-#             shipping_blocks = shipping_wrap.find_all('div', class_='shipping-block')
-#             for block in shipping_blocks:
-#                 text = block.find('p').text.strip()
-#                 shipping_info.append(text)
-#         data['Delivery'] = shipping_info if shipping_info else "Информация о доставке не найдена"
-#
-#         # SKU
-#         sku = None
-#         more_info_table = soup.find('table', class_='data table additional-attributes')
-#         if more_info_table:
-#             sku_row = more_info_table.find('tr')
-#             if sku_row:
-#                 sku_label_cell = sku_row.find('td', class_='col label sku')
-#                 sku_data_cell = sku_row.find('td', class_='col data sku')
-#                 if sku_label_cell and sku_data_cell:
-#                     if sku_label_cell.text.strip() == 'SKU:':
-#                         sku = sku_data_cell.text.strip()
-#
-#         data['SKU'] = sku if sku else "SKU не найден"
-#
-#         # Рейтинг
-#         rating_summary = soup.find('div', class_='rating-summary')
-#         if rating_summary:
-#             rating_result = rating_summary.find('div', class_='rating-result')
-#             if rating_result:
-#                 title = rating_result['title']
-#                 # Extract the percentage from the title
-#                 rating_percentage = title.replace('%', '').strip()
-#                 try:
-#                     rating = float(rating_percentage)
-#                 except ValueError:
-#                     rating = 0.0
-#                 data['rating'] = str(rating)
-#                 print(f"Rating: {rating}")
-#             else:
-#                 data['rating'] = "0"
-#                 print("Rating result not found")
-#         else:
-#             data['rating'] = "0"
-#             print("Rating summary not found")
-#
-#         return data, name, price, desc
-#
-#     except Exception as e:
-#         logging.error(f"Ошибка при парсинге продукта {product_url}: {e}")
-#         return None, None, None, None
-#
-# def save_product_to_db(data, name, price, desc):
-#     try:
-#         logging.info(f"Начало сохранения продукта: {name}")
-#
-#         # Проверка и очистка поля Category
-#         category_name = data.get('Category') or "General"
-#         category, created = Category.objects.get_or_create(name=category_name)
-#
-#         # Очищаем название и обрезаем до 100 символов
-#         cleaned_name = unidecode.unidecode(name)
-#         cleaned_name = re.sub(r'[^a-zA-Z0-9\s]', '', cleaned_name).strip()[:100]
-#
-#         # Проверка и очистка поля SKU
-#         sku = data.get('SKU')
-#         if not sku or sku.strip().lower() == 'sku не найден':
-#             sku = None  # Очистка некорректного значения
-#
-#         # Генерация базового slug
-#         base_slug = slugify(sku)[:500] if sku else slugify(cleaned_name)[:500]
-#         slug = generate_unique_slug(base_slug)
-#
-#         # Проверка и создание бренда
-#         brand_name = data.get('Brand') or 'Puma'
-#         brand, brand_created = Brand.objects.get_or_create(
-#             name=brand_name,
-#             defaults={'slug': slugify(brand_name)}
-#         )
-#
-#         # Проверка и обработка изображений
-#         image_urls = data.get('image_urls', [])
-#         main_image_url = image_urls[0] if image_urls else None
-#         main_image_path = download_image(main_image_url, slug) if main_image_url else None
-#
-#         # Если путь изображения слишком длинный, обрезаем его
-#         if main_image_path and len(main_image_path) > 100:
-#             main_image_path = main_image_path[:100]
-#
-#         # Проверка на существование продукта
-#         existing_product = Product.objects.filter(slug=slug).first()  # Ищем по slug, или используем sku
-#
-#         if existing_product:
-#             # Если продукт найден, обновляем только цену
-#             logging.info(f"Продукт {name} уже существует. Обновляем цену.")
-#             existing_product.price = price
-#             existing_product.save()
-#         else:
-#             # Если продукт не найден, создаем новый
-#             logging.info(f"Сохраняем новый продукт: {name}")
-#             product = Product.objects.create(
-#                 slug=slug,
-#                 name=cleaned_name,
-#                 desc=desc,
-#                 price=price,
-#                 image=main_image_path,
-#                 rating=data.get('rating', '0'),
-#                 additional_description=data.get('additional_description', ''),
-#                 brand=brand,
-#                 sku=sku  # безопасно: None или корректный SKU
-#             )
-#
-#             # Добавление категории
-#             product.category.add(category)
-#
-#         # Добавление дополнительных изображений
-#         if len(image_urls) > 1:
-#             for img_url in image_urls[1:]:
-#                 try:
-#                     additional_image_path = download_image(img_url, slug, is_additional=True)
-#                     # Если путь изображения слишком длинный, обрезаем его
-#                     if additional_image_path and len(additional_image_path) > 100:
-#                         additional_image_path = additional_image_path[:100]
-#                     if additional_image_path:
-#                         if not ProductImage.objects.filter(product=product, image=additional_image_path).exists():
-#                             ProductImage.objects.create(product=product, image=additional_image_path)
-#                 except Exception as e:
-#                     logging.error(f"Ошибка при добавлении изображения: {e}")
-#
-#         return True
-#     except Exception as e:
-#         logging.error(f"КРИТИЧЕСКАЯ ОШИБКА при сохранении продукта {name}: {e}", exc_info=True)
-#         return False
-#
-# def collect_all_product_links(category_urls):
-#     """
-#     Собирает все ссылки на продукты из списка URL категорий.
-#
-#     Аргументы:
-#         category_urls (list): Список URL категорий.
-#
-#     Возвращает:
-#         list: Список всех ссылок на продукты.
-#     """
-#     all_product_links = set()
-#     for url in category_urls:
-#         product_links = collect_product_links_from_category(url)
-#         all_product_links.update(product_links)
-#     return list(all_product_links)
-#
-# def create_hierarchy(data):
-#     for main, subs in data.items():
-#         main_cat, created_main = Category.objects.get_or_create(name=main, parent=None)
-#         for sub, subsubs in subs.items():
-#             sub_cat, created_sub = Category.objects.get_or_create(name=sub, parent=main_cat)
-#             for subsub in subsubs:
-#                 _, created_subsub = Category.objects.get_or_create(name=subsub, parent=sub_cat)
-#                 if created_subsub:
-#                     print(f"Создана подкатегория: {subsub} → {sub} → {main}")
-#     print("Категории обновлены.")
-#
-# if __name__ == "__main__":
-#     create_hierarchy(CATEGORIES)
-#     category_urls = [
-#         'https://in.puma.com/in/en/mens',
-#
-#     ]
-#
-#     product_links = collect_all_product_links(category_urls)  # Собираем ссылки на продукты
-#     print(f"Найдено {len(product_links)} ссылок на продукты.")
-#
-#     all_products_data = []  # Список для хранения данных о всех продуктах
-#     for product_url in product_links:
-#         try:
-#             response = requests.get(product_url, timeout=10)  # Отправляем GET запрос к URL продукта
-#             response.raise_for_status()  # Проверяем статус ответа
-#
-#             html_content = response.text  # Получаем HTML контент страницы
-#
-#         except requests.exceptions.RequestException as e:
-#             logging.error(f"Не удалось получить {product_url}: {e}")  # Обрабатываем ошибку запроса
-#             continue
-#
-#         product_data, name, price, desc = parse_puma_product(html_content, product_url)  # Парсим данные продукта
-#         if product_data:
-#             all_products_data.append(product_data)  # Добавляем данные продукта в список
-#             print(f"Информация о продукте успешно спарсена с {product_url}")
-#             save_product_to_db(product_data, name, price, desc)  # Сохраняем данные продукта в базу данных
-#         else:
-#             print(f"Не удалось получить информацию о продукте с {product_url}")
-#
-#     with open('jsons/product_puma.json', 'w', encoding='utf-8') as f:
-#         json.dump(all_products_data, f, indent=4, ensure_ascii=False)  # Сохраняем данные в JSON файл
-#
-#     print("Данные о продуктах сохранены в product_puma.json")
-#
-#     csv_file = 'jsons/product_puma.csv'
-#
-#     if all_products_data:
-#         # Преобразуем поля с списками в строки без скобок
-#         for product in all_products_data:
-#             # Обработка поля с ссылками на изображения
-#             if isinstance(product.get('image_urls'), list):
-#                 product['image_urls'] = ', '.join(product['image_urls'])
-#             # Обработка поля подкатегорий (с заглавной буквы)
-#             if isinstance(product.get('Subcategory'), list):
-#                 product['Subcategory'] = ', '.join(product['Subcategory'])
-#             # Обработка поля доставки (с заглавной буквы)
-#             if isinstance(product.get('Delivery'), list):
-#                 product['Delivery'] = ', '.join(product['Delivery'])
-#
-#         # Получаем заголовки из ключей первого словаря
-#         fieldnames = all_products_data[0].keys()
-#
-#         with open(csv_file, 'w', newline='', encoding='utf-8') as f_csv:
-#             writer = csv.DictWriter(f_csv, fieldnames=fieldnames)
-#             writer.writeheader()
-#             writer.writerows(all_products_data)
-#     else:
-#         print("Данные для CSV пусты, файл не создан.")
-import time
+import csv
 import json
 import os
+import random
+
+import string
+
 import django
-import csv
 import requests
-from bs4 import BeautifulSoup
 from django.core.files.base import ContentFile
-from django.utils.text import slugify
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "goabay_bot.settings")
 django.setup()
 
-from bot_app.models import Product
+from bs4 import BeautifulSoup
+from django.utils.text import slugify
+from decimal import Decimal
+
+from bot_app.models import Product, ProductImage, ProductVariant, VariantImage
 from site_app.models import Category, Brand
 
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-import time
-import json
 
 
-def parse_json_ld(html_content):
-    soup = BeautifulSoup(html_content, 'html.parser')
-    script_tags = soup.find_all('script', type='application/ld+json')
-    products = []
-    category_name = None
-    brand_from_group = None
-    group_url = None
+def generate_random_id(length=8):
+    chars = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
 
-    for script_tag in script_tags:
-        try:
-            content = script_tag.string
-            if not content:
-                continue
-            json_data = json.loads(content)
-        except Exception:
-            continue
+def extract_product_info_and_variations(url):
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
-        typ = json_data.get('@type')
+    driver = webdriver.Chrome(options=options)
+    driver.set_window_size(1920, 1080)
+    wait = WebDriverWait(driver, 15)
 
-        if typ == 'BreadcrumbList':
-            for item in json_data.get('itemListElement', []):
-                if item.get('position') == 2:
-                    category_name = item.get('name')
+    try:
+        driver.get(url)
+        wait.until(EC.presence_of_element_located((By.ID, 'pdp-product-title')))
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'html.parser')
 
-        elif typ == 'ProductGroup':
-            brand_from_group = json_data.get('brand', {}).get('name')
-            group_url = json_data.get('url')
-            for variant in json_data.get('hasVariant', []):
-                products.append({
-                    'name': variant.get('name'),
-                    'url': variant.get('url') or group_url,
-                    'price': variant.get('offers', {}).get('price'),
-                    'currency': variant.get('offers', {}).get('priceCurrency'),
-                    'image': variant.get('image'),
-                    'brand': brand_from_group,
-                    'category': category_name,
-                    'color': variant.get('color'),
-                    'size': '',
-                    'description': '',
-                })
+        # Основная информация о товаре
+        brand = 'Puma'
+        print('Brand: ', brand)
+        product_name_tag = soup.find('h1', id='pdp-product-title')
+        product_name = product_name_tag.get_text(strip=True) if product_name_tag else "Неизвестное название"
 
-        elif typ == 'Product':
-            products.append({
-                'name': json_data.get('name'),
-                'url': json_data.get('url'),
-                'price': json_data.get('offers', {}).get('price'),
-                'currency': json_data.get('offers', {}).get('priceCurrency'),
-                'image': json_data.get('image'),
-                'brand': json_data.get('brand', {}).get('name'),
-                'category': category_name,
-                'color': json_data.get('color'),
-                'size': '',
-                'description': '',
-            })
+        # Поиск цены со скидкой (sale price)
+        sale_price = None
 
-    # Добавляем описание
-    description_tag = soup.find('div', {'data-test-id': 'pdp-product-description'})
-    description = description_tag.get_text(strip=True) if description_tag else "Описание не найдено"
-    for product in products:
-        product['description'] = description
+        # 1. Сначала ищем по data-test-id="item-sale-price-pdp" (скидочная цена)
+        sale_price_tag = soup.find('span', {'data-test-id': 'price'})
+        if sale_price_tag:
+            sale_price = sale_price_tag.get_text(strip=True)
 
-    # Парсим размеры
-    sizes = []
-    for label in soup.select('label[data-size]'):
-        size_span = label.select_one('span[data-content="size-value"]')
-        if size_span:
-            sizes.append(size_span.get_text(strip=True))
-    sizes_str = ', '.join(sizes) if sizes else 'Нет в наличии'
-    for product in products:
-        product['size'] = sizes_str
+        # 2. Если не найдено, ищем обычную цену по data-test-id="item-price-pdp"
+        if not sale_price:
+            price_tag = soup.find('span', {'data-test-id': 'item-price-pdp'})
+            if price_tag:
+                sale_price = price_tag.get_text(strip=True)
 
-    return products
+        # 3. Если всё равно не найдено, ищем по классу font-bold (или его части)
+        if not sale_price:
+            price_tag = soup.find('span', class_=lambda x: x and 'font-bold' in x)
+            if price_tag:
+                sale_price = price_tag.get_text(strip=True)
 
+        # 4. Если всё равно не найдено, ищем внутри блока с data-test-id="pdp-price-region"
+        if not sale_price:
+            price_region = soup.find('div', {'data-test-id': 'pdp-price-region'})
+            if price_region:
+                # Ищем любой span с числом и знаком валюты внутри price_region
+                price_tag = price_region.find('span', string=lambda s: s and '₹' in s)
+                if price_tag:
+                    sale_price = price_tag.get_text(strip=True)
+                else:
+                    # Если и так не найдено, ищем любой span с цифрами внутри price_region
+                    for span in price_region.find_all('span'):
+                        txt = span.get_text(strip=True)
+                        if any(char.isdigit() for char in txt):
+                            sale_price = txt
+                            break
 
-def save_to_db(products):
-    for item in products:
-        if not item.get('name'):
-            continue
+        # sale_price теперь либо строка с ценой, либо None
 
-        slug = slugify(item['name'])[:500]
-        brand = None
-        if item.get('brand'):
-            brand_name = item['brand'].strip()
-            brand_slug = slugify(brand_name)
-            brand, _ = Brand.objects.get_or_create(name=brand_name, slug=brand_slug)
+        original_price_tag = soup.find('span', {'data-test-id': 'item-price-pdp'})
+        original_price = original_price_tag.get_text(strip=True) if original_price_tag else None
 
-        categories = []
-        if item.get('category'):
-            cat, _ = Category.objects.get_or_create(name=item['category'].strip())
-            categories.append(cat)
+        desc_block = soup.find('div', {'data-test-id': 'pdp-product-description'})
+        description = ""
+        if desc_block:
+            text_div = desc_block.find('div', {'data-uds-child': 'text'})
+            if text_div:
+                description = text_div.get_text(separator="\n", strip=True)
+            else:
+                description = desc_block.get_text(separator="\n", strip=True)
 
-        product, created = Product.objects.get_or_create(slug=slug, defaults={
-            'name': item['name'],
-            'brand': brand,
-            'desc': item.get('description', ''),
-            'price': item.get('price') or 0,
-            'color': item.get('color', ''),
-            'sizes': item.get('size', ''),
-            'stock_status': 'in_stock',
-        })
+        main_category = ""
+        subcategories = ""
+        breadcrumb_nav = soup.find('nav', id='breadcrumb')
+        if breadcrumb_nav:
+            crumbs = breadcrumb_nav.select('ul[data-uds-child="breadcrumb-list"] li a')
+            categories = [crumb.get_text(strip=True) for crumb in crumbs]
+            if categories and categories[0].lower() == 'home':
+                categories = categories[1:]
+            if categories:
+                main_category = categories[0]
+                if len(categories) > 1:
+                    subcategories = " / ".join(categories[1:])
 
-        if not created:
-            product.price = item.get('price') or product.price
-            product.desc = item.get('description') or product.desc
-            product.color = item.get('color') or product.color
-            product.sizes = item.get('size') or product.sizes
-            print(f"🔄 Обновлён продукт: {product.name}")
-        else:
-            print(f"✅ Создан продукт: {product.name}")
+        wait.until(EC.presence_of_element_located((By.ID, 'style-picker')))
+        color_variants = driver.find_elements(By.CSS_SELECTOR, '#style-picker label[data-test-id="color"]')
 
-        if item.get('image') and (created or not product.image):
+        product_random_id = generate_random_id()
+
+        variations = []
+
+        for idx, color_variant in enumerate(color_variants):
             try:
-                img_url = item['image'] if isinstance(item['image'], str) else item['image'][0]
-                img_content = requests.get(img_url).content
-                image_field = ContentFile(img_content, name=img_url.split('/')[-1])
-                product.image.save(image_field.name, image_field)
+                color_name = color_variant.find_element(By.CSS_SELECTOR, 'span.sr-only').text.strip()
+                if not color_name:
+                    color_name = f"color_{idx+1}"
+
+                driver.execute_script("arguments[0].scrollIntoView(true);", color_variant)
+                wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, f'#style-picker label[data-test-id="color"]:nth-child({idx+1})')))
+                try:
+                    color_variant.click()
+                except Exception:
+                    driver.execute_script("arguments[0].click();", color_variant)
+
+                time.sleep(2)
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'label[data-size] span[data-content="size-value"]')))
+
+                html = driver.page_source
+                soup = BeautifulSoup(html, 'html.parser')
+
+                size_elements = soup.select('label[data-size] span[data-content="size-value"]')
+                sizes = [size.get_text(strip=True) for size in size_elements if size.get_text(strip=True)]
+                if not sizes:
+                    sizes = ['Нет в наличии']
+
+                gallery_section = soup.find('section', {'data-test-id': 'product-image-gallery-section'})
+                main_image = None
+                all_images = []
+                if gallery_section:
+                    main_img_tag = gallery_section.find('img', {'data-test-id': 'pdp-main-image'})
+                    if main_img_tag and main_img_tag.has_attr('src'):
+                        main_image = main_img_tag['src']
+                    for img_tag in gallery_section.find_all('img'):
+                        if img_tag.has_attr('src'):
+                            all_images.append(img_tag['src'])
+                    all_images = list(dict.fromkeys(all_images))
+
+                variation = {
+                    'color': color_name,
+                    'sizes': sizes,
+                    'main_image': main_image,
+                    'all_images': all_images
+                }
+
+                variations.append(variation)
+
             except Exception as e:
-                print(f"⚠️ Ошибка загрузки изображения: {e}")
+                print(f"❌ Ошибка при обработке цвета '{color_name}': {e}")
 
-        if categories:
-            product.category.set(categories)
+        product_info = {
+            'brand': brand,
+            'random_id': product_random_id,
+            'product_url': url,
+            'product_name': product_name,
+            'main_category': main_category,
+            'subcategories': subcategories,
+            'sale_price': sale_price,
+            'original_price': original_price,
+            'description': description.replace("\n", " ").strip(),
+            'product_type': 'variative' if len(variations) > 1 else 'simple',
+            'variations': variations
+        }
 
-        product.save()
+        return [product_info]  # Возвращаем список с одним элементом — основным продуктом
+
+    except Exception as e:
+        print(f"❌ Ошибка при загрузке страницы или поиске элементов: {e}")
+    finally:
+        driver.quit()
+
+    return []
 
 
-if __name__ == '__main__':
-    category_urls = [
-        'https://in.puma.com/in/en/mens',
+# Функции сохранения
+
+def variations_to_str(variations):
+    """
+    Преобразует список вариаций в строку для CSV:
+    color|size1,size2|main_image|img1,img2; color2|...
+    """
+    result = []
+    for var in variations:
+        color = var.get('color', '')
+        sizes = ",".join(var.get('sizes', []))
+        main_image = var.get('main_image', '')
+        all_images = ",".join(var.get('all_images', []))
+        result.append(f"{color}|{sizes}|{main_image}|{all_images}")
+    return " | ".join(result)
+
+
+def save_to_csv(products, filename='puma-products.csv'):
+    """
+        Сохраняет список товаров и их вариаций в csv-формате, совместимом с WooCommerce.
+    """
+    # Собираем все возможные размеры и цвета для создания колонок
+    all_colors = set()
+    all_sizes = set()
+    for product in products:
+        for var in product.get('variations', []):
+            all_colors.add(var.get('color', ''))
+            all_sizes.update(var.get('sizes', []))
+
+    # WooCommerce-совместимые поля + ваши
+    fieldnames = [
+        'ID', 'Type', 'SKU', 'Name', 'Parent', 'Brand', 'Product URL', 'Main Category', 'Subcategories',
+        'Sale Price', 'Original Price', 'Description', 'Main Image', 'All Images',
+        'attribute:Color', 'attribute:Size'
     ]
 
-    product_links = collect_all_product_links(category_urls)
-    print(f"Найдено {len(product_links)} ссылок на продукты.")
-
-    all_products_data = []
-    for product_url in product_links:
-        try:
-            response = requests.get(product_url, timeout=10)
-            response.raise_for_status()
-            html_content = response.text
-        except requests.RequestException as e:
-            print(f"Не удалось получить {product_url}: {e}")
-            continue
-
-        products = parse_json_ld(html_content)
-        if products:
-            all_products_data.extend(products)
-            print(f"Информация о продукте успешно спарсена с {product_url}")
-        else:
-            print(f"Не удалось получить информацию о продукте с {product_url}")
-
-    os.makedirs('jsons', exist_ok=True)
-
-    with open('jsons/product_puma.json', 'w', encoding='utf-8') as f:
-        json.dump(all_products_data, f, indent=4, ensure_ascii=False)
-    print("✅ JSON сохранён: product_puma.json")
-
-    with open('jsons/product_puma.csv', 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['name', 'url', 'price', 'currency', 'image', 'brand', 'category', 'color', 'size', 'description']
+    with open(filename, mode='w', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        for product in all_products_data:
-            if isinstance(product['image'], list):
-                product['image'] = product['image'][0]
-            writer.writerow(product)
-    print("✅ CSV сохранён: product_puma.csv")
 
-    save_to_db(all_products_data)
+        for product in products:
+            # Основной товар (variable)
+            parent_id = product['random_id']
+            writer.writerow({
+                'ID': parent_id,
+                'Type': 'variable',
+                'SKU': parent_id,
+                'Name': product['product_name'],
+                'Parent': '',
+                'Brand': product['brand'],
+                'Product URL': product['product_url'],
+                'Main Category': product['main_category'],
+                'Subcategories': product['subcategories'],
+                'Sale Price': product['sale_price'],
+                'Original Price': product['original_price'],
+                'Description': product['description'],
+                'Main Image': '',
+                'All Images': '',
+                'attribute:Color': ', '.join(sorted(all_colors)),
+                'attribute:Size': ', '.join(sorted(all_sizes)),
+            })
+
+            # Вариации
+            for var in product.get('variations', []):
+                for size in var.get('sizes', []):
+                    writer.writerow({
+                        'ID': '',
+                        'Type': 'variation',
+                        'SKU': f"{parent_id}-{var.get('color', '')}-{size}",
+                        'Name': '',
+                        'Parent': parent_id,
+                        'Brand': '',
+                        'Product URL': product['product_url'],
+                        'Main Category': '',
+                        'Subcategories': '',
+                        'Sale Price': product['sale_price'],
+                        'Original Price': product['original_price'],
+                        'Description': '',  # Обычно описание только у основного товара
+                        'Main Image': var.get('main_image', ''),
+                        'All Images': ','.join(var.get('all_images', [])),
+                        'attribute:Color': var.get('color', ''),
+                        'attribute:Size': size,
+                    })
+
+    print(f"CSV для WooCommerce успешно сохранён: {filename}")
+
+
+def save_to_json(data, filename='products.json'):
+    if not data:
+        print("Нет данных для сохранения.")
+        return
+    with open(filename, 'w', encoding='utf-8') as jsonfile:
+        json.dump(data, jsonfile, indent=4, ensure_ascii=False)
+    print(f"Данные успешно сохранены в файл {filename}")
+
+def get_or_create_brand(brand_name):
+    slug = slugify(brand_name)
+    brand = Brand.objects.filter(slug=slug).first()
+    if brand is None:
+        brand = Brand.objects.create(name=brand_name, slug=slug)
+    return brand
+
+def get_or_create_category(name, parent=None):
+    category = Category.objects.filter(name=name, parent=parent).first()
+    if category is None:
+        category = Category.objects.create(name=name, parent=parent)
+    return category
+
+
+MAX_LENGTH = 100  # Максимальная длина для CharField, при необходимости меняйте
+
+def truncate_str(s, max_len=MAX_LENGTH):
+    if not s:
+        return ''
+    return s[:max_len] if len(s) > max_len else s
+
+
+
+def save_image_from_url(instance, field_name, url):
+    try:
+        if not url:
+            return
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        file_name = os.path.basename(url.split("?")[0])
+        getattr(instance, field_name).save(file_name, ContentFile(response.content), save=True)
+        print(f"📸 Изображение сохранено: {file_name}")
+    except Exception as e:
+        print(f"❌ Ошибка при загрузке изображения {url}: {e}")
+
+
+def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
+    print("\n🔧 Начинаем сохранение товара...")
+
+    # 1. Категории
+    parent = None
+    main_category = parsed_product.get('main_category', '')
+    subcategories = parsed_product.get('subcategories', '')
+
+    # Собираем список категорий
+    cats = []
+    if main_category and main_category.strip():
+        cats.append(main_category.strip())
+
+    if subcategories and subcategories.strip():
+        cats.extend([c.strip() for c in subcategories.split('/') if c.strip()])
+
+    # === ДОПОЛНИТЕЛЬНЫЙ ПОИСК КАТЕГОРИЙ В HTML ===
+    if not cats and 'html' in parsed_product:
+        soup = BeautifulSoup(parsed_product['html'], 'html.parser')
+        # Ищем все li с классом, содержащим 'breadcrumb-list-item'
+        breadcrumb_items = soup.find_all('li', class_=lambda x: x and 'breadcrumb-list-item' in x)
+        for item in breadcrumb_items:
+            # Ищем <a> внутри <li>
+            a = item.find('a')
+            if a:
+                cat = a.get_text(strip=True)
+                if cat:
+                    cats.append(cat)
+    # === КОНЕЦ ДОПОЛНИТЕЛЬНОГО ПОИСКА ===
+
+    if not cats:
+        # Если категорий нет, используем дефолтную
+        cats = ['Uncategorized']
+        print(
+            f"⚠️ Для товара '{parsed_product.get('product_name', 'Без имени')}' не найдены категории, сохранено в 'Uncategorized'")
+
+    main_cat, *subcats = cats
+
+    for cat_name in [main_cat] + subcats:
+        parent, _ = Category.objects.get_or_create(name=cat_name, parent=parent)
+    category = parent
+    print(f"📂 Категория: {category.name}")
+
+    # 2. Бренд
+    brand_slug = slugify(brand_name)
+    brand = Brand.objects.filter(slug=brand_slug).first()
+    if not brand:
+        brand = Brand.objects.create(name=brand_name, slug=brand_slug)
+        print(f"🆕 Создан новый бренд: {brand_name}")
+    else:
+        print(f"🔄 Найден бренд: {brand_name}")
+
+    # 3. Продукт
+    base_slug = slugify(parsed_product['product_name'])
+    product_slug = f"{base_slug}"[:500]
+    print(f"🆔 Slug продукта: {product_slug}")
+
+    try:
+        product = Product.objects.get(slug=product_slug)
+        print("🔄 Продукт найден, обновляем данные...")
+
+        updated = False
+        if product.name != parsed_product['product_name']:
+            product.name = parsed_product['product_name']
+            updated = True
+        if product.desc != parsed_product.get('description', ''):
+            product.desc = parsed_product.get('description', '')
+            updated = True
+        if product.brand != brand:
+            product.brand = brand
+            updated = True
+        try:
+            new_price = Decimal(str(parsed_product.get('sale_price', '')).replace('₹', '').replace(',',
+                                                                                                   '').strip()) if parsed_product.get(
+                'sale_price') else None
+            if product.price != new_price:
+                product.price = new_price
+                updated = True
+        except:
+            pass
+        try:
+            new_discount = Decimal(str(parsed_product.get('original_price', '')).replace('₹', '').replace(',',
+                                                                                                          '').strip()) if parsed_product.get(
+                'original_price') else None
+            if product.discount != new_discount:
+                product.discount = new_discount
+                updated = True
+        except:
+            pass
+        if updated:
+            product.save()
+            print("🔄 Продукт обновлён")
+
+    except Product.DoesNotExist:
+        print("🆕 Продукт не найден, создаём новый...")
+        product = Product.objects.create(
+            slug=product_slug,
+            name=parsed_product['product_name'],
+            desc=parsed_product.get('description', ''),
+            brand=brand,
+            price=None,
+            discount=None
+        )
+        print("✅ Продукт создан")
+
+    # Категория
+    if not product.category.filter(id=category.id).exists():
+        product.category.add(category)
+        print(f"📁 Категория добавлена: {category.name}")
+
+    # Главное изображение продукта (берём из первой вариации, если нет)
+    main_img_url = parsed_product.get('variations', [{}])[0].get('main_image')
+    if main_img_url and (not product.image or not product.image.name):
+        save_image_from_url(product, 'image', main_img_url)
+
+    # Собираем все фото вариаций для добавления в дополнительные фото продукта
+    all_variant_images = set()
+    for var in parsed_product.get('variations', []):
+        main_img = var.get('main_image')
+        if main_img:
+            all_variant_images.add(main_img)
+
+    # Добавляем дополнительные фото продукта (включая фото вариаций)
+    all_images = {img for var in parsed_product.get('variations', []) for img in var.get('all_images', [])}
+    all_images.update(all_variant_images)  # объединяем с фото вариаций
+
+    for img_url in all_images:
+        if img_url:
+            # Проверяем, есть ли уже такое изображение у продукта
+            exists = ProductImage.objects.filter(product=product, image=img_url).exists()
+            if not exists:
+                img_instance = ProductImage(product=product)
+                save_image_from_url(img_instance, 'image', img_url)
+                img_instance.save()
+
+    # Вариации — один объект на цвет с списком размеров
+    for var in parsed_product.get('variations', []):
+        color = (var.get('color') or '').strip()[:255]
+        sizes = var.get('sizes', []) or ['']  # если пусто, создаём вариацию без размера
+        main_image_url = var.get('main_image')
+        try:
+            price_var = Decimal(str(var.get('price')).replace('₹', '').replace(',', '').strip()) if var.get('price') else product.price
+        except:
+            price_var = product.price
+        desc_var = var.get('description', '') or parsed_product.get('description', '')
+
+        sku = f"{product_slug}-{color.replace(' ', '').replace('/', '')}"[:100]
+
+        variant_obj, created = ProductVariant.objects.get_or_create(
+            product=product,
+            color=color,
+            defaults={
+                'size': sizes,
+                'sku': sku,
+                'price': price_var,
+            }
+        )
+        if not created:
+            updated = False
+            # Обновляем размеры, если изменились
+            if set(variant_obj.size) != set(sizes):
+                variant_obj.sizes = sizes
+                updated = True
+            if variant_obj.price != price_var:
+                variant_obj.price = price_var
+                updated = True
+            if variant_obj.description != desc_var:
+                variant_obj.description = desc_var
+                updated = True
+            if updated:
+                variant_obj.save()
+                print(f"🔄 Вариация обновлена: color={color}")
+
+        # Главное фото вариации
+        if main_image_url and (not variant_obj.image or not variant_obj.image.name):
+            save_image_from_url(variant_obj, 'image', main_image_url)
+
+        # Дополнительные фото вариации
+        for img_url in var.get('all_images', []):
+            if img_url and not variant_obj.additional_images.filter(image=img_url).exists():
+                img_instance = VariantImage(variant=variant_obj)
+                save_image_from_url(img_instance, 'image', img_url)
+                img_instance.save()
+
+        print(f"{'✅' if created else '🔄'} Вариация: color={color}, sizes={sizes}, sku={sku}")
+
+    print(f"\n✅ Продукт сохранён: {product.name}\n")
+
+
+def collect_product_links_with_scroll(category_url, scroll_pause=2, max_scrolls=30):
+    """
+    Собирает все ссылки на продукты на странице категории с динамической подгрузкой (скроллом).
+    """
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=options)
+    driver.set_window_size(1920, 1080)
+
+    try:
+        driver.get(category_url)
+        last_height = driver.execute_script("return document.body.scrollHeight")
+        scrolls = 0
+
+        while scrolls < max_scrolls:
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(scroll_pause)
+            new_height = driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break  # Достигли конца страницы
+            last_height = new_height
+            scrolls += 1
+
+        # Теперь собираем ссылки из полностью загруженного HTML
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        product_links = set()
+        for a in soup.find_all('a', href=True):
+            href = a['href']
+            if '/in/en/pd/' in href:
+                full_url = 'https://in.puma.com' + href if href.startswith('/') else href
+                product_links.add(full_url)
+        return list(product_links)
+    finally:
+        driver.quit()
+
+
+
+# Пример основного запуска:
+# if __name__ == "__main__":
+#     url = "https://in.puma.com/in/en/pd/court-shatter-low-sneakers/399844?size=0200&swatch=04"
+#     product_data = extract_product_info_and_variations(url)
+#     save_to_csv(product_data)
+#     save_to_json(product_data)
+#     for product in product_data:
+#         save_parsed_product_to_db(product)
+if __name__ == "__main__":
+    MAIN_CATEGORIES = [
+        'https://in.puma.com/in/en/rcb-launch',
+        # Добавьте другие категории, если нужно
+    ]
+
+    all_product_links = set()
+    for cat_url in MAIN_CATEGORIES:
+        links = collect_product_links_with_scroll(cat_url)
+        all_product_links.update(links)
+    print(f"Найдено {len(all_product_links)} товаров для парсинга.")
+
+    all_products = []
+    for url in all_product_links:
+        print(f"Парсим: {url}")
+        products = extract_product_info_and_variations(url)
+        all_products.extend(products)  # ДОБАВЛЯЕМ результат, а не products.extend(products)
+
+    print(f"Всего успешно спарсено товаров: {len(all_products)}")
+
+    # Сохраняем результат
+    save_to_csv(all_products)
+    save_to_json(all_products)
+    for product in all_products:
+        save_parsed_product_to_db(product)
