@@ -160,7 +160,7 @@
                     <!-- Brand & Categories -->
                     <ul class="attributes-card mt-auto py-3">
                         {% if product.brand %}
-                            <li><a href="{{ product.brand.get_absolute_url }}"
+                            <li><a href="{% url 'brand-name' product.brand.slug %}"
                                    class="text-decoration-none">{{ product.brand.name }}</a></li>
                         {% endif %}
                         {% for cat in product.category.all %}
@@ -185,12 +185,6 @@
                                         <div class="d-flex flex-wrap gap-2 align-items-center">
                                                 <div class="variant-color-item text-center"
                                                      style="min-width: 80px;">
-{#                                                    {% if variant.image_url %}#}
-{#                                                        <img src="{{ variant.image_url }}" alt="{{ variant.color }}"#}
-{#                                                             style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px;">#}
-{#                                                    {% else %}#}
-{#                                                        <div style="width: 50px; height: 50px; background-color: #eee; border: 1px solid #ccc; border-radius: 4px;"></div>#}
-{#                                                    {% endif %}#}
                                                     <div style="font-size: 0.8rem; margin-top: 4px;">
                                                         {% for color in variant_colors %}
                                                             {{ color|cut:"Puma "|cut:"PUMA " }}{% if not forloop.last %}

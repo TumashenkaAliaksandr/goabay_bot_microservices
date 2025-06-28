@@ -42,56 +42,83 @@ def category_view(request, category_name):
     return render(request, 'webapp/shop/category.html', {'category': category_name})
 
 
-
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_name = Product.objects.all()
     products_up_block = Product.objects.all()
     reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
 
-    # Получаем уникальные размеры из вариаций (с парсингом строковых списков)
-    variant_sizes_raw = product.variants.values_list('size', flat=True).distinct()
+    # Проверяем, есть ли вариации у продукта
+    has_variants = product.variants.exists()
+
+    # Инициализируем переменные для вариантов
     variant_sizes = []
-    for size_str in variant_sizes_raw:
-        if not size_str:
-            continue
-        try:
-            parsed = ast.literal_eval(size_str)
-            if isinstance(parsed, list):
-                variant_sizes.extend(parsed)
-            else:
-                variant_sizes.append(size_str)
-        except (ValueError, SyntaxError):
-            variant_sizes.append(size_str)
-    variant_sizes = list(sorted(set(filter(None, variant_sizes))))
-
-    # Получаем уникальные цвета из вариаций
-    variant_colors_raw = product.variants.values_list('color', flat=True).distinct()
-    variant_colors = list(sorted(set(filter(None, variant_colors_raw))))
-
-    # Получаем список вариаций с цветом и главным фото для вывода в шаблон
-    variant_data = product.variants.values('color', 'image').distinct()
+    variant_colors = []
     variants_with_images = []
-    for var in variant_data:
-        img_path = var['image']
-        if img_path:
-            img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img_path.lstrip('/')}"
-        else:
-            img_url = None
-        variants_with_images.append({
-            'color': var['color'],
-            'image_url': img_url,
-        })
-    first_variant = product.variants.first()
-
-    # Получаем дополнительные изображения первой вариации
+    first_variant = None
     variant_additional_images = []
-    if first_variant:
-        variant_additional_images_qs = first_variant.additional_images.all()
-        for img in variant_additional_images_qs:
-            variant_additional_images.append({
-                'image_url': f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+
+    if has_variants:
+        # --- Вариативный товар ---
+        # Получаем уникальные размеры из вариаций (с парсингом строковых списков)
+        variant_sizes_raw = product.variants.values_list('size', flat=True).distinct()
+        for size_str in variant_sizes_raw:
+            if not size_str:
+                continue
+            try:
+                parsed = ast.literal_eval(size_str)
+                if isinstance(parsed, list):
+                    variant_sizes.extend(parsed)
+                else:
+                    variant_sizes.append(size_str)
+            except (ValueError, SyntaxError):
+                variant_sizes.append(size_str)
+        variant_sizes = list(sorted(set(filter(None, variant_sizes))))
+
+        # Получаем уникальные цвета из вариаций
+        variant_colors_raw = product.variants.values_list('color', flat=True).distinct()
+        variant_colors = list(sorted(set(filter(None, variant_colors_raw))))
+
+        # Получаем список вариаций с цветом и главным фото для вывода в шаблон
+        variant_data = product.variants.values('color', 'image').distinct()
+        for var in variant_data:
+            img_path = var['image']
+            if img_path:
+                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img_path.lstrip('/')}"
+            else:
+                img_url = None
+            variants_with_images.append({
+                'color': var['color'],
+                'image_url': img_url,
             })
+        first_variant = product.variants.first()
+
+        # Получаем дополнительные изображения первой вариации
+        if first_variant:
+            # Главное фото вариации
+            if first_variant.image:
+                main_img_url = f"{settings.MEDIA_URL.rstrip('/')}/{first_variant.image.name.lstrip('/')}"
+                variant_additional_images.append({'image_url': main_img_url})
+            # Дополнительные фото
+            for img in first_variant.additional_images.all():
+                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+                # Не добавляем дубли главного фото
+                if not any(i['image_url'] == img_url for i in variant_additional_images):
+                    variant_additional_images.append({'image_url': img_url})
+
+    else:
+        # --- Не вариативный товар ---
+        # Главное фото
+        if hasattr(product, 'image') and product.image:
+            main_img_url = f"{settings.MEDIA_URL.rstrip('/')}/{product.image.name.lstrip('/')}"
+            variant_additional_images.append({'image_url': main_img_url})
+        # Дополнительные фото (галерея)
+        if hasattr(product, 'images'):
+            for img in product.images.all():
+                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+                # Не добавляем дубли главного фото
+                if not any(i['image_url'] == img_url for i in variant_additional_images):
+                    variant_additional_images.append({'image_url': img_url})
 
     # Обработка формы отзыва
     if request.method == 'POST':
@@ -122,6 +149,7 @@ def product_detail(request, slug):
         'variants_with_images': variants_with_images,
         'first_variant': first_variant,
         'variant_additional_images': variant_additional_images,
+        'has_variants': has_variants,  # Флаг для шаблона
     }
     return render(request, 'webapp/shop/single-product.html', context)
 
@@ -166,10 +194,6 @@ def checkout(request):
 
 def news(request):
     return render(request, 'webapp/blog/blog.html')
-
-
-def account(request):
-    return render(request, 'webapp/account/account.html')
 
 
 def login(request):
