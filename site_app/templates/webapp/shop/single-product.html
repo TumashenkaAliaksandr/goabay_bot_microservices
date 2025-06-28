@@ -21,8 +21,7 @@
 
                         <!-- Бренд -->
                         {% if product.brand %}
-                            <a href="{{ product.brand.get_absolute_url }}"
-                               class="breadcrumb-item active">{{ product.brand.name }}</a>
+                            <a href="{% url 'brand-name' product.brand.slug %}">{{ product.brand.name }}</a>
                         {% endif %}
 
                         <!-- Разделитель для категории -->

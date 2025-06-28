@@ -318,7 +318,7 @@ def brand(request):
 #         return HttpResponseNotFound("Бренд не найден")
 
 
-def single_brand(request, name, slug):
+def single_brand(request, slug):
     # Получаем все продукты данного бренда по слагу бренда
     brand_obj = get_object_or_404(Brand, slug=slug)  # Получаем объект бренда по слагу
 
