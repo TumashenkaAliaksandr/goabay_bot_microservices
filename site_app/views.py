@@ -45,10 +45,8 @@ def product_detail(request, slug):
     products_up_block = Product.objects.all()
     reviews = Review.objects.filter(product_slug=slug).order_by('-created_at')
 
-    # Проверяем, есть ли вариации у продукта
     has_variants = product.variants.exists()
 
-    # Инициализируем переменные для вариантов
     variant_sizes = []
     variant_colors = []
     variants_with_images = []
@@ -56,8 +54,7 @@ def product_detail(request, slug):
     variant_additional_images = []
 
     if has_variants:
-        # --- Вариативный товар ---
-        # Получаем уникальные размеры из вариаций (с парсингом строковых списков)
+        # Получаем уникальные размеры из вариаций
         variant_sizes_raw = product.variants.values_list('size', flat=True).distinct()
         for size_str in variant_sizes_raw:
             if not size_str:
@@ -70,50 +67,59 @@ def product_detail(request, slug):
                     variant_sizes.append(size_str)
             except (ValueError, SyntaxError):
                 variant_sizes.append(size_str)
-        variant_sizes = list(sorted(set(filter(None, variant_sizes))))
+        variant_sizes = sorted(set(filter(None, variant_sizes)))
 
         # Получаем уникальные цвета из вариаций
         variant_colors_raw = product.variants.values_list('color', flat=True).distinct()
-        variant_colors = list(sorted(set(filter(None, variant_colors_raw))))
+        variant_colors = sorted(set(filter(None, variant_colors_raw)))
 
-        # Получаем список вариаций с цветом и главным фото для вывода в шаблон
+        # Получаем список вариаций с цветом и изображением для шаблона
         variant_data = product.variants.values('color', 'image').distinct()
         for var in variant_data:
             img_path = var['image']
-            if img_path:
-                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img_path.lstrip('/')}"
-            else:
-                img_url = None
+            img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img_path.lstrip('/')}" if img_path else None
             variants_with_images.append({
                 'color': var['color'],
                 'image_url': img_url,
             })
-        first_variant = product.variants.first()
 
-        # Получаем дополнительные изображения первой вариации
+        # Определяем выбранный цвет из GET параметра, если есть
+        selected_color = request.GET.get('color')
+        if selected_color and selected_color in variant_colors:
+            first_variant = product.variants.filter(color=selected_color).first()
+        else:
+            first_variant = product.variants.first()
+
+        # Получаем дополнительные изображения выбранной вариации
         if first_variant:
-            # Главное фото вариации
             if first_variant.image:
                 main_img_url = f"{settings.MEDIA_URL.rstrip('/')}/{first_variant.image.name.lstrip('/')}"
                 variant_additional_images.append({'image_url': main_img_url})
-            # Дополнительные фото
             for img in first_variant.additional_images.all():
                 img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
-                # Не добавляем дубли главного фото
                 if not any(i['image_url'] == img_url for i in variant_additional_images):
                     variant_additional_images.append({'image_url': img_url})
 
+        # Получаем размеры выбранной вариации для передачи в шаблон
+        variant_sizes = []
+        if first_variant and first_variant.size:
+            try:
+                parsed_sizes = ast.literal_eval(first_variant.size)
+                if isinstance(parsed_sizes, list):
+                    variant_sizes = parsed_sizes
+                else:
+                    variant_sizes = [first_variant.size]
+            except (ValueError, SyntaxError):
+                variant_sizes = [first_variant.size]
+
     else:
-        # --- Не вариативный товар ---
-        # Главное фото
+        # Для простого товара
         if hasattr(product, 'image') and product.image:
             main_img_url = f"{settings.MEDIA_URL.rstrip('/')}/{product.image.name.lstrip('/')}"
             variant_additional_images.append({'image_url': main_img_url})
-        # Дополнительные фото (галерея)
         if hasattr(product, 'images'):
             for img in product.images.all():
                 img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
-                # Не добавляем дубли главного фото
                 if not any(i['image_url'] == img_url for i in variant_additional_images):
                     variant_additional_images.append({'image_url': img_url})
 
@@ -128,7 +134,6 @@ def product_detail(request, slug):
     else:
         form = ReviewForm()
 
-    # Подсчёт рейтингов в процентах (если рейтинг 1-5)
     ratings = [review.rating * 20 for review in reviews]
     rating_breakdown = get_rating_breakdown(ratings)
     total_votes = len(ratings)
@@ -146,7 +151,7 @@ def product_detail(request, slug):
         'variants_with_images': variants_with_images,
         'first_variant': first_variant,
         'variant_additional_images': variant_additional_images,
-        'has_variants': has_variants,  # Флаг для шаблона
+        'has_variants': has_variants,
     }
     return render(request, 'webapp/shop/single-product.html', context)
 

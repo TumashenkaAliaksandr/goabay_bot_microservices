@@ -4,7 +4,6 @@ let thumbsSwiper = null;
 
 // Инициализация слайдеров Swiper
 function initSwipers() {
-    // Уничтожаем старые слайдеры, если они существуют
     if (singleProductSwiper) {
         singleProductSwiper.destroy(true, true);
         singleProductSwiper = null;
@@ -14,82 +13,74 @@ function initSwipers() {
         thumbsSwiper = null;
     }
 
-    // Инициализация слайдера миниатюр
     thumbsSwiper = new Swiper('.thumbs-slider', {
         spaceBetween: 10,
         slidesPerView: 4,
         freeMode: true,
         watchSlidesProgress: true,
-        slideToClickedSlide: false, // Отключаем, чтобы реализовать кастомное переключение
+        slideToClickedSlide: false,
         loop: false,
     });
 
-    // Инициализация главного слайдера без привязки к thumbs (будем переключать вручную)
     singleProductSwiper = new Swiper('.single-product-slider', {
         spaceBetween: 10,
         loop: false,
     });
 
-    // Обработчик клика по миниатюре с учётом смещения индексов
-    thumbsSwiper.on('click', (swiper, event) => {
+    thumbsSwiper.on('click', (swiper) => {
         const clickedIndex = swiper.clickedIndex;
         if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
-        // Смещаем индекс на 1, т.к. в главном слайдере первое фото — главное, а миниатюры без него
         singleProductSwiper.slideTo(clickedIndex + 1);
     });
 }
 
-// Обновление слайдов: главное фото отдельно, миниатюры — только дополнительные фото
+// Обновление изображений вариации
 function updateVariantImages(mainImage, additionalImages) {
     const swiperWrapper = document.querySelector('.single-product-slider .swiper-wrapper');
     const thumbsWrapper = document.querySelector('.thumbs-slider .swiper-wrapper');
     if (!swiperWrapper || !thumbsWrapper) return;
 
-    // Очищаем текущие слайды
     swiperWrapper.innerHTML = '';
     thumbsWrapper.innerHTML = '';
 
-    // Добавляем главное фото в главный слайдер
     if (mainImage) {
         const mainSlide = document.createElement('div');
         mainSlide.className = 'swiper-slide';
         mainSlide.innerHTML = `
             <a href="${mainImage}" class="glightbox" data-gallery="product-gallery">
-                <img src="${mainImage}" class="img-fluid" />
+                <img src="${mainImage}" class="img-fluid" alt="Main product image" />
             </a>
         `;
         swiperWrapper.appendChild(mainSlide);
     }
 
-    // Добавляем дополнительные фото в главный слайдер и миниатюры
     additionalImages.forEach(imgUrl => {
-        // Главный слайд
+        if (!imgUrl) return;
+
         const slide = document.createElement('div');
         slide.className = 'swiper-slide';
         slide.innerHTML = `
             <a href="${imgUrl}" class="glightbox" data-gallery="product-gallery">
-                <img src="${imgUrl}" class="img-fluid" />
+                <img src="${imgUrl}" class="img-fluid" alt="Additional product image" />
             </a>
         `;
         swiperWrapper.appendChild(slide);
 
-        // Миниатюра
         const thumb = document.createElement('div');
         thumb.className = 'swiper-slide';
         thumb.style.width = '50px';
         thumb.innerHTML = `
-            <img src="${imgUrl}" class="img-fluid rounded border border-secondary" />
+            <img src="${imgUrl}" class="img-fluid rounded border border-secondary" alt="Thumbnail image" />
         `;
         thumbsWrapper.appendChild(thumb);
     });
 
-    // Переинициализируем слайдеры для корректной работы
     initSwipers();
 }
 
 // Обновление размеров вариации
 function updateVariantSizes(sizes) {
-    const sizesContainer = document.querySelector('#variant-sizes-container');
+    const sizesContainer = document.getElementById('variant-sizes-container');
     if (!sizesContainer) return;
 
     if (!sizes || sizes.length === 0) {
@@ -103,6 +94,8 @@ function updateVariantSizes(sizes) {
         btn.type = 'button';
         btn.className = 'btn btn-outline-secondary btn-sm me-1 mb-1';
         btn.textContent = size;
+        btn.setAttribute('data-size', size);
+        btn.setAttribute('aria-label', `Выбрать размер ${size}`);
         sizesContainer.appendChild(btn);
     });
 }
@@ -116,12 +109,23 @@ document.querySelectorAll('.variant-color-item').forEach(item => {
         const productId = item.getAttribute('data-product');
         if (!color || !productId) return;
 
-        fetch(`/ajax/variant-images/${productId}/${encodeURIComponent(color)}/`)
-            .then(resp => resp.json())
-            .then(data => {
-                if (!data.images || data.images.length === 0) return;
+        // Обновляем активный класс
+        document.querySelectorAll('.variant-color-item.active').forEach(btn => btn.classList.remove('active'));
+        item.classList.add('active');
 
-                // data.images[0] — главное фото, остальные — дополнительные
+        fetch(`/ajax/variant-images/${productId}/${encodeURIComponent(color)}/`)
+            .then(resp => {
+                if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+                return resp.json();
+            })
+            .then(data => {
+                if (!data.images || data.images.length === 0) {
+                    console.warn('Нет изображений для выбранной вариации');
+                    updateVariantImages(null, []);
+                    updateVariantSizes([]);
+                    return;
+                }
+
                 const mainImage = data.images[0];
                 const additionalImages = data.images.slice(1);
 
@@ -134,7 +138,16 @@ document.querySelectorAll('.variant-color-item').forEach(item => {
     });
 });
 
-// Инициализация слайдеров при загрузке страницы
+// При загрузке страницы показываем размеры активной вариации
 document.addEventListener('DOMContentLoaded', () => {
     initSwipers();
+
+    const activeColorBtn = document.querySelector('.variant-color-item.active');
+    if (activeColorBtn) {
+        const sizesStr = activeColorBtn.getAttribute('data-sizes') || '';
+        const sizes = sizesStr ? sizesStr.split(',') : [];
+        updateVariantSizes(sizes);
+    } else {
+        updateVariantSizes([]);
+    }
 });
