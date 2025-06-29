@@ -1,0 +1,8 @@
+ID,Type,SKU,Name,Parent,Brand,Product URL,Main Category,Subcategories,Sale Price,Original Price,Description,Main Image,All Images,attribute:Color,attribute:Size
+PRODVAR01,variable,PRODVAR01,Puma UltraRide Sneakers,,Puma,https://example.com/puma-ultraride,Shoes,Sneakers / Men,4999,5999,Lightweight running sneakers for men.,,,"Blue, Red","40, 41, 42, 43"
+,variation,PRODVAR01-Red-41,,PRODVAR01,,https://example.com/puma-ultraride,,,4999,5999,,https://example.com/img/red-main.jpg,"https://example.com/img/red-main.jpg,https://example.com/img/red-side.jpg",Red,41
+,variation,PRODVAR01-Red-42,,PRODVAR01,,https://example.com/puma-ultraride,,,4999,5999,,https://example.com/img/red-main.jpg,"https://example.com/img/red-main.jpg,https://example.com/img/red-side.jpg",Red,42
+,variation,PRODVAR01-Red-43,,PRODVAR01,,https://example.com/puma-ultraride,,,4999,5999,,https://example.com/img/red-main.jpg,"https://example.com/img/red-main.jpg,https://example.com/img/red-side.jpg",Red,43
+,variation,PRODVAR01-Blue-40,,PRODVAR01,,https://example.com/puma-ultraride,,,4999,5999,,https://example.com/img/blue-main.jpg,"https://example.com/img/blue-main.jpg,https://example.com/img/blue-side.jpg",Blue,40
+,variation,PRODVAR01-Blue-41,,PRODVAR01,,https://example.com/puma-ultraride,,,4999,5999,,https://example.com/img/blue-main.jpg,"https://example.com/img/blue-main.jpg,https://example.com/img/blue-side.jpg",Blue,41
+PRODSIMPLE01,variable,PRODSIMPLE01,Puma Classic Cap,,Puma,https://example.com/puma-cap,Accessories,Caps / Unisex,999,,Classic unisex cap for everyday use.,,,"Blue, Red","40, 41, 42, 43"

@@ -620,7 +620,7 @@ if __name__ == '__main__':
 
     print("Данные о продуктах сохранены в product_ishalife.json")
 
-    csv_file = 'jsons_files/product_ishalife.csv'
+    csv_file = 'csv_files/product_ishalife.csv'
 
     if all_products_data:
         # Преобразуем поля с списками в строки без скобок

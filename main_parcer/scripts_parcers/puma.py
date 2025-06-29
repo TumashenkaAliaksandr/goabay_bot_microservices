@@ -1,4 +1,4 @@
-import csv_files
+import csv
 import json
 import os
 import random
@@ -40,7 +40,7 @@ def extract_product_info_and_variations(url):
 
     driver = webdriver.Chrome(options=options)
     driver.set_window_size(1920, 1080)
-    wait = WebDriverWait(driver, 15)
+    wait = WebDriverWait(driver, 10)
 
     try:
         driver.get(url)
@@ -213,7 +213,7 @@ def variations_to_str(variations):
     return " | ".join(result)
 
 
-def save_to_csv(products, filename='puma-products.csv_files'):
+def save_to_csv(products, filename='csv_files/puma-products.csv'):
     """
         Сохраняет список товаров и их вариаций в csv_files-формате, совместимом с WooCommerce.
     """
@@ -233,7 +233,7 @@ def save_to_csv(products, filename='puma-products.csv_files'):
     ]
 
     with open(filename, mode='w', newline='', encoding='utf-8') as csvfile:
-        writer = csv_files.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for product in products:
@@ -283,7 +283,7 @@ def save_to_csv(products, filename='puma-products.csv_files'):
     print(f"CSV для WooCommerce успешно сохранён: {filename}")
 
 
-def save_to_json(data, filename='products.json'):
+def save_to_json(data, filename='jsons_files/products.json'):
     if not data:
         print("Нет данных для сохранения.")
         return
@@ -326,62 +326,55 @@ def save_image_from_url(instance, field_name, url):
     except Exception as e:
         print(f"❌ Ошибка при загрузке изображения {url}: {e}")
 
-
 def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
     print("\n🔧 Начинаем сохранение товара...")
 
-    # 1. Категории
+    # 1. Обработка категорий
     parent = None
     main_category = parsed_product.get('main_category', '')
     subcategories = parsed_product.get('subcategories', '')
 
-    # Собираем список категорий
     cats = []
     if main_category and main_category.strip():
         cats.append(main_category.strip())
-
     if subcategories and subcategories.strip():
         cats.extend([c.strip() for c in subcategories.split('/') if c.strip()])
 
-    # === ДОПОЛНИТЕЛЬНЫЙ ПОИСК КАТЕГОРИЙ В HTML ===
+    # Дополнительный поиск категорий в html, если не заданы явно
     if not cats and 'html' in parsed_product:
         soup = BeautifulSoup(parsed_product['html'], 'html.parser')
-        # Ищем все li с классом, содержащим 'breadcrumb-list-item'
         breadcrumb_items = soup.find_all('li', class_=lambda x: x and 'breadcrumb-list-item' in x)
         for item in breadcrumb_items:
-            # Ищем <a> внутри <li>
             a = item.find('a')
             if a:
                 cat = a.get_text(strip=True)
                 if cat:
                     cats.append(cat)
-    # === КОНЕЦ ДОПОЛНИТЕЛЬНОГО ПОИСКА ===
 
     if not cats:
-        # Если категорий нет, используем дефолтную
         cats = ['Uncategorized']
-        print(
-            f"⚠️ Для товара '{parsed_product.get('product_name', 'Без имени')}' не найдены категории, сохранено в 'Uncategorized'")
+        print(f"⚠️ Для товара '{parsed_product.get('product_name', 'Без имени')}' не найдены категории, сохранено в 'Uncategorized'")
 
     main_cat, *subcats = cats
-
     for cat_name in [main_cat] + subcats:
         parent, _ = Category.objects.get_or_create(name=cat_name, parent=parent)
     category = parent
     print(f"📂 Категория: {category.name}")
 
-    # 2. Бренд
+    # 2. Обработка бренда — создаём или получаем по slug
     brand_slug = slugify(brand_name)
-    brand = Brand.objects.filter(slug=brand_slug).first()
-    if not brand:
-        brand = Brand.objects.create(name=brand_name, slug=brand_slug)
+    brand, created = Brand.objects.get_or_create(
+        slug=brand_slug,
+        defaults={'name': brand_name}
+    )
+    if created:
         print(f"🆕 Создан новый бренд: {brand_name}")
     else:
         print(f"🔄 Найден бренд: {brand_name}")
 
-    # 3. Продукт
+    # 3. Обработка продукта
     base_slug = slugify(parsed_product['product_name'])
-    product_slug = f"{base_slug}"[:500]
+    product_slug = base_slug[:500]
     print(f"🆔 Slug продукта: {product_slug}")
 
     try:
@@ -399,18 +392,14 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
             product.brand = brand
             updated = True
         try:
-            new_price = Decimal(str(parsed_product.get('sale_price', '')).replace('₹', '').replace(',',
-                                                                                                   '').strip()) if parsed_product.get(
-                'sale_price') else None
+            new_price = Decimal(str(parsed_product.get('sale_price', '')).replace('₹', '').replace(',', '').strip()) if parsed_product.get('sale_price') else None
             if product.price != new_price:
                 product.price = new_price
                 updated = True
         except:
             pass
         try:
-            new_discount = Decimal(str(parsed_product.get('original_price', '')).replace('₹', '').replace(',',
-                                                                                                          '').strip()) if parsed_product.get(
-                'original_price') else None
+            new_discount = Decimal(str(parsed_product.get('original_price', '')).replace('₹', '').replace(',', '').strip()) if parsed_product.get('original_price') else None
             if product.discount != new_discount:
                 product.discount = new_discount
                 updated = True
@@ -432,38 +421,37 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
         )
         print("✅ Продукт создан")
 
-    # Категория
+    # Добавляем категорию к продукту, если ещё нет
     if not product.category.filter(id=category.id).exists():
         product.category.add(category)
         print(f"📁 Категория добавлена: {category.name}")
 
-    # Главное изображение продукта (берём из первой вариации, если нет)
-    main_img_url = parsed_product.get('variations', [{}])[0].get('main_image')
+    # 4. Обработка главного изображения продукта (берём из первой вариации, если есть)
+    variations = parsed_product.get('variations', [])
+    main_img_url = variations[0].get('main_image') if variations else None
     if main_img_url and (not product.image or not product.image.name):
         save_image_from_url(product, 'image', main_img_url)
 
-    # Собираем все фото вариаций для добавления в дополнительные фото продукта
+    # 5. Обработка всех изображений вариаций для дополнительных фото продукта
     all_variant_images = set()
-    for var in parsed_product.get('variations', []):
+    for var in variations:
         main_img = var.get('main_image')
         if main_img:
             all_variant_images.add(main_img)
 
-    # Добавляем дополнительные фото продукта (включая фото вариаций)
-    all_images = {img for var in parsed_product.get('variations', []) for img in var.get('all_images', [])}
-    all_images.update(all_variant_images)  # объединяем с фото вариаций
+    all_images = {img for var in variations for img in var.get('all_images', [])}
+    all_images.update(all_variant_images)
 
     for img_url in all_images:
         if img_url:
-            # Проверяем, есть ли уже такое изображение у продукта
             exists = ProductImage.objects.filter(product=product, image=img_url).exists()
             if not exists:
                 img_instance = ProductImage(product=product)
                 save_image_from_url(img_instance, 'image', img_url)
                 img_instance.save()
 
-    # Вариации — один объект на цвет с списком размеров
-    for var in parsed_product.get('variations', []):
+    # 6. Обработка вариаций — один объект на цвет с набором размеров
+    for var in variations:
         color = (var.get('color') or '').strip()[:255]
         sizes = var.get('sizes', []) or ['']  # если пусто, создаём вариацию без размера
         main_image_url = var.get('main_image')
@@ -486,9 +474,8 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
         )
         if not created:
             updated = False
-            # Обновляем размеры, если изменились
             if set(variant_obj.size) != set(sizes):
-                variant_obj.sizes = sizes
+                variant_obj.size = sizes
                 updated = True
             if variant_obj.price != price_var:
                 variant_obj.price = price_var
@@ -500,11 +487,9 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
                 variant_obj.save()
                 print(f"🔄 Вариация обновлена: color={color}")
 
-        # Главное фото вариации
         if main_image_url and (not variant_obj.image or not variant_obj.image.name):
             save_image_from_url(variant_obj, 'image', main_image_url)
 
-        # Дополнительные фото вариации
         for img_url in var.get('all_images', []):
             if img_url and not variant_obj.additional_images.filter(image=img_url).exists():
                 img_instance = VariantImage(variant=variant_obj)
@@ -514,7 +499,6 @@ def save_parsed_product_to_db(parsed_product, brand_name='Puma'):
         print(f"{'✅' if created else '🔄'} Вариация: color={color}, sizes={sizes}, sku={sku}")
 
     print(f"\n✅ Продукт сохранён: {product.name}\n")
-
 
 def collect_product_links_with_scroll(category_url, scroll_pause=2, max_scrolls=30):
     """

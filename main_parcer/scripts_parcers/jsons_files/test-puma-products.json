@@ -1,0 +1,54 @@
+[
+    {
+        "random_id": "PRODVAR01",
+        "product_name": "Puma UltraRide Sneakers",
+        "brand": "Puma",
+        "product_url": "https://example.com/puma-ultraride",
+        "main_category": "Shoes",
+        "subcategories": "Sneakers / Men",
+        "sale_price": "4999",
+        "original_price": "5999",
+        "description": "Lightweight running sneakers for men.",
+        "product_type": "variative",
+        "variations": [
+            {
+                "color": "Red",
+                "sizes": [
+                    "41",
+                    "42",
+                    "43"
+                ],
+                "main_image": "https://example.com/img/red-main.jpg",
+                "all_images": [
+                    "https://example.com/img/red-main.jpg",
+                    "https://example.com/img/red-side.jpg"
+                ]
+            },
+            {
+                "color": "Blue",
+                "sizes": [
+                    "40",
+                    "41"
+                ],
+                "main_image": "https://example.com/img/blue-main.jpg",
+                "all_images": [
+                    "https://example.com/img/blue-main.jpg",
+                    "https://example.com/img/blue-side.jpg"
+                ]
+            }
+        ]
+    },
+    {
+        "random_id": "PRODSIMPLE01",
+        "product_name": "Puma Classic Cap",
+        "brand": "Puma",
+        "product_url": "https://example.com/puma-cap",
+        "main_category": "Accessories",
+        "subcategories": "Caps / Unisex",
+        "sale_price": "999",
+        "original_price": "",
+        "description": "Classic unisex cap for everyday use.",
+        "product_type": "simple",
+        "variations": []
+    }
+]
