@@ -1,4 +1,4 @@
-import csv
+import csv_files
 import json
 # -------------------
 # from selenium import webdriver
@@ -48,7 +48,7 @@ import json
 # else:
 #     print("⛔ Не удалось извлечь размеры.")
 
-import csv
+import csv_files
 import json
 import os
 import random
@@ -287,9 +287,9 @@ def variations_to_str(variations):
 #     return ' | '.join(parts)
 
 
-def save_to_csv(products, filename='puma-products.csv'):
+def save_to_csv(products, filename='csv_files/puma-products.csv_files'):
     """
-        Сохраняет список товаров и их вариаций в csv-формате, совместимом с WooCommerce.
+        Сохраняет список товаров и их вариаций в csv_files-формате, совместимом с WooCommerce.
     """
     # Собираем все возможные размеры и цвета для создания колонок
     all_colors = set()
@@ -307,7 +307,7 @@ def save_to_csv(products, filename='puma-products.csv'):
     ]
 
     with open(filename, mode='w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv_files.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for product in products:
@@ -357,10 +357,16 @@ def save_to_csv(products, filename='puma-products.csv'):
     print(f"CSV для WooCommerce успешно сохранён: {filename}")
 
 
-def save_to_json(data, filename='products.json'):
+def save_to_json(data, filename='json/products.json'):
     if not data:
         print("Нет данных для сохранения.")
         return
+
+    # Получаем путь к директории из filename
+    dir_name = os.path.dirname(filename)
+    if dir_name and not os.path.exists(dir_name):
+        os.makedirs(dir_name)  # создаём директорию, если её нет
+
     with open(filename, 'w', encoding='utf-8') as jsonfile:
         json.dump(data, jsonfile, indent=4, ensure_ascii=False)
     print(f"Данные успешно сохранены в файл {filename}")

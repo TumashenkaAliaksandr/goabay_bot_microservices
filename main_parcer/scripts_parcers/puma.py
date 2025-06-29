@@ -1,4 +1,4 @@
-import csv
+import csv_files
 import json
 import os
 import random
@@ -213,9 +213,9 @@ def variations_to_str(variations):
     return " | ".join(result)
 
 
-def save_to_csv(products, filename='puma-products.csv'):
+def save_to_csv(products, filename='puma-products.csv_files'):
     """
-        Сохраняет список товаров и их вариаций в csv-формате, совместимом с WooCommerce.
+        Сохраняет список товаров и их вариаций в csv_files-формате, совместимом с WooCommerce.
     """
     # Собираем все возможные размеры и цвета для создания колонок
     all_colors = set()
@@ -233,7 +233,7 @@ def save_to_csv(products, filename='puma-products.csv'):
     ]
 
     with open(filename, mode='w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv_files.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for product in products:

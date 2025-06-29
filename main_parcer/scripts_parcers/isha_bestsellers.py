@@ -172,7 +172,7 @@ if __name__ == '__main__':
             print("-" * 30)
 
         # Сохраняем данные в JSON-файл
-        with open('jsons/isha_bestsellers_products.json', 'w', encoding='utf-8') as f:
+        with open('jsons_files/isha_bestsellers_products.json', 'w', encoding='utf-8') as f:
             json.dump(bestsellers, f, ensure_ascii=False, indent=4)
     else:
         print("Не удалось получить бестселлеры.")

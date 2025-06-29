@@ -1,6 +1,5 @@
 import ast
 
-import telebot
 from celery import shared_task
 from django.core.cache import cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -17,8 +16,6 @@ from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.templatetags.utils import get_rating_breakdown
 
-
-# bot = telebot.TeleBot(settings.BOT_TOKEN)
 
 
 
@@ -384,7 +381,7 @@ def handmade(request):
 
 # def serve_json(request):
 #     try:
-#         with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons\\isha_bestsellers_products.json', 'r') as f: # надо будет на забыть поменять путь
+#         with open('D:\\my_projects\\goabay_bot\\main_parcer\\scripts_parcers\\jsons_files\\isha_bestsellers_products.json', 'r') as f: # надо будет на забыть поменять путь
 #             data = json.load(f)
 #         return JsonResponse(data, safe=False)
 #     except FileNotFoundError:

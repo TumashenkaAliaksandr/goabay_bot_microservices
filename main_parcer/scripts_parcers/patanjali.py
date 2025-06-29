@@ -73,7 +73,7 @@ product_data = parse_product(product_url)
 
 if product_data:
     # Записываем в JSON файл
-    with open('jsons/patanjali_products.json', 'w', encoding='utf-8') as f:
+    with open('jsons_files/patanjali_products.json', 'w', encoding='utf-8') as f:
         json.dump(product_data, f, indent=4, ensure_ascii=False)
     print("Данные успешно записаны в product.json")
 else:

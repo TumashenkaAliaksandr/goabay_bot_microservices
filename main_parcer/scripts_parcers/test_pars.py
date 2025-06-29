@@ -614,7 +614,7 @@ if __name__ == '__main__':
         else:
             print(f"Не удалось получить информацию о продукте с {product_url}")
 
-    with open('jsons/product_ishalife_test.json', 'w', encoding='utf-8') as f:
+    with open('jsons_files/product_ishalife_test.json', 'w', encoding='utf-8') as f:
         json.dump(all_products_data, f, indent=4, ensure_ascii=False)  # Сохраняем данные в JSON файл
 
     print("Данные о продуктах сохранены в product_ishalife.json")

@@ -1,4 +1,4 @@
-import csv
+import csv_files
 import os
 import django
 import unidecode
@@ -615,12 +615,12 @@ if __name__ == '__main__':
         else:
             print(f"Не удалось получить информацию о продукте с {product_url}")
 
-    with open('jsons/product_ishalife.json', 'w', encoding='utf-8') as f:
+    with open('jsons_files/product_ishalife.json', 'w', encoding='utf-8') as f:
         json.dump(all_products_data, f, indent=4, ensure_ascii=False)  # Сохраняем данные в JSON файл
 
     print("Данные о продуктах сохранены в product_ishalife.json")
 
-    csv_file = 'jsons/product_ishalife.csv'
+    csv_file = 'jsons_files/product_ishalife.csv'
 
     if all_products_data:
         # Преобразуем поля с списками в строки без скобок
@@ -639,7 +639,7 @@ if __name__ == '__main__':
         fieldnames = all_products_data[0].keys()
 
         with open(csv_file, 'w', newline='', encoding='utf-8') as f_csv:
-            writer = csv.DictWriter(f_csv, fieldnames=fieldnames)
+            writer = csv_files.DictWriter(f_csv, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(all_products_data)
     else:
