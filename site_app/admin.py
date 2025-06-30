@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from bot_app.models import ProductImage, Review
-from site_app.models import Category, Brand
+from site_app.models import Category, Brand, SocialNetwork
 
 
 # Register your models here.
@@ -36,3 +36,7 @@ class ReviewAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+    list_display = ('name', 'url')
+    search_fields = ('name',)

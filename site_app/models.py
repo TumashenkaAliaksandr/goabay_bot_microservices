@@ -90,3 +90,16 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+
+
+class SocialNetwork(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Название соцсети")
+    icon = models.ImageField(upload_to='social_icons/', verbose_name="Иконка")
+    url = models.URLField(verbose_name="Ссылка")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Социальная сеть"
+        verbose_name_plural = "Социальные сети"

@@ -34,8 +34,9 @@
 
                 <!-- социконки -->
                 <div class="social-links d-flex gap-2">
-                  <a href="https://www.facebook.com/groups/goabay/" target="_blank" class="fs-5 social-icon" aria-label="Facebook">
-                    <i class="fab fa-facebook-f"></i>
+                    {% for social in social_networks %}
+                  <a href="{{ social.url }}" target="_blank" rel="noopener" class="fs-5 social-icon" aria-label="Facebook">
+                    <i><img src="{{ social.icon.url }}" alt="{{ social.name }}" width="24" height="24"></i>
                   </a>
                   <a href="https://x.com/goabayofficial" target="_blank" class="fs-5 social-icon" aria-label="Twitter">
                     <i class="fab fa-twitter"></i>
@@ -55,8 +56,8 @@
                   <a href="https://t.me/goodsfromgoa" target="_blank" class="fs-5 social-icon" aria-label="Telegram">
                     <i class="fab fa-telegram-plane"></i>
                   </a>
+                    {% endfor %}
                 </div>
-              
           </div>
 
         </div>
