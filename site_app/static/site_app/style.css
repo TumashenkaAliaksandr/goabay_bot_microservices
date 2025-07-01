@@ -1126,24 +1126,24 @@ background: #000;
 }
 
 /* СОЦИКОНКИ */
-  .social-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease, color 0.3s ease;
-    font-size: 1.5rem; /* Размер иконок */
-    color: #fff; /* Белый цвет для иконок */
-    width: 40px;
-    height: 40px;
-    border-radius: 8px; 
-    text-decoration: none; 
-  }
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: white;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  text-decoration: none;
+}
 
-  /* Плавное увеличение и смена цвета при наведении */
-  .social-links a:hover {
-    transform: scale(1.1); /* Увеличение иконки при наведении */
-    color: #fff; /* Белый цвет при наведении */
-  }
+.social-links a:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
 
   .social-links i {
     transition: color 0.3s ease;
@@ -1152,17 +1152,17 @@ background: #000;
   /* Стиль для иконок */
   .social-icon {
     padding: 10px; /* Отступы вокруг иконок */
-    background-color: #6c757d; /* Основной цвет фона (серый) */
+    /*background-color: #6c757d; !* Основной цвет фона (серый) *!*/
   }
 
   /* Индивидуальные цвета для каждой соцсети */
-  .social-icon:nth-child(1) { background-color: #3b5998; } /* Facebook */
-  .social-icon:nth-child(2) { background-color: #1da1f2; } /* Twitter */
-  .social-icon:nth-child(3) { background-color: #ff0000; } /* YouTube */
-  .social-icon:nth-child(4) { background-color: #4c75a3; } /* VK */
-  .social-icon:nth-child(5) { background-color: #e4405f; } /* Instagram */
-  .social-icon:nth-child(6) { background-color: #f2a900; } /* Odnoklassniki */
-  .social-icon:nth-child(7) { background-color: #0088cc; } /* Telegram */
+  /*.social-icon:nth-child(1) { background-color: #3b5998; } !* Facebook *!*/
+  /*.social-icon:nth-child(2) { background-color: #1da1f2; } !* Twitter *!*/
+  /*.social-icon:nth-child(3) { background-color: #ff0000; } !* YouTube *!*/
+  /*.social-icon:nth-child(4) { background-color: #4c75a3; } !* VK *!*/
+  /*.social-icon:nth-child(5) { background-color: #e4405f; } !* Instagram *!*/
+  /*.social-icon:nth-child(6) { background-color: #f2a900; } !* Odnoklassniki *!*/
+  /*.social-icon:nth-child(7) { background-color: #0088cc; } !* Telegram *!*/
 
     .footer .social-links {
         justify-content: end;
