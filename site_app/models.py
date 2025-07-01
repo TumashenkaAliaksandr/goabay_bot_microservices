@@ -103,3 +103,34 @@ class SocialNetwork(models.Model):
     class Meta:
         verbose_name = "Социальная сеть"
         verbose_name_plural = "Социальные сети"
+
+
+
+class FooterNavItem(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название пункта меню")
+    url = models.CharField(max_length=255, verbose_name="URL или имя маршрута")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок сортировки")
+
+    class Meta:
+        verbose_name = "Пункт навигации футера"
+        verbose_name_plural = "Пункты навигации футера"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class InfoFooter(models.Model):
+    logo = models.ImageField(upload_to='footer_logo/', verbose_name="Логотип", blank=True, null=True)
+    svg_icon = models.FileField(upload_to='social_icons/svg/', verbose_name="SVG иконка", blank=True, null=True)
+    copyright = models.CharField(max_length=255, verbose_name="Копирайт")
+    nav_items = models.ManyToManyField(FooterNavItem, verbose_name="Пункты навигации", blank=True)
+    phone = models.CharField(max_length=35, verbose_name="Телефон")
+    email = models.EmailField(verbose_name="Почта")
+
+    class Meta:
+        verbose_name = "Инфофутер"
+        verbose_name_plural = "Инфофутеры"
+
+    def __str__(self):
+        return "Инфофутер сайта"
+

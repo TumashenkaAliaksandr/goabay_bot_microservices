@@ -3,50 +3,38 @@
 
 <!-- FOOTER -->
 <footer class="footer py-4">
-
     <div class="container-fluid">
         <div class="row">
-          
-          <div class="col-12 col-lg-4 d-flex flex-column align-items-center align-items-lg-start">
-                <img src="{% static 'site_app/img/logo/logo.svg' %}" alt="Goabay Logo" height="40">
-                <span>2025 &copy; Goabay Trading Pvt Ltd</span>
-          </div>
+            <div class="col-12 col-lg-4 d-flex flex-column align-items-center align-items-lg-start">
+                {% if info_footer.svg_icon %}
+                    <img src="{{ info_footer.svg_icon.url }}" alt="Logo SVG" height="40">
+                {% elif info_footer.logo %}
+                    <img src="{{ info_footer.logo.url }}" alt="Logo" height="40">
+                {% else %}
+                    <img src="{% static 'site_app/img/icon/logo.svg' %}" alt="Default Logo" height="40">
+                {% endif %}
+                <span>{{ info_footer.copyright }}</span>
+            </div>
 
-          <div class="col-12 col-lg-4">
-
+            <div class="col-12 col-lg-4">
                 <nav class="footer-nav d-flex flex-wrap justify-content-center gap-3 small">
-                  <a href="{% url 'account' %}" class="text-decoration-none">👤 My account</a>
-                  <a href="shop.html" class="text-decoration-none">📂 Products</a>
-                  <a href="info.html" class="text-decoration-none">📑 Info</a>
-                  <a href="blog.html" class="text-decoration-none">📰 Blog</a>
-                  <a href="partner.html" class="text-decoration-none">💼 Partners</a>
-                  <a href="{% url 'contacts' %}" class="text-decoration-none">📪 Contact us</a>
+                    {% for item in info_footer.nav_items.all %}
+                        <a href="{{ item.url }}" class="text-decoration-none">{{ item.title }}</a>
+                    {% endfor %}
                 </nav>
 
                 <ul class="list-unstyled d-flex flex-wrap justify-content-center fw-bold gap-3 small mt-3">
-                    <li><a href="tel:+917057752559">☎️ +91 705 775-25-59</a></li>
-                    <li><a href="mailto:info@goabay.com">✉️ info@goabay.com</a></li>
+                    <li><a href="tel:{{ info_footer.phone }}">☎️ {{ info_footer.phone }}</a></li>
+                    <li><a href="mailto:{{ info_footer.email }}">✉️ {{ info_footer.email }}</a></li>
                 </ul>
-              
-          </div>
+            </div>
 
-          <div class="col-12 col-lg-4">
-
-                <!-- социконки -->
-                <div class="social-links d-flex gap-2">
-                    {% for social in social_networks %}
-                  <a href="{{ social.url }}" target="_blank" rel="noopener" class="fs-5 social-icon">
-                    <img src="{{ social.icon.url }}" alt="{{ social.name }}" width="35" height="35">
-                  </a>
-{#                  <a href="https://t.me/goodsfromgoa" target="_blank" class="fs-5 social-icon" aria-label="Telegram">#}
-{#                    <i class="fab fa-telegram-plane"></i>#}
-{#                  </a>#}
-                    {% endfor %}
-                </div>
-          </div>
-
+            <div class="col-12 col-lg-4">
+                <!-- Социальные иконки здесь -->
+            </div>
         </div>
     </div>
 </footer>
+
 
 <button id="backToTop" class="btn btn-light position-fixed bottom-0 end-0 m-3 d-none" style="z-index: 1500;">👆🏾</button>

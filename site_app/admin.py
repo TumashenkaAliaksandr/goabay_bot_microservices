@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from bot_app.models import ProductImage, Review
-from site_app.models import Category, Brand, SocialNetwork
+from site_app.models import Category, Brand, SocialNetwork, InfoFooter, FooterNavItem
 
 
 # Register your models here.
@@ -40,3 +40,26 @@ class ReviewAdmin(admin.ModelAdmin):
 class SocialNetworkAdmin(admin.ModelAdmin):
     list_display = ('name', 'url')
     search_fields = ('name',)
+
+
+@admin.register(FooterNavItem)
+class FooterNavItemAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url', 'order')
+    list_editable = ('order',)
+    ordering = ('order',)
+    search_fields = ('title', 'url')
+
+class FooterNavItemInline(admin.TabularInline):
+    model = InfoFooter.nav_items.through
+    extra = 1
+
+@admin.register(InfoFooter)
+class InfoFooterAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'phone', 'email')
+    inlines = [FooterNavItemInline]
+    exclude = ('nav_items',)  # Чтобы избежать дублирования ManyToMany в форме
+    fieldsets = (
+        (None, {
+            'fields': ('logo', 'svg_icon', 'copyright', 'phone', 'email')
+        }),
+    )
