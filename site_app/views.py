@@ -8,12 +8,14 @@ from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
+from rest_framework import generics
 
 from bot_app.models import Review, ProductVariant
 from goabay_bot import settings
 from site_app.forms import ReviewForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
+from site_app.serializers import ProductSerializer
 from site_app.templatetags.utils import get_rating_breakdown
 
 
@@ -466,3 +468,15 @@ def remove_from_cart(request, product_id):
 
 def contacts (request):
     return render(request, 'main/nick/contacts.html')
+
+
+# APIview for flitter flow - mobile app
+
+class ProductListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'  # Чтобы искать по слагу, если нужно
