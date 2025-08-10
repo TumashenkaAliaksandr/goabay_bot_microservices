@@ -105,30 +105,48 @@
                 </button>
 
                 <!-- Login -->
-                <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">
-                    <span class="icon">🔑</span>
-                    <span class="btn-title">Login</span>
-                </a>
+{#                <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">#}
+{#                    <span class="icon">🔑</span>#}
+{#                    <span class="btn-title">Login</span>#}
+{#                </a>#}
+                <!-- Если пользователь не залогинен -->
+                {% if not user.is_authenticated %}
+                    <!-- Кнопка с иконкой ключа и выпадающим меню -->
+                    <div class="dropdown">
+                        <button class="btn btn-transparent d-flex align-items-center border-0 p-0" type="button"
+                                id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                aria-label="Login menu">
+                            <span class="icon-reg">🔐</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">🔒 Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'registrations' %}">🔐 Register</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <!-- Если пользователь залогинен -->
+                    <div class="dropdown">
+                        <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
+                            <span class="icon">🔑</span> <!-- Можно заменить на аватар или иконку профиля -->
+                            <span class="btn-title">{{ user.username }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="{% url 'account' %}">🪪 My Account</a></li>
+                            <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>
+                            <li><a class="dropdown-item" href="{% url 'wallet' %}">💰 Wallet</a></li>
+                            <li><a class="dropdown-item" href="{% url 'coupons' %}">🎫 Coupons & Discounts</a></li>
+                            <li><a class="dropdown-item" href="{% url 'notifications' %}">🔔 Notifications</a></li>
+                            <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
+                            <li><a class="dropdown-item" href="{% url 'address' %}">📍 My Address</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders' %}">🧾 Orders</a></li>
+                            <li><a class="dropdown-item" href="{% url 'track_order' %}">🎈 Track my Order</a></li>
+                            <li><a class="dropdown-item" href="{% url 'settings' %}">⚙️ Settings</a></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">⬅️ Logout</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
 
-                <!-- Account -->
-                <div class="dropdown">
-                    <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="user-avatar">
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <li><a class="dropdown-item" href="{% url 'account' %}">🪪 My Account</a></li>
-                        <li><a class="dropdown-item" href="wishlist.html">💖 Wishlist</a></li>
-                        <li><a class="dropdown-item" href="wallet.html">💰 Wallet</a></li>
-                        <li><a class="dropdown-item" href="coupons.html">🎫 Coupons & Discounts</a></li>
-                        <li><a class="dropdown-item" href="messages.html">🔔 Notifications</a></li>
-                        <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
-                        <li><a class="dropdown-item" href="adress.html">📍 My Adress</a></li>
-                        <li><a class="dropdown-item" href="orders.html">🧾 Orders</a></li>
-                        <li><a class="dropdown-item" href="track.html">🎈 Track my Order</a></li>
-                        <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
-                        <li><a class="dropdown-item text-danger" href="#">⬅️ Logout</a></li>
-                    </ul>
-                </div>
 
             </div>
         </div>

@@ -168,6 +168,29 @@ html {
     align-items: center;
 }
 
+
+.icon-reg {
+    display: inline-block;
+    padding: 4px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom left, #a6d785, green, #a6d785);
+    background-size: 200% 200%; /* Делает фон больше, чтобы анимация была заметна */
+    animation: gradientShift 5s ease infinite; /* Название анимации, время, плавность и бесконечность */
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
 /*Кнопка зактыть*/
 .btn-close {
     background: none;
@@ -1209,8 +1232,8 @@ background: #000;
     }
 
     .footer-nav a {
-        font-size: 1rem; 
-        padding: 10px; 
+        font-size: 1rem;
+        padding: 10px;
     }
 
     .footer .social-links {
