@@ -3,7 +3,9 @@
 
 {% block content %}
     <div class="my-account white-bg pb-60">
-        <div class="container">
+      <div style="height: 120px;"></div>
+        <div class="container-account">
+            <!-- Верхняя информационная панель (по вашему коду) -->
             <div class="account-dashboard">
                 <div class="dashboard-upper-info">
                     <div class="row no-gutters align-items-center">
@@ -34,367 +36,104 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-2">
-                        <!-- Nav tabs -->
-                        <ul class="nav flex-column dashboard-list" role="tablist">
-                            <li><a class="active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
-                            <li><a data-toggle="tab" href="#orders">Orders</a></li>
-                            <li><a data-toggle="tab" href="#downloads">Downloads</a></li>
-                            <li><a data-toggle="tab" href="#address">Addresses</a></li>
-                            <li><a data-toggle="tab" href="#account-details">Account details</a></li>
-                            <li><a href="{% url 'logout' %}">Logout</a></li>
-                        </ul>
-                    </div>
+                <div class="row g-4">
+                    <!-- Сайдбар слева -->
+                    <div class="col-lg-3 col-md-12 sidebar-column">
+                        <h5 class="sidebar-title text-uppercase mb-4 fw-bold">My Account</h5>
+                        <nav class="nav flex-column sidebar-menu">
+                            <a class="nav-link" href="{% url 'wishlist' %}"><i class="fa fa-heart me-2"></i>
+                                Wishlist</a>
+                            <a class="nav-link" href="{% url 'checkout' %}"><i class="fa fa-credit-card me-2"></i>
+                                Checkout</a>
+                            <a class="nav-link" href="{% url 'cart' %}"><i class="fa fa-shopping-cart me-2"></i>
+                                Cart</a>
+                            <a class="nav-link text-danger" href="{% url 'logout' %}"><i
+                                    class="fa fa-sign-out-alt me-2"></i> Logout</a>
+                        </nav>
 
-                    <div class="col-lg-10">
-                        <div class="tab-content dashboard-content mt-all-40">
-
-                            <div id="dashboard" class="tab-pane active">
-                                <h3>Dashboard</h3>
-                                <p>From your account dashboard. you can easily check & view your <a href="#">recent
-                                    orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a
-                                        href="#">edit your password and account details.</a></p>
+                        <!-- Виджет с погодой -->
+                        <div id="goa-widget" class="box goa-widget mt-4 p-3 rounded shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                                <h5 class="city-name mb-0">Now in Goa, India</h5>
+                                <label class="switch">
+                                    <input type="checkbox" class="theme-toggle">
+                                    <span class="slider round"></span>
+                                </label>
                             </div>
-
-                            <div id="orders" class="tab-pane fade">
-                                <h3>Orders</h3>
-                                <!-- Здесь вы можете добавить логику для вывода заказов -->
+                            <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                                <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                                <span id="day-icon" class="fs-4">🌞</span>
                             </div>
-
-                            <div id="downloads" class="tab-pane fade">
-                                <h3>Downloads</h3>
-                                <!-- Логика загрузок -->
+                            <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                                <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                                <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
                             </div>
-
-                            <div id="address" class="tab-pane fade">
-                                <p>The following addresses will be used on the checkout page by default.</p>
-                                <h4 class="billing-address">Billing address</h4>
-                                <a class="view" href="#">edit</a>
-                                <!-- Здесь данные адреса -->
+                            <div class="d-flex align-items-center gap-3 pt-2">
+                                <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                                <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                                     style="max-width:40px; height:auto;">
+                                <div id="weather-desc" class="fw-light">--</div>
                             </div>
-
-                            <div id="account-details" class="tab-pane fade show active">
-                                <h3>Account details</h3>
-
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                                    {% endfor %}
-                                {% endif %}
-
-                                <!-- Обязательно enctype для загрузки аватара -->
-                                <form method="post" action="" enctype="multipart/form-data">
-                                    {% csrf_token %}
-
-                                    <!-- Social Title -->
-                                    <div class="form-group row align-items-center">
-                                        <label class="col-lg-3 col-md-4 col-form-label">Social title</label>
-                                        <div class="col-lg-6 col-md-8">
-                                        <span class="custom-radio">
-                                            <input type="radio" name="social_title" value="Mr"
-                                                    {% if registration_form.cleaned_data.social_title|stringformat:"s" == "Mr" %}
-                                                   checked
-                                                    {% elif registration_form.initial.social_title|stringformat:"s" == "Mr" %}
-                                                   checked
-                                                    {% endif %}>
-                                            Mr.
-                                        </span>
-                                            <span class="custom-radio">
-                                            <input type="radio" name="social_title" value="Mrs"
-                                                    {% if registration_form.cleaned_data.social_title|stringformat:"s" == "Mrs" %}
-                                                   checked
-                                                    {% elif registration_form.initial.social_title|stringformat:"s" == "Mrs" %}
-                                                   checked
-                                                    {% endif %}>
-                                            Mrs.
-                                        </span>
-                                        </div>
-                                    </div>
-
-                                    <!-- User form fields -->
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.first_name.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">First Name</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.first_name }}
-                                            {% if user_form.first_name.errors %}
-                                                <div class="text-danger">{{ user_form.first_name.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.last_name.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Last Name</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.last_name }}
-                                            {% if user_form.last_name.errors %}
-                                                <div class="text-danger">{{ user_form.last_name.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.email.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Email address</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.email }}
-                                            {% if user_form.email.errors %}
-                                                <div class="text-danger">{{ user_form.email.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <!-- Password fields -->
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.password_current.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Current password</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.password_current }}
-                                            {% if user_form.password_current.errors %}
-                                                <div class="text-danger">{{ user_form.password_current.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.password_new.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">New password</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.password_new }}
-                                            {% if user_form.password_new.errors %}
-                                                <div class="text-danger">{{ user_form.password_new.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ user_form.password_confirm.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Confirm password</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ user_form.password_confirm }}
-                                            {% if user_form.password_confirm.errors %}
-                                                <div class="text-danger">{{ user_form.password_confirm.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <!-- Registration form fields -->
-                                    <div class="form-group row">
-                                        <label for="{{ registration_form.name.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Name (Registration)</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ registration_form.name }}
-                                            {% if registration_form.name.errors %}
-                                                <div class="text-danger">{{ registration_form.name.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ registration_form.phone.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Phone (Registration)</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ registration_form.phone }}
-                                            {% if registration_form.phone.errors %}
-                                                <div class="text-danger">{{ registration_form.phone.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ registration_form.step.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Registration Step</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ registration_form.step }}
-                                            {% if registration_form.step.errors %}
-                                                <div class="text-danger">{{ registration_form.step.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-check row mt-3">
-                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
-                                            <input type="checkbox" class="form-check-input" id="id_is_registered"
-                                                   name="{{ registration_form.is_registered.html_name }}"
-                                                   {% if registration_form.is_registered.value %}checked{% endif %}>
-                                            <label for="id_is_registered" class="form-check-label">Is Registered</label>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <!-- Profile form fields -->
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.avatar.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Avatar</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {% if profile_form.instance.avatar %}
-                                                <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar"
-                                                     style="width:80px; height:80px; object-fit:cover; border-radius:50%;">
-                                            {% endif %}
-                                            {{ profile_form.avatar }}
-                                            {% if profile_form.avatar.errors %}
-                                                <div class="text-danger">{{ profile_form.avatar.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.bio.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Bio</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.bio }}
-                                            {% if profile_form.bio.errors %}
-                                                <div class="text-danger">{{ profile_form.bio.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.birthday.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Birthday</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.birthday }}
-                                            {% if profile_form.birthday.errors %}
-                                                <div class="text-danger">{{ profile_form.birthday.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.website.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Website</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.website }}
-                                            {% if profile_form.website.errors %}
-                                                <div class="text-danger">{{ profile_form.website.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.phone.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Phone (Profile)</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.phone }}
-                                            {% if profile_form.phone.errors %}
-                                                <div class="text-danger">{{ profile_form.phone.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.location.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Location</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.location }}
-                                            {% if profile_form.location.errors %}
-                                                <div class="text-danger">{{ profile_form.location.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-check row mt-3">
-                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
-                                            <input type="checkbox" class="form-check-input" id="id_receive_offers"
-                                                   name="{{ profile_form.receive_offers.html_name }}"
-                                                   {% if profile_form.receive_offers.value %}checked{% endif %}>
-                                            <label for="id_receive_offers" class="form-check-label">Receive offers from
-                                                our partners</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-check row mt-3">
-                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
-                                            <input type="checkbox" class="form-check-input" id="id_subscribe_newsletter"
-                                                   name="{{ profile_form.subscribe_newsletter.html_name }}"
-                                                   {% if profile_form.subscribe_newsletter.value %}checked{% endif %}>
-                                            <label for="id_subscribe_newsletter" class="form-check-label">Sign up for
-                                                our newsletter</label>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <!-- Social media links -->
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.social_facebook.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Facebook</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.social_facebook }}
-                                            {% if profile_form.social_facebook.errors %}
-                                                <div class="text-danger">{{ profile_form.social_facebook.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.social_twitter.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Twitter</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.social_twitter }}
-                                            {% if profile_form.social_twitter.errors %}
-                                                <div class="text-danger">{{ profile_form.social_twitter.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="{{ profile_form.social_instagram.id_for_label }}"
-                                               class="col-lg-3 col-md-4 col-form-label">Instagram</label>
-                                        <div class="col-lg-6 col-md-8">
-                                            {{ profile_form.social_instagram }}
-                                            {% if profile_form.social_instagram.errors %}
-                                                <div class="text-danger">{{ profile_form.social_instagram.errors }}</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="register-box mt-4 text-right">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-
-                                </form>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Brand Logo Start -->
-        <div class="brand-area pb-60">
-            <div class="container">
-                <!-- Brand Banner Start -->
-                <div class="brand-banner owl-carousel">
-                    <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}"
-                                         alt="brand-image"></a>
+                    <!-- Центральная колонка: данные пользователя и кнопки -->
+                    <div class="col-lg-6 col-md-12 main-column">
+                        <h3 class="mb-4">Account Information</h3>
+
+                        <table class="table table-striped user-info-table shadow-sm rounded">
+                            <tbody>
+                            <tr>
+                                <td><i class="fa fa-user me-2 text-primary"></i> First Name</td>
+                                <td>{{ user_form.first_name.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-user me-2 text-primary"></i> Last Name</td>
+                                <td>{{ user_form.last_name.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-envelope me-2 text-primary"></i> Email</td>
+                                <td>{{ user_form.email.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-phone me-2 text-primary"></i> Phone (Profile)</td>
+                                <td>{{ profile_form.phone.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-globe me-2 text-primary"></i> Website</td>
+                                <td>{{ profile_form.website.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-birthday-cake me-2 text-primary"></i> Birthday</td>
+                                <td>{{ profile_form.birthday.value }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-map-marker-alt me-2 text-primary"></i> Location</td>
+                                <td>{{ profile_form.location.value }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4 d-flex gap-3">
+                            <a href="{% url 'account_edit' %}" class="btn btn-outline-primary flex-grow-1"><i
+                                    class="fa fa-edit me-2"></i> Изменить профиль</a>
+                            <a href="{% url 'account' %}" class="btn btn-primary flex-grow-1"><i
+                                    class="fa fa-cogs me-2"></i> Настройки</a>
+                        </div>
                     </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
+
+                    <!-- Справа корзина и кнопки -->
+                    <div class="col-lg-3 col-md-12 cart-column d-flex flex-column align-items-center justify-content-start">
+                        <h5 class="mb-3 fw-bold text-center"><i class="fa fa-shopping-cart me-2"></i> Shopping Cart</h5>
+                        <div class="cart-quantity badge bg-primary fs-5 px-3 py-2 mb-4 rounded-pill">{{ cart_items|length }}</div>
+
+                        <a href="{% url 'cart' %}" class="btn btn-outline-secondary w-100 mb-3"><i
+                                class="fa fa-shopping-cart me-2"></i> Go to Cart</a>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary w-100"><i
+                                class="fa fa-credit-card me-2"></i> Checkout</a>
                     </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
-                    <!-- Дополнительные бренды можно удалить или оставить -->
-                </div>
-                <!-- Brand Banner End -->
-            </div>
-        </div>
-        <!-- Brand Logo End -->
-    </div>
+                </div><!-- end row -->
+            </div><!-- end account-dashboard -->
+        </div><!-- end container -->
+    </div><!-- end my-account -->
 {% endblock %}

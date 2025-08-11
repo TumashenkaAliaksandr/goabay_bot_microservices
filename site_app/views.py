@@ -598,3 +598,59 @@ def account(request):
         'profile_form': profile_form,
     }
     return render(request, 'webapp/account/account.html', context)
+
+
+@login_required
+def account_edit(request):
+    user = request.user
+
+    # Получаем или создаём связанные объекты UserRegistration и UserProfile
+    registration, _ = UserRegistration.objects.get_or_create(
+        user_id=user.id, defaults={'name': user.get_full_name() or user.username, 'email': user.email}
+    )
+    profile, _ = UserProfile.objects.get_or_create(registration=registration)
+
+    if request.method == 'POST':
+        user_form = AccountDetailsForm(request.POST, instance=user)
+        registration_form = RegistrationForm(request.POST, instance=registration)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and registration_form.is_valid() and profile_form.is_valid():
+            # Обработка смены пароля
+            pw_current = user_form.cleaned_data.get('password_current')
+            pw_new = user_form.cleaned_data.get('password_new')
+
+            if pw_new:
+                if not user.check_password(pw_current):
+                    user_form.add_error('password_current', 'Current password is incorrect.')
+                else:
+                    user.set_password(pw_new)
+                    user.save()
+                    update_session_auth_hash(request, user)
+            else:
+                user_form.save()
+
+            registration_obj = registration_form.save(commit=False)
+            social_title = request.POST.get('social_title')
+            if social_title:
+                registration_obj.social_title = social_title  # Добавьте поле social_title в модель, если его нет
+            registration_obj.save()
+
+            profile_form.save()
+
+            messages.success(request, 'Your account has been updated successfully.')
+            return redirect('account_edit')  # или на другую страницу по желанию
+        else:
+            messages.error(request, 'Please fix the errors below.')
+    else:
+        user_form = AccountDetailsForm(instance=user)
+        registration_form = RegistrationForm(instance=registration)
+        profile_form = UserProfileForm(instance=profile)
+
+    context = {
+        'user_form': user_form,
+        'registration_form': registration_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'webapp/account/account_edit.html', context)
+

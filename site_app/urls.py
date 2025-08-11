@@ -9,6 +9,7 @@ urlpatterns = [
 
     # Аккаунт и аутентификация
     path('account/', views.account, name='account'),
+    path('account/edit/', views.account_edit, name='account_edit'),
     path('wishlist/', views.wishlist, name='wishlist'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart, name='cart'),
