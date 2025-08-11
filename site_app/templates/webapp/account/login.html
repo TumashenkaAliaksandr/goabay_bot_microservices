@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'main/nick/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -31,28 +31,51 @@
                         </div>
                     </div>
                     <!-- New Customer End -->
-                    <!-- Returning Customer Start -->
-                    <div class="col-sm-6">
-                        <div class="well">
-                            <div class="return-customer">
-                                <h3 class="mb-10">RETURNING CUSTOMER</h3>
-                                <p class="mb-10"><strong>I am a returning customer</strong></p>
-                                <form action="#">
-                                    <div class="form-group">
-                                        <label class="control-label">Enter your email address here...</label>
-                                        <input type="text" name="email" placeholder="Enter your email address here..." id="input-email" class="form-control">
+
+                        <div class="container mt-5">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags %}alert-
+                                        {{ message.tags }}{% else %}alert-info{% endif %}">
+                                        {{ message }}
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Password</label>
-                                        <input type="text" name="pass" placeholder="Password" id="input-password" class="form-control">
+                                {% endfor %}
+                            {% endif %}
+
+                            <div class="row">
+                                <!-- Returning Customer Start -->
+                                <div class="col-sm-6 offset-sm-3">
+                                    <div class="well p-4 border rounded shadow-sm">
+                                        <div class="return-customer">
+                                            <h3 class="mb-4">RETURNING CUSTOMER</h3>
+                                            <p class="mb-3"><strong>I am a returning customer</strong></p>
+                                            <form method="post" action="">
+                                                {% csrf_token %}
+                                                <div class="form-group mb-3">
+                                                    <label class="control-label" for="input-email">Enter your email
+                                                        address here...</label>
+                                                    <input type="email" name="email" id="input-email"
+                                                           placeholder="Enter your email address here..."
+                                                           class="form-control" required autofocus>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="control-label" for="input-password">Password</label>
+                                                    <input type="password" name="pass" id="input-password"
+                                                           placeholder="Password" class="form-control" required>
+                                                </div>
+                                                <p class="lost-password mb-3">
+                                                    <a href="{% url 'forgot-password' %}">Forgot password?</a>
+                                                </p>
+                                                <input type="submit" value="Login"
+                                                       class="btn btn-primary return-customer-btn w-100">
+                                            </form>
+                                        </div>
                                     </div>
-                                    <p class="lost-password"><a href="{% url 'forgot-password' %}">Forgot password?</a></p>
-                                    <input type="submit" value="Login" class="return-customer-btn">
-                                </form>
+                                </div>
+                                <!-- Returning Customer End -->
                             </div>
                         </div>
-                    </div>
-                    <!-- Returning Customer End -->
+
                 </div>
                 <!-- Row End -->
             </div>

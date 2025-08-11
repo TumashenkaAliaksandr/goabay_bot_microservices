@@ -9,12 +9,14 @@ urlpatterns = [
 
     # Аккаунт и аутентификация
     path('account/', views.account, name='account'),
+    path('wishlist/', views.wishlist, name='wishlist'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart, name='cart'),
     path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('checkout/', views.checkout, name='checkout'),
     path('forgot-password/', views.forgot_password, name='forgot-password'),
     path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
     path('registrations/', views.registrations, name='registrations'),
 
     # Архив, новости, контакты

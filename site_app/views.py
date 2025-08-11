@@ -1,6 +1,10 @@
 import ast
 
 from celery import shared_task
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Prefetch
@@ -9,10 +13,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from rest_framework import generics
-
+from django.contrib.auth import authenticate, login as login_reg
 from bot_app.models import Review, ProductVariant
 from goabay_bot import settings
-from site_app.forms import ReviewForm
+from site_app.forms import ReviewForm, RegistrationForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.serializers import ProductSerializer
@@ -201,11 +205,64 @@ def news(request):
 
 
 def login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('pass', '')
+
+        # Найдем пользователя по email
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user is not None:
+            # Аутентифицируем по username и паролю
+            user_auth = authenticate(request, username=user.username, password=password)
+            if user_auth is not None:
+                auth_login(request, user_auth)
+                messages.success(request, f'Welcome back, {user.username}!')
+                return redirect('account')  # Замените на нужный URL после логина
+            else:
+                messages.error(request, 'Incorrect password. Please try again.')
+        else:
+            messages.error(request, 'You are not registered. Please sign up first.')
+
     return render(request, 'webapp/account/login.html')
 
 
+def logout(request):
+    if request.method == 'POST':
+        auth_logout(request)
+        messages.info(request, "You have successfully logged out.")
+        return redirect('login')  # Или другой URL для перенаправления
+    else:
+        # Если заходят GET-запросом, например, редиректим на страницу аккаунта или логина
+        return redirect('account')  # Или 'login'
+
+
 def registrations(request):
-    return render(request, 'webapp/account/register.html')
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            raw_password = form.cleaned_data.get('password1')
+            # попытка автоматически залогинить
+            user = authenticate(username=user.username, password=raw_password)
+            if user is not None:
+                login_reg(request, user)  # Используем django.contrib.auth.login под именем login_reg
+                messages.success(request, 'Регистрация прошла успешно. Вы вошли в аккаунт.')
+                return redirect('account')  # Замените на ваше имя URL для аккаунта
+            else:
+                messages.warning(request, 'Регистрация завершена, но автоматический вход не удался. Пожалуйста, войдите вручную.')
+                return redirect('login')  # Замените на имя вашей страницы логина, если нужно
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'webapp/account/register.html', {'form': form})
+
+
 
 
 def forgot_password(request):
@@ -480,3 +537,8 @@ class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'  # Чтобы искать по слагу, если нужно
+
+
+def wishlist(request):
+    # тестовая страница или пока пустая
+    return render(request, 'webapp/wishlist.html')

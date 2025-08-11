@@ -30,6 +30,7 @@
 
             <!-- Search Desk -->
             <div class="search-box d-flex align-items-center">
+                <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
                 <select class="form-select category-select">
                     <option>👉🏼 All categories</option>
                     <option>👉🏼 Clothing</option>
@@ -38,7 +39,6 @@
                     <option>👉🏼 Beauty & Health</option>
                     <option>👉🏼 Home & Living</option>
                 </select>
-                <input type="text" class="form-control search-input" placeholder="🤔 What are we looking for, Bro?">
                 <button class="btn btn-primary search-btn">Let's GO!</button>
             </div>
 
@@ -82,17 +82,20 @@
                     <span class="btn-box__badge btn-box__badge--count">0</span>
                 </button>
 
-                <!-- Messages -->
-                <button class="btn-box btn-box--messages" aria-label="Messages">
-                    <span class="btn-box__icon">🔔</span>
-                    <span class="btn-box__badge btn-box__badge--count">0</span>
-                </button>
+                {% if user.is_authenticated %}
+                    <!-- Messages -->
+                    <button class="btn-box btn-box--messages" aria-label="Messages">
+                        <span class="btn-box__icon">🔔</span>
+                        <span class="btn-box__badge btn-box__badge--count">0</span>
+                    </button>
 
-                <!-- Wallet -->
-                <button class="btn-box btn-box--wallet" aria-label="Wallet">
-                    <span class="btn-box__icon">💰</span>
-                    <span class="btn-box__badge btn-box__badge--count">0</span>
-                </button>
+                    <!-- Wallet -->
+                    <button class="btn-box btn-box--wallet" aria-label="Wallet">
+                        <span class="btn-box__icon">💰</span>
+                        <span class="btn-box__badge btn-box__badge--count">0</span>
+                    </button>
+                {% endif %}
+
 
                 <!-- Cart -->
                 <button class="btn-box btn-box--cart" aria-label="Shopping cart">
@@ -104,11 +107,6 @@
                     </span>
                 </button>
 
-                <!-- Login -->
-{#                <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">#}
-{#                    <span class="icon">🔑</span>#}
-{#                    <span class="btn-title">Login</span>#}
-{#                </a>#}
                 <!-- Если пользователь не залогинен -->
                 {% if not user.is_authenticated %}
                     <!-- Кнопка с иконкой ключа и выпадающим меню -->
@@ -134,15 +132,23 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li><a class="dropdown-item" href="{% url 'account' %}">🪪 My Account</a></li>
                             <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>
-                            <li><a class="dropdown-item" href="{% url 'wallet' %}">💰 Wallet</a></li>
-                            <li><a class="dropdown-item" href="{% url 'coupons' %}">🎫 Coupons & Discounts</a></li>
-                            <li><a class="dropdown-item" href="{% url 'notifications' %}">🔔 Notifications</a></li>
+{#                            <li><a class="dropdown-item" href="{% url 'wallet' %}">💰 Wallet</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'coupons' %}">🎫 Coupons & Discounts</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'notifications' %}">🔔 Notifications</a></li>#}
                             <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
-                            <li><a class="dropdown-item" href="{% url 'address' %}">📍 My Address</a></li>
-                            <li><a class="dropdown-item" href="{% url 'orders' %}">🧾 Orders</a></li>
-                            <li><a class="dropdown-item" href="{% url 'track_order' %}">🎈 Track my Order</a></li>
-                            <li><a class="dropdown-item" href="{% url 'settings' %}">⚙️ Settings</a></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">⬅️ Logout</a></li>
+{#                            <li><a class="dropdown-item" href="{% url 'address' %}">📍 My Address</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'orders' %}">🧾 Orders</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'track_order' %}">🎈 Track my Order</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'settings' %}">⚙️ Settings</a></li>#}
+                            <li>
+                                <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
+                                    {% csrf_token %}
+                                </form>
+                                <a href="#"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                   class="btn btn-link dropdown-item align-baseline">⬅️ logout</a>
+                            </li>
+
                         </ul>
                     </div>
                 {% endif %}
