@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!-- HEADER 1-5 -->
 <header class="container-fluid header w-100 position-fixed top-0 start-0">
@@ -102,7 +103,7 @@
                     <span class="btn-box__icon">🛒</span>
                     <span class="btn-box__badge btn-box__badge--count">0</span>
                     <span class="btn-box__title btn-box__title--price">
-                        <span class="final-price price-value" data-inr="0">0</span>
+                        <span class="final-price price-value" data-inr="0">4000</span>
                         <span class="currency-symbol">₹</span>
                     </span>
                 </button>
@@ -126,8 +127,19 @@
                     <div class="dropdown">
                         <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
-                            <span class="icon">🔑</span> <!-- Можно заменить на аватар или иконку профиля -->
-                            <span class="btn-title">{{ user.username }}</span>
+                            <span class="icon">
+                                {% with letter=user.first_name|default:user.username|default:"?"|slice:":1" %}
+                                    {% if user.profile.avatar %}
+                                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="avatar-img rounded-circle"/>
+                                    {% else %}
+                                        <div class="avatar-initial rounded-circle">
+                                      {{ letter|upper }}
+                                    </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
+                            <!-- Можно заменить на аватар или иконку профиля -->
+{#                            <span class="btn-title">{{ user.username }}</span>#}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li><a class="dropdown-item" href="{% url 'account' %}">🪪 My Account</a></li>

@@ -2,224 +2,381 @@
 {% load static %}
 
 {% block content %}
-        <!-- Breadcrumb Start -->
-        <div class="breadcrumb-area ptb-60 ptb-sm-30">
-            <div class="container">
-                <div class="breadcrumb">
-                    <ul>
-                        <li><a href="../test-index.html">Home</a></li>
-                        <li class="active"><a href="account.html">Account</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Container End -->
-        </div>
-        <!-- Breadcrumb End -->
-        <!-- My Account Page Start Here -->
-        <div class="my-account white-bg pb-60">
-            <div class="container">
-                <div class="account-dashboard">
-                   <div class="dashboard-upper-info">
-                       <div class="row no-gutters align-items-center">
-                           <div class="col-lg-3 col-md-6">
-                               <div class="d-single-info">
-                                   <p class="user-name">Hello <span>yourmail@info</span></p>
-                                   <p>(not yourmail@info? <a href="#">Log Out</a>)</p>
-                               </div>
-                           </div>
-                           <div class="col-lg-3 col-md-6">
-                               <div class="d-single-info">
-                                   <p>Need Assistance? Customer service at.</p>
-                                   <p>admin@example.com.</p>
-                               </div>
-                           </div>
-                           <div class="col-lg-3 col-md-6">
-                               <div class="d-single-info">
-                                   <p>E-mail them at </p>
-                                   <p>support@example.com</p>
-                               </div>
-                           </div>
-                           <div class="col-lg-3 col-md-6">
-                               <div class="d-single-info text-center">
-                                   <a class="view-cart" href="{% url 'cart' %}"><i class="fa fa-cart-plus" aria-hidden="true"></i>view cart</a>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <!-- Nav tabs -->
-                            <ul class="nav flex-column dashboard-list" role="tablist">
-                                <li><a class="active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
-                                <li><a data-toggle="tab" href="#orders">Orders</a></li>
-                                <li><a data-toggle="tab" href="#downloads">Downloads</a></li>
-                                <li><a data-toggle="tab" href="#address">Addresses</a></li>
-                                <li><a data-toggle="tab" href="#account-details">Account details</a></li>
-                                <li><a data-toggle="tab" href="{% url 'logout' %}">logout</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-10">
-                            <!-- Tab panes -->
-                            <div class="tab-content dashboard-content mt-all-40">
-                                <div id="dashboard" class="tab-pane active">
-                                    <h3>Dashboard </h3>
-                                    <p>From your account dashboard. you can easily check & view your <a href="#">recent orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a href="#">edit your password and account details.</a></p>
-                                </div>
-                                <div id="orders" class="tab-pane fade">
-                                    <h3>Orders</h3>
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Order</th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                    <th>Total</th>
-                                                    <th>Actions</th>	 	 	 	
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>May 10, 2018</td>
-                                                    <td>Processing</td>
-                                                    <td>$25.00 for 1 item </td>
-                                                    <td><a class="view" href="../shop/cart.html">view</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>May 10, 2018</td>
-                                                    <td>Processing</td>
-                                                    <td>$17.00 for 1 item </td>
-                                                    <td><a class="view" href="../shop/cart.html">view</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div id="downloads" class="tab-pane fade">
-                                    <h3>Downloads</h3>
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Downloads</th>
-                                                    <th>Expires</th>
-                                                    <th>Download</th>	 	 	 	
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Proecut Name Here</td>
-                                                    <td>May 10, 2018</td>
-                                                    <td>never</td>
-                                                    <td><a class="view" href="#">Click Here To Download Your File</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Proecut Name Here</td>
-                                                    <td>Sep 11, 2018</td>
-                                                    <td>never</td>
-                                                    <td><a class="view" href="#">Click Here To Download Your File</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div id="address" class="tab-pane">
-                                    <p>The following addresses will be used on the checkout page by default.</p>
-                                    <h4 class="billing-address">Billing address</h4>
-                                    <a class="view" href="#">edit</a>
-                                    <p>steven smith</p>
-                                    <p>Australia</p>   
-                                </div>
-                                <div id="account-details" class="tab-pane fade">
-                                    <h3>Account details </h3>
-                                    <div class="register-form login-form clearfix">
-                                        <form action="#">
-                                            <div class="form-group row align-items-center">
-                                                <label class="col-lg-3 col-md-4 col-form-label">Social title</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <span class="custom-radio"><input name="id_gender" value="1" type="radio"> Mr.</span>
-                                                    <span class="custom-radio"><input name="id_gender" value="1" type="radio"> Mrs.</span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="f-name" class="col-lg-3 col-md-4 col-form-label">First Name</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="text" class="form-control" id="f-name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="l-name" class="col-lg-3 col-md-4 col-form-label">Last Name</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="text" class="form-control" id="l-name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="email" class="col-lg-3 col-md-4 col-form-label">Email address</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="text" class="form-control" id="email">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="inputpassword" class="col-lg-3 col-md-4 col-form-label">Current password</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="password" class="form-control" id="inputpassword">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="newpassword" class="col-lg-3 col-md-4 col-form-label">New password</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="password" class="form-control" id="newpassword">
-                                                    <button class="btn show-btn" type="button">Show</button>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="v-password" class="col-lg-3 col-md-4 col-form-label">Confirm password</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="password" class="form-control" id="c-password">
-                                                    <button class="btn show-btn" type="button">Show</button>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="birth" class="col-lg-3 col-md-4 col-form-label">Birthdate</label>
-                                                <div class="col-lg-6 col-md-8">
-                                                    <input type="text" class="form-control" id="birth" placeholder="MM/DD/YYYY">
-                                                </div>
-                                            </div>
-                                            <div class="form-check row p-0 mt-20">
-                                                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-4">
-                                                    <input class="form-check-input" value="#" id="offer" type="checkbox">
-                                                    <label class="form-check-label" for="offer">Receive offers from our partners</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-check row p-0 mt-20">
-                                                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-4">
-                                                    <input class="form-check-input" value="#" id="subscribe" type="checkbox">
-                                                    <label class="form-check-label" for="subscribe">Sign up for our newsletter<br>Subscribe to our newsletters now and stay up-to-date with new collections, the latest lookbooks and exclusive offers..</label>
-                                                </div>
-                                            </div>
-                                            <div class="register-box mt-40">
-                                                <button type="submit" class="return-customer-btn f-right">Save</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+    <div class="my-account white-bg pb-60">
+        <div class="container">
+            <div class="account-dashboard">
+                <div class="dashboard-upper-info">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="d-single-info">
+                                <p class="user-name">Hello <span>{{ request.user.email }}</span></p>
+                                <p>(not {{ request.user.email }}? <a href="{% url 'logout' %}">Log Out</a>)</p>
                             </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="d-single-info">
+                                <p>Need Assistance? Customer service at.</p>
+                                <p>admin@example.com.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="d-single-info">
+                                <p>E-mail them at </p>
+                                <p>support@example.com</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="d-single-info text-center">
+                                <a class="view-cart" href="{% url 'cart' %}"><i class="fa fa-cart-plus"
+                                                                                aria-hidden="true"></i> view cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2">
+                        <!-- Nav tabs -->
+                        <ul class="nav flex-column dashboard-list" role="tablist">
+                            <li><a class="active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
+                            <li><a data-toggle="tab" href="#orders">Orders</a></li>
+                            <li><a data-toggle="tab" href="#downloads">Downloads</a></li>
+                            <li><a data-toggle="tab" href="#address">Addresses</a></li>
+                            <li><a data-toggle="tab" href="#account-details">Account details</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-10">
+                        <div class="tab-content dashboard-content mt-all-40">
+
+                            <div id="dashboard" class="tab-pane active">
+                                <h3>Dashboard</h3>
+                                <p>From your account dashboard. you can easily check & view your <a href="#">recent
+                                    orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a
+                                        href="#">edit your password and account details.</a></p>
+                            </div>
+
+                            <div id="orders" class="tab-pane fade">
+                                <h3>Orders</h3>
+                                <!-- Здесь вы можете добавить логику для вывода заказов -->
+                            </div>
+
+                            <div id="downloads" class="tab-pane fade">
+                                <h3>Downloads</h3>
+                                <!-- Логика загрузок -->
+                            </div>
+
+                            <div id="address" class="tab-pane fade">
+                                <p>The following addresses will be used on the checkout page by default.</p>
+                                <h4 class="billing-address">Billing address</h4>
+                                <a class="view" href="#">edit</a>
+                                <!-- Здесь данные адреса -->
+                            </div>
+
+                            <div id="account-details" class="tab-pane fade show active">
+                                <h3>Account details</h3>
+
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <!-- Обязательно enctype для загрузки аватара -->
+                                <form method="post" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <!-- Social Title -->
+                                    <div class="form-group row align-items-center">
+                                        <label class="col-lg-3 col-md-4 col-form-label">Social title</label>
+                                        <div class="col-lg-6 col-md-8">
+                                        <span class="custom-radio">
+                                            <input type="radio" name="social_title" value="Mr"
+                                                    {% if registration_form.cleaned_data.social_title|stringformat:"s" == "Mr" %}
+                                                   checked
+                                                    {% elif registration_form.initial.social_title|stringformat:"s" == "Mr" %}
+                                                   checked
+                                                    {% endif %}>
+                                            Mr.
+                                        </span>
+                                            <span class="custom-radio">
+                                            <input type="radio" name="social_title" value="Mrs"
+                                                    {% if registration_form.cleaned_data.social_title|stringformat:"s" == "Mrs" %}
+                                                   checked
+                                                    {% elif registration_form.initial.social_title|stringformat:"s" == "Mrs" %}
+                                                   checked
+                                                    {% endif %}>
+                                            Mrs.
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- User form fields -->
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.first_name.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">First Name</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.first_name }}
+                                            {% if user_form.first_name.errors %}
+                                                <div class="text-danger">{{ user_form.first_name.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.last_name.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Last Name</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.last_name }}
+                                            {% if user_form.last_name.errors %}
+                                                <div class="text-danger">{{ user_form.last_name.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.email.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Email address</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.email }}
+                                            {% if user_form.email.errors %}
+                                                <div class="text-danger">{{ user_form.email.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Password fields -->
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.password_current.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Current password</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.password_current }}
+                                            {% if user_form.password_current.errors %}
+                                                <div class="text-danger">{{ user_form.password_current.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.password_new.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">New password</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.password_new }}
+                                            {% if user_form.password_new.errors %}
+                                                <div class="text-danger">{{ user_form.password_new.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ user_form.password_confirm.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Confirm password</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ user_form.password_confirm }}
+                                            {% if user_form.password_confirm.errors %}
+                                                <div class="text-danger">{{ user_form.password_confirm.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Registration form fields -->
+                                    <div class="form-group row">
+                                        <label for="{{ registration_form.name.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Name (Registration)</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ registration_form.name }}
+                                            {% if registration_form.name.errors %}
+                                                <div class="text-danger">{{ registration_form.name.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ registration_form.phone.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Phone (Registration)</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ registration_form.phone }}
+                                            {% if registration_form.phone.errors %}
+                                                <div class="text-danger">{{ registration_form.phone.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ registration_form.step.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Registration Step</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ registration_form.step }}
+                                            {% if registration_form.step.errors %}
+                                                <div class="text-danger">{{ registration_form.step.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check row mt-3">
+                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
+                                            <input type="checkbox" class="form-check-input" id="id_is_registered"
+                                                   name="{{ registration_form.is_registered.html_name }}"
+                                                   {% if registration_form.is_registered.value %}checked{% endif %}>
+                                            <label for="id_is_registered" class="form-check-label">Is Registered</label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Profile form fields -->
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.avatar.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Avatar</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {% if profile_form.instance.avatar %}
+                                                <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar"
+                                                     style="width:80px; height:80px; object-fit:cover; border-radius:50%;">
+                                            {% endif %}
+                                            {{ profile_form.avatar }}
+                                            {% if profile_form.avatar.errors %}
+                                                <div class="text-danger">{{ profile_form.avatar.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.bio.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Bio</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.bio }}
+                                            {% if profile_form.bio.errors %}
+                                                <div class="text-danger">{{ profile_form.bio.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.birthday.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Birthday</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.birthday }}
+                                            {% if profile_form.birthday.errors %}
+                                                <div class="text-danger">{{ profile_form.birthday.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.website.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Website</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.website }}
+                                            {% if profile_form.website.errors %}
+                                                <div class="text-danger">{{ profile_form.website.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.phone.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Phone (Profile)</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.phone }}
+                                            {% if profile_form.phone.errors %}
+                                                <div class="text-danger">{{ profile_form.phone.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.location.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Location</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.location }}
+                                            {% if profile_form.location.errors %}
+                                                <div class="text-danger">{{ profile_form.location.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check row mt-3">
+                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
+                                            <input type="checkbox" class="form-check-input" id="id_receive_offers"
+                                                   name="{{ profile_form.receive_offers.html_name }}"
+                                                   {% if profile_form.receive_offers.value %}checked{% endif %}>
+                                            <label for="id_receive_offers" class="form-check-label">Receive offers from
+                                                our partners</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check row mt-3">
+                                        <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-4">
+                                            <input type="checkbox" class="form-check-input" id="id_subscribe_newsletter"
+                                                   name="{{ profile_form.subscribe_newsletter.html_name }}"
+                                                   {% if profile_form.subscribe_newsletter.value %}checked{% endif %}>
+                                            <label for="id_subscribe_newsletter" class="form-check-label">Sign up for
+                                                our newsletter</label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Social media links -->
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.social_facebook.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Facebook</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.social_facebook }}
+                                            {% if profile_form.social_facebook.errors %}
+                                                <div class="text-danger">{{ profile_form.social_facebook.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.social_twitter.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Twitter</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.social_twitter }}
+                                            {% if profile_form.social_twitter.errors %}
+                                                <div class="text-danger">{{ profile_form.social_twitter.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="{{ profile_form.social_instagram.id_for_label }}"
+                                               class="col-lg-3 col-md-4 col-form-label">Instagram</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            {{ profile_form.social_instagram }}
+                                            {% if profile_form.social_instagram.errors %}
+                                                <div class="text-danger">{{ profile_form.social_instagram.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="register-box mt-4 text-right">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- My Account Page End Here -->
+
         <!-- Brand Logo Start -->
         <div class="brand-area pb-60">
             <div class="container">
                 <!-- Brand Banner Start -->
                 <div class="brand-banner owl-carousel">
                     <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
+                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}"
+                                         alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
                         <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
@@ -233,24 +390,11 @@
                     <div class="single-brand">
                         <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
                     </div>
-                    <div class="single-brand">
-                        <a href="#"><img class="img" src="i{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
+                    <!-- Дополнительные бренды можно удалить или оставить -->
                 </div>
-                <!-- Brand Banner End -->                
+                <!-- Brand Banner End -->
             </div>
         </div>
         <!-- Brand Logo End -->
+    </div>
 {% endblock %}

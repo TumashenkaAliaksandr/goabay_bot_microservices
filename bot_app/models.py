@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
 
 
 class Words(models.Model):
@@ -32,6 +34,26 @@ class UserRegistration(models.Model):
     def __str__(self):
         return f"Registration for user {self.user_id}"
 
+
+
+class UserProfile(models.Model):
+    registration = models.OneToOneField(UserRegistration, on_delete=models.CASCADE, related_name='profile')
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    website = models.URLField(blank=True, null=True, verbose_name=_("Website"))
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    receive_offers = models.BooleanField(default=False)
+    subscribe_newsletter = models.BooleanField(default=False)
+    social_facebook = models.URLField(blank=True, null=True, verbose_name=_("Facebook URL"))
+    social_twitter = models.URLField(blank=True, null=True, verbose_name=_("Twitter URL"))
+    social_instagram = models.URLField(blank=True, null=True, verbose_name=_("Instagram URL"))
+
+    def __str__(self):
+        return f"Profile of user {self.registration.user_id}"
 
 
 class Product(models.Model):

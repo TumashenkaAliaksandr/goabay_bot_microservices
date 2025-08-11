@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from bot_app.models import Product, NewsletterSubscription, Review
+from bot_app.models import Product, NewsletterSubscription, Review, UserProfile
 
 
 class NewsletterForm(forms.ModelForm):
@@ -107,3 +107,38 @@ class RegistrationForm(forms.ModelForm):
             user.save()
             # здесь можно сохранять профиль (телефон, подписку) в отдельную модель
         return user
+
+
+class AccountDetailsForm(forms.ModelForm):
+    password_current = forms.CharField(label='Current password', widget=forms.PasswordInput, required=False)
+    password_new = forms.CharField(label='New password', widget=forms.PasswordInput, required=False)
+    password_confirm = forms.CharField(label='Confirm new password', widget=forms.PasswordInput, required=False)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pw_new = cleaned_data.get('password_new')
+        pw_confirm = cleaned_data.get('password_confirm')
+        pw_current = cleaned_data.get('password_current')
+
+        if pw_new or pw_confirm:
+            if pw_new != pw_confirm:
+                self.add_error('password_confirm', 'New passwords do not match.')
+            if not pw_current:
+                self.add_error('password_current', 'Please enter your current password to change your password.')
+
+        return cleaned_data
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar', 'bio', 'birthday', 'website', 'phone', 'location',
+                  'receive_offers', 'subscribe_newsletter',
+                  'social_facebook', 'social_twitter', 'social_instagram']
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+        }

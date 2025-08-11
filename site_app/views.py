@@ -1,5 +1,7 @@
 import ast
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from .forms import AccountDetailsForm, UserProfileForm
 from celery import shared_task
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
@@ -14,7 +16,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from rest_framework import generics
 from django.contrib.auth import authenticate, login as login_reg
-from bot_app.models import Review, ProductVariant
+from bot_app.models import Review, ProductVariant, UserRegistration, UserProfile
 from goabay_bot import settings
 from site_app.forms import ReviewForm, RegistrationForm
 from site_app.models import Product, Brand, NewsletterSubscription, Category
@@ -35,9 +37,9 @@ def index(request):
     return render(request, 'webapp/index.html', context=context)
 
 
-def account(request):
-    """Account page"""
-    return render(request, 'main/nick/account.html')
+# def account(request):
+#     """Account page"""
+#     return render(request, 'main/nick/account.html')
 
 
 def category_view(request, category_name):
@@ -542,3 +544,57 @@ class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
 def wishlist(request):
     # тестовая страница или пока пустая
     return render(request, 'webapp/wishlist.html')
+
+
+@login_required
+def account(request):
+    user = request.user
+
+    # Получить связанные объекты
+    registration, _ = UserRegistration.objects.get_or_create(user_id=user.id, defaults={'name': user.get_full_name() or user.username, 'email': user.email})
+    profile, _ = UserProfile.objects.get_or_create(registration=registration)
+
+    if request.method == 'POST':
+        user_form = AccountDetailsForm(request.POST, instance=user)
+        registration_form = RegistrationForm(request.POST, instance=registration)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+
+        # Валидация
+        if user_form.is_valid() and registration_form.is_valid() and profile_form.is_valid():
+            # Обработка пароля
+            pw_current = user_form.cleaned_data.get('password_current')
+            pw_new = user_form.cleaned_data.get('password_new')
+
+            if pw_new:
+                if not user.check_password(pw_current):
+                    user_form.add_error('password_current', 'Current password is incorrect.')
+                else:
+                    user.set_password(pw_new)
+                    user.save()
+                    update_session_auth_hash(request, user)
+            else:
+                user_form.save()
+
+            registration = registration_form.save(commit=False)
+            social_title = request.POST.get('social_title')
+            if social_title:
+                registration.social_title = social_title  # Убедитесь, что поле social_title есть в модели
+            registration.save()
+
+            profile_form.save()
+
+            messages.success(request, 'Your account has been updated successfully.')
+            return redirect('account')
+        else:
+            messages.error(request, 'Please fix the errors below.')
+    else:
+        user_form = AccountDetailsForm(instance=user)
+        registration_form = RegistrationForm(instance=registration)
+        profile_form = UserProfileForm(instance=profile)
+
+    context = {
+        'user_form': user_form,
+        'registration_form': registration_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'webapp/account/account.html', context)
