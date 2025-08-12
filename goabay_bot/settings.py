@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'tinymce',
     'main_parcer',
     'django_celery_beat',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

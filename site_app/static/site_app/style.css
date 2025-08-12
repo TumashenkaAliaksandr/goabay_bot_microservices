@@ -1503,8 +1503,9 @@ html {
 }
 
 [data-theme="dark"] .cart-column {
-    background: linear-gradient(135deg, #2f4b10 0%, #559d23 100%);
-    box-shadow: 0 0 20px rgba(102, 187, 106, 0.8);
+    background: linear-gradient(135deg, #2b4d0f 0%, #4caf50 100%);
+    box-shadow: 0 0 20px rgb(102 187 106 / 0.8),
+        inset 0 0 20px rgb(76 175 80 / 0.9);
     color: #b4f18c;
 }
 
@@ -1624,9 +1625,9 @@ select {
     width: 100%;
     padding: 0.5rem 0.7rem;
     font-size: 1rem;
-    border: 2px solid #66bb6a;
+    /*border: 2px solid #66bb6a;*/
     border-radius: 8px;
-    background-color: #f1f8e9;
+    /*background-color: #f1f8e9;*/
     color: #1b5e20;
     font-family: inherit;
     box-sizing: border-box;

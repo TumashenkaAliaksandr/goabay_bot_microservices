@@ -1,0 +1,251 @@
+{% extends 'main/nick/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div style="height: 120px;"></div>
+
+<div class="container-account py-5 d-flex gap-4">
+    <!-- Левый сайдбар -->
+    <aside class="sidebar-column flex-shrink-0">
+        <h5 class="sidebar-title text-uppercase mb-4 fw-bold">My Account</h5>
+        <nav class="sidebar-menu nav flex-column">
+            <a class="nav-link" href="{% url 'account' %}"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a>
+            <a class="nav-link" href="{% url 'orders' %}"><i class="fa fa-shopping-bag me-2"></i> Orders</a>
+            <a class="nav-link" href="{% url 'wishlist' %}"><i class="fa fa-heart me-2"></i> Wishlist</a>
+            <a class="nav-link active" href="{% url 'account_settings' %}"><i class="fa fa-cog me-2"></i> Settings</a>
+            <a class="nav-link text-danger" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt me-2"></i> Logout</a>
+        </nav>
+
+        <!-- Виджет Погоды -->
+        <div id="goa-widget" class="box goa-widget mt-5 p-3 rounded shadow-sm">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                <h5 class="city-name mb-0">Now in Goa, India</h5>
+                <label class="switch">
+                    <input type="checkbox" class="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                <span id="day-icon" class="fs-4">🌞</span>
+            </div>
+            <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+            </div>
+            <div class="d-flex align-items-center gap-3 pt-2">
+                <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid" style="max-width: 40px; height: auto;">
+                <div id="weather-desc" class="fw-light">--</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Центр: Основной контент с настройками -->
+    <main class="flex-grow-1">
+        <div class="settings-container p-5 rounded shadow-sm">
+
+            <h2 class="mb-5">Account Settings</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <!-- Личные данные -->
+                <section class="mb-5">
+                    <h4 class="section-title">Personal Information</h4>
+
+                    <div class="mb-4">
+                        <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                        {{ user_form.first_name|add_class:"form-control" }}
+                        {% if user_form.first_name.errors %}
+                            <div class="text-danger">{{ user_form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                        {{ user_form.last_name|add_class:"form-control" }}
+                        {% if user_form.last_name.errors %}
+                            <div class="text-danger">{{ user_form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ user_form.email.id_for_label }}" class="form-label">Email Address</label>
+                        {{ user_form.email|add_class:"form-control" }}
+                        {% if user_form.email.errors %}
+                            <div class="text-danger">{{ user_form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <!-- Адреса доставки и оплаты -->
+                <section class="mb-5">
+                    <h4 class="section-title">Shipping and Billing Addresses</h4>
+
+                    <div class="mb-4">
+                        <label for="shipping_address" class="form-label">Shipping Address</label>
+                        <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3">{{ shipping_address|default_if_none:'' }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="billing_address" class="form-label">Billing Address</label>
+                        <textarea name="billing_address" id="billing_address" class="form-control" rows="3">{{ billing_address|default_if_none:'' }}</textarea>
+                    </div>
+                </section>
+
+                <!-- История заказов -->
+                <section class="mb-5">
+                    <h4 class="section-title">Order History</h4>
+                    {% if orders %}
+                        <ul class="list-group">
+                            {% for order in orders %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Order #{{ order.number }} — {{ order.date }} — <strong>{{ order.status }}</strong>
+                                    <a href="{% url 'order_detail' order.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No past orders found.</p>
+                    {% endif %}
+                </section>
+
+                <!-- Настройки уведомлений -->
+                <section class="mb-5">
+                    <h4 class="section-title">Notification Settings</h4>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="email_notifications"
+                               name="email_notifications" {% if email_notifications %}checked{% endif %}>
+                        <label class="form-check-label" for="email_notifications">Email Notifications</label>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="sms_notifications"
+                               name="sms_notifications" {% if sms_notifications %}checked{% endif %}>
+                        <label class="form-check-label" for="sms_notifications">SMS Notifications</label>
+                    </div>
+                </section>
+
+                <!-- Виджеты платежных систем -->
+                <section class="mb-5">
+                    <h4 class="section-title">Payment Settings</h4>
+
+                    <!-- Выбор платёжной системы -->
+                    <div class="mb-4">
+                        <label class="form-label d-block">Select your payment system</label>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="payment_system" id="ps_paypal"
+                                   value="paypal"
+                                   {% if payment_settings.payment_system == "paypal" %}checked{% endif %}>
+                            <label class="form-check-label" for="ps_paypal">PayPal</label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="payment_system" id="ps_stripe"
+                                   value="stripe"
+                                   {% if payment_settings.payment_system == "stripe" %}checked{% endif %}>
+                            <label class="form-check-label" for="ps_stripe">Stripe</label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="payment_system" id="ps_bank"
+                                   value="bank_transfer"
+                                   {% if payment_settings.payment_system == "bank_transfer" %}checked{% endif %}>
+                            <label class="form-check-label" for="ps_bank">Bank Transfer</label>
+                        </div>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="payment_system" id="ps_crypto"
+                                   value="crypto"
+                                   {% if payment_settings.payment_system == "crypto" %}checked{% endif %}>
+                            <label class="form-check-label" for="ps_crypto">Cryptocurrency</label>
+                        </div>
+                    </div>
+
+                    <!-- Настройки PayPal -->
+                    <div class="payment-details" id="paypal_settings"
+                         style="{% if payment_settings.payment_system != 'paypal' %}display:none;{% endif %}">
+                        <label for="paypal_email" class="form-label">PayPal Email</label>
+                        <input type="email" class="form-control" id="paypal_email" name="paypal_email"
+                               value="{{ payment_settings.paypal_email|default_if_none:'' }}">
+                    </div>
+
+                    <!-- Настройки Stripe -->
+                    <div class="payment-details" id="stripe_settings"
+                         style="{% if payment_settings.payment_system != 'stripe' %}display:none;{% endif %}">
+                        <label for="stripe_customer_id" class="form-label mt-3">Stripe Customer ID</label>
+                        <input type="text" class="form-control" id="stripe_customer_id" name="stripe_customer_id"
+                               value="{{ payment_settings.stripe_customer_id|default_if_none:'' }}">
+                    </div>
+
+                    <!-- Настройки Bank Transfer -->
+                    <div class="payment-details" id="bank_settings"
+                         style="{% if payment_settings.payment_system != 'bank_transfer' %}display:none;{% endif %}">
+                        <label for="bank_details" class="form-label mt-3">Bank Transfer Details</label>
+                        <textarea class="form-control" id="bank_details" name="bank_details"
+                                  rows="3">{{ payment_settings.bank_details|default_if_none:'' }}</textarea>
+                        <small class="form-text text-muted">Include SWIFT, IBAN or local bank details here.</small>
+                    </div>
+
+                    <!-- Настройки Cryptocurrency -->
+                    <div class="payment-details" id="crypto_settings"
+                         style="{% if payment_settings.payment_system != 'crypto' %}display:none;{% endif %}">
+                        <label for="crypto_wallet" class="form-label mt-3">Cryptocurrency Wallet Address</label>
+                        <input type="text" class="form-control" id="crypto_wallet" name="crypto_wallet"
+                               value="{{ payment_settings.crypto_wallet|default_if_none:'' }}">
+                        <small class="form-text text-muted">E.g. Bitcoin or Ethereum wallet address.</small>
+                    </div>
+                </section>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const paymentRadios = document.querySelectorAll('input[name="payment_system"]');
+                        const detailDivs = {
+                            'paypal': document.getElementById('paypal_settings'),
+                            'stripe': document.getElementById('stripe_settings'),
+                            'bank_transfer': document.getElementById('bank_settings'),
+                            'crypto': document.getElementById('crypto_settings')
+                        };
+
+                        function updateVisibility(selected) {
+                            Object.keys(detailDivs).forEach(function (key) {
+                                detailDivs[key].style.display = (key === selected) ? 'block' : 'none';
+                            });
+                        }
+
+                        paymentRadios.forEach(radio => {
+                            radio.addEventListener('change', function () {
+                                updateVisibility(this.value);
+                            });
+                        });
+
+                        // Инициализация видимости при загрузке страницы
+                        const selectedRadio = document.querySelector('input[name="payment_system"]:checked');
+                        if (selectedRadio) {
+                            updateVisibility(selectedRadio.value);
+                        }
+                    });
+                </script>
+
+
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="{% url 'account' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<div style="height: 80px;"></div>
+{% endblock %}

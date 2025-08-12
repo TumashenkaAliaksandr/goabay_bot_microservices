@@ -1,216 +1,270 @@
 {% extends 'main/nick/base.html' %}
 {% load static %}
 {% block content %}
-        <div style="height: 120px;"></div>
-        <div class="container-edit py-4 account-edit-form">
-            <h2>Edit Account</h2>
+    <div style="height: 120px;"></div>
 
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
+    <div class="container-account py-4 d-flex gap-4">
+        <!-- Левый сайдбар -->
+        <aside class="sidebar-column flex-shrink-0">
+            <h5 class="sidebar-title text-uppercase mb-4 fw-bold">My Account</h5>
+            <nav class="sidebar-menu nav flex-column">
+                <a class="nav-link" href="{% url 'wishlist' %}"><i class="fa fa-heart me-2"></i> Wishlist</a>
+                <a class="nav-link" href="{% url 'checkout' %}"><i class="fa fa-credit-card me-2"></i> Checkout</a>
+                <a class="nav-link" href="{% url 'cart' %}"><i class="fa fa-shopping-cart me-2"></i> Cart</a>
+                <a class="nav-link text-danger" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt me-2"></i> Logout</a>
+            </nav>
 
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-
-                <!-- Social Title -->
-                <div class="mb-3">
-                    <label class="form-label">Social Title</label><br>
-                    <input type="radio" name="social_title" value="Mr" id="social_title_mr"
-                           {% if registration_form.initial.social_title == "Mr" %}checked{% endif %}>
-                    <label for="social_title_mr">Mr.</label>
-
-                    <input type="radio" name="social_title" value="Mrs" id="social_title_mrs"
-                           {% if registration_form.initial.social_title == "Mrs" %}checked{% endif %}>
-                    <label for="social_title_mrs">Mrs.</label>
+            <!-- Виджет Погоды -->
+            <div id="goa-widget" class="box goa-widget mt-4 p-3 rounded shadow-sm">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                    <h5 class="city-name mb-0">Now in Goa, India</h5>
+                    <label class="switch">
+                        <input type="checkbox" class="theme-toggle">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
+                <div class="d-flex align-items-center gap-3 border-bottom py-2">
+                    <span id="goa-time" class="fs-5 fw-semibold">--:--</span>
+                    <span id="day-icon" class="fs-4">🌞</span>
+                </div>
+                <div class="d-flex justify-content-between text-secondary small border-bottom py-2">
+                    <div>🌅 Sunrise: <span id="sunrise-time">--:--</span></div>
+                    <div>🌇 Sunset: <span id="sunset-time">--:--</span></div>
+                </div>
+                <div class="d-flex align-items-center gap-3 pt-2">
+                    <div id="weather-temp" class="fs-5 fw-semibold">--°C</div>
+                    <img src="" alt="Weather Icon" id="weather-icon" class="img-fluid"
+                         style="max-width: 40px; height: auto;">
+                    <div id="weather-desc" class="fw-light">--</div>
+                </div>
+            </div>
+        </aside>
 
-                <!-- User Fields -->
-                <div class="mb-3">
-                    {{ user_form.first_name.label_tag }}
-                    {{ user_form.first_name }}
-                    {% if user_form.first_name.errors %}
-                        <div class="text-danger">{{ user_form.first_name.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ user_form.last_name.label_tag }}
-                    {{ user_form.last_name }}
-                    {% if user_form.last_name.errors %}
-                        <div class="text-danger">{{ user_form.last_name.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ user_form.email.label_tag }}
-                    {{ user_form.email }}
-                    {% if user_form.email.errors %}
-                        <div class="text-danger">{{ user_form.email.errors }}</div>
-                    {% endif %}
-                </div>
+        <!-- Центр: форма редактирования -->
+        <main class="flex-grow-1">
+            <div class="container-edit ">
+                <h2>Edit Account</h2>
 
-                <!-- Password fields -->
-                <div class="mb-3">
-                    {{ user_form.password_current.label_tag }}
-                    {{ user_form.password_current }}
-                    {% if user_form.password_current.errors %}
-                        <div class="text-danger">{{ user_form.password_current.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ user_form.password_new.label_tag }}
-                    {{ user_form.password_new }}
-                    {% if user_form.password_new.errors %}
-                        <div class="text-danger">{{ user_form.password_new.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ user_form.password_confirm.label_tag }}
-                    {{ user_form.password_confirm }}
-                    {% if user_form.password_confirm.errors %}
-                        <div class="text-danger">{{ user_form.password_confirm.errors }}</div>
-                    {% endif %}
-                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
 
-                <hr>
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
 
-                <!-- Registration Fields -->
-                <div class="mb-3">
-                    {{ registration_form.name.label_tag }}
-                    {{ registration_form.name }}
-                    {% if registration_form.name.errors %}
-                        <div class="text-danger">{{ registration_form.name.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ registration_form.phone.label_tag }}
-                    {{ registration_form.phone }}
-                    {% if registration_form.phone.errors %}
-                        <div class="text-danger">{{ registration_form.phone.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="mb-3">
-                    {{ registration_form.step.label_tag }}
-                    {{ registration_form.step }}
-                    {% if registration_form.step.errors %}
-                        <div class="text-danger">{{ registration_form.step.errors }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="id_is_registered"
-                           name="{{ registration_form.is_registered.html_name }}"
-                           {% if registration_form.is_registered.value %}checked{% endif %}>
-                    <label for="id_is_registered"
-                           class="form-check-label">{{ registration_form.is_registered.label }}</label>
-                </div>
+                    <!-- Social Title -->
+                    <div class="mb-3">
+                        <label class="form-label">Social Title</label><br>
+                        <input type="radio" name="social_title" value="Mr" id="social_title_mr"
+                               {% if registration_form.initial.social_title == "Mr" %}checked{% endif %}>
+                        <label for="social_title_mr" class="me-3">Mr.</label>
 
-                <hr>
+                        <input type="radio" name="social_title" value="Mrs" id="social_title_mrs"
+                               {% if registration_form.initial.social_title == "Mrs" %}checked{% endif %}>
+                        <label for="social_title_mrs">Mrs.</label>
+                    </div>
 
-                <!-- Profile Fields -->
-                <div class="mb-3">
-                    <label>Current Avatar</label><br>
-                    {% if profile_form.instance.avatar %}
-                        <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" width="100" height="100"
-                             style="object-fit: cover; border-radius: 50%;">
-                    {% else %}
-                        <p>No avatar uploaded.</p>
-                    {% endif %}
-                </div>
+                    <!-- User Fields -->
+                    <div class="mb-3">
+                        {{ user_form.first_name.label_tag }}
+                        {{ user_form.first_name }}
+                        {% if user_form.first_name.errors %}
+                            <div class="text-danger">{{ user_form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ user_form.last_name.label_tag }}
+                        {{ user_form.last_name }}
+                        {% if user_form.last_name.errors %}
+                            <div class="text-danger">{{ user_form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ user_form.email.label_tag }}
+                        {{ user_form.email }}
+                        {% if user_form.email.errors %}
+                            <div class="text-danger">{{ user_form.email.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.avatar.label_tag }}
-                    {{ profile_form.avatar }}
-                    {% if profile_form.avatar.errors %}
-                        <div class="text-danger">{{ profile_form.avatar.errors }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Password fields -->
+                    <div class="mb-3">
+                        {{ user_form.password_current.label_tag }}
+                        {{ user_form.password_current }}
+                        {% if user_form.password_current.errors %}
+                            <div class="text-danger">{{ user_form.password_current.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ user_form.password_new.label_tag }}
+                        {{ user_form.password_new }}
+                        {% if user_form.password_new.errors %}
+                            <div class="text-danger">{{ user_form.password_new.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ user_form.password_confirm.label_tag }}
+                        {{ user_form.password_confirm }}
+                        {% if user_form.password_confirm.errors %}
+                            <div class="text-danger">{{ user_form.password_confirm.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.bio.label_tag }}
-                    {{ profile_form.bio }}
-                    {% if profile_form.bio.errors %}
-                        <div class="text-danger">{{ profile_form.bio.errors }}</div>
-                    {% endif %}
-                </div>
+                    <hr>
 
-                <div class="mb-3">
-                    {{ profile_form.birthday.label_tag }}
-                    {{ profile_form.birthday }}
-                    {% if profile_form.birthday.errors %}
-                        <div class="text-danger">{{ profile_form.birthday.errors }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Registration Fields -->
+                    <div class="mb-3">
+                        {{ registration_form.name.label_tag }}
+                        {{ registration_form.name }}
+                        {% if registration_form.name.errors %}
+                            <div class="text-danger">{{ registration_form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ registration_form.phone.label_tag }}
+                        {{ registration_form.phone }}
+                        {% if registration_form.phone.errors %}
+                            <div class="text-danger">{{ registration_form.phone.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ registration_form.step.label_tag }}
+                        {{ registration_form.step }}
+                        {% if registration_form.step.errors %}
+                            <div class="text-danger">{{ registration_form.step.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="id_is_registered"
+                               name="{{ registration_form.is_registered.html_name }}"
+                               {% if registration_form.is_registered.value %}checked{% endif %}>
+                        <label for="id_is_registered"
+                               class="form-check-label">{{ registration_form.is_registered.label }}</label>
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.website.label_tag }}
-                    {{ profile_form.website }}
-                    {% if profile_form.website.errors %}
-                        <div class="text-danger">{{ profile_form.website.errors }}</div>
-                    {% endif %}
-                </div>
+                    <hr>
 
-                <div class="mb-3">
-                    {{ profile_form.phone.label_tag }}
-                    {{ profile_form.phone }}
-                    {% if profile_form.phone.errors %}
-                        <div class="text-danger">{{ profile_form.phone.errors }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Profile Fields -->
+                    <div class="mb-3">
+                        <label>Current Avatar</label><br>
+                        {% if profile_form.instance.avatar %}
+                            <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" width="100" height="100"
+                                 style="object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            <p>No avatar uploaded.</p>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.location.label_tag }}
-                    {{ profile_form.location }}
-                    {% if profile_form.location.errors %}
-                        <div class="text-danger">{{ profile_form.location.errors }}</div>
-                    {% endif %}
-                </div>
+                    <div class="mb-3">
+                        {{ profile_form.avatar.label_tag }}
+                        {{ profile_form.avatar }}
+                        {% if profile_form.avatar.errors %}
+                            <div class="text-danger">{{ profile_form.avatar.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="id_receive_offers"
-                           name="{{ profile_form.receive_offers.html_name }}"
-                           {% if profile_form.receive_offers.value %}checked{% endif %}>
-                    <label for="id_receive_offers" class="form-check-label">Receive offers from our partners</label>
-                </div>
+                    <div class="mb-3">
+                        {{ profile_form.bio.label_tag }}
+                        {{ profile_form.bio }}
+                        {% if profile_form.bio.errors %}
+                            <div class="text-danger">{{ profile_form.bio.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="id_subscribe_newsletter"
-                           name="{{ profile_form.subscribe_newsletter.html_name }}"
-                           {% if profile_form.subscribe_newsletter.value %}checked{% endif %}>
-                    <label for="id_subscribe_newsletter" class="form-check-label">Sign up for our newsletter</label>
-                </div>
+                    <div class="mb-3">
+                        {{ profile_form.birthday.label_tag }}
+                        {{ profile_form.birthday }}
+                        {% if profile_form.birthday.errors %}
+                            <div class="text-danger">{{ profile_form.birthday.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <hr>
+                    <div class="mb-3">
+                        {{ profile_form.website.label_tag }}
+                        {{ profile_form.website }}
+                        {% if profile_form.website.errors %}
+                            <div class="text-danger">{{ profile_form.website.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.social_facebook.label_tag }}
-                    {{ profile_form.social_facebook }}
-                    {% if profile_form.social_facebook.errors %}
-                        <div class="text-danger">{{ profile_form.social_facebook.errors }}</div>
-                    {% endif %}
-                </div>
+                    <div class="mb-3">
+                        {{ profile_form.phone.label_tag }}
+                        {{ profile_form.phone }}
+                        {% if profile_form.phone.errors %}
+                            <div class="text-danger">{{ profile_form.phone.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.social_twitter.label_tag }}
-                    {{ profile_form.social_twitter }}
-                    {% if profile_form.social_twitter.errors %}
-                        <div class="text-danger">{{ profile_form.social_twitter.errors }}</div>
-                    {% endif %}
-                </div>
+                    <div class="mb-3">
+                        {{ profile_form.location.label_tag }}
+                        {{ profile_form.location }}
+                        {% if profile_form.location.errors %}
+                            <div class="text-danger">{{ profile_form.location.errors }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="mb-3">
-                    {{ profile_form.social_instagram.label_tag }}
-                    {{ profile_form.social_instagram }}
-                    {% if profile_form.social_instagram.errors %}
-                        <div class="text-danger">{{ profile_form.social_instagram.errors }}</div>
-                    {% endif %}
-                </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="id_receive_offers"
+                               name="{{ profile_form.receive_offers.html_name }}"
+                               {% if profile_form.receive_offers.value %}checked{% endif %}>
+                        <label for="id_receive_offers" class="form-check-label">Receive offers from our partners</label>
+                    </div>
 
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                 <!-- Кнопка Отменить -->
-                <a href="{% url 'account' %}" class="btn btn-outline-secondary">Cancel</a>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="id_subscribe_newsletter"
+                               name="{{ profile_form.subscribe_newsletter.html_name }}"
+                               {% if profile_form.subscribe_newsletter.value %}checked{% endif %}>
+                        <label for="id_subscribe_newsletter" class="form-check-label">Sign up for our newsletter</label>
+                    </div>
 
-            </form>
+                    <hr>
+
+                    <div class="mb-3">
+                        {{ profile_form.social_facebook.label_tag }}
+                        {{ profile_form.social_facebook }}
+                        {% if profile_form.social_facebook.errors %}
+                            <div class="text-danger">{{ profile_form.social_facebook.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ profile_form.social_twitter.label_tag }}
+                        {{ profile_form.social_twitter }}
+                        {% if profile_form.social_twitter.errors %}
+                            <div class="text-danger">{{ profile_form.social_twitter.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ profile_form.social_instagram.label_tag }}
+                        {{ profile_form.social_instagram }}
+                        {% if profile_form.social_instagram.errors %}
+                            <div class="text-danger">{{ profile_form.social_instagram.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Кнопки сохранения и отмены -->
+                    <div class="d-flex gap-3 mt-3">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'account' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Справа корзина и кнопки -->
+        <div class="col-lg-3 col-md-12 cart-column d-flex flex-column align-items-center justify-content-start">
+            <h5 class="mb-3 fw-bold text-center"><i class="fa fa-shopping-cart me-2"></i> Shopping Cart</h5>
+            <div class="cart-quantity badge bg-primary fs-5 px-3 py-2 mb-4 rounded-pill">{{ cart_items|length }}</div>
+
+            <a href="{% url 'cart' %}" class="btn btn-outline-secondary w-100 mb-3"><i
+                    class="fa fa-shopping-cart me-2"></i> Go to Cart</a>
+            <a href="{% url 'checkout' %}" class="btn btn-primary w-100"><i
+                    class="fa fa-credit-card me-2"></i> Checkout</a>
         </div>
-    <div style="height: 80px;"></div>
+    </div>
 
+    <div style="height: 80px;"></div>
 {% endblock %}
