@@ -2317,3 +2317,35 @@ input[readonly], input[disabled] {
         background-position: 0% 50%;
     }
 }
+
+#marquee-text {
+  position: absolute;
+  white-space: nowrap; /* чтобы текст не переносился */
+  will-change: transform;
+  animation-name: marquee-animation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 31s;
+  animation-fill-mode: forwards; /* сохранить позицию при старте */
+  width: 100%;
+  left: 0; /* расположить текст у левого края контейнера */
+  transform: translateX(0); /* начальная позиция */
+}
+
+
+#marquee-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 40px; /* ваша высота */
+}
+
+
+@keyframes marquee-animation {
+    0% {
+        transform: translateX(-0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

@@ -700,3 +700,26 @@
      
     
 })(jQuery);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const marqueeText = document.getElementById('marquee-text');
+  const marqueeWrapper = document.getElementById('marquee-wrapper');
+
+  if (!marqueeText || !marqueeWrapper) return;
+
+  const textWidth = marqueeText.offsetWidth;
+  const wrapperWidth = marqueeWrapper.offsetWidth;
+
+  // Учитываем кнопку закрытия справа (примерно 40-50px отступ)
+  const closeBtnWidth = 40;
+
+  // Скорректируем видимую ширину, чтобы текст не заходил под крестик
+  const effectiveWrapperWidth = wrapperWidth - closeBtnWidth;
+
+  const speedPxPerSec = 100;
+  const distance = textWidth + effectiveWrapperWidth;
+
+  const duration = distance / speedPxPerSec;
+
+  marqueeText.style.animationDuration = duration + 's';
+});
