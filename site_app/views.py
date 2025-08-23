@@ -252,6 +252,7 @@ def logout(request):
 
 
 def registrations(request):
+    brands = Brand.objects.all().order_by('name')
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -271,7 +272,9 @@ def registrations(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'webapp/account/register.html', {'form': form})
+
+
+    return render(request, 'webapp/account/register.html', {'form': form, 'brands': brands})
 
 
 

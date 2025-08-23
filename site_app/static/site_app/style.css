@@ -2066,7 +2066,13 @@ img[alt="Avatar"] {
 .register-account {
     padding-bottom: 60px;
     padding-top: 30px;
-    background-color: #f8f9fa;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+[data-theme="dark"] .register-account {
+    padding-bottom: 60px;
+    padding-top: 30px;
     border-radius: 6px;
     margin-top: 20px;
 }
@@ -2080,9 +2086,23 @@ img[alt="Avatar"] {
     margin-top: 10px;
 }
 
+[data-theme="dark"]  .register-title h3 {
+    font-size: 26px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: whitesmoke;
+    margin-top: 10px;
+}
+
 .register-title p {
     margin: 0;
     color: #666;
+    font-size: 14px;
+}
+
+[data-theme="dark"] .register-title p {
+    margin: 0;
+    color: whitesmoke;
     font-size: 14px;
 }
 
@@ -2099,6 +2119,13 @@ img[alt="Avatar"] {
     font-weight: 600;
     margin-bottom: 6px;
     color: #333;
+}
+
+[data-theme="dark"] .form-horizontal .control-label {
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: whitesmoke;
 }
 
 .col-sm-10 {
@@ -2136,15 +2163,22 @@ img[alt="Avatar"] {
 /* Линии между секциями */
 fieldset {
     border: 0;
-    margin: 0 0 18px 0;
+    margin: 18px 0 18px 0;
     padding: 0;
 }
 
 legend {
     font-size: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     font-weight: 600;
     color: #222;
+}
+
+[data-theme="dark"] legend {
+    font-size: 16px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: whitesmoke;
 }
 
 /* Ошибки формы и общее сообщение */

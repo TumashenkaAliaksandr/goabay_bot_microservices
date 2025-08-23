@@ -2,192 +2,180 @@
 {% load static %}
 
 {% block content %}
-        <!-- Breadcrumb Start -->
-        <div class="breadcrumb-area ptb-60 ptb-sm-30">
-            <div class="container">
-                <div class="breadcrumb">
-                    <ul>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li class="active"><a href="register.html">Register</a></li>
-                    </ul>
-                </div>
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb-area ptb-60 ptb-sm-30">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="active"><a href="register.html">Register</a></li>
+                </ul>
             </div>
-            <!-- Container End -->
         </div>
-        <!-- Breadcrumb End -->
-        <!-- Register Account Start -->
-        <div class="register-account pb-60">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="register-title">
-                        <h3 class="mb-10">REGISTER ACCOUNT</h3>
-                        <p class="mb-10">If you already have an account with us, please login at the login page.</p>
-                    </div>
+        <!-- Container End -->
+    </div>
+    <!-- Breadcrumb End -->
+    <!-- Register Account Start -->
+    <div class="register-account pb-60">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="register-title">
+                    <h3 class="mb-10">REGISTER ACCOUNT</h3>
+                    <p class="mb-10">If you already have an account with us, please login at the login page.</p>
                 </div>
             </div>
-            <!-- Row End -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <form class="form-horizontal" method="post" novalidate>
-                        {% csrf_token %}
-                        <fieldset>
-                            <legend>Your Personal Details</legend>
+        </div>
+        <!-- Row End -->
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-horizontal" method="post" novalidate>
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Your Personal Details</legend>
 
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.username.id_for_label }}"><span
-                                        class="require">*</span> Username</label>
-                                <div class="col-sm-10">
-                                    {{ form.username }}
-                                    {% if form.username.errors %}
-                                        <div class="form-error">{{ form.username.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.first_name.id_for_label }}"><span class="require">*</span>First
-                                    Name</label>
-                                <div class="col-sm-10">
-                                    {{ form.first_name }}
-                                    {% if form.first_name.errors %}
-                                        <div class="form-error">{{ form.first_name.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.last_name.id_for_label }}"><span
-                                        class="require">*</span>Last Name</label>
-                                <div class="col-sm-10">
-                                    {{ form.last_name }}
-                                    {% if form.last_name.errors %}
-                                        <div class="form-error">{{ form.last_name.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.email.id_for_label }}"><span
-                                        class="require">*</span>Enter your email address here...</label>
-                                <div class="col-sm-10">
-                                    {{ form.email }}
-                                    {% if form.email.errors %}
-                                        <div class="form-error">{{ form.email.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.telephone.id_for_label }}"><span
-                                        class="require">*</span>Telephone</label>
-                                <div class="col-sm-10">
-                                    {{ form.telephone }}
-                                    {% if form.telephone.errors %}
-                                        <div class="form-error">{{ form.telephone.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>Your Password</legend>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.password1.id_for_label }}"><span
-                                        class="require">*</span>Password:</label>
-                                <div class="col-sm-10">
-                                    {{ form.password1 }}
-                                    {% if form.password1.errors %}
-                                        <div class="form-error">{{ form.password1.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="form-group field-row">
-                                <label class="control-label" for="{{ form.password2.id_for_label }}"><span
-                                        class="require">*</span>Confirm Password</label>
-                                <div class="col-sm-10">
-                                    {{ form.password2 }}
-                                    {% if form.password2.errors %}
-                                        <div class="form-error">{{ form.password2.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <fieldset class="newsletter-input">
-                            <legend>Newsletter</legend>
-                            <div class="form-group field-row">
-                                <label class="control-label">Subscribe</label>
-                                <div class="col-sm-10">
-                                    {{ form.newsletter }}
-                                    {% if form.newsletter.errors %}
-                                        <div class="form-error">{{ form.newsletter.errors|striptags }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <div class="buttons newsletter-input">
-                            <div class="pull-right">
-                                {{ form.agree }} I have read and agree to the <a href="#" class="agree"><b>Privacy
-                                Policy</b></a>
-                                {% if form.agree.errors %}
-                                    <div class="form-error">{{ form.agree.errors|striptags }}</div>
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.username.id_for_label }}"><span
+                                    class="require">*</span> Username</label>
+                            <div class="col-sm-10">
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="form-error">{{ form.username.errors|striptags }}</div>
                                 {% endif %}
-                                <br><br>
-                                <input type="submit" value="Continue" class="newsletter-btn">
                             </div>
                         </div>
 
-                        {% if form.non_field_errors %}
-                            <div class="form-error">{{ form.non_field_errors|striptags }}</div>
-                        {% endif %}
-                    </form>
-                </div>
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.first_name.id_for_label }}"><span class="require">*</span>First
+                                Name</label>
+                            <div class="col-sm-10">
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="form-error">{{ form.first_name.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.last_name.id_for_label }}"><span
+                                    class="require">*</span>Last Name</label>
+                            <div class="col-sm-10">
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="form-error">{{ form.last_name.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.email.id_for_label }}"><span
+                                    class="require">*</span>Enter your email address here...</label>
+                            <div class="col-sm-10">
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="form-error">{{ form.email.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.telephone.id_for_label }}"><span
+                                    class="require">*</span>Telephone</label>
+                            <div class="col-sm-10">
+                                {{ form.telephone }}
+                                {% if form.telephone.errors %}
+                                    <div class="form-error">{{ form.telephone.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Your Password</legend>
+
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.password1.id_for_label }}"><span
+                                    class="require">*</span>Password:</label>
+                            <div class="col-sm-10">
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="form-error">{{ form.password1.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group field-row">
+                            <label class="control-label" for="{{ form.password2.id_for_label }}"><span
+                                    class="require">*</span>Confirm Password</label>
+                            <div class="col-sm-10">
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="form-error">{{ form.password2.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="newsletter-input">
+                        <legend>Newsletter</legend>
+                        <div class="form-group field-row">
+                            <label class="control-label">Subscribe</label>
+                            <div class="col-sm-10">
+                                {{ form.newsletter }}
+                                {% if form.newsletter.errors %}
+                                    <div class="form-error">{{ form.newsletter.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="buttons newsletter-input">
+                        <div class="pull-right">
+                            {{ form.agree }} I have read and agree to the <a href="#" class="agree"><b>Privacy
+                            Policy</b></a>
+                            {% if form.agree.errors %}
+                                <div class="form-error">{{ form.agree.errors|striptags }}</div>
+                            {% endif %}
+                            <br><br>
+                            <input type="submit" value="Continue" class="newsletter-btn">
+                        </div>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="form-error">{{ form.non_field_errors|striptags }}</div>
+                    {% endif %}
+                </form>
             </div>
-            <!-- Row End -->
         </div>
-        <!-- Register Account End -->
-        <!-- Brand Logo Start -->
-        <div class="brand-area pb-60">
-            <div class="container">
-                <!-- Brand Banner Start -->
-                <div class="brand-banner owl-carousel">
+        <!-- Row End -->
+    </div>
+    <!-- Register Account End -->
+    <!-- Brand Logo Start -->
+    <div class="brand-area pb-60">
+        <div class="container">
+            <!-- Brand Banner Start -->
+            <div class="brand-banner owl-carousel">
+
+                {% for brand in brands %}
                     <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
+                        <a href="{% if brand.link %}{{ brand.link }}{% else %}#{% endif %}" target="_blank"
+                           rel="noopener noreferrer">
+                            {% if brand.image %}
+                                <img class="img-fluid" src="{{ brand.image.url }}" alt="{{ brand.name }}">
+                            {% else %}
+                                <span style="display:inline-block; width:100px; height:50px; background:#ddd; line-height:50px; text-align:center; color:#666; font-weight:bold;">
+                                {{ brand.name }}
+                            </span>
+                            {% endif %}
+                        </a>
                     </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
-                </div>
-                <!-- Brand Banner End -->                
+                {% empty %}
+                    <p>No brands available.</p>
+                {% endfor %}
+
             </div>
+            <!-- Brand Banner End -->
         </div>
-        <!-- Brand Logo End -->
+    </div>
+    <!-- Brand Logo End -->
 {% endblock %}
