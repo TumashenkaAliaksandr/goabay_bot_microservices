@@ -211,6 +211,7 @@ def news(request):
 
 
 def login(request):
+    brands = Brand.objects.all().order_by('name')
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
         password = request.POST.get('pass', '')
@@ -233,7 +234,11 @@ def login(request):
         else:
             messages.error(request, 'You are not registered. Please sign up first.')
 
-    return render(request, 'webapp/account/login.html')
+    context = {
+        'brands': brands,
+    }
+
+    return render(request, 'webapp/account/login.html', context=context)
 
 
 def logout(request):

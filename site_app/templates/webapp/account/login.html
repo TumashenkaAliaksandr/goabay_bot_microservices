@@ -26,7 +26,7 @@
                                 <h3>NEW CUSTOMER</h3>
                                 <p class="mtb-10"><strong>Register</strong></p>
                                 <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made</p>
-                                <a class="customer-btn" href="register.html">continue</a>
+                                <a class="customer-btn" href="{% url 'registrations' %}">continue</a>
                             </div>
                         </div>
                     </div>
@@ -82,44 +82,33 @@
             <!-- Container End -->
         </div>
         <!-- LogIn Page End -->
-        <!-- Brand Logo Start -->
-        <div class="brand-area pb-60">
-            <div class="container">
-                <!-- Brand Banner Start -->
-                <div class="brand-banner owl-carousel">
+    <!-- Brand Logo Start -->
+    <div class="brand-area pb-60">
+        <div class="container">
+            <!-- Brand Banner Start -->
+            <div class="brand-banner owl-carousel">
+
+                {% for brand in brands %}
                     <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
+                        <a href="{% if brand.link %}{{ brand.link }}{% else %}#{% endif %}" target="_blank"
+                           rel="noopener noreferrer">
+                            {% if brand.image %}
+                                <img class="img-fluid" src="{{ brand.image.url }}" alt="{{ brand.name }}">
+                            {% else %}
+                                <span style="display:inline-block; width:100px; height:50px; background:#ddd; line-height:50px; text-align:center; color:#666; font-weight:bold;">
+                                {{ brand.name }}
+                            </span>
+                            {% endif %}
+                        </a>
                     </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img class="img" src="{% static 'site_app/img/brand/1.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/2.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/3.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/4.png' %}" alt="brand-image"></a>
-                    </div>
-                    <div class="single-brand">
-                        <a href="#"><img src="{% static 'site_app/img/brand/5.png' %}" alt="brand-image"></a>
-                    </div>
-                </div>
-                <!-- Brand Banner End -->                
+                {% empty %}
+                    <p>No brands available.</p>
+                {% endfor %}
+
             </div>
+            <!-- Brand Banner End -->
         </div>
-        <!-- Brand Logo End -->
+    </div>
+    <!-- Brand Logo End -->
+
 {% endblock %}
