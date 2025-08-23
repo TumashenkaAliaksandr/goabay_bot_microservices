@@ -174,7 +174,7 @@
         </div>
     </div>
 
-    <!-- MOBILE TOP BAR-->
+    <!-- MOBILE TOP BAR -->
     <div class="mobile-header d-flex d-md-none flex-column">
 
         <!-- 1 Row -->
@@ -182,43 +182,82 @@
 
             <!-- Logo Mob -->
             <div class="d-flex w-auto">
-                <a href="{% url 'home' %}"><img src="{% static 'site_app/img/logo/logo.svg' %}" alt="Goabay Logo" height="40"></a>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'site_app/img/logo/logo.svg' %}" alt="Goabay Logo" height="40">
+                </a>
             </div>
 
             <!-- Search Mob -->
             <div class="d-flex flex-grow-1 px-2">
                 <div class="search-box d-flex align-items-center w-100">
                     <input type="text" class="form-control search-input" placeholder="🤔 Search">
-                    <button class="btn btn-primary search-btn">GO!</button>
                 </div>
             </div>
 
-            <!-- Account mob-->
-            <button class="btn btn-link p-0 d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#mobileAccountDropdown" aria-expanded="false">
-                <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar" class="user-avatar me-2">
-            </button>
+            <!-- Account mob -->
+            {% if not user.is_authenticated %}
+                <!-- Кнопка для неавторизованного пользователя -->
+                <div class="dropdown">
+                    <button class="btn btn-transparent d-flex align-items-center border-0 p-0" type="button"
+                            id="loginDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Login menu mobile">
+                        <span class="icon-reg">🔐</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdownMobile">
+                        <li><a class="dropdown-item" href="{% url 'login' %}">🔒 Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'registrations' %}">🔐 Register</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <!-- Кнопка с аватаром/инициалами для авторизованного пользователя -->
+                <div class="dropdown">
+                    <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"
+                            id="userDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="User menu mobile">
+                    <span class="icon">
+                        {% with letter=user.first_name|default:user.username|default:"?"|slice:":1" %}
+                            {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"
+                                     class="avatar-img rounded-circle"
+                                     style="width:32px; height:32px; object-fit:cover;"/>
+                            {% else %}
+                                <div class="avatar-initial rounded-circle"
+                                     style="width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:#ccc; font-weight:bold; font-size:1.1rem; text-transform:uppercase;">
+                                    {{ letter }}
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdownMobile"
+                        style="min-width: 200px;">
+                        <li><a class="dropdown-item" href="{% url 'account' %}">🏠 My Account</a></li>
+                        <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>
+                        <!--                    <li><a class="dropdown-item" href="">💰 Wallet</a></li>-->
+                        <!--                    <li><a class="dropdown-item" href="">🎫 Coupons & Discounts</a></li>-->
+                        <!--                    <li><a class="dropdown-item" href="">🔔 Notifications</a></li>-->
+                        <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
+                        <!--                    <li><a class="dropdown-item" href="">📍 My Address</a></li>-->
+                        <!--                    <li><a class="dropdown-item" href="">🧾 Orders</a></li>-->
+                        <!--                    <li><a class="dropdown-item" href="">🎈 Track my Order</a></li>-->
+                        <!--                    <li><a class="dropdown-item" href="">⚙️ Settings</a></li>-->
+                        <li>
+                            <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
+                                {% csrf_token %}
+                            </form>
+                            <a href="#" class="btn btn-link dropdown-item align-baseline"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                ⬅️ logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
 
         </div>
-
-        <!-- Account menu mob (будет сворачиваться) -->
-        <div class="collapse" id="mobileAccountDropdown">
-            <ul class="list-group">
-                <li><a class="list-group-item" href="{% url 'account' %}">🏠 My Account</a></li>
-                <li><a class="list-group-item" href="wishlist.html">💖 Wishlist</a></li>
-                <li><a class="list-group-item" href="wallet.html">💰 Wallet</a></li>
-                <li><a class="list-group-item" href="coupons.html">🎫 Coupons & Discounts</a></li>
-                <li><a class="list-group-item" href="messages.html">🔔 Notifications</a></li>
-                <li><a class="list-group-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
-                <li><a class="list-group-item" href="adress.html">📍 My Adress</a></li>
-                <li><a class="list-group-item" href="orders.html">🧾 Orders</a></li>
-                <li><a class="list-group-item" href="track.html">🎈 Track my Order</a></li>
-                <li><a class="list-group-item" href="settings.html">⚙️ Settings</a></li>
-                <li><a class="list-group-item text-danger" href="#">⬅️ Logout</a></li>
-            </ul>
-        </div>
-
 
     </div>
+
 
     <!-- overlay dropdown mob menu-->
     <div id="overlay-dropdown"></div>
@@ -230,10 +269,10 @@
         <div class="d-flex flex-nowrap overflow-auto justify-content-between w-100" style="gap: 10px;">
 
             <!-- Login -->
-            <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">
-                <span class="icon">🔑</span>
-                <span class="btn-title">Login</span>
-            </a>
+{#            <a href="login.html" class="btn-box text-decoration-none" aria-label="Login">#}
+{#                <span class="icon">🔑</span>#}
+{#                <span class="btn-title">Login</span>#}
+{#            </a>#}
 
             <!-- Cart -->
             <button class="btn-box btn-box--cart" aria-label="Shopping cart">

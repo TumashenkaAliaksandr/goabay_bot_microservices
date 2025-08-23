@@ -1376,6 +1376,25 @@ html {
         border-radius: 0;
         padding: 0;
     }
+
+    .avatar-initial {
+        width: 40px;
+        height: 40px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        user-select: none;
+        text-transform: uppercase;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom left, #a6d785, green, #a6d785);
+        background-size: 200% 200%;
+        animation: gradientShift 5s ease infinite;
+        padding-left: 4px;
+    }
     .user-info-table tbody tr td {
         display: flex;
         justify-content: space-between;
@@ -1848,6 +1867,26 @@ img[alt="Avatar"] {
     .btn-primary {
         font-size: 1rem;
         padding: 10px;
+        margin-left: 4px;
+    }
+
+    .avatar-initial {
+        width: 40px!important;
+        height: 40px!important;
+        color: white;
+        font-weight: bold;
+        font-size: 20px!important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        user-select: none;
+        text-transform: uppercase;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom left, #a6d785, green, #a6d785);
+        background-size: 200% 200%;
+        animation: gradientShift 5s ease infinite;
+        padding-left: 4px!important;
     }
 }
 
@@ -2217,6 +2256,19 @@ input[type="checkbox"] {
     .register-account {
         padding-left: 30px;
         padding-right: 30px;
+    }
+
+    .user-avatar {
+        width: 32px; /* размер аватара */
+        height: 32px; /* высота */
+        border-radius: 50%; /* круглая форма */
+        object-fit: cover; /* кадрирование изображения */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Отступ справа от аватара */
+    .user-avatar.me-2 {
+        margin-right: 0.5rem; /* 8px отступ справа */
     }
 
     .control-label {
