@@ -2434,38 +2434,90 @@ input[readonly], input[disabled] {
         background-position: 0% 50%;
     }
 }
-
-#marquee-text {
-  position: absolute;
-  white-space: nowrap; /* чтобы текст не переносился */
-  will-change: transform;
-  animation-name: marquee-animation;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-duration: 31s;
-  animation-fill-mode: forwards; /* сохранить позицию при старте */
-  width: 100%;
-  left: 0; /* расположить текст у левого края контейнера */
-  transform: translateX(0); /* начальная позиция */
-}
-
-
 #marquee-wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
-  height: 40px; /* ваша высота */
+  height: 40px; /* высота */
 }
 
+/* По умолчанию (на десктопе) */
+@media (min-width: 769px) {
+  #marquee-wrapper > .col-12 {
+    display: flex;
+    justify-content: center; /* горизонтальное центрирование */
+    align-items: center;     /* вертикальное центрирование */
+    position: relative;      /* чтобы кнопка закрытия оставалась */
+  }
 
-@keyframes marquee-animation {
+  #marquee-text {
+    position: relative;
+    animation-name: none;
+    transform: none;
+    white-space: normal; /* текст может переноситься */
+    cursor: default;
+    text-align: center; /* центрирование текста внутри блока */
+  }
+}
+
+/* На мобильных (ширина экрана 768px и меньше) */
+@media (max-width: 768px) {
+  #marquee-text {
+      position: absolute;
+      will-change: transform;
+      animation-name: marquee-animation;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-duration: 31s;
+      animation-fill-mode: forwards;
+      width: 100%;
+      left: 0;
+      transform: translateX(100%);
+      white-space: nowrap; /* запрет переноса для анимации */
+      cursor: default;
+      text-align: left; /* по желанию, выровнять текст слева */
+      top: 4px;
+  }
+
+  @keyframes marquee-animation {
     0% {
-        transform: translateX(-0%);
+      transform: translateX(100%);
     }
     100% {
-        transform: translateX(100%);
+      transform: translateX(-100%);
     }
+  }
 }
+
+.bg-side-menu-buttons {
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 13px;
+    border: 1px solid #8080808f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    position: relative;
+    bottom: 15px;
+}
+
+
+[data-theme="dark"]  .bg-side-menu-buttons {
+    background-color: #000;
+    padding: 10px 15px;
+    border-radius: 13px;
+    border: 1px solid #8080808f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    position: relative;
+    bottom: 15px;
+}
+
 
 .brand-banner.owl-carousel {
     display: flex;

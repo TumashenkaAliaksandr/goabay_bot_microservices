@@ -15,89 +15,83 @@
 
                 {% if user.is_authenticated %}
                     <!-- Кнопка с аватаром/инициалами для авторизованного пользователя -->
-                    <div class="dropdown">
-                        <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"
-                                id="userDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false"
-                                aria-label="User menu mobile">
-                            <span class="icon">
-                                {% with letter=user.first_name|default:user.username|default:"?"|slice:":1" %}
-                                    {% if user.profile.avatar %}
-                                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"
-                                             class="avatar-img rounded-circle"
-                                             style="width:32px; height:32px; object-fit:cover;"/>
-                                    {% else %}
-                                        <div class="avatar-initial rounded-circle"
-                                             style="width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:#ccc; font-weight:bold; font-size:1.1rem; text-transform:uppercase;">
-                                            {{ letter }}
-                                        </div>
-                                    {% endif %}
-                                {% endwith %}
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdownMobile"
-                            style="min-width: 200px;">
-                            <li><a class="dropdown-item" href="{% url 'account' %}">🏠 My Account</a></li>
-                            <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>
-                            <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
-                            <li>
-                                <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
-                                    {% csrf_token %}
-                                </form>
-                                <a href="#" class="btn btn-link dropdown-item align-baseline"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    ⬅️ Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+{#                    <div class="dropdown">#}
+{#                        <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"#}
+{#                                id="userDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false"#}
+{#                                aria-label="User menu mobile">#}
+{#                            <span class="icon">#}
+{#                                {% with letter=user.first_name|default:user.username|default:"?"|slice:":1" %}#}
+{#                                    {% if user.profile.avatar %}#}
+{#                                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"#}
+{#                                             class="avatar-inicial rounded-circle"/>#}
+{#                                    {% else %}#}
+{#                                        <div class="avatar-initial rounded-circle">#}
+{#                                            {{ letter }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                {% endwith %}#}
+{#                            </span>#}
+{#                        </button>#}
+{#                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdownMobile"#}
+{#                            style="min-width: 200px;">#}
+{#                            <li><a class="dropdown-item" href="{% url 'account' %}">🏠 My Account</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>#}
+{#                            <li>#}
+{#                                <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">#}
+{#                                    {% csrf_token %}#}
+{#                                </form>#}
+{#                                <a href="#" class="btn btn-link dropdown-item align-baseline"#}
+{#                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">#}
+{#                                    ⬅️ Logout#}
+{#                                </a>#}
+{#                            </li>#}
+{#                        </ul>#}
+{#                    </div>#}
                 {% else %}
-                    <!-- Иконка замка + меню Вход/Регистрация -->
-                    <div class="dropdown">
-                        <button class="btn btn-transparent d-flex align-items-center border-0 p-0" type="button"
-                                id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                                aria-label="Login menu">
-                            <span class="icon-reg">🔐</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
-                            <li><a class="dropdown-item" href="{% url 'login' %}">🔒 Login</a></li>
-                            <li><a class="dropdown-item" href="{% url 'registrations' %}">🔐 Register</a></li>
-                        </ul>
+                    <!-- Простое меню без иконок и выпадающего списка -->
+                    <div class="login-register-menu d-flex gap-3">
+                        <a href="{% url 'login' %}" class="text-decoration-none">🔒 Login</a>
+                        <a href="{% url 'registrations' %}" class="text-decoration-none">🔐 Register</a>
                     </div>
+
                 {% endif %}
 
             </div>
 
-            <!-- Кнопка закрытия -->
-            <div class="d-flex align-items-start">
-                <button class="close-side-btn">✖</button>
-            </div>
-
         </div>
 
-        <!-- Нижняя панель: ссылки для авторизованных и переключатель, справа -->
+        <!-- Нижняя панель: ссылки для авторизованных и переключатель -->
         <div class="user-bottom d-flex justify-content-between align-items-center">
 
-            {% if user.is_authenticated %}
-                <!-- Показать ссылки для авторизованного пользователя слева -->
-                <div class="user-actions">
-                    <a href="{% url 'account' %}" class="account-link">ACCOUNT</a> /
-                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form-bottom').submit();" class="exit-link">EXIT</a>
+{#            {% if user.is_authenticated %}#}
+{#                <!-- Показать ссылки для авторизованного пользователя слева -->#}
+{#                <div class="user-actions">#}
+{#                    <a href="{% url 'account' %}" class="account-link">ACCOUNT</a> /#}
+{#                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form-bottom').submit();" class="exit-link">EXIT</a>#}
+{##}
+{#                    <form id="logout-form-bottom" method="post" action="{% url 'logout' %}" style="display:none;">#}
+{#                        {% csrf_token %}#}
+{#                    </form>#}
+{#                </div>#}
+{#            {% else %}#}
+{#                <div></div> <!-- Чтобы занять пространство слева, переключатель справа -->#}
+{#            {% endif %}#}
 
-                    <form id="logout-form-bottom" method="post" action="{% url 'logout' %}" style="display:none;">
-                        {% csrf_token %}
-                    </form>
+            <!-- Переключатель темы -->
+            <div class="bg-side-menu-buttons">
+                <div class="user-theme">
+                    <label class="switch m-0">
+                        <input type="checkbox" class="theme-toggle" id="themeToggle">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
-            {% else %}
-                <div></div> <!-- Чтобы занять пространство слева, переключатель справа -->
-            {% endif %}
-
-            <!-- Переключатель темы справа -->
-            <div class="user-theme ms-auto">
-                <label class="switch m-0">
-                    <input type="checkbox" class="theme-toggle" id="themeToggle">
-                    <span class="slider round"></span>
-                </label>
+                <!-- Кнопка закрытия -->
+                <div class="d-flex align-items-start">
+                    <button class="close-side-btn">✖</button>
+                </div>
             </div>
+
 
         </div>
 
@@ -106,11 +100,11 @@
 
     <!-- menu List -->
     <ul class="menu-list">
-        <li><a href="{% url 'home' %}">🏠 Home</a></li>
+{#        <li><a href="{% url 'home' %}">🏠 Home</a></li>#}
 
         {% if user.is_authenticated %}
             <li class="has-submenu">
-                <a href="#">🚀 My Space</a>
+                <a href="#">⌨️ My account</a>
                 <ul class="submenu">
                     <li><a href="{% url 'wishlist' %}">💖 Wishlist</a></li>
                     <li><a href="{% url 'cart' %}">🛒 My Cart</a></li>
@@ -122,8 +116,10 @@
             </li>
         {% endif %}
 
+        <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
+
         <li class="has-submenu">
-            <a href="#">📂 Products</a>
+            <a href="#">🛍️ Shop</a>
             <ul class="submenu">
                 <li><a href="shop.html">📜 All Products</a></li>
                 <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
