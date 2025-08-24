@@ -832,6 +832,16 @@ html {
     .swiper-wrapper {
         align-items: stretch; /* Растягиваем карточки */
     }
+
+    .icon-reg {
+        display: inline-block;
+        padding: 3px 5px 5px;
+        border-radius: 50%;
+        background: linear-gradient(to bottom left, #a6d785, green, #a6d785);
+        background-size: 200% 200%;
+        animation: gradientShift 5s ease infinite;
+        margin-top: 0;
+    }
 }
 
 /* 🌙 Темная тема */
@@ -858,12 +868,25 @@ html {
 }
 
 .v-menu-title {
-    background: #00ba44;
+    background: linear-gradient(to bottom left, #a6d785, #00ba44, #a6d785);
     color: #fff;
     font-size: 16px;
     padding: 10px;
     border-radius: 10px 10px 0px 0px;
     text-align: center;
+    animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .vertical-menu ul {

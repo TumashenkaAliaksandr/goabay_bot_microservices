@@ -1,102 +1,161 @@
+{% load custom_filters %}
 {% load static %}
 
 {% block content %}
-    <!-- SIDE MENU -->
-    <div id="sideMenu" class="side-menu d-flex flex-column">
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu d-flex flex-column">
 
-        <!-- User Box -->
-        <div class="user-profile m-2">
+    <!-- User Box -->
+    <div class="user-profile m-2">
 
-            <!-- Информация: аватар + имя + действия -->
-            <div class="user-info d-flex justify-content-between align-items-start pb-2 mb-2">
+        <!-- Информация: аватар + имя + действия -->
+        <div class="user-info d-flex justify-content-between align-items-start pb-2 mb-2">
 
-                <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
 
-                    <!-- Аватар слева -->
-                    <img src="{% static 'site_app/img/products/Frame 1.png' %}" alt="User Avatar"
-                         class="user-avatar me-3">
-
-                    <!-- Справа: имя и ссылки -->
-                    <span class="username d-block">Mr. Nickson</span>
-
-                </div>
-
-                <!-- Кнопка закрытия -->
-                <div class="d-flex align-items-start">
-                    <button class="close-side-btn">✖</button>
-                </div>
+                {% if user.is_authenticated %}
+                    <!-- Кнопка с аватаром/инициалами для авторизованного пользователя -->
+                    <div class="dropdown">
+                        <button class="d-flex align-items-center border-0 bg-transparent p-0" type="button"
+                                id="userDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false"
+                                aria-label="User menu mobile">
+                            <span class="icon">
+                                {% with letter=user.first_name|default:user.username|default:"?"|slice:":1" %}
+                                    {% if user.profile.avatar %}
+                                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"
+                                             class="avatar-img rounded-circle"
+                                             style="width:32px; height:32px; object-fit:cover;"/>
+                                    {% else %}
+                                        <div class="avatar-initial rounded-circle"
+                                             style="width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:#ccc; font-weight:bold; font-size:1.1rem; text-transform:uppercase;">
+                                            {{ letter }}
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdownMobile"
+                            style="min-width: 200px;">
+                            <li><a class="dropdown-item" href="{% url 'account' %}">🏠 My Account</a></li>
+                            <li><a class="dropdown-item" href="{% url 'wishlist' %}">💖 Wishlist</a></li>
+                            <li><a class="dropdown-item" href="{% url 'cart' %}">🛒 My Cart</a></li>
+                            <li>
+                                <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
+                                    {% csrf_token %}
+                                </form>
+                                <a href="#" class="btn btn-link dropdown-item align-baseline"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    ⬅️ Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <!-- Иконка замка + меню Вход/Регистрация -->
+                    <div class="dropdown">
+                        <button class="btn btn-transparent d-flex align-items-center border-0 p-0" type="button"
+                                id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                aria-label="Login menu">
+                            <span class="icon-reg">🔐</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">🔒 Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'registrations' %}">🔐 Register</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
 
             </div>
 
-            <!-- Нижняя панель: тема + ссылки -->
-            <div class="user-bottom d-flex justify-content-between align-items-center">
-
-                <!-- Ссылки -->
-                <div class="user-actions">
-                    <a href="{% url 'account' %}" class="account-link">ACCOUNT</a> /
-                    <a href="#" class="exit-link">EXIT</a>
-                </div>
-
-                <!-- Переключатель темы -->
-                <div class="user-theme">
-                    <label class="switch m-0">
-                        <input type="checkbox" class="theme-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-
+            <!-- Кнопка закрытия -->
+            <div class="d-flex align-items-start">
+                <button class="close-side-btn">✖</button>
             </div>
 
         </div>
-        <!-- END User Box -->
 
-        <!-- menu List -->
-        <ul class="menu-list">
-            <li><a href="#">🏠 Home</a></li>
+        <!-- Нижняя панель: ссылки для авторизованных и переключатель, справа -->
+        <div class="user-bottom d-flex justify-content-between align-items-center">
+
+            {% if user.is_authenticated %}
+                <!-- Показать ссылки для авторизованного пользователя слева -->
+                <div class="user-actions">
+                    <a href="{% url 'account' %}" class="account-link">ACCOUNT</a> /
+                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form-bottom').submit();" class="exit-link">EXIT</a>
+
+                    <form id="logout-form-bottom" method="post" action="{% url 'logout' %}" style="display:none;">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            {% else %}
+                <div></div> <!-- Чтобы занять пространство слева, переключатель справа -->
+            {% endif %}
+
+            <!-- Переключатель темы справа -->
+            <div class="user-theme ms-auto">
+                <label class="switch m-0">
+                    <input type="checkbox" class="theme-toggle" id="themeToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- END User Box -->
+
+    <!-- menu List -->
+    <ul class="menu-list">
+        <li><a href="{% url 'home' %}">🏠 Home</a></li>
+
+        {% if user.is_authenticated %}
             <li class="has-submenu">
-                <a href="#">👤 My account</a>
+                <a href="#">🚀 My Space</a>
                 <ul class="submenu">
-                    <li><a href="wishlist.html">💖 Wishlist</a></li>
+                    <li><a href="{% url 'wishlist' %}">💖 Wishlist</a></li>
                     <li><a href="{% url 'cart' %}">🛒 My Cart</a></li>
-                    <li><a href="adress.html">📍 My Adress</a></li>
+                    <li><a href="adress.html">📍 My Address</a></li>
                     <li><a href="orders.html">🧾 Orders</a></li>
                     <li><a href="track.html">🎈 Track my Order</a></li>
                     <li><a href="#">⚙️ Settings</a></li>
                 </ul>
             </li>
-            <li class="has-submenu">
-                <a href="#">📂 Products</a>
-                <ul class="submenu">
-                    <li><a href="shop.html">📜 All Products</a></li>
-                    <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
-                    <li><a href="brands.html">💎 Brands</a></li>
-                    <li><a href="wholesale.html">🚢 Wholesale</a></li>
-                    <li><a href="hande-made.html">🪬 Hand Made</a></li>
-                    <li><a href="sales.html">🔖 Sales</a></li>
-                    <li><a href="best.html">🔥 Best Sellers</a></li>
-                    <li><a href="gifts.html">🎁 Gifts</a></li>
-                    <li><a href="promo.html">📣 Promo</a></li>
-                </ul>
-            </li>
-            <li class="has-submenu">
-                <a href="#">📑 Info</a>
-                <ul class="submenu">
-                    <li><a href="work.html">🛺 How we work</a></li>
-                    <li><a href="about-us.html">🌴 About us</a></li>
-                    <li><a href="{% url 'payment' %}">💳 Payment</a></li>
-                    <li><a href="delivery.html">🚚 Delivery</a></li>
-                    <li><a href="offer.html">📋 Public offer</a></li>
-                    <li><a href="faq.html">❓ FAQ</a></li>
-                    <li><a href="reviews.html">📣 Reviews</a></li>
-                </ul>
-            </li>
-            <li><a href="blog.html">📰 Blog</a></li>
-            <li><a href="app.html">📲 Save more on APP</a></li>
-            <li><a href="#">🤖 Goa Bot</a></li>
-            <li><a href="partner.html">💼 Partners</a></li>
-            <li><a href="contacts.html">📪 Contact us</a></li>
-        </ul>
+        {% endif %}
 
-    </div>
-    <!-- END SIDE MENU -->
+        <li class="has-submenu">
+            <a href="#">📂 Products</a>
+            <ul class="submenu">
+                <li><a href="shop.html">📜 All Products</a></li>
+                <li><a href="elephant.html">🐘 Buy the Elephant</a></li>
+                <li><a href="brands.html">💎 Brands</a></li>
+                <li><a href="wholesale.html">🚢 Wholesale</a></li>
+                <li><a href="hande-made.html">🙌 Hand Made</a></li>
+                <li><a href="sales.html">🔖 Sales</a></li>
+                <li><a href="best.html">🔥 Best Sellers</a></li>
+                <li><a href="gifts.html">🎁 Gifts</a></li>
+                <li><a href="promo.html">📣 Promo</a></li>
+            </ul>
+        </li>
+        <li class="has-submenu">
+            <a href="#">📑 Info</a>
+            <ul class="submenu">
+                <li><a href="work.html">🛺 How we work</a></li>
+                <li><a href="about-us.html">🌴 About us</a></li>
+                <li><a href="{% url 'payment' %}">💳 Payment</a></li>
+                <li><a href="delivery.html">🚚 Delivery</a></li>
+                <li><a href="offer.html">📋 Public offer</a></li>
+                <li><a href="faq.html">❓ FAQ</a></li>
+                <li><a href="reviews.html">📣 Reviews</a></li>
+            </ul>
+        </li>
+        <li><a href="blog.html">📰 Blog</a></li>
+        <li><a href="app.html">📲 Save more on APP</a></li>
+        <li><a href="#">🤖 Goa Bot</a></li>
+        <li><a href="partner.html">💼 Partners</a></li>
+        <li><a href="contacts.html">📪 Contact us</a></li>
+    </ul>
+
+</div>
+<!-- END SIDE MENU -->
 {% endblock %}
+

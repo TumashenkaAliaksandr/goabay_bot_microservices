@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from bot_app.models import ProductImage, Review
-from site_app.models import Category, Brand, SocialNetwork, InfoFooter, FooterNavItem
+from site_app.models import Category, Brand, SocialNetwork, InfoFooter, FooterNavItem, VerticalMenu, VerticalMenuName
 
 
 # Register your models here.
@@ -63,3 +63,13 @@ class InfoFooterAdmin(admin.ModelAdmin):
             'fields': ('logo', 'svg_icon', 'copyright', 'phone', 'email')
         }),
     )
+
+@admin.register(VerticalMenuName)
+class VerticalMenuNameAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+@admin.register(VerticalMenu)
+class VerticalMenuAdmin(admin.ModelAdmin):
+    list_display = ('name', 'icon', 'link')
+    search_fields = ('name',)

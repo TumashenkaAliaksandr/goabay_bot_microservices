@@ -40,6 +40,21 @@ class Category(models.Model):
         return self.name
 
 
+class VerticalMenuName(models.Model):
+
+    name = models.CharField(max_length=100, unique=True, verbose_name="Имя меню")
+
+    def __str__(self):
+        return self.name
+
+class VerticalMenu(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Menu Name")
+    icon = models.CharField(max_length=10, verbose_name="Icon")  # To store emoji or icon unicode
+    link = models.URLField(max_length=200, verbose_name="Link", blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
 
 
 class NewsletterSubscription(models.Model):
@@ -133,4 +148,5 @@ class InfoFooter(models.Model):
 
     def __str__(self):
         return "Инфофутер сайта"
+
 

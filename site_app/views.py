@@ -19,7 +19,7 @@ from django.contrib.auth import authenticate, login as login_reg
 from bot_app.models import Review, ProductVariant, UserRegistration, UserProfile
 from goabay_bot import settings
 from site_app.forms import ReviewForm, RegistrationForm
-from site_app.models import Product, Brand, NewsletterSubscription, Category
+from site_app.models import Product, Brand, NewsletterSubscription, Category, VerticalMenuName, VerticalMenu
 from main_parcer.scripts_parcers.isha_bestsellers import scrape_bestsellers
 from site_app.serializers import ProductSerializer
 from site_app.templatetags.utils import get_rating_breakdown
@@ -30,9 +30,14 @@ from site_app.templatetags.utils import get_rating_breakdown
 def index(request):
     products_up_block = Product.objects.all()
     sliders = Brand.objects.all()
+    menu_name_obj = VerticalMenuName.objects.first()
+    menu_name = menu_name_obj.name if menu_name_obj else "Menu"
+    menu_items = VerticalMenu.objects.all()
     context = {
         'products_up_block': products_up_block,
         'sliders': sliders,
+        'menu_name': menu_name,
+        'menu_items': menu_items,
     }
     return render(request, 'webapp/index.html', context=context)
 
@@ -390,6 +395,7 @@ def product_catalog(request):
         'sliders': sliders,
     }
     return render(request, 'webapp/shop/product-catalog.html', context=context)
+
 
 
 
