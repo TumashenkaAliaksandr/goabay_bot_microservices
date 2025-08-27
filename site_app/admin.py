@@ -14,13 +14,13 @@ class CategoryAdmin(admin.ModelAdmin):
 # Регистрация модели Category с настройками админки
 admin.site.register(Category, CategoryAdmin)
 
-
-class ProductImageInline(admin.TabularInline):
-    model = ProductImage
-    extra = 1  # Количество пустых форм для добавления новых изображений
-
-
-admin.site.register(ProductImage)
+#
+# class ProductImageInline(admin.TabularInline):
+#     model = ProductImage
+#     extra = 7  # Количество пустых форм для добавления новых изображений
+#
+#
+# admin.site.register(ProductImage)
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):

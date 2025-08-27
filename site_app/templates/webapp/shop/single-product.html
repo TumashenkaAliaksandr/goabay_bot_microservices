@@ -71,7 +71,16 @@
                         </div>
                     </div>
 
-                    <!-- Миниатюры -->
+{#                    <!-- Миниатюры -->#}
+{#                    <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">#}
+{#                        <div class="swiper-wrapper">#}
+{#                            {% for img in variant_additional_images %}#}
+{#                                <div class="swiper-slide" style="width: 50px;">#}
+{#                                    <img src="{{ img.image_url }}" class="img-fluid rounded border border-secondary"/>#}
+{#                                </div>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </div>#}
                     <div class="swiper thumbs-slider d-flex justify-content-center gap-2 mt-3 px-1">
                         <div class="swiper-wrapper">
                             {% for img in variant_additional_images %}
@@ -81,6 +90,7 @@
                             {% endfor %}
                         </div>
                     </div>
+
 
                 </div>
             </div>
@@ -211,7 +221,7 @@
                             {% else %}
                                 <tr>
                                     <th>Size</th>
-                                    <td id="variant-sizes-container"><em>Размеры не доступны</em></td>
+                                    <td id="variant-sizes-container"><em>⛔</em></td>
                                 </tr>
                             {% endif %}
 

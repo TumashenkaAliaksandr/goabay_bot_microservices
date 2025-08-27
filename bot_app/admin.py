@@ -5,10 +5,10 @@ from django.contrib.admin import AdminSite
 from django.utils.safestring import mark_safe
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from site_app.admin import ProductImageInline
 from site_app.forms import ProductForm
 from . import models  # Убедитесь, что импортируете правильно
-from .models import Product, News, NewsImage, AboutUs, ProductVariant  # Убедитесь, что импортируете правильно
+from .models import Product, News, NewsImage, AboutUs, ProductVariant, \
+    ProductImage  # Убедитесь, что импортируете правильно
 
 # Создаём экземпляр кастомной админки
 class MyAdminSite(AdminSite):
@@ -50,14 +50,36 @@ for model in all_models:
 #
 # admin_site.register(models.Words, WordAdmin)
 
+
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
     extra = 1
+    readonly_fields = ['image_preview']
 
+    def image_preview(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="60" height="60" style="object-fit: contain;" />')
+        return '-'
+    image_preview.short_description = 'Превью'
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 3
+    readonly_fields = ['image_preview']
+    verbose_name = 'Дополнительное изображение'
+    verbose_name_plural = 'Дополнительные изображения'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="80" height="80" style="object-fit: contain;" />')
+        return '-'
+    image_preview.short_description = 'Превью'
+
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     form = ProductForm
-    inlines = [ProductVariantInline]
+    inlines = [ProductVariantInline, ProductImageInline]  # добавляем оба inline
+
     list_display = (
         'name', 'sku', 'price', 'stock_status', 'quantity', 'show_quantity',
         'is_popular', 'is_new_product', 'is_sale', 'image_preview', 'has_additional_description'

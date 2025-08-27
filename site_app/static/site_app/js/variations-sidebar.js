@@ -84,7 +84,7 @@ function updateVariantSizes(sizes) {
     if (!sizesContainer) return;
 
     if (!sizes || sizes.length === 0) {
-        sizesContainer.innerHTML = '<em>Размеры не доступны</em>';
+        sizesContainer.innerHTML = '<em>➖</em>';
         return;
     }
 

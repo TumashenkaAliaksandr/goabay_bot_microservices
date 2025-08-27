@@ -17,7 +17,7 @@ from io import BytesIO
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goabay_bot.settings')
 django.setup()
 
-from bot_app.models import Product, ProductVariant
+from bot_app.models import Product, ProductVariant, ProductImage
 from site_app.models import Brand  # замените на ваши реальные приложения
 
 logger = logging.getLogger('product_parser')
@@ -251,25 +251,42 @@ def remove_duplicates(products, key='product_url'):
     return unique_products
 
 
+
+def generate_unique_slug(model_class, base_slug):
+    slug = base_slug
+    counter = 1
+    while model_class.objects.filter(slug=slug).exists():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    return slug
+
 def save_product_to_db(product_data):
     try:
-        brand, _ = Brand.objects.get_or_create(name='Biba')
-        slug = slugify(product_data.get('product_name', 'default-slug'))
+        brand_name = product_data.get('brand', 'Biba')
+        brand, _ = Brand.objects.get_or_create(name=brand_name)
+
+        product_name = product_data.get('product_name', 'default-name')
+        base_slug = slugify(product_name)
+        slug = generate_unique_slug(Product, base_slug)
+
         sku = product_data.get('product_id')
+        if not sku:
+            logger.error(f"Нет SKU для продукта '{product_name}', запись пропущена")
+            return None
 
         availability = product_data.get('availability', '')
-        availability_mapping = {
+        availability_map = {
             "http://schema.org/InStock": "in_stock",
             "http://schema.org/OutOfStock": "out_of_stock",
             "http://schema.org/PreOrder": "preorder",
-            "http://schema.org/Discontinued": "discontinued"
+            "http://schema.org/Discontinued": "discontinued",
         }
-        stock_status = availability_mapping.get(availability, "in_stock")
+        stock_status = availability_map.get(availability, "in_stock")
 
-        product_obj, created = Product.objects.update_or_create(
+        product_obj, _ = Product.objects.update_or_create(
             sku=sku,
             defaults={
-                'name': product_data.get('product_name', 'No Name'),
+                'name': product_name,
                 'slug': slug,
                 'brand': brand,
                 'desc': product_data.get('description', ''),
@@ -278,50 +295,82 @@ def save_product_to_db(product_data):
             }
         )
 
-        # Сохраняем первое изображение в поле image модели Product
         image_urls = product_data.get('image_urls', [])
+        variations = product_data.get('variations')
+
+        # Сохраняем главное изображение (первое фото)
+        saved_images_urls = set()
         if image_urls:
-            image_url = image_urls[0]
             try:
-                img_temp = BytesIO(urllib.request.urlopen(image_url).read())
-                img_filename = image_url.split('/')[-1].split('?')[0]
-                product_obj.image.save(img_filename, File(img_temp), save=True)
+                main_img_url = image_urls[0]
+                img_temp = BytesIO(urllib.request.urlopen(main_img_url).read())
+                img_name = main_img_url.split('/')[-1].split('?')[0]
+                product_obj.image.save(img_name, File(img_temp), save=True)
+                saved_images_urls.add(main_img_url)
             except Exception as e:
-                logger.error(f"Error saving product image for {sku}: {e}")
+                logger.error(f"Ошибка сохранения главного изображения для SKU {sku}: {e}")
 
-        variations = product_data.get('variations', {})
-        color = variations.get('Color', '') or variations.get('Colour', '') or ''
-        size = variations.get('Size', '') or ''
-        variant_sku = variations.get('SKU', sku)
+        # Обработка вариаций
+        if variations:
+            if isinstance(variations, dict):
+                variations = [variations]
 
-        quantity = 0
+            for idx, var_data in enumerate(variations):
+                var_sku = var_data.get('SKU') or f"{sku}-{idx}"
+                color = var_data.get('Color', '') or var_data.get('Colour', '') or ''
+                size = var_data.get('Size', '') or ''
+                variant_price = var_data.get('price', product_data.get('price'))
+                quantity = var_data.get('quantity', 0)
 
-        product_variant, variant_created = ProductVariant.objects.update_or_create(
-            product=product_obj,
-            sku=variant_sku,
-            defaults={
-                'description': product_data.get('description', ''),
-                'color': color,
-                'size': size,
-                'price': product_data.get('price'),
-                'quantity': quantity,
-            }
-        )
+                try:
+                    variant_obj, created = ProductVariant.objects.update_or_create(
+                        product=product_obj,
+                        sku=var_sku,
+                        defaults={
+                            'description': product_data.get('description', ''),
+                            'color': color,
+                            'size': size,
+                            'price': variant_price,
+                            'quantity': quantity,
+                        }
+                    )
+                except Exception as e:
+                    logger.error(f"Ошибка создания вариации для SKU {var_sku}: {e}")
+                    continue
 
-        # Можно также сохранить изображение вариации (если есть)
-        if len(image_urls) > 1:
-            variant_image_url = image_urls[1]
-            try:
-                img_temp = BytesIO(urllib.request.urlopen(variant_image_url).read())
-                img_filename = variant_image_url.split('/')[-1].split('?')[0]
-                product_variant.image.save(img_filename, File(img_temp), save=True)
-            except Exception as e:
-                logger.error(f"Error saving variant image for {variant_sku}: {e}")
+                # Сохраняем изображение вариации (если есть)
+                variant_image_idx = idx + 1
+                if variant_image_idx < len(image_urls):
+                    variant_image_url = image_urls[variant_image_idx]
+                    try:
+                        img_temp = BytesIO(urllib.request.urlopen(variant_image_url).read())
+                        img_name = variant_image_url.split('/')[-1].split('?')[0]
+                        variant_obj.image.save(img_name, File(img_temp), save=True)
+                        saved_images_urls.add(variant_image_url)
+                    except Exception as e:
+                        logger.error(f"Ошибка сохранения изображения вариации SKU {var_sku}: {e}")
 
-        logger.info(f"Product saved to DB: {product_obj.name}")
+        else:
+            # Если нет вариаций, то присваиваем пустой список для удобства
+            variations = []
+
+        # Сохраняем все фото, которые ещё не сохранены (то есть все кроме главного и вариационных) как дополнительные фото
+        for img_url in image_urls:
+            if img_url not in saved_images_urls:
+                try:
+                    img_temp = BytesIO(urllib.request.urlopen(img_url).read())
+                    img_name = img_url.split('/')[-1].split('?')[0]
+                    prod_img = ProductImage(product=product_obj)
+                    prod_img.image.save(img_name, File(img_temp), save=False)
+                    prod_img.save()
+                except Exception as e:
+                    logger.error(f"Ошибка сохранения дополнительного изображения для SKU {sku}: {e}")
+
+        logger.info(f"Продукт '{product_obj.name}' (SKU: {sku}) успешно сохранён в базу")
         return product_obj
+
     except Exception as e:
-        logger.error(f"Error saving product {product_data.get('product_name')}: {e}")
+        logger.error(f"Ошибка сохранения продукта {product_data.get('product_name')}: {e}")
         return None
 
 
@@ -356,10 +405,6 @@ def save_products_to_json(products, filename='jsons_files/biba_products.json', l
 
     logger.info(f"Data successfully saved to JSON file {filename}")
 
-def ensure_dir_exists(filepath):
-    directory = os.path.dirname(filepath)
-    if directory and not os.path.exists(directory):
-        os.makedirs(directory, exist_ok=True)
 
 if __name__ == "__main__":
     base_url = "https://www.biba.in/jewellery/"

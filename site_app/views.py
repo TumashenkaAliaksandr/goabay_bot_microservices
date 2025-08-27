@@ -113,6 +113,13 @@ def product_detail(request, slug):
                 if not any(i['image_url'] == img_url for i in variant_additional_images):
                     variant_additional_images.append({'image_url': img_url})
 
+        # Если вариаций мало (0 или 1), добавляем все доп фото продукта в миниатюры
+        if product.variants.count() <= 1:
+            for img in product.additional_images.all():
+                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+                if not any(i['image_url'] == img_url for i in variant_additional_images):
+                    variant_additional_images.append({'image_url': img_url})
+
         # Получаем размеры выбранной вариации для передачи в шаблон
         variant_sizes = []
         if first_variant and first_variant.size:
@@ -126,15 +133,14 @@ def product_detail(request, slug):
                 variant_sizes = [first_variant.size]
 
     else:
-        # Для простого товара
-        if hasattr(product, 'image') and product.image:
+        # Для простого товара (нет вариаций)
+        if hasattr(product, 'additional_images') and product.image:
             main_img_url = f"{settings.MEDIA_URL.rstrip('/')}/{product.image.name.lstrip('/')}"
             variant_additional_images.append({'image_url': main_img_url})
-        if hasattr(product, 'images'):
-            for img in product.images.all():
-                img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
-                if not any(i['image_url'] == img_url for i in variant_additional_images):
-                    variant_additional_images.append({'image_url': img_url})
+        for img in product.additional_images.all():
+            img_url = f"{settings.MEDIA_URL.rstrip('/')}/{img.image.name.lstrip('/')}"
+            if not any(i['image_url'] == img_url for i in variant_additional_images):
+                variant_additional_images.append({'image_url': img_url})
 
     # Обработка формы отзыва
     if request.method == 'POST':
