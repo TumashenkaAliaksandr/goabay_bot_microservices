@@ -111,8 +111,7 @@
         <div class="h-list-container">
             <h2 class="h2-title">Goabay Service</h2>
             <div class="horizontal-list">
-                <a href="{% url 'payment' %}" class="h-list-item">💳 Payment</a>
-                <a href="delivery.html" class="h-list-item">🚚 Delivery</a>
+                <a href="{% url 'delivery' %}" class="h-list-item">🚚 Delivery</a>
                 <a href="offer.html" class="h-list-item">📋 Public offer</a>
                 <a href="faq.html" class="h-list-item">❓ FAQ</a>
                 <a href="reviews.html" class="h-list-item">📣 Reviews</a>
@@ -146,7 +145,7 @@
                         <div class="col-9">
                             <div class="service-title">Journey to India</div>
                             <div class="description">Read our blog and discover the magic of India.</div>
-                            <a href="blog.html" class="catalog-link">READ MORE</a>
+                            <a href="{% url 'news' %}" class="catalog-link">READ MORE</a>
                         </div>
                     </div>
                 </div>
@@ -192,7 +191,7 @@
                             <div class="description">Many years of experience in forming and sending parcels to ANY
                                 destinations.
                             </div>
-                            <a href="work.html" class="catalog-link">HOW WE WORK</a>
+                            <a href="{% url 'delivery' %}" class="catalog-link">HOW WE WORK</a>
                         </div>
                     </div>
                 </div>

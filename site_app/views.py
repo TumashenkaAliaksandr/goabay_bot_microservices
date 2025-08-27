@@ -217,6 +217,9 @@ def checkout(request):
 def orders(request):
     return render(request, 'webapp/account/orders.html')
 
+def delivery(request):
+    return render(request, 'main/nick/delivery.html')
+
 def news(request):
     return render(request, 'webapp/blog/blog.html')
 

@@ -56,6 +56,8 @@ urlpatterns = [
 
     # Оплата
     path('payment/', views.payments, name='payment'),
+    # Доставка
+    path('delivery/', views.delivery, name='delivery'),
 
     # 404
     path('404/', views.four_zero_four, name='four-zero-four'),
