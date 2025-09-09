@@ -88,7 +88,7 @@ class StatisticsTab(QWidget):
         super().__init__()
         layout = QVBoxLayout()
 
-        self.figure = plt.figure(figsize=(6,5))
+        self.figure = plt.figure(figsize=(6, 5))
         self.canvas = FigureCanvas(self.figure)
         self.toolbar = NavigationToolbar(self.canvas, self)
 
@@ -116,16 +116,7 @@ class StatisticsTab(QWidget):
         layout.addWidget(self.radio_group_box)
         self.setLayout(layout)
 
-        # Инициализация данных для графиков
-        self.prices = np.random.normal(loc=50, scale=15, size=100)
-        self.categories = ['Категория A', 'Категория B', 'Категория C']
-        self.cat_sizes = [45, 30, 25]
-        self.months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май']
-        self.sales = [20, 34, 30, 35, 27]
-        self.x_scatter = np.random.rand(100)
-        self.y_scatter = np.random.rand(100)
-        self.z_scatter = np.random.rand(100)
-        self.data_matrix = np.random.rand(8,8)
+        self.load_data_from_api()
 
         # Подключение переключения графиков
         self.hist_radio.toggled.connect(self.update_plot)
@@ -136,8 +127,70 @@ class StatisticsTab(QWidget):
         self.threeD_radio.toggled.connect(self.update_plot)
 
         self.hist_radio.setChecked(True)
-
         self.update_plot()
+
+    def load_data_from_api(self):
+        try:
+            response = requests.get(API_BASE)
+            response.raise_for_status()
+            products = response.json()
+
+            self.prices = []
+            for p in products:
+                price = p.get('price', 0)
+                try:
+                    price_val = float(price)
+                except (ValueError, TypeError):
+                    price_val = 0
+                self.prices.append(price_val)
+
+            categories_raw = [p.get('category', 'Без категории') for p in products]
+            categories_str = []
+            for cat in categories_raw:
+                if isinstance(cat, list):
+                    cat_str = ', '.join(cat)
+                else:
+                    cat_str = str(cat)
+                categories_str.append(cat_str)
+            self.categories = list(set(categories_str))
+
+            self.cat_sizes = []
+            for category in self.categories:
+                total = 0.0
+                for p in products:
+                    p_cat = p.get('category', 'Без категории')
+                    if isinstance(p_cat, list):
+                        p_cat_str = ', '.join(p_cat)
+                    else:
+                        p_cat_str = str(p_cat)
+                    if p_cat_str == category:
+                        price = p.get('price', 0)
+                        try:
+                            price_val = float(price)
+                        except (ValueError, TypeError):
+                            price_val = 0
+                        total += price_val
+                self.cat_sizes.append(total)
+
+            self.months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май']
+            self.sales = [20, 34, 30, 35, 27]
+            import numpy as np
+            self.x_scatter = np.random.rand(100)
+            self.y_scatter = np.random.rand(100)
+            self.z_scatter = np.random.rand(100)
+            self.data_matrix = np.random.rand(8, 8)
+
+        except Exception as e:
+            print("Ошибка при загрузке данных из API:", e)
+            self.prices = []
+            self.categories = []
+            self.cat_sizes = []
+            self.months = []
+            self.sales = []
+            self.x_scatter = []
+            self.y_scatter = []
+            self.z_scatter = []
+            self.data_matrix = []
 
     def update_plot(self):
         self.figure.clf()
@@ -200,7 +253,6 @@ class StatisticsTab(QWidget):
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-
 
 class OrdersTab(QWidget):
     def __init__(self):
