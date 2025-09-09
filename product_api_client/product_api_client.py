@@ -1,16 +1,17 @@
 import sys
 import requests
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from mpl_toolkits.mplot3d import Axes3D
+
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QListWidget, QLabel, QApplication,
     QTextEdit, QHBoxLayout, QTabWidget, QTableWidget, QTableWidgetItem,
-    QPushButton, QFormLayout, QLineEdit, QMessageBox
+    QPushButton, QFormLayout, QLineEdit, QMessageBox, QRadioButton, QButtonGroup, QGroupBox, QHBoxLayout
 )
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
-
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from mpl_toolkits.mplot3d import Axes3D  # Импорт 3D графиков
 
 API_BASE = 'http://164.92.198.72//api/products/'
 ORDERS_API_BASE = 'http://164.92.198.72//api/orders/'
@@ -87,32 +88,118 @@ class StatisticsTab(QWidget):
         super().__init__()
         layout = QVBoxLayout()
 
-        self.figure = plt.figure()
+        self.figure = plt.figure(figsize=(6,5))
         self.canvas = FigureCanvas(self.figure)
+        self.toolbar = NavigationToolbar(self.canvas, self)
+
+        layout.addWidget(self.toolbar)
         layout.addWidget(self.canvas)
 
+        self.radio_group_box = QGroupBox("Выберите тип графика")
+        self.radio_layout = QHBoxLayout()
+
+        self.hist_radio = QRadioButton("Гистограмма")
+        self.pie_radio = QRadioButton("Круговая диаграмма")
+        self.bar_radio = QRadioButton("Бар-чарт")
+        self.scatter_radio = QRadioButton("Диаграмма рассеяния")
+        self.heatmap_radio = QRadioButton("Тепловая карта")
+        self.threeD_radio = QRadioButton("3D график")
+
+        self.radio_layout.addWidget(self.hist_radio)
+        self.radio_layout.addWidget(self.pie_radio)
+        self.radio_layout.addWidget(self.bar_radio)
+        self.radio_layout.addWidget(self.scatter_radio)
+        self.radio_layout.addWidget(self.heatmap_radio)
+        self.radio_layout.addWidget(self.threeD_radio)
+
+        self.radio_group_box.setLayout(self.radio_layout)
+        layout.addWidget(self.radio_group_box)
         self.setLayout(layout)
-        self.plot_3d_example()
 
-    def plot_3d_example(self):
-        self.figure.clear()
+        # Инициализация данных для графиков
+        self.prices = np.random.normal(loc=50, scale=15, size=100)
+        self.categories = ['Категория A', 'Категория B', 'Категория C']
+        self.cat_sizes = [45, 30, 25]
+        self.months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май']
+        self.sales = [20, 34, 30, 35, 27]
+        self.x_scatter = np.random.rand(100)
+        self.y_scatter = np.random.rand(100)
+        self.z_scatter = np.random.rand(100)
+        self.data_matrix = np.random.rand(8,8)
+
+        # Подключение переключения графиков
+        self.hist_radio.toggled.connect(self.update_plot)
+        self.pie_radio.toggled.connect(self.update_plot)
+        self.bar_radio.toggled.connect(self.update_plot)
+        self.scatter_radio.toggled.connect(self.update_plot)
+        self.heatmap_radio.toggled.connect(self.update_plot)
+        self.threeD_radio.toggled.connect(self.update_plot)
+
+        self.hist_radio.setChecked(True)
+
+        self.update_plot()
+
+    def update_plot(self):
+        self.figure.clf()
+
+        if self.hist_radio.isChecked():
+            self.plot_histogram()
+        elif self.pie_radio.isChecked():
+            self.plot_pie()
+        elif self.bar_radio.isChecked():
+            self.plot_bar()
+        elif self.scatter_radio.isChecked():
+            self.plot_scatter()
+        elif self.heatmap_radio.isChecked():
+            self.plot_heatmap()
+        elif self.threeD_radio.isChecked():
+            self.plot_3d()
+
+        self.canvas.draw()
+
+    def plot_histogram(self):
+        ax = self.figure.add_subplot(111)
+        ax.hist(self.prices, bins=20, color='blue', alpha=0.7)
+        ax.set_title('Распределение цен продуктов (Гистограмма)')
+        ax.set_xlabel('Цена')
+        ax.set_ylabel('Количество')
+
+    def plot_pie(self):
+        ax = self.figure.add_subplot(111)
+        ax.pie(self.cat_sizes, labels=self.categories, autopct='%1.1f%%',
+               shadow=True, startangle=140)
+        ax.set_title('Доля продаж по категориям')
+
+    def plot_bar(self):
+        ax = self.figure.add_subplot(111)
+        ax.bar(self.months, self.sales, color='green')
+        ax.set_title('Продажи по месяцам')
+        ax.set_xlabel('Месяц')
+        ax.set_ylabel('Сумма продаж')
+
+    def plot_scatter(self):
+        ax = self.figure.add_subplot(111)
+        sc = ax.scatter(self.x_scatter, self.y_scatter, c=self.z_scatter, cmap='plasma')
+        self.figure.colorbar(sc, ax=ax)
+        ax.set_title('Диаграмма рассеяния')
+
+    def plot_heatmap(self):
+        ax = self.figure.add_subplot(111)
+        cax = ax.matshow(self.data_matrix, cmap='coolwarm')
+        self.figure.colorbar(cax)
+        ax.set_title('Тепловая карта корреляций')
+
+    def plot_3d(self):
         ax = self.figure.add_subplot(111, projection='3d')
-
-        # Пример 3D графика: поверхность z = sin(sqrt(x^2 + y^2))
-        import numpy as np
         x = np.linspace(-6, 6, 30)
         y = np.linspace(-6, 6, 30)
         x, y = np.meshgrid(x, y)
         z = np.sin(np.sqrt(x ** 2 + y ** 2))
-
-        surf = ax.plot_surface(x, y, z, cmap='viridis')
-
-        ax.set_title("3D поверхность")
+        ax.plot_surface(x, y, z, cmap='viridis')
+        ax.set_title('3D поверхность')
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-
-        self.canvas.draw()
 
 
 class OrdersTab(QWidget):
@@ -221,6 +308,6 @@ class MainWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()
-    main_win.resize(1000, 700)
+    main_win.resize(1200, 800)
     main_win.show()
     sys.exit(app.exec_())
