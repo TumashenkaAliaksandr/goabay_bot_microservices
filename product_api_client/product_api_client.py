@@ -10,10 +10,12 @@ from PyQt5.QtCore import Qt
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from mpl_toolkits.mplot3d import Axes3D  # Импорт 3D графиков
 
 API_BASE = 'http://164.92.198.72//api/products/'
-ORDERS_API_BASE = 'http://164.92.198.72//api/orders/'  # пример API для заказов
-CREATE_PRODUCT_API = 'http://164.92.198.72//api/products/create/'  # пример API создания продукта
+ORDERS_API_BASE = 'http://164.92.198.72//api/orders/'
+CREATE_PRODUCT_API = 'http://164.92.198.72//api/products/create/'
+
 
 class ProductsTab(QWidget):
     def __init__(self):
@@ -79,30 +81,39 @@ class ProductsTab(QWidget):
         else:
             self.image_label.clear()
 
+
 class StatisticsTab(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
 
-        # Создаем фигуру matplotlib и канвас для отображения графика
-        self.figure = plt.Figure()
+        self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         layout.addWidget(self.canvas)
 
         self.setLayout(layout)
-        self.plot_sample()
+        self.plot_3d_example()
 
-    def plot_sample(self):
-        ax = self.figure.add_subplot(111)
-        ax.clear()
-        # Пример простого графика
-        x = [1, 2, 3, 4, 5]
-        y = [10, 5, 8, 12, 7]
-        ax.plot(x, y, marker='o')
-        ax.set_title("Пример графика продаж")
-        ax.set_xlabel("Период")
-        ax.set_ylabel("Продажи")
+    def plot_3d_example(self):
+        self.figure.clear()
+        ax = self.figure.add_subplot(111, projection='3d')
+
+        # Пример 3D графика: поверхность z = sin(sqrt(x^2 + y^2))
+        import numpy as np
+        x = np.linspace(-6, 6, 30)
+        y = np.linspace(-6, 6, 30)
+        x, y = np.meshgrid(x, y)
+        z = np.sin(np.sqrt(x ** 2 + y ** 2))
+
+        surf = ax.plot_surface(x, y, z, cmap='viridis')
+
+        ax.set_title("3D поверхность")
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+
         self.canvas.draw()
+
 
 class OrdersTab(QWidget):
     def __init__(self):
@@ -133,6 +144,7 @@ class OrdersTab(QWidget):
         except Exception as e:
             self.table.setRowCount(1)
             self.table.setItem(0, 0, QTableWidgetItem(f"Ошибка: {e}"))
+
 
 class ProductFormTab(QWidget):
     def __init__(self):
@@ -177,12 +189,12 @@ class ProductFormTab(QWidget):
             response = requests.post(CREATE_PRODUCT_API, json=data)
             response.raise_for_status()
             QMessageBox.information(self, "Успех", "Продукт создан успешно!")
-            # Опционально очищаем форму после успешного создания
             self.name_input.clear()
             self.price_input.clear()
             self.desc_input.clear()
         except Exception as e:
             QMessageBox.critical(self, "Ошибка", f"Ошибка при создании продукта:\n{e}")
+
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -204,6 +216,7 @@ class MainWindow(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(self.tabs)
         self.setLayout(layout)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
